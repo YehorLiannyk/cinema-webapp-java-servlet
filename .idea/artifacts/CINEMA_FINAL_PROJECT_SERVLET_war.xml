@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="CINEMA_FINAL_PROJECT_SERVLET:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>CINEMA_FINAL_PROJECT_SERVLET</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="CINEMA_FINAL_TASK_SERVLET-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="CINEMA_FINAL_PROJECT_SERVLET:war exploded" />
+    </root>
+  </artifact>
+</component>
