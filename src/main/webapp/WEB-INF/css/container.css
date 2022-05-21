@@ -1,0 +1,65 @@
+
+.blog-header {
+    line-height: 1;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.blog-header-logo {
+    font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+    font-size: 2.25rem;
+}
+
+.blog-header-logo:hover {
+    text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+}
+
+.display-4 {
+    font-size: 2.5rem;
+}
+
+body {
+    background-image: url("images/site_pattern.png");
+    background-repeat: repeat;
+}
+
+.container {
+    background-color: #dcdcdc;
+    max-width: 85%;
+    padding: 1rem 4rem;
+}
+
+.container-fluid {
+    background-color: #dcdcdc
+}
+
+.footer-info {
+    max-width: fit-content;
+}
+
+.footer-made-by {
+    margin: 0 auto;
+    display: block;
+    max-width: fit-content;
+}
+
+.poster-img {
+    max-width: 100%
+}
+
+.row.card-body {
+    padding: 0;
+}
+
+.film-post {
+    background-color: #ffffff85;
+}
+
+@media (min-width: 768px) {
+    .display-4 {
+        font-size: 3rem;
+    }
+}

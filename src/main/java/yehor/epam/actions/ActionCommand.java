@@ -1,4 +1,16 @@
 package yehor.epam.actions;
 
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+
 public interface ActionCommand {
+    /**
+     * Execute command due to received instructions from HttpServletRequest
+     * @param request
+     * @param response
+     */
+    void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
 }
