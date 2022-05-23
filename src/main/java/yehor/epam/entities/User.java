@@ -6,7 +6,6 @@ public class User extends BaseEntity {
     private String email;
     private String password;
     private String phoneNumber;
-    //private UserRole role;
     private Role userRole;
     private boolean notification;
 
@@ -28,20 +27,6 @@ public class User extends BaseEntity {
     public User(int id, String firstName, String secondName, String email, String password, boolean notification) {
         this(id, firstName, secondName, email, password, null, Role.GUEST, notification);
     }
-    /*public User(int id, String firstName, String secondName, String email, String password, String phoneNumber, UserRole role, boolean notification) {
-        super(id);
-        this.firstName = firstName;
-        this.secondName = secondName;
-        this.email = email;
-        this.password = password;
-        this.phoneNumber = phoneNumber;
-        this.role = role;
-        this.notification = notification;
-    }
-
-    public User(int id, String firstName, String secondName, String email, String password, boolean notification) {
-        this(id, firstName, secondName, email, password, null, null, notification);
-    }*/
 
     /**
      * Not recommended to use this constructor as might be forgotten to set the ID for user
@@ -100,14 +85,6 @@ public class User extends BaseEntity {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
-
-   /* public UserRole getRole() {
-        return role;
-    }
-
-    public void setRole(UserRole role) {
-        this.role = role;
-    }*/
 
     public boolean getNotification() {
         return notification;

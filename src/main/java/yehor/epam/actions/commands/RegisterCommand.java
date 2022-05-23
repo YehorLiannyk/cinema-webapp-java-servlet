@@ -8,16 +8,10 @@ import yehor.epam.dao.UserDAO;
 import yehor.epam.dao.factories.DAOFactory;
 import yehor.epam.dao.factories.MySQLFactory;
 import yehor.epam.entities.User;
+import yehor.epam.services.CookieService;
 import yehor.epam.utilities.LoggerManager;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Enumeration;
-
-import static yehor.epam.utilities.ActionCommandConstants.ACTION_REGISTER;
-import static yehor.epam.utilities.ActionCommandConstants.ACTION_VIEW_REGISTER;
 import static yehor.epam.utilities.JspPagePathConstants.MAIN_PAGE_PATH;
-import static yehor.epam.utilities.JspPagePathConstants.REGISTER_PAGE_PATH;
 
 public class RegisterCommand implements ActionCommand {
     private static final Logger logger = LoggerManager.getLogger(RegisterCommand.class);
@@ -29,7 +23,11 @@ public class RegisterCommand implements ActionCommand {
             logger.debug("Created DAOFactory in " + classSimpleName + " execute command");
             final User user = getUserFromRequest(request);
             final UserDAO userDao = factory.getUserDao();
-            userDao.insert(user);
+            final boolean inserted = userDao.insert(user);
+            if (inserted) {
+                CookieService cookieService = new CookieService();
+                cookieService.addLoginCookie(response, user);
+            }
             request.getRequestDispatcher(MAIN_PAGE_PATH).forward(request, response);
         } catch (Exception e) {
             logger.error("Couldn't execute " + classSimpleName + " command", e);

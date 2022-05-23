@@ -1,6 +1,7 @@
 package yehor.epam.actions.commands;
 
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -11,12 +12,13 @@ import yehor.epam.dao.exception.AuthException;
 import yehor.epam.dao.factories.DAOFactory;
 import yehor.epam.dao.factories.MySQLFactory;
 import yehor.epam.entities.User;
+import yehor.epam.services.CookieService;
 import yehor.epam.utilities.LoggerManager;
 
 import java.io.IOException;
 
 import static yehor.epam.utilities.JspPagePathConstants.ERROR_500_PAGE_PATH;
-import static yehor.epam.utilities.JspPagePathConstants.MAIN_PAGE_PATH;
+import static yehor.epam.utilities.JspPagePathConstants.USER_PROFILE_PAGE_PATH;
 import static yehor.epam.utilities.OtherConstants.*;
 
 public class LoginCommand implements ActionCommand {
@@ -31,7 +33,6 @@ public class LoginCommand implements ActionCommand {
             final String password = request.getParameter("password");
             final UserDAO userDao = factory.getUserDao();
             userAuth(request, response, login, password, userDao);
-            request.getRequestDispatcher(MAIN_PAGE_PATH).forward(request, response);
         } catch (Exception e) {
             logger.error("Couldn't execute " + classSimpleName + " command", e);
         }
@@ -44,10 +45,12 @@ public class LoginCommand implements ActionCommand {
             HttpSession session = request.getSession();
             session.setAttribute(USER_ID, user.getId());
             session.setAttribute(USER_ROLE, user.getUserRole());
-            logger.info("User with id: " + user.getId() + ", role = " + user.getUserRole() + " login");
+            logger.info("User with id: " + user.getId() + ", role = " + user.getUserRole().toString() + " login");
+            CookieService cookieService = new CookieService();
+            cookieService.addLoginCookie(response, user);
+            request.getRequestDispatcher(USER_PROFILE_PAGE_PATH).forward(request, response);
         } catch (AuthException e) {
-            logger.warn("Couldn't find user", e);
-            logger.warn("Couldn't find user with login: " + request.getParameter("login") + " pass: " + request.getParameter("password"));
+            logger.warn("Couldn't find user with login: " + request.getParameter("login"), e);
             request.setAttribute(REQUEST_PARAM_ERROR_MESSAGE, e.getMessage());
             logger.debug("Forward to " + ERROR_500_PAGE_PATH + " from " + classSimpleName);
             request.getRequestDispatcher(ERROR_500_PAGE_PATH).forward(request, response);

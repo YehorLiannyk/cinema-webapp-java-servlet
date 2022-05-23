@@ -11,6 +11,8 @@ public final class ActionCommandConstants {
     public static final String ACTION_VIEW_REGISTER = "registerPage";
     public static final String ACTION_REGISTER = "register";
     public static final String ACTION_LOGOUT = "logout";
+    //profile
+    public static final String PROFILE_VIEW_PAGE = "profilePage";
     //
     public static final String ACTION_VIEW_ERROR = "error";
 

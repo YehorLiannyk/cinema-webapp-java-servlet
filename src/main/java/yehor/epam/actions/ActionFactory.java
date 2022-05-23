@@ -32,6 +32,8 @@ public class ActionFactory {
         commandMap.put(ACTION_REGISTER, new RegisterCommand());
         //logout
         commandMap.put(ACTION_LOGOUT, new LogoutCommand());
+        //profile
+        commandMap.put(PROFILE_VIEW_PAGE, new ProfilePageCommand());
 
     }
 

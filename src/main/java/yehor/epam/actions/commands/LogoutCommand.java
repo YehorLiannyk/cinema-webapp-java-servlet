@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 import yehor.epam.actions.ActionCommand;
 import yehor.epam.entities.User;
+import yehor.epam.services.CookieService;
 import yehor.epam.utilities.LoggerManager;
 
 import java.io.IOException;
@@ -24,9 +25,11 @@ public class LogoutCommand implements ActionCommand {
             int userId = (int) session.getAttribute(USER_ID);
             User.Role userRole = (User.Role) session.getAttribute(USER_ROLE);
             String sessionId = session.getId();
-            session.invalidate();
             logger.info("User with id = " + userId + ", role = " + userRole.toString() + " logout");
+            session.invalidate();
             logger.info("Session id = " + sessionId + " was invalided by user logout, userId = " + userId);
+            CookieService cookieService = new CookieService();
+            cookieService.eraseLoginCookie(request, response);
             logger.debug("Redirect to main page");
             response.sendRedirect("main");
         } catch (IOException e) {

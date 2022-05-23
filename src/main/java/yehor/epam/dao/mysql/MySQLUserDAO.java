@@ -29,7 +29,7 @@ public class MySQLUserDAO extends BaseDAO implements UserDAO {
             inserted = true;
         } catch (SQLException e) {
             logger.error("Couldn't add user to DB", e);
-            //throw new DAOException("Couldn't add user to DB");
+            throw new DAOException("Couldn't add user to DB");
         }
         return inserted;
     }

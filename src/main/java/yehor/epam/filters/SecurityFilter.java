@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 import yehor.epam.entities.User;
+import yehor.epam.services.CookieService;
 import yehor.epam.utilities.LoggerManager;
 
 import java.io.IOException;
@@ -41,12 +42,14 @@ public class SecurityFilter implements Filter {
         logger.debug("Session role attribute from SecurityFilter = " + session.getAttribute(USER_ROLE));
 
         if (session.getAttribute(USER_ROLE) == null || session.getAttribute(USER_ROLE).equals(User.Role.GUEST)) {
+            logger.debug("SecurityFilter, guest's if section. session.getAttribute(USER_ROLE) = " + session.getAttribute(USER_ROLE) + ", User.Role.USER = " + User.Role.USER);
             if (!guestAccessPath.contains(command)) {
                 logger.warn("Have no enough permits for the path (guest)");
                 req.getRequestDispatcher(ERROR_PERMISSION_PAGE_PATH).forward(req, resp);
                 return;
             }
         } else if (session.getAttribute(USER_ROLE).equals(User.Role.USER)) {
+            logger.debug("SecurityFilter, user's if section. session.getAttribute(USER_ROLE) = " + session.getAttribute(USER_ROLE) + ", User.Role.USER = " + User.Role.USER);
             if (!userAccessPath.contains(command)) {
                 logger.warn("Have np enough permits for the path (user)");
                 req.getRequestDispatcher(ERROR_PERMISSION_PAGE_PATH).forward(req, resp);
@@ -91,5 +94,6 @@ public class SecurityFilter implements Filter {
         userAccessPath.add(ACTION_VIEW_MAIN);
         userAccessPath.add(ACTION_VIEW_SCHEDULE);
         userAccessPath.add(ACTION_LOGOUT);
+        userAccessPath.add(PROFILE_VIEW_PAGE);
     }
 }

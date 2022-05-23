@@ -24,7 +24,7 @@
                                     <div class="d-flex flex-row align-items-center mb-4">
                                         <i class="fas fa-user fa-lg me-3 fa-fw"></i>
                                         <div class="form-outline flex-fill mb-0">
-                                            <input type="text" name="firstName" id="form3Example1c" class="form-control" value="${requestScope['firstName']}" required/>
+                                            <input type="text" name="firstName" id="form3Example1c" class="form-control" value="${firstName}" required/>
                                             <label class="form-label" for="form3Example1c">Your first name</label>
                                         </div>
                                     </div>
