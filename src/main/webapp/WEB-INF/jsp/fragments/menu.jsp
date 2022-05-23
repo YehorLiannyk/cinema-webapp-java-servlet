@@ -27,5 +27,6 @@
         <a class="py-2 d-none d-md-inline-block" href="?command=schedule"><fmt:message key="menu.schedule"/></a>
         <a class="py-2 d-none d-md-inline-block" href="?command=loginPage"><fmt:message key="menu.guest.login"/></a>
         <a class="py-2 d-none d-md-inline-block" href="?command=registerPage"><fmt:message key="menu.guest.register"/></a>
+        <a class="py-2 d-none d-md-inline-block" href="?command=logout"><fmt:message key="menu.user.logout"/></a>
     </div>
 </nav>

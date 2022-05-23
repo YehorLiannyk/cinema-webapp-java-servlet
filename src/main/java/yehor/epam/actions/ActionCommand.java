@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public interface ActionCommand {
     /**
-     * Execute command due to received instructions from HttpServletRequest
+     * Execute command due to received instructions from HttpServletRequest and defined by ActionFactory
      * @param request HttpServletRequest
      * @param response HttpServletResponse
      */

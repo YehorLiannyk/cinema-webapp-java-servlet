@@ -30,9 +30,6 @@ public class RegisterCommand implements ActionCommand {
             final User user = getUserFromRequest(request);
             final UserDAO userDao = factory.getUserDao();
             userDao.insert(user);
-           /* final Enumeration<String> parameterNames = request.getParameterNames();
-            while (parameterNames.hasMoreElements())
-                logger.debug("Parameters from request: " + parameterNames.nextElement());*/
             request.getRequestDispatcher(MAIN_PAGE_PATH).forward(request, response);
         } catch (Exception e) {
             logger.error("Couldn't execute " + classSimpleName + " command", e);

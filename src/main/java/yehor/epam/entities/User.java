@@ -130,9 +130,20 @@ public class User extends BaseEntity {
     }
 
     public enum Role {
-        USER,
-        ADMIN,
-        GUEST;
+        USER("USER"),
+        ADMIN("ADMIN"),
+        GUEST("GUEST");
+
+        private final String name;
+
+        Role(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public String toString() {
+            return this.name;
+        }
 
         public static User.Role getUserRoleFromString(String roleValue) throws IllegalArgumentException {
             return User.Role.valueOf(roleValue.toUpperCase());

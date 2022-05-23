@@ -90,5 +90,6 @@ public class SecurityFilter implements Filter {
         userAccessPath.add(null);
         userAccessPath.add(ACTION_VIEW_MAIN);
         userAccessPath.add(ACTION_VIEW_SCHEDULE);
+        userAccessPath.add(ACTION_LOGOUT);
     }
 }

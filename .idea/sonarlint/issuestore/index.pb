@@ -13,8 +13,6 @@ Y
 )src/main/webapp/WEB-INF/css/container.css,d\1\d13d1e4f0ddfc2e2b053617e06198765b0f201cb
 ]
 -src/main/java/yehor/epam/entities/Basket.java,c\1\c1d6a7571f9ee9ba331ca0aa432d23e91ffb380c
-t
-Dsrc/main/java/yehor/epam/actions/commands/ChangeLanguageCommand.java,8\c\8c2778fd3ae5bbed111e641e67910422a9a69b5f
 l
 <src/main/java/yehor/epam/connection/ConnectionException.java,6\b\6b3ffe1740573eceb65742ddae085c729aaf2d83
 [
@@ -33,8 +31,6 @@ I
 -src/main/java/yehor/epam/entities/Ticket.java,1\9\19cc3be20b14f4b2cbb5526bb0b7f6f9c83a8f2e
 \
 ,src/main/java/yehor/epam/dao/SessionDAO.java,e\f\ef29a585bf30bd2b570bd5c1ad01ccd0d60f9a3e
-l
-<src/main/java/yehor/epam/actions/commands/LogoutCommand.java,d\2\d24efcc0a6066ac9e2542f216f28dd72e9751e2e
 e
 5src/main/java/yehor/epam/utilities/LoggerManager.java,7\1\71d404eeb10afe991346a28e7eac143048d1fdc8
 e
@@ -49,5 +45,3 @@ Y
 pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec
 h
 8src/main/java/yehor/epam/dao/exception/DAOException.java,a\e\aee211dd525130ae8f541a6bd4ea95ccbb46158b
-n
->src/main/java/yehor/epam/actions/commands/ContactsCommand.java,5\3\53444969f765b88099bf5e530e112237b33706b5

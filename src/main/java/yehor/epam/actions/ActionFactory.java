@@ -10,8 +10,12 @@ import java.util.Map;
 
 import static yehor.epam.utilities.ActionCommandConstants.*;
 
+/**
+ * Factory class from Factory method pattern
+ * Define received command and create appropriate object which implementing ActionCommand interface
+ */
 public class ActionFactory {
-    private static final Logger logger = LoggerManager.getLogger(RegisterPageCommand.class);
+    private static final Logger logger = LoggerManager.getLogger(ActionFactory.class);
 
     private Map<String, ActionCommand> commandMap;
 
@@ -26,6 +30,9 @@ public class ActionFactory {
         //register
         commandMap.put(ACTION_VIEW_REGISTER, new RegisterPageCommand());
         commandMap.put(ACTION_REGISTER, new RegisterCommand());
+        //logout
+        commandMap.put(ACTION_LOGOUT, new LogoutCommand());
+
     }
 
     public ActionCommand defineCommand(HttpServletRequest request) {
