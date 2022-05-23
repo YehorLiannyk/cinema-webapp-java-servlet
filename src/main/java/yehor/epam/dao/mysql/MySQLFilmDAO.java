@@ -2,12 +2,13 @@ package yehor.epam.dao.mysql;
 
 import org.apache.log4j.Logger;
 import yehor.epam.dao.BaseDAO;
-import yehor.epam.dao.exception.DAOException;
 import yehor.epam.dao.FilmDAO;
+import yehor.epam.dao.exception.DAOException;
 import yehor.epam.entities.Film;
 import yehor.epam.entities.Genre;
 import yehor.epam.utilities.LoggerManager;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -18,6 +19,7 @@ import java.util.List;
 public class MySQLFilmDAO extends BaseDAO implements FilmDAO {
     private static final Logger logger = LoggerManager.getLogger(MySQLFilmDAO.class);
     private final String SELECT_ALL = "SELECT * FROM films";
+    private final String SELECT_BY_ID = "SELECT * FROM films WHERE film_id=?";
 
     @Override
     public boolean insert(Film element) {
@@ -26,7 +28,18 @@ public class MySQLFilmDAO extends BaseDAO implements FilmDAO {
 
     @Override
     public Film findById(int id) {
-        return null;
+        Film film = null;
+        try (PreparedStatement statement = getConnection().prepareStatement(SELECT_BY_ID)) {
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                film = getFilmFromResultSet(resultSet);
+            }
+        } catch (SQLException e) {
+            logger.error("Couldn't find film by id in DB", e);
+            //throw new DAOException("Couldn't get list of all films from DB");
+        }
+        return film;
     }
 
     @Override

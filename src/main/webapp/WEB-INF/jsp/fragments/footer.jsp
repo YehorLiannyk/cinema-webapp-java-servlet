@@ -10,7 +10,7 @@
     <div class="row">
         <div class="col-12 mx-auto footer-info">
             <address class="footer-made-by">Made by Yehor Liannyk</address>
-            <small class="d-block mb-3 text-muted">© EPAM University Program 2022</small>
+            <small class="d-block mb-3 text-muted"> © EPAM University Program 2022</small>
         </div>
     </div>
 </footer>

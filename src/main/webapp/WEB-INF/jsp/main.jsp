@@ -5,13 +5,13 @@
   Time: 18:50
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:setBundle basename="i18n"/>
-<jsp:include page="fragments/header.jsp" />
-<div class="container">
+<jsp:include page="fragments/header.jsp"/>
+<jsp:include page="fragments/menu.jsp"/>
 
+<div class="container">
     <div class="jumbotron p-3 p-md-5 text-white rounded bg-dark">
         <div class="col-md-6 px-0">
             <h1 class="display-4 font-italic">Title of a longer featured blog post</h1>
@@ -20,8 +20,6 @@
             <p class="lead mb-0"><a href="#" class="text-white font-weight-bold">Continue reading...</a></p>
         </div>
     </div>
-
-
 </div>
 
 <main role="main" class="container">
@@ -32,7 +30,7 @@
             </h1>
             <div class="film-posts py-4">
                 <div class="row">
-                    <jsp:useBean id="filmList" scope="request" type="java.util.List"/>
+                    <jsp:useBean id="filmList" scope="session" type="java.util.List"/>
                     <c:forEach var="film" items="${filmList}" varStatus="counter">
                         <div class="col-md-6 p-4 film-post card">
                             <div class="row card-body">
@@ -71,11 +69,7 @@
                 <a class="btn btn-outline-primary" href="#">Older</a>
                 <a class="btn btn-outline-secondary disabled" href="#">Newer</a>
             </nav>
-
-        </div><!-- /.blog-main -->
-
-
-    </div><!-- /.row -->
-
-</main><!-- /.container -->
+        </div>
+    </div>
+</main>
 <jsp:include page="fragments/footer.jsp"/>

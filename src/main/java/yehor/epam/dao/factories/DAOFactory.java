@@ -1,12 +1,22 @@
 package yehor.epam.dao.factories;
 
-import yehor.epam.dao.DAO;
-import yehor.epam.dao.FilmDAO;
-import yehor.epam.dao.GenreDAO;
-import yehor.epam.entities.BaseEntity;
-import yehor.epam.entities.Film;
+import yehor.epam.dao.*;
 
-public interface DAOFactory extends AutoCloseable{
+public interface DAOFactory extends AutoCloseable {
+    BasketDAO getBasketDao();
+
+
     FilmDAO getFilmDAO();
+
     GenreDAO getGenreDAO();
+
+    SeatDAO getSeatDao();
+
+    SessionDAO getSessionDao();
+
+    TicketDAO getTicketDao();
+
+    UserDAO getUserDao();
+
+
 }

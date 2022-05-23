@@ -43,7 +43,7 @@ public class ConnectionPool {
     }
 
     public Connection getConnection() throws ConnectionException {
-        logger.debug("ConnectionPool.getConnection() was called and connection was received");
+        logger.debug("ConnectionPool.getConnection() was called");
         Connection connection = null;
         try {
             connection = ds.getConnection();

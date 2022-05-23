@@ -1,4 +1,4 @@
 package yehor.epam.services;
 
-public class CustomerService {
+public class UserService {
 }

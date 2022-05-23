@@ -3,10 +3,11 @@ package yehor.epam.dao.factories;
 import org.apache.log4j.Logger;
 import yehor.epam.connection.ConnectionException;
 import yehor.epam.connection.ConnectionPool;
-import yehor.epam.dao.FilmDAO;
-import yehor.epam.dao.GenreDAO;
+import yehor.epam.dao.*;
 import yehor.epam.dao.mysql.MySQLFilmDAO;
 import yehor.epam.dao.mysql.MySQLGenreDAO;
+import yehor.epam.dao.mysql.MySQLSessionDAO;
+import yehor.epam.dao.mysql.MySQLUserDAO;
 import yehor.epam.utilities.LoggerManager;
 
 import java.sql.Connection;
@@ -25,6 +26,18 @@ public class MySQLFactory implements DAOFactory {
     }
 
     @Override
+    public BasketDAO getBasketDao() {
+        return null;
+    }
+
+    @Override
+    public UserDAO getUserDao() {
+        final MySQLUserDAO mySQLUserDAO = new MySQLUserDAO();
+        mySQLUserDAO.setConnection(connection);
+        return mySQLUserDAO;
+    }
+
+    @Override
     public FilmDAO getFilmDAO() {
         final MySQLFilmDAO mySQLFilmDAO = new MySQLFilmDAO();
         mySQLFilmDAO.setConnection(connection);
@@ -33,11 +46,31 @@ public class MySQLFactory implements DAOFactory {
 
     @Override
     public GenreDAO getGenreDAO() {
-        return new MySQLGenreDAO();
+        final MySQLGenreDAO mySQLGenreDAO = new MySQLGenreDAO();
+        mySQLGenreDAO.setConnection(connection);
+        return mySQLGenreDAO;
+    }
+
+    @Override
+    public SeatDAO getSeatDao() {
+        return null;
+    }
+
+    @Override
+    public SessionDAO getSessionDao() {
+        final MySQLSessionDAO mySQLSessionDAO = new MySQLSessionDAO();
+        mySQLSessionDAO.setConnection(connection);
+        return mySQLSessionDAO;
+    }
+
+    @Override
+    public TicketDAO getTicketDao() {
+        return null;
     }
 
     @Override
     public void close() throws Exception {
         if (!connection.isClosed()) connection.close();
     }
+
 }

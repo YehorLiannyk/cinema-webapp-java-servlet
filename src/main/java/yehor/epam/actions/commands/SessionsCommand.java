@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import yehor.epam.actions.ActionCommand;
 
+
 public class SessionsCommand implements ActionCommand {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
