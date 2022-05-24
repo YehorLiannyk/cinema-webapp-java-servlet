@@ -24,6 +24,11 @@ public abstract class BaseEntity {
         return id;
     }
 
+    /**
+     * <code>NOT RECOMMENDED TO USE</code>
+     * Set id for Entity
+     * @param id new id for Entity
+     */
     public void setId(int id) {
         this.id = id;
     }

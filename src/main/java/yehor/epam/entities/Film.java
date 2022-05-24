@@ -24,6 +24,17 @@ public class Film extends BaseEntity {
         this(id, name, description, posterUrl, duration, new ArrayList<>());
     }
 
+    public Film(String name, String description, String posterUrl, Duration duration) {
+        this.name = name;
+        this.description = description;
+        this.posterUrl = posterUrl;
+        this.duration = duration;
+    }
+
+    public Film(String name, String posterUrl, Duration duration) {
+        this(name, "", posterUrl, duration);
+    }
+
     public Duration getDuration() {
         return duration;
     }
@@ -66,5 +77,16 @@ public class Film extends BaseEntity {
 
     public void setPosterUrl(String posterUrl) {
         this.posterUrl = posterUrl;
+    }
+
+    @Override
+    public String toString() {
+        return "Film{" +
+                "duration=" + duration +
+                ", genreList=" + genreList +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", posterUrl='" + posterUrl + '\'' +
+                '}';
     }
 }

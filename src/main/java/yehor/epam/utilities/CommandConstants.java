@@ -18,6 +18,10 @@ public final class CommandConstants {
     public static final String COMMAND_VIEW_PROFILE_PAGE = "profilePage";
     //
     public static final String COMMAND_VIEW_ERROR = "errorPage";
+    // films
+    public static final String COMMAND_VIEW_ADD_FILM = "addFilmPage";
+    public static final String COMMAND_ADD_FILM = "addFilm";
+    public static final String COMMAND_VIEW_ALL_FILMS_PAGE = "allFilmsPage";
 
     private CommandConstants() {
     }

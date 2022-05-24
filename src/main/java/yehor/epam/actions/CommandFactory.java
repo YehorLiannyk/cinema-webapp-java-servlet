@@ -36,7 +36,10 @@ public class CommandFactory {
         commandMap.put(COMMAND_VIEW_PROFILE_PAGE, new ProfilePageCommand());
         //error
         commandMap.put(COMMAND_VIEW_ERROR, new ErrorPageCommand());
-
+        //films
+        commandMap.put(COMMAND_VIEW_ADD_FILM, new AddFilmPageCommand());
+        commandMap.put(COMMAND_ADD_FILM, new AddFilmCommand());
+        commandMap.put(COMMAND_VIEW_ALL_FILMS_PAGE, new AllFilmsPageCommand());
     }
 
     public BaseCommand defineCommand(HttpServletRequest request) {

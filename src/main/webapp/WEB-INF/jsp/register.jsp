@@ -18,7 +18,7 @@
 
                                 <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
 
-                                <form class="mx-1 mx-md-4" name="command" method="post" action="main" onsubmit="return validate(this)">
+                                <form class="mx-1 mx-md-4" name="command" method="post" action="main">
                                     <input type="hidden" name="command" value="register">
 
                                     <div class="d-flex flex-row align-items-center mb-4">

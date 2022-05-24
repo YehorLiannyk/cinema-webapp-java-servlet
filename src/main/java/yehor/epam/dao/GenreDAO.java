@@ -2,6 +2,7 @@ package yehor.epam.dao;
 
 import yehor.epam.entities.Genre;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public interface GenreDAO extends DAO<Genre> {
@@ -12,4 +13,11 @@ public interface GenreDAO extends DAO<Genre> {
      * @return Genre list by Film id
      */
     List<Genre> getGenreListOfFilm(int filmId);
+
+    /**
+     * Insert Films Genres to DB
+     * @param filmId id of Film
+     * @param genreList List of Films Genres
+     */
+    boolean insertFilmGenres(final int filmId, List<Genre> genreList) throws SQLException;
 }

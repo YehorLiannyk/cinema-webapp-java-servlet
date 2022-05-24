@@ -48,7 +48,7 @@
                     Film/Session
                 </label>
                 <ul>
-                    <li><a href="#">Add film</a></li>
+                    <li><a href="<c:url value="/main?command=addFilmPage"/>">Add film</a></li>
                     <li><a href="#">Films setting</a></li>
                     <li><a href="#">Add session</a></li>
                     <li><a href="#">Sessions setting</a></li>

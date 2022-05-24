@@ -86,6 +86,7 @@ public class SecurityFilter implements Filter {
      */
     private void initGuestAccess() {
         guestAccessPath.add(null);
+        adminAccessPath.add(ERROR_PAGE_PATH);
         guestAccessPath.add(COMMAND_VIEW_MAIN);
         guestAccessPath.add(COMMAND_VIEW_LOGIN);
         guestAccessPath.add(COMMAND_LOGIN);
@@ -99,6 +100,7 @@ public class SecurityFilter implements Filter {
      */
     private void initUserAccess() {
         userAccessPath.add(null);
+        adminAccessPath.add(ERROR_PAGE_PATH);
         userAccessPath.add(COMMAND_VIEW_MAIN);
         userAccessPath.add(COMMAND_VIEW_SCHEDULE);
         userAccessPath.add(COMMAND_LOGOUT);
@@ -110,9 +112,14 @@ public class SecurityFilter implements Filter {
      */
     private void initAdminAccess() {
         adminAccessPath.add(null);
+        adminAccessPath.add(ERROR_PAGE_PATH);
         adminAccessPath.add(COMMAND_VIEW_MAIN);
         adminAccessPath.add(COMMAND_VIEW_SCHEDULE);
         adminAccessPath.add(COMMAND_LOGOUT);
         adminAccessPath.add(COMMAND_VIEW_PROFILE_PAGE);
+        adminAccessPath.add(COMMAND_VIEW_ADD_FILM);
+        adminAccessPath.add(COMMAND_ADD_FILM);
+        adminAccessPath.add(COMMAND_ADD_FILM);
+        adminAccessPath.add(COMMAND_VIEW_ALL_FILMS_PAGE);
     }
 }

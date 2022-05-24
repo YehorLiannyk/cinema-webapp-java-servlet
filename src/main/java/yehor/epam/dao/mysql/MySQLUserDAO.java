@@ -12,6 +12,7 @@ import yehor.epam.utilities.LoggerManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Collections;
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class MySQLUserDAO extends BaseDAO implements UserDAO {
     @Override
     public boolean insert(User user) {
         boolean inserted = false;
-        try (PreparedStatement statement = getConnection().prepareStatement(INSERT, PreparedStatement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement statement = getConnection().prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS)) {
             setUserToStatement(user, statement);
             int rows = statement.executeUpdate();
             if (rows > 1) throw new DAOException("More than one rows were inserted to DB");
@@ -48,7 +49,7 @@ public class MySQLUserDAO extends BaseDAO implements UserDAO {
             statement.setBoolean(6, user.getNotification());
         } catch (SQLException e) {
             logger.error("Couldn't set user to PreparedStatement");
-            throw new DAOException("Couldn't set user to PreparedStatement");
+            throw new SQLException("Couldn't set user to PreparedStatement");
         }
     }
 
