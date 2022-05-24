@@ -1,6 +1,4 @@
 
-]
--src/main/webapp/WEB-INF/css/bootstrap.min.css,6\0\60db8a429a7bdfc1151109bae53406e1ed79bfdc
 [
 +src/main/java/yehor/epam/dao/BasketDAO.java,6\c\6cf3aee598be4e3110c64862c17fa81a4d798c91
 Y
@@ -33,8 +31,6 @@ e
 5src/main/java/yehor/epam/dao/mysql/MySQLGenreDAO.java,3\7\371a292a2372227d7aa892471894fce98a4b0fcb
 Y
 )src/main/java/yehor/epam/dao/BaseDAO.java,3\5\35a833f1ab09519a222b5e361c3253bb0ddfaeb5
-Y
-)src/main/webapp/WEB-INF/css/bootstrap.css,f\8\f896e75a2bfb30031ff37d19eb1babfb0f2b63ce
 i
 9src/main/java/yehor/epam/dao/exception/AuthException.java,e\f\ef75f7f7339869ffe4edf8e555b24e70626fbfee
 a
@@ -49,8 +45,6 @@ d
 4src/main/java/yehor/epam/filters/EncodingFilter.java,d\4\d4298535e8e78879dbd3f625db1266d3b7c99b47
 T
 $src/main/webapp/WEB-INF/jsp/film.jsp,a\7\a7e629717e798dd97844d8f5fa142dbca5e1b12f
-`
-0src/main/webapp/WEB-INF/jsp/fragments/footer.jsp,f\5\f501750149bee52c666b04bbe5e8fd36664e0d01
 d
 4src/main/java/yehor/epam/dao/mysql/MySQLFilmDAO.java,f\8\f87ab082cc977ba3d3397cc41c966d33782e002f
 g
@@ -61,7 +55,5 @@ V
 .src/main/java/yehor/epam/entities/Session.java,e\9\e9d657bcf21ffe44e87e48634492ac65932face2
 b
 2src/main/java/yehor/epam/services/UserService.java,8\1\818a0cb6cf7129b78333321d0a8bb68f3ea7c159
-n
->src/main/java/yehor/epam/actions/commands/ScheduleCommand.java,4\d\4d68e62fb354a75260d86298c9566cc081007f2d
 [
 +src/main/webapp/WEB-INF/jsp/userProfile.jsp,2\d\2dea094b3795c4e923d02dadfb28280d179191f4

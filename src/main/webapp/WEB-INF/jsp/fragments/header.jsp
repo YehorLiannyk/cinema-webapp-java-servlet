@@ -22,7 +22,8 @@
             background-repeat: repeat;
         }
     </style>
-    <title>Blog Template for Bootstrap</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Cinema</title>
 
 </head>
 <body>
