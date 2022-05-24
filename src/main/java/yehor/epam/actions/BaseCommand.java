@@ -6,9 +6,9 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-public interface ActionCommand {
+public interface BaseCommand {
     /**
-     * Execute command due to received instructions from HttpServletRequest and defined by ActionFactory
+     * Execute command due to received instructions from HttpServletRequest and defined by CommandFactory
      * @param request HttpServletRequest
      * @param response HttpServletResponse
      */

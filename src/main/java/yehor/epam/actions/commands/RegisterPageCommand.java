@@ -3,12 +3,12 @@ package yehor.epam.actions.commands;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
-import yehor.epam.actions.ActionCommand;
+import yehor.epam.actions.BaseCommand;
 import yehor.epam.utilities.LoggerManager;
 
 import static yehor.epam.utilities.JspPagePathConstants.REGISTER_PAGE_PATH;
 
-public class RegisterPageCommand implements ActionCommand {
+public class RegisterPageCommand implements BaseCommand {
     private static final Logger logger = LoggerManager.getLogger(RegisterPageCommand.class);
     private final String classSimpleName = RegisterPageCommand.class.getSimpleName();
 

@@ -27,6 +27,7 @@ public class MySQLUserDAO extends BaseDAO implements UserDAO {
             setUserToStatement(user, statement);
             int rows = statement.executeUpdate();
             if (rows > 1) throw new DAOException("More than one rows were inserted to DB");
+            inserted = true;
         } catch (SQLException e) {
             logger.error("Couldn't add user to DB", e);
             if (e.getMessage().contains("Duplicate entry '" + user.getEmail() + "'"))

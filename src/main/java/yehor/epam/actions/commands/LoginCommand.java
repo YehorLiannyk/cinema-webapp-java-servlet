@@ -1,25 +1,25 @@
 package yehor.epam.actions.commands;
 
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
-import yehor.epam.actions.ActionCommand;
+import yehor.epam.actions.BaseCommand;
 import yehor.epam.dao.UserDAO;
 import yehor.epam.dao.exception.AuthException;
 import yehor.epam.dao.factories.DAOFactory;
 import yehor.epam.dao.factories.MySQLFactory;
 import yehor.epam.entities.User;
 import yehor.epam.services.CookieService;
+import yehor.epam.utilities.InnerRedirectManager;
 import yehor.epam.utilities.LoggerManager;
 
 import java.io.IOException;
 
-import static yehor.epam.utilities.JspPagePathConstants.USER_PROFILE_PAGE_PATH;
+import static yehor.epam.utilities.CommandConstants.*;
 import static yehor.epam.utilities.OtherConstants.*;
 
-public class LoginCommand implements ActionCommand {
+public class LoginCommand implements BaseCommand {
     private static final Logger logger = LoggerManager.getLogger(LoginCommand.class);
     private String classSimpleName = LoginCommand.class.getSimpleName();
 
@@ -36,8 +36,7 @@ public class LoginCommand implements ActionCommand {
         }
     }
 
-    private void userAuth(HttpServletRequest request, HttpServletResponse response, String login, String password, UserDAO userDao)
-            throws ServletException, IOException {
+    private void userAuth(HttpServletRequest request, HttpServletResponse response, String login, String password, UserDAO userDao) throws IOException {
         try {
             final User user = userDao.getUser(login, password);
             HttpSession session = request.getSession();
@@ -46,7 +45,7 @@ public class LoginCommand implements ActionCommand {
             logger.info("User with id: " + user.getId() + ", role = " + user.getUserRole().toString() + " login");
             CookieService cookieService = new CookieService();
             cookieService.loginCookie(response, user);
-            new ProfilePageCommand().execute(request, response);
+            response.sendRedirect(InnerRedirectManager.getRedirectLocation(COMMAND_VIEW_PROFILE_PAGE));
         } catch (AuthException e) {
             logger.warn("Couldn't find user with login: " + request.getParameter("login"), e);
             request.setAttribute(REQUEST_PARAM_ERROR_MESSAGE, e.getMessage());

@@ -1,15 +1,13 @@
 package yehor.epam.servletController;
 
-import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
-import yehor.epam.actions.ActionCommand;
-import yehor.epam.actions.ActionFactory;
-import yehor.epam.connection.ConnectionPool;
+import yehor.epam.actions.BaseCommand;
+import yehor.epam.actions.CommandFactory;
 import yehor.epam.services.CookieService;
 import yehor.epam.utilities.LoggerManager;
 
@@ -46,8 +44,8 @@ public class Controller extends HttpServlet {
             logger.debug("Entry to set cookies block in Controller");
         } else
             logger.debug("Skip set cookies block in Controller");
-        ActionFactory factory = new ActionFactory();
-        ActionCommand command = factory.defineCommand(request);
+        CommandFactory factory = new CommandFactory();
+        BaseCommand command = factory.defineCommand(request);
         command.execute(request, response);
     }
 

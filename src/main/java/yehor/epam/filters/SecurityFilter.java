@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static yehor.epam.utilities.ActionCommandConstants.*;
+import static yehor.epam.utilities.CommandConstants.*;
 import static yehor.epam.utilities.JspPagePathConstants.ERROR_PAGE_PATH;
 import static yehor.epam.utilities.OtherConstants.REQUEST_PARAM_ERROR_MESSAGE;
 import static yehor.epam.utilities.OtherConstants.USER_ROLE;
@@ -71,7 +71,7 @@ public class SecurityFilter implements Filter {
 
     private void forwardToErrorPage(HttpSession session, String command, HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        logger.warn("Have no enough permits for the command (" + session.getAttribute(USER_ROLE).toString() + ") '" + command + '\'');
+        logger.warn("Have no enough permits for the command (" + session.getAttribute(USER_ROLE) + ") '" + command + '\'');
         req.setAttribute(REQUEST_PARAM_ERROR_MESSAGE, "You have no enough permissions to visit this page");
         req.getRequestDispatcher(ERROR_PAGE_PATH).forward(req, resp);
     }
@@ -86,12 +86,12 @@ public class SecurityFilter implements Filter {
      */
     private void initGuestAccess() {
         guestAccessPath.add(null);
-        guestAccessPath.add(ACTION_VIEW_MAIN);
-        guestAccessPath.add(ACTION_VIEW_LOGIN);
-        guestAccessPath.add(ACTION_LOGIN);
-        guestAccessPath.add(ACTION_REGISTER);
-        guestAccessPath.add(ACTION_VIEW_REGISTER);
-        guestAccessPath.add(ACTION_VIEW_SCHEDULE);
+        guestAccessPath.add(COMMAND_VIEW_MAIN);
+        guestAccessPath.add(COMMAND_VIEW_LOGIN);
+        guestAccessPath.add(COMMAND_LOGIN);
+        guestAccessPath.add(COMMAND_REGISTER);
+        guestAccessPath.add(COMMAND_VIEW_REGISTER);
+        guestAccessPath.add(COMMAND_VIEW_SCHEDULE);
     }
 
     /**
@@ -99,10 +99,10 @@ public class SecurityFilter implements Filter {
      */
     private void initUserAccess() {
         userAccessPath.add(null);
-        userAccessPath.add(ACTION_VIEW_MAIN);
-        userAccessPath.add(ACTION_VIEW_SCHEDULE);
-        userAccessPath.add(ACTION_LOGOUT);
-        userAccessPath.add(PROFILE_VIEW_PAGE);
+        userAccessPath.add(COMMAND_VIEW_MAIN);
+        userAccessPath.add(COMMAND_VIEW_SCHEDULE);
+        userAccessPath.add(COMMAND_LOGOUT);
+        userAccessPath.add(COMMAND_VIEW_PROFILE_PAGE);
     }
 
     /**
@@ -110,9 +110,9 @@ public class SecurityFilter implements Filter {
      */
     private void initAdminAccess() {
         adminAccessPath.add(null);
-        adminAccessPath.add(ACTION_VIEW_MAIN);
-        adminAccessPath.add(ACTION_VIEW_SCHEDULE);
-        adminAccessPath.add(ACTION_LOGOUT);
-        adminAccessPath.add(PROFILE_VIEW_PAGE);
+        adminAccessPath.add(COMMAND_VIEW_MAIN);
+        adminAccessPath.add(COMMAND_VIEW_SCHEDULE);
+        adminAccessPath.add(COMMAND_LOGOUT);
+        adminAccessPath.add(COMMAND_VIEW_PROFILE_PAGE);
     }
 }

@@ -4,18 +4,18 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
-import yehor.epam.actions.ActionCommand;
+import yehor.epam.actions.BaseCommand;
 import yehor.epam.entities.User;
 import yehor.epam.services.CookieService;
 import yehor.epam.utilities.LoggerManager;
 
 import java.io.IOException;
 
-import static yehor.epam.utilities.ActionCommandConstants.ACTION_MAIN_SERVLET;
+import static yehor.epam.utilities.CommandConstants.COMMAND_MAIN_SERVLET;
 import static yehor.epam.utilities.OtherConstants.USER_ID;
 import static yehor.epam.utilities.OtherConstants.USER_ROLE;
 
-public class LogoutCommand implements ActionCommand {
+public class LogoutCommand implements BaseCommand {
     private static final Logger logger = LoggerManager.getLogger(LogoutCommand.class);
     private String classSimpleName = LogoutCommand.class.getSimpleName();
 
@@ -32,7 +32,7 @@ public class LogoutCommand implements ActionCommand {
             CookieService cookieService = new CookieService();
             cookieService.logoutCookie(request, response);
             logger.debug("Redirect to main page");
-            response.sendRedirect(ACTION_MAIN_SERVLET);
+            response.sendRedirect(COMMAND_MAIN_SERVLET);
         } catch (IOException e) {
             logger.error("Couldn't execute " + classSimpleName + " command", e);
         }
