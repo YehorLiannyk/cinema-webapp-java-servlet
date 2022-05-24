@@ -17,6 +17,10 @@
     <style>
         <jsp:directive.include file="/WEB-INF/css/bootstrap.min.css" />
         <jsp:directive.include file="/WEB-INF/css/container.css" />
+        body {
+            background-image: url("images/site_pattern.png");
+            background-repeat: repeat;
+        }
     </style>
     <title>Blog Template for Bootstrap</title>
 

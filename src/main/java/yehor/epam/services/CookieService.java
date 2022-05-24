@@ -13,7 +13,7 @@ import static yehor.epam.utilities.OtherConstants.*;
 public class CookieService {
     private static final Logger logger = LoggerManager.getLogger(CookieService.class);
 
-    public void addLoginCookie(HttpServletResponse response, User user) {
+    public void loginCookie(HttpServletResponse response, User user) {
         Cookie cookieId = new Cookie(USER_ID, Integer.toString(user.getId()));
         Cookie cookieRole = new Cookie(USER_ROLE, user.getUserRole().toString());
         cookieId.setMaxAge(COOKIE_LOGIN_LIFETIME);
@@ -23,7 +23,7 @@ public class CookieService {
         logger.debug("Set user's cookie with id: " + user.getId() + ", role = " + user.getUserRole().toString() + " login");
     }
 
-    public void eraseLoginCookie(HttpServletRequest request, HttpServletResponse response) {
+    public void logoutCookie(HttpServletRequest request, HttpServletResponse response) {
         final Cookie[] cookies = request.getCookies();
         int userId = -1;
         String userRole = null;
@@ -33,9 +33,14 @@ public class CookieService {
                 final boolean isUserID = cookieName.equals(USER_ID);
                 final boolean isUserRole = cookieName.equals(USER_ROLE);
                 if (isUserID || isUserRole) {
-                    if (isUserID) userId = Integer.parseInt(cookie.getValue());
-                    if (isUserRole) userRole = cookie.getValue();
-                    cookie.setValue("");
+                    if (isUserID) {
+                        userId = Integer.parseInt(cookie.getValue());
+                        cookie.setValue("");
+                    }
+                    if (isUserRole) {
+                        userRole = cookie.getValue();
+                        cookie.setValue(User.Role.GUEST.toString());
+                    }
                     cookie.setMaxAge(-1);
                     response.addCookie(cookie);
                 }
@@ -47,15 +52,16 @@ public class CookieService {
     public void initCookies(HttpServletRequest request) {
         final HttpSession session = request.getSession(true);
         final Cookie[] cookies = request.getCookies();
-        for (Cookie cookie : cookies) {
-            final String cookieName = cookie.getName();
-            if (cookie != null) {
+        if (cookies != null && cookies.length != 0) {
+            for (Cookie cookie : cookies) {
+                final String cookieName = cookie.getName();
                 if (cookieName.equals(USER_ID))
                     session.setAttribute(USER_ID, cookie.getValue());
                 if (cookieName.equals(USER_ROLE))
                     session.setAttribute(USER_ROLE, cookie.getValue());
+
             }
+            logger.debug("Initialize session with cookies, sessionId = " + session.getId());
         }
-        logger.debug("Initialize session with cookies, sessionId = " + session.getId());
     }
 }

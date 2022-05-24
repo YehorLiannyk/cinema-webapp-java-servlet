@@ -3,6 +3,7 @@ package yehor.epam.utilities;
 import java.time.Duration;
 
 public final class OtherConstants {
+
     // Filter
     public static final String USER_ID = "userID";
     public static final String USER_ROLE = "userRole";

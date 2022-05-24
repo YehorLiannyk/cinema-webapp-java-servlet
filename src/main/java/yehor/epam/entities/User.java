@@ -6,7 +6,7 @@ public class User extends BaseEntity {
     private String email;
     private String password;
     private String phoneNumber;
-    private Role userRole;
+    private Role userRole = Role.USER;
     private boolean notification;
 
     public User(int id, String firstName, String secondName, String email, String password, String phoneNumber, User.Role role, boolean notification) {
@@ -107,9 +107,9 @@ public class User extends BaseEntity {
     }
 
     public enum Role {
+        GUEST("GUEST"),
         USER("USER"),
-        ADMIN("ADMIN"),
-        GUEST("GUEST");
+        ADMIN("ADMIN");
 
         private final String name;
 

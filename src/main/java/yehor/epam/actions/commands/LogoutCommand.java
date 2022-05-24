@@ -11,6 +11,7 @@ import yehor.epam.utilities.LoggerManager;
 
 import java.io.IOException;
 
+import static yehor.epam.utilities.ActionCommandConstants.ACTION_MAIN_SERVLET;
 import static yehor.epam.utilities.OtherConstants.USER_ID;
 import static yehor.epam.utilities.OtherConstants.USER_ROLE;
 
@@ -22,16 +23,16 @@ public class LogoutCommand implements ActionCommand {
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         try {
             final HttpSession session = request.getSession();
-            final Integer userId = (Integer) session.getAttribute(USER_ID);
-            final User.Role userRole = (User.Role) session.getAttribute(USER_ROLE);
+            final int userId = Integer.parseInt(session.getAttribute(USER_ID).toString());
+            final User.Role userRole = User.Role.valueOf(session.getAttribute(USER_ROLE).toString());
             final String sessionId = session.getId();
-            logger.info("User with id = " + userId.toString() + ", role = " + userRole.toString() + " logout");
+            logger.info("User with id = " + userId + ", role = " + userRole + " logout");
             session.invalidate();
             logger.info("Session id = " + sessionId + " was invalided by user logout, userId = " + userId);
             CookieService cookieService = new CookieService();
-            cookieService.eraseLoginCookie(request, response);
+            cookieService.logoutCookie(request, response);
             logger.debug("Redirect to main page");
-            response.sendRedirect("main");
+            response.sendRedirect(ACTION_MAIN_SERVLET);
         } catch (IOException e) {
             logger.error("Couldn't execute " + classSimpleName + " command", e);
         }

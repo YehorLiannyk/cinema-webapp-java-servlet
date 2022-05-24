@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <fmt:setBundle basename="i18n"/>
 
 <nav class="container-fluid site-header sticky-top">
@@ -23,11 +24,21 @@
                 <line x1="16.62" y1="12" x2="10.88" y2="21.94"></line>
             </svg>
         </a>
-        <a class="py-2 d-none d-md-inline-block" href="main"><fmt:message key="menu.main"/></a>
-        <a class="py-2 d-none d-md-inline-block" href="?command=schedule"><fmt:message key="menu.schedule"/></a>
-        <a class="py-2 d-none d-md-inline-block" href="?command=loginPage"><fmt:message key="menu.guest.login"/></a>
-        <a class="py-2 d-none d-md-inline-block" href="?command=registerPage"><fmt:message key="menu.guest.register"/></a>
-        <a class="py-2 d-none d-md-inline-block" href="?command=logout"><fmt:message key="menu.user.logout"/></a>
-        <a class="py-2 d-none d-md-inline-block" href="?command=profilePage"><fmt:message key="menu.user.myProfile"/></a>
+        <a class="py-2 d-none d-md-inline-block" href="<c:url value="/main"/>"><fmt:message key="menu.main"/></a>
+        <a class="py-2 d-none d-md-inline-block" href="<c:url value="/main?command=schedule"/>">
+            <fmt:message key="menu.schedule"/>
+        </a>
+        <a class="py-2 d-none d-md-inline-block" href="<c:url value="/main?command=loginPage"/>">
+            <fmt:message key="menu.guest.login"/>
+        </a>
+        <a class="py-2 d-none d-md-inline-block" href="<c:url value="/main?command=registerPage"/>">
+            <fmt:message key="menu.guest.register"/>
+        </a>
+        <a class="py-2 d-none d-md-inline-block" href="<c:url value="/main?command=logout"/>">
+            <fmt:message key="menu.user.logout"/>
+        </a>
+        <a class="py-2 d-none d-md-inline-block" href="<c:url value="/main?command=profilePage"/>">
+            <fmt:message key="menu.user.myProfile"/>
+        </a>
     </div>
 </nav>

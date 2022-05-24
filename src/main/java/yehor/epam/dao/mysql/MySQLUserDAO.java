@@ -5,6 +5,7 @@ import yehor.epam.dao.BaseDAO;
 import yehor.epam.dao.UserDAO;
 import yehor.epam.dao.exception.AuthException;
 import yehor.epam.dao.exception.DAOException;
+import yehor.epam.dao.exception.RegisterException;
 import yehor.epam.entities.User;
 import yehor.epam.utilities.LoggerManager;
 
@@ -26,10 +27,12 @@ public class MySQLUserDAO extends BaseDAO implements UserDAO {
             setUserToStatement(user, statement);
             int rows = statement.executeUpdate();
             if (rows > 1) throw new DAOException("More than one rows were inserted to DB");
-            inserted = true;
         } catch (SQLException e) {
             logger.error("Couldn't add user to DB", e);
-            throw new DAOException("Couldn't add user to DB");
+            if (e.getMessage().contains("Duplicate entry '" + user.getEmail() + "'"))
+                throw new RegisterException("There is a user with such an email already");
+            else
+                throw new DAOException("Couldn't add user");
         }
         return inserted;
     }
@@ -78,7 +81,7 @@ public class MySQLUserDAO extends BaseDAO implements UserDAO {
             while (resultSet.next()) {
                 user = gerUserFromResultSet(resultSet);
             }
-            if (user == null) throw new AuthException("Couldn't find user in DB");
+            if (user == null) throw new AuthException("Couldn't find user with these login and password");
         } catch (SQLException e) {
             logger.error("Couldn't get user from DB", e);
         }

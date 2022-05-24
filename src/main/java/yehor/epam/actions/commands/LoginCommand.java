@@ -1,7 +1,6 @@
 package yehor.epam.actions.commands;
 
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -17,7 +16,6 @@ import yehor.epam.utilities.LoggerManager;
 
 import java.io.IOException;
 
-import static yehor.epam.utilities.JspPagePathConstants.ERROR_500_PAGE_PATH;
 import static yehor.epam.utilities.JspPagePathConstants.USER_PROFILE_PAGE_PATH;
 import static yehor.epam.utilities.OtherConstants.*;
 
@@ -47,13 +45,13 @@ public class LoginCommand implements ActionCommand {
             session.setAttribute(USER_ROLE, user.getUserRole());
             logger.info("User with id: " + user.getId() + ", role = " + user.getUserRole().toString() + " login");
             CookieService cookieService = new CookieService();
-            cookieService.addLoginCookie(response, user);
-            request.getRequestDispatcher(USER_PROFILE_PAGE_PATH).forward(request, response);
+            cookieService.loginCookie(response, user);
+            new ProfilePageCommand().execute(request, response);
         } catch (AuthException e) {
             logger.warn("Couldn't find user with login: " + request.getParameter("login"), e);
             request.setAttribute(REQUEST_PARAM_ERROR_MESSAGE, e.getMessage());
-            logger.debug("Forward to " + ERROR_500_PAGE_PATH + " from " + classSimpleName);
-            request.getRequestDispatcher(ERROR_500_PAGE_PATH).forward(request, response);
+            logger.debug("Forward to errorPage from " + classSimpleName);
+            new ErrorPageCommand().execute(request, response);
         }
     }
 }

@@ -11,4 +11,11 @@
         <filter-name>AuthFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+    <error-page>
+        <location>/WEB-INF/jsp/errors/generalError.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/WEB-INF/jsp/errors/error404.jsp</location>
+    </error-page>
 </web-app>

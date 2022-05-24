@@ -34,6 +34,8 @@ public class ActionFactory {
         commandMap.put(ACTION_LOGOUT, new LogoutCommand());
         //profile
         commandMap.put(PROFILE_VIEW_PAGE, new ProfilePageCommand());
+        //error
+        commandMap.put(ACTION_VIEW_ERROR, new ErrorPageCommand());
 
     }
 
