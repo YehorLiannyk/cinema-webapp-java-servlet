@@ -22,10 +22,10 @@ public class LogoutCommand implements ActionCommand {
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         try {
             final HttpSession session = request.getSession();
-            int userId = (int) session.getAttribute(USER_ID);
-            User.Role userRole = (User.Role) session.getAttribute(USER_ROLE);
-            String sessionId = session.getId();
-            logger.info("User with id = " + userId + ", role = " + userRole.toString() + " logout");
+            final Integer userId = (Integer) session.getAttribute(USER_ID);
+            final User.Role userRole = (User.Role) session.getAttribute(USER_ROLE);
+            final String sessionId = session.getId();
+            logger.info("User with id = " + userId.toString() + ", role = " + userRole.toString() + " logout");
             session.invalidate();
             logger.info("Session id = " + sessionId + " was invalided by user logout, userId = " + userId);
             CookieService cookieService = new CookieService();

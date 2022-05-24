@@ -15,6 +15,8 @@ import yehor.epam.utilities.LoggerManager;
 
 import java.io.IOException;
 
+import static yehor.epam.utilities.OtherConstants.USER_ROLE;
+
 @WebServlet(name = "controller", value = "/main")
 public class Controller extends HttpServlet {
     private static final Logger logger = LoggerManager.getLogger(Controller.class);
@@ -38,10 +40,12 @@ public class Controller extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (request.getSession() == null) {
+        if (request.getSession() == null || request.getSession().getAttribute(USER_ROLE) == null) {
             CookieService cookieService = new CookieService();
             cookieService.initCookies(request);
-        }
+            logger.debug("Entry to set cookies block in Controller");
+        } else
+            logger.debug("Skip set cookies block in Controller");
         ActionFactory factory = new ActionFactory();
         ActionCommand command = factory.defineCommand(request);
         command.execute(request, response);
