@@ -47,7 +47,7 @@ public class MySQLFilmDAO extends BaseDAO implements FilmDAO {
         getConnection().setAutoCommit(false);
         int rows = statement.executeUpdate();
         int filmId = getLastGeneratedKey(statement);
-        if (rows > 1) throw new DAOException("More than one rows were inserted to DB");
+        if (rows > 1) throw new DAOException("More than one row was inserted to DB");
         final boolean insertFilmGenres = getGenresDAO().insertFilmGenres(filmId, film.getGenreList());
         if (insertFilmGenres) {
             getConnection().commit();

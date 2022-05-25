@@ -1,25 +1,15 @@
 <%--
   Created by IntelliJ IDEA.
   User: egorf
-  Date: 18.05.2022
-  Time: 18:50
+  Date: 24.05.2022
+  Time: 16:27
   To change this template use File | Settings | File Templates.
 --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:setBundle basename="i18n"/>
-<jsp:include page="fragments/header.jsp"/>
-<jsp:include page="fragments/menu.jsp"/>
-<div class="container">
-    <div class="jumbotron p-3 p-md-5 text-white rounded bg-dark">
-        <div class="col-md-6 px-0">
-            <h1 class="display-4 font-italic">Title of a longer featured blog post</h1>
-            <p class="lead my-3">Multiple lines of text that form the lede, informing new readers quickly and
-                efficiently about what's most interesting in this post's contents.</p>
-            <p class="lead mb-0"><a href="#" class="text-white font-weight-bold">Continue reading...</a></p>
-        </div>
-    </div>
-</div>
+<jsp:include page="../fragments/header.jsp"/>
+<jsp:include page="../fragments/menu.jsp"/>
 
 <main role="main" class="container">
     <div class="row">
@@ -71,4 +61,4 @@
         </div>
     </div>
 </main>
-<jsp:include page="fragments/footer.jsp"/>
+<jsp:include page="../fragments/footer.jsp"/>

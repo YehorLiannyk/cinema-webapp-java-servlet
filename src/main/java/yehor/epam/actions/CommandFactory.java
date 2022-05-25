@@ -3,6 +3,13 @@ package yehor.epam.actions;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 import yehor.epam.actions.commands.*;
+import yehor.epam.actions.commands.films.AddFilmCommand;
+import yehor.epam.actions.commands.films.AddFilmPageCommand;
+import yehor.epam.actions.commands.films.FilmsSettingPageCommand;
+import yehor.epam.actions.commands.sessions.AddSessionCommand;
+import yehor.epam.actions.commands.sessions.AddSessionPageCommand;
+import yehor.epam.actions.commands.sessions.SessionsSettingPageCommand;
+import yehor.epam.actions.commands.signing.*;
 import yehor.epam.utilities.LoggerManager;
 
 import java.util.HashMap;
@@ -39,7 +46,11 @@ public class CommandFactory {
         //films
         commandMap.put(COMMAND_VIEW_ADD_FILM, new AddFilmPageCommand());
         commandMap.put(COMMAND_ADD_FILM, new AddFilmCommand());
-        commandMap.put(COMMAND_VIEW_ALL_FILMS_PAGE, new AllFilmsPageCommand());
+        commandMap.put(COMMAND_VIEW_FILMS_SETTING_PAGE, new FilmsSettingPageCommand());
+        //sessions
+        commandMap.put(COMMAND_VIEW_ADD_SESSION, new AddSessionPageCommand());
+        commandMap.put(COMMAND_ADD_SESSION, new AddSessionCommand());
+        commandMap.put(COMMAND_VIEW_SESSIONS_SETTING_PAGE, new SessionsSettingPageCommand());
     }
 
     public BaseCommand defineCommand(HttpServletRequest request) {

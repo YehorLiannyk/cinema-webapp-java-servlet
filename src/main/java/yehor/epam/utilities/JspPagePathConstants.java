@@ -10,9 +10,12 @@ public final class JspPagePathConstants {
     public static final String ERROR_PAGE_PATH = "/WEB-INF/jsp/errors/error.jsp";
     //
     public static final String USER_PROFILE_PAGE_PATH = "/WEB-INF/jsp/userProfile.jsp";
-    // add film
+    // film
     public static final String ADD_FILM_PAGE_PATH = "/WEB-INF/jsp/adminPages/addFilm.jsp";
-
+    public static final String FILMS_SETTING_PAGE_PATH = "/WEB-INF/jsp/adminPages/filmsSetting.jsp";
+    // session
+    public static final String ADD_SESSION_PAGE_PATH = "/WEB-INF/jsp/adminPages/addSession.jsp";
+    public static final String SESSIONS_SETTING_PAGE_PATH = "/WEB-INF/jsp/adminPages/sessionsSetting.jsp";
 
     private JspPagePathConstants() {
     }

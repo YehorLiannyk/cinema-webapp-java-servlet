@@ -9,17 +9,15 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:include page="../fragments/header.jsp"/>
 <jsp:include page="../fragments/menu.jsp"/>
-<fmt:bundle basename="i18n" prefix="admin.addFilm.">
+<fmt:bundle basename="i18n" prefix="admin.addSession.">
     <fmt:message key="pageTitle" var="pageTitle"/>
-    <fmt:message key="filmName" var="filmName"/>
-    <fmt:message key="filmDescription" var="filmDescription"/>
-    <fmt:message key="genres" var="genres"/>
-    <fmt:message key="genresTips" var="genresTips"/>
-    <fmt:message key="poster" var="poster"/>
-    <fmt:message key="posterPlaceholder" var="posterPlaceholder"/>
-    <fmt:message key="duration" var="duration"/>
-    <fmt:message key="durationPlaceholder" var="durationPlaceholder"/>
-    <fmt:message key="filmUpload" var="filmUpload"/>
+    <fmt:message key="films" var="films"/>
+    <fmt:message key="filmsTips" var="filmsTips"/>
+    <fmt:message key="date" var="date"/>
+    <fmt:message key="time" var="time"/>
+    <fmt:message key="ticketPrice" var="ticketPrice"/>
+    <fmt:message key="ticketPricePlaceholder" var="ticketPricePlaceholder"/>
+    <fmt:message key="sessionUpload" var="sessionUpload"/>
     <fmt:message key="uploadBtn" var="uploadBtn"/>
 </fmt:bundle>
 
@@ -31,51 +29,45 @@
                 <div class="panel panel-primary">
                     <div class="panel-collapse">
                         <form class="panel-body" name="command" method="post" action="main">
-                            <input type="hidden" name="command" value="addFilm">
+                            <input type="hidden" name="command" value="addSession">
                             <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" name="filmName"
-                                               placeholder="${filmName}" required/>
-                                    </div>
-                                    <div class="form-group">
-                                        <textarea class="form-control" name="filmDescription"
-                                                  placeholder="${filmDescription}" rows="5"></textarea>
-                                    </div>
-                                </div>
-                            </div>
 
-                            <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="genres">${genres}</label>
-                                        <select name="genresId" id="genres" class="form-control" multiple required>
-                                            <c:forEach var="film" items="${requestScope.genreList}">
+                                        <label for="film">${films}</label>
+                                        <select name="filmId" id="film" class="form-control" required>
+                                            <c:forEach var="film" items="${requestScope.filmList}">
                                                 <option value="${film.id}">${film.name}</option>
                                             </c:forEach>
                                         </select>
-                                        <small id="selectTips" class="form-text text-muted">${genresTips}</small>
+                                        <small id="selectTips" class="form-text text-muted">${filmsTips}</small>
                                     </div>
                                 </div>
+
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="poster-url">${poster}</label>
-                                        <input type="text" class="form-control" id="poster-url"
-                                               name="postUrl" placeholder="${posterPlaceholder}" required/>
+                                        <label for="date">${date}</label>
+                                        <input type="date" class="form-control" id="date" name="date" required/>
                                     </div>
+
+                                    <div class="form-group">
+                                        <label for="time">${time}</label>
+                                        <input type="time" class="form-control" id="time" name="time" required/>
+                                    </div>
+
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col-md-8">
                                                 <div class="form-group">
-                                                    <label for="duration">${duration}</label>
-                                                    <input type="text" class="form-control" id="duration"
-                                                           name="filmDuration" placeholder="${durationPlaceholder}"
+                                                    <label for="ticket">${ticketPrice}</label>
+                                                    <input type="text" class="form-control" id="ticket"
+                                                           name="ticketPrice" placeholder="${ticketPricePlaceholder}"
                                                            required/>
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
-                                                    <label>${filmUpload}</label>
+                                                    <label>${sessionUpload}</label>
                                                     <button type="submit" class="btn btn-success btn-sm form-control">
                                                         <span class="glyphicon glyphicon-floppy-disk">${uploadBtn}</span>
                                                     </button>
@@ -84,6 +76,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                             </div>
                         </form>
                     </div>

@@ -22,6 +22,12 @@ public class Session extends BaseEntity {
         this(id, ticketPrice, date, time, null);
     }
 
+    public Session(BigDecimal ticketPrice, LocalDate date, LocalTime time) {
+        this.ticketPrice = ticketPrice;
+        this.date = date;
+        this.time = time;
+    }
+
     public BigDecimal getTicketPrice() {
         return ticketPrice;
     }
@@ -52,5 +58,15 @@ public class Session extends BaseEntity {
 
     public void setFilm(Film film) {
         this.film = film;
+    }
+
+    @Override
+    public String toString() {
+        return "Session{" +
+                "ticketPrice=" + ticketPrice +
+                ", date=" + date +
+                ", time=" + time +
+                ", film=" + film +
+                '}';
     }
 }

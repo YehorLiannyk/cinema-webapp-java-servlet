@@ -5,6 +5,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
+import yehor.epam.actions.commands.films.AddFilmCommand;
+import yehor.epam.actions.commands.films.AddFilmPageCommand;
+import yehor.epam.actions.commands.films.FilmsSettingPageCommand;
+import yehor.epam.actions.commands.sessions.AddSessionCommand;
+import yehor.epam.actions.commands.sessions.AddSessionPageCommand;
+import yehor.epam.actions.commands.sessions.SessionsSettingPageCommand;
 import yehor.epam.entities.User;
 import yehor.epam.utilities.LoggerManager;
 
@@ -119,7 +125,10 @@ public class SecurityFilter implements Filter {
         adminAccessPath.add(COMMAND_VIEW_PROFILE_PAGE);
         adminAccessPath.add(COMMAND_VIEW_ADD_FILM);
         adminAccessPath.add(COMMAND_ADD_FILM);
-        adminAccessPath.add(COMMAND_ADD_FILM);
-        adminAccessPath.add(COMMAND_VIEW_ALL_FILMS_PAGE);
+        adminAccessPath.add(COMMAND_VIEW_FILMS_SETTING_PAGE);
+        adminAccessPath.add(COMMAND_VIEW_ADD_SESSION);
+        adminAccessPath.add(COMMAND_ADD_SESSION);
+        adminAccessPath.add(COMMAND_VIEW_SESSIONS_SETTING_PAGE);
+
     }
 }

@@ -8,19 +8,44 @@ import yehor.epam.entities.Film;
 import yehor.epam.entities.Session;
 import yehor.epam.utilities.LoggerManager;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MySQLSessionDAO extends BaseDAO implements SessionDAO {
     private static final Logger logger = LoggerManager.getLogger(MySQLSessionDAO.class);
-    private final String SELECT_ALL = "SELECT * FROM sessions s JOIN films f on s.film_id = f.film_id";
+    private static final String SELECT_ALL = "SELECT * FROM sessions s JOIN films f on s.film_id = f.film_id";
+    private static final String INSERT = "INSERT INTO sessions VALUES (session_id, ?,?,?,?)";
 
     @Override
-    public boolean insert(Session element) {
-        return false;
+    public boolean insert(Session session) {
+        boolean inserted = false;
+        try (PreparedStatement statement = getConnection().prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS)) {
+            setSessionToStatement(session, statement);
+            final int row = statement.executeUpdate();
+            if (row > 1) throw new DAOException("More than one row was inserted to DB");
+            inserted = true;
+        } catch (SQLException e) {
+            logger.error("Couldn't insert Session to DB", e);
+            throw new DAOException("Couldn't insert Session to DB");
+        }
+        return inserted;
+    }
+
+    private void setSessionToStatement(Session session, PreparedStatement statement) throws SQLException {
+        try {
+            statement.setInt(1, session.getFilm().getId());
+            final LocalDate date = session.getDate();
+            final LocalTime time = session.getTime();
+            statement.setDate(2, Date.valueOf(date));
+            statement.setTime(3, Time.valueOf(time));
+            statement.setBigDecimal(4, session.getTicketPrice());
+        } catch (SQLException e) {
+            logger.error("Couldn't set session to Statement", e);
+            throw new SQLException("Couldn't set session to Statement", e);
+        }
     }
 
     @Override
@@ -60,8 +85,8 @@ public class MySQLSessionDAO extends BaseDAO implements SessionDAO {
             session = new Session(
                     rs.getInt("session_id"),
                     rs.getBigDecimal("ticket_price"),
-                    rs.getDate("date_time").toLocalDate(),
-                    rs.getTime("date_time").toLocalTime()
+                    rs.getDate("date").toLocalDate(),
+                    rs.getTime("time").toLocalTime()
             );
             final Film film = getFilmById(rs.getInt("film_id"));
             session.setFilm(film);

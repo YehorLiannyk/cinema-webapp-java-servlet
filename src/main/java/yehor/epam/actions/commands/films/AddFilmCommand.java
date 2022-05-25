@@ -1,4 +1,4 @@
-package yehor.epam.actions.commands;
+package yehor.epam.actions.commands.films;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -10,6 +10,7 @@ import yehor.epam.dao.factories.DAOFactory;
 import yehor.epam.dao.factories.MySQLFactory;
 import yehor.epam.entities.Film;
 import yehor.epam.entities.Genre;
+import yehor.epam.services.ErrorService;
 import yehor.epam.utilities.InnerRedirectManager;
 import yehor.epam.utilities.LoggerManager;
 
@@ -18,28 +19,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static yehor.epam.utilities.CommandConstants.COMMAND_VIEW_ALL_FILMS_PAGE;
-import static yehor.epam.utilities.OtherConstants.REQUEST_PARAM_ERROR_MESSAGE;
+import static yehor.epam.utilities.CommandConstants.COMMAND_VIEW_FILMS_SETTING_PAGE;
 
 public class AddFilmCommand implements BaseCommand {
     private static final Logger logger = LoggerManager.getLogger(AddFilmCommand.class);
-    private String classSimpleName = AddFilmCommand.class.getSimpleName();
+    private String className = AddFilmCommand.class.getName();
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         try (DAOFactory factory = new MySQLFactory()) {
-            logger.debug("Created DAOFactory in " + classSimpleName + " execute command");
+            logger.debug("Created DAOFactory in " + className + " execute command");
             final Film film = getFilmFromRequest(request);
             final List<Genre> genreList = getGenreListFromRequest(request, factory);
             film.setGenreList(genreList);
             final FilmDAO filmDAO = factory.getFilmDAO();
             filmDAO.insert(film);
-            response.sendRedirect(InnerRedirectManager.getRedirectLocation(COMMAND_VIEW_ALL_FILMS_PAGE));
+            response.sendRedirect(InnerRedirectManager.getRedirectLocation(COMMAND_VIEW_FILMS_SETTING_PAGE));
         } catch (Exception e) {
-            logger.error("Couldn't execute " + classSimpleName + " command", e);
-            request.setAttribute(REQUEST_PARAM_ERROR_MESSAGE, e.getMessage());
-            logger.debug("Forward to errorPage from " + classSimpleName);
-            new ErrorPageCommand().execute(request, response);
+            ErrorService.handleException(request, response, className, e);
         }
     }
 
@@ -57,7 +54,7 @@ public class AddFilmCommand implements BaseCommand {
     private List<Genre> getGenreListFromRequest(HttpServletRequest request, DAOFactory factory) {
         List<Genre> genreList = new ArrayList<>();
         final Map<String, String[]> parameterMap = request.getParameterMap();
-        final String[] genresId = parameterMap.get("genres");
+        final String[] genresId = parameterMap.get("genresId");
         final GenreDAO genreDAO = factory.getGenreDAO();
         if (genresId == null || genresId.length == 0) {
             logger.error("Genre Array is null or empty");

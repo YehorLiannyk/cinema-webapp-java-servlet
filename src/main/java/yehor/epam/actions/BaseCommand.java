@@ -12,5 +12,5 @@ public interface BaseCommand {
      * @param request HttpServletRequest
      * @param response HttpServletResponse
      */
-    void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
+    void execute(HttpServletRequest request, HttpServletResponse response);
 }

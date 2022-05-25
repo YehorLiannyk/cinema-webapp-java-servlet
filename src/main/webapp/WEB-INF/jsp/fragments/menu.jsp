@@ -8,6 +8,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <fmt:setBundle basename="i18n"/>
+
 <nav class="container-fluid site-header sticky-top">
     <div class="container d-flex flex-column flex-md-row justify-content-between py-2">
         <span class="py-2"><fmt:message key="menu.title"/></span>
@@ -49,9 +50,9 @@
                 </label>
                 <ul>
                     <li><a href="<c:url value="/main?command=addFilmPage"/>">Add film</a></li>
-                    <li><a href="#">Films setting</a></li>
-                    <li><a href="#">Add session</a></li>
-                    <li><a href="#">Sessions setting</a></li>
+                    <li><a href="<c:url value="/main?command=filmsSettingPage"/>">Films setting</a></li>
+                    <li><a href="<c:url value="/main?command=addSessionPage"/>">Add session</a></li>
+                    <li><a href="<c:url value="/main?command=sessionsSettingPage"/>">Sessions setting</a></li>
                 </ul>
             </div>
 

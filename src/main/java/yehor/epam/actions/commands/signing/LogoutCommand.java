@@ -1,4 +1,4 @@
-package yehor.epam.actions.commands;
+package yehor.epam.actions.commands.signing;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import yehor.epam.actions.BaseCommand;
 import yehor.epam.entities.User;
 import yehor.epam.services.CookieService;
+import yehor.epam.services.ErrorService;
 import yehor.epam.utilities.LoggerManager;
 
 import java.io.IOException;
@@ -17,7 +18,7 @@ import static yehor.epam.utilities.OtherConstants.USER_ROLE;
 
 public class LogoutCommand implements BaseCommand {
     private static final Logger logger = LoggerManager.getLogger(LogoutCommand.class);
-    private String classSimpleName = LogoutCommand.class.getSimpleName();
+    private String className = LogoutCommand.class.getName();
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
@@ -34,7 +35,7 @@ public class LogoutCommand implements BaseCommand {
             logger.debug("Redirect to main page");
             response.sendRedirect(COMMAND_MAIN_SERVLET);
         } catch (IOException e) {
-            logger.error("Couldn't execute " + classSimpleName + " command", e);
+            ErrorService.handleException(request, response, className, e);
         }
     }
 }

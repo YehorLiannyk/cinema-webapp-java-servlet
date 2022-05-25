@@ -60,13 +60,13 @@ public class MySQLGenreDAO extends BaseDAO implements GenreDAO {
         return genreList;
     }
 
-    private Genre getGenreFromResultSet(ResultSet resultSet) {
+    private Genre getGenreFromResultSet(ResultSet resultSet) throws SQLException {
         final Genre genre;
         try {
             genre = new Genre(resultSet.getInt("genre_id"), resultSet.getString("genre_name"));
         } catch (SQLException e) {
             logger.error("Couldn't get Genre from ResultSet", e);
-            throw new DAOException("Couldn't get Genre from ResultSet");
+            throw new SQLException("Couldn't get Genre from ResultSet", e);
         }
         return genre;
     }
