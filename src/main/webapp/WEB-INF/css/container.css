@@ -22,13 +22,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .container {
-    background-color: #dcdcdc;
+    background-color: #fff;
     max-width: 85%;
     padding: 1rem 4rem;
 }
 
 .container-fluid {
-    background-color: #dcdcdc
+    background-color: #fff
 }
 
 .footer-info {
@@ -53,6 +53,15 @@ h1, h2, h3, h4, h5, h6 {
     background-color: #ffffff85;
 }
 
+label.menu-item {
+    color: #007bff;
+}
+
+span.menu-item {
+    font-size: 1.15rem;
+    font-weight: 500;
+}
+
 /**/
 /*  Dropdown menu styles */
 /**/
@@ -69,7 +78,7 @@ h1, h2, h3, h4, h5, h6 {
 .dropdown > label,
 .dropdown > a[role="button"] {
     display: inline-block;
-    color: #333;
+    /*color: #333;*/
     line-height: 1.5em;
     text-decoration: none;
     cursor: pointer;
@@ -80,7 +89,7 @@ h1, h2, h3, h4, h5, h6 {
 .dropdown > label:hover,
 .dropdown > a[role="button"]:hover,
 .dropdown > a[role="button"]:focus {
-    border-color: #333;
+    /*border-color: #333;*/
 }
 
 .dropdown > label:after,
@@ -116,7 +125,7 @@ h1, h2, h3, h4, h5, h6 {
     display: block;
     padding: 6px 15px;
     text-decoration: none;
-    color: #333;
+    /*color: #333;*/
 }
 
 .dropdown > ul a:hover,
@@ -150,7 +159,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 main.container {
-    min-height: 590px;
+    min-height: 595px;
+}
+
+i.fa.fa-key.fa-lg.me-3.fa-fw,
+i.fa.fa-envelope.fa-lg.me-3.fa-fw,
+i.fa.fa-lock.fa-lg.me-3.fa-fw{
+    height: 2.2em;
 }
 
 /**/

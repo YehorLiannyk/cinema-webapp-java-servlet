@@ -29,8 +29,8 @@
             </h1>
             <div class="film-posts py-4">
                 <div class="row">
-                    <jsp:useBean id="filmList" scope="session" type="java.util.List"/>
-                    <c:forEach var="film" items="${filmList}" varStatus="counter">
+
+                    <c:forEach var="film" items="${sessionScope.filmList}">
                         <div class="col-md-6 p-4 film-post card">
                             <div class="row card-body">
                                 <div class="col-md-4">
@@ -53,10 +53,10 @@
                                                 </c:if>
                                             </c:forEach>
                                         </li>
-                                        <li class="card-text"><fmt:message key="film.sessionAmount"/>: 3</li>
+                                        <li class="card-text"><fmt:message key="film.sessionAmount"/>: ###</li>
                                     </ul>
                                     <button type="button" class="btn btn-lg btn-block btn-primary">
-                                        <fmt:message key="film.buyTicket"/>
+                                        <fmt:message key="film.aboutFilm"/>
                                     </button>
                                 </div>
                             </div>

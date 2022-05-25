@@ -87,16 +87,12 @@ W
 'src/main/webapp/WEB-INF/js/bootstrap.js,2\0\20f8c22679eaa1d88efbb0d59dcb8b16bda2e9eb
 `
 0src/main/webapp/WEB-INF/jsp/fragments/header.jsp,b\0\b01e2b716045cb11e8934ef6d313326881a845b1
-U
-%src/main/webapp/WEB-INF/jsp/login.jsp,5\8\582bc84275d5b626d3b0f12b82e66269f2fac2a7
 X
 (src/main/webapp/WEB-INF/jsp/contacts.jsp,3\b\3b25c2c4985bdebc5721fd39bfe6b5902d9cfc96
 V
 &src/main/webapp/WEB-INF/jsp/paying.jsp,2\1\218f7b0bc41445f3687e2b84af804ebe3c554c99
 [
 +src/main/webapp/WEB-INF/jsp/userProfile.jsp,2\d\2dea094b3795c4e923d02dadfb28280d179191f4
-X
-(src/main/webapp/WEB-INF/jsp/schedule.jsp,7\1\71cbeb8298f5db881d7e4d7cbc4a30b0429aeda8
 o
 ?src/main/java/yehor/epam/actions/commands/LoginPageCommand.java,1\1\11587726284e85993f87f348de2df78f395f9a13
 \
@@ -113,8 +109,6 @@ m
 pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec
 w
 G.idea/sonarlint/issuestore/6/d/6db656fd4c742fe9e90b5b61d6340a61b8b820bd,6\c\6c59390d48501d689bbada79c221553fdc354895
-Y
-)src/main/webapp/WEB-INF/css/container.css,d\1\d13d1e4f0ddfc2e2b053617e06198765b0f201cb
 w
 G.idea/sonarlint/issuestore/1/9/19cc3be20b14f4b2cbb5526bb0b7f6f9c83a8f2e,f\6\f62b4a0e92a9257044817a3c11fa7bdd8df2132e
 w
@@ -145,5 +139,3 @@ a
 1src/main/java/yehor/epam/entities/BaseEntity.java,0\4\04d7edea4fd6af796ad1da907e381f579ed7cbac
 d
 4src/main/java/yehor/epam/dao/mysql/MySQLUserDAO.java,d\b\db206e20690be1cb16d91dd8db089644a7a135be
-X
-(src/main/webapp/WEB-INF/jsp/register.jsp,f\f\fff4815989db9cb5b46194b0f936e179dd6f7c76

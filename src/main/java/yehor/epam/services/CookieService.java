@@ -59,7 +59,6 @@ public class CookieService {
                     session.setAttribute(USER_ID, cookie.getValue());
                 if (cookieName.equals(USER_ROLE))
                     session.setAttribute(USER_ROLE, cookie.getValue());
-
             }
             logger.debug("Initialize session with cookies, sessionId = " + session.getId());
         }

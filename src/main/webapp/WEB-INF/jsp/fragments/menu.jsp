@@ -11,7 +11,7 @@
 
 <nav class="container-fluid site-header sticky-top">
     <div class="container d-flex flex-column flex-md-row justify-content-between py-2">
-        <span class="py-2"><fmt:message key="menu.title"/></span>
+        <span class="py-2 menu-item"><fmt:message key="menu.title"/></span>
         <a class="py-2 d-none d-md-inline-block" href="<c:url value="/main"/>">
             <fmt:message key="menu.main"/>
         </a>
@@ -45,7 +45,7 @@
         <c:if test="${sessionScope.userRole == 'ADMIN'}">
             <div class="py-2 d-none d-md-inline-block dropdown">
                 <input type="checkbox" id="my-dropdown" value="" name="my-checkbox">
-                <label for="my-dropdown" data-toggle="dropdown">
+                <label for="my-dropdown" data-toggle="dropdown" class="menu-item">
                     Film/Session
                 </label>
                 <ul>

@@ -9,17 +9,23 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:include page="../fragments/header.jsp"/>
 <jsp:include page="../fragments/menu.jsp"/>
+
 <fmt:bundle basename="i18n" prefix="admin.addSession.">
     <fmt:message key="pageTitle" var="pageTitle"/>
     <fmt:message key="films" var="films"/>
     <fmt:message key="filmsTips" var="filmsTips"/>
     <fmt:message key="date" var="date"/>
     <fmt:message key="time" var="time"/>
+    <fmt:message key="timeMinTips" var="timeMinTips"/>
+    <fmt:message key="timeMaxTips" var="timeMaxTips"/>
     <fmt:message key="ticketPrice" var="ticketPrice"/>
     <fmt:message key="ticketPricePlaceholder" var="ticketPricePlaceholder"/>
     <fmt:message key="sessionUpload" var="sessionUpload"/>
     <fmt:message key="uploadBtn" var="uploadBtn"/>
 </fmt:bundle>
+<c:set var="minTime" value="${applicationScope.minSessionTime}"/>
+<c:set var="maxTime" value="${applicationScope.maxSessionTime}"/>
+<c:set var="nowDate" value="${sessionScope.nowDate}"/>
 
 <main role="main" class="container">
     <div class="row">
@@ -42,17 +48,22 @@
                                         </select>
                                         <small id="selectTips" class="form-text text-muted">${filmsTips}</small>
                                     </div>
+
+                                    <div class="form-group">
+                                        <label for="date">${date}</label>
+                                        <input type="date" class="form-control" id="date" name="date" min="${nowDate}"
+                                               required/>
+                                    </div>
                                 </div>
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="date">${date}</label>
-                                        <input type="date" class="form-control" id="date" name="date" required/>
-                                    </div>
-
-                                    <div class="form-group">
                                         <label for="time">${time}</label>
-                                        <input type="time" class="form-control" id="time" name="time" required/>
+                                        <input type="time" class="form-control" id="time" name="time" min="${minTime}"
+                                               max="${maxTime}" required/>
+                                        <small id="timeTips" class="form-text text-muted">
+                                            ${timeMinTips} ${minTime} ${timeMaxTips} ${maxTime}
+                                        </small>
                                     </div>
 
                                     <div class="form-group">
@@ -60,7 +71,7 @@
                                             <div class="col-md-8">
                                                 <div class="form-group">
                                                     <label for="ticket">${ticketPrice}</label>
-                                                    <input type="text" class="form-control" id="ticket"
+                                                    <input type="number" class="form-control" id="ticket"
                                                            name="ticketPrice" placeholder="${ticketPricePlaceholder}"
                                                            required/>
                                                 </div>

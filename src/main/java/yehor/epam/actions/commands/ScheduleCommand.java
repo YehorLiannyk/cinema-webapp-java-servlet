@@ -17,18 +17,20 @@ import static yehor.epam.utilities.JspPagePathConstants.SCHEDULE_PAGE_PATH;
 
 public class ScheduleCommand implements BaseCommand {
     private static final Logger logger = LoggerManager.getLogger(ScheduleCommand.class);
-    private static final String className = ScheduleCommand.class.getName();
+    private static final String CLASS_NAME = ScheduleCommand.class.getName();
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         try (DAOFactory factory = new MySQLFactory()) {
-            logger.debug("Created DAOFactory in " + className + " execute command");
+            logger.debug("Created DAOFactory in " + CLASS_NAME + " execute command");
             final SessionDAO sessionDAO = factory.getSessionDao();
-            final List<Session> sessionsList = sessionDAO.findAll();
-            request.setAttribute("sessionsList", sessionsList);
+            final List<Session> sessionList = sessionDAO.findAll();
+            logger.debug("sessionList.size = " + sessionList.size() + ", firstEl = " + sessionList.get(0));
+            request.setAttribute("sessionList", sessionList);
             request.getRequestDispatcher(SCHEDULE_PAGE_PATH).forward(request, response);
+            logger.debug("sessionList.size = " + sessionList.size() + ", firstEl = " + sessionList.get(0));
         } catch (Exception e) {
-            ErrorService.handleException(request, response, className, e);
+            ErrorService.handleException(request, response, CLASS_NAME, e);
         }
     }
 }

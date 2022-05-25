@@ -68,7 +68,7 @@
                                             <div class="col-md-8">
                                                 <div class="form-group">
                                                     <label for="duration">${duration}</label>
-                                                    <input type="text" class="form-control" id="duration"
+                                                    <input type="number" class="form-control" id="duration"
                                                            name="filmDuration" placeholder="${durationPlaceholder}"
                                                            required/>
                                                 </div>

@@ -5,13 +5,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
-import yehor.epam.actions.commands.films.AddFilmCommand;
-import yehor.epam.actions.commands.films.AddFilmPageCommand;
-import yehor.epam.actions.commands.films.FilmsSettingPageCommand;
-import yehor.epam.actions.commands.sessions.AddSessionCommand;
-import yehor.epam.actions.commands.sessions.AddSessionPageCommand;
-import yehor.epam.actions.commands.sessions.SessionsSettingPageCommand;
 import yehor.epam.entities.User;
+import yehor.epam.services.CookieService;
+import yehor.epam.services.GeneralService;
 import yehor.epam.utilities.LoggerManager;
 
 import java.io.IOException;
@@ -25,13 +21,14 @@ import static yehor.epam.utilities.OtherConstants.USER_ROLE;
 
 public class SecurityFilter implements Filter {
     private static final Logger logger = LoggerManager.getLogger(SecurityFilter.class);
+    private static final String CLASS_NAME = SecurityFilter.class.getName();
     private final List<String> guestAccessPath = new ArrayList<>();
     private final List<String> userAccessPath = new ArrayList<>();
     private final List<String> adminAccessPath = new ArrayList<>();
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        logger.debug("Entry to filter");
+        logger.info("Entry to filter: " + CLASS_NAME);
         initGuestAccess();
         initUserAccess();
         initAdminAccess();
@@ -44,9 +41,14 @@ public class SecurityFilter implements Filter {
 
         final HttpSession session = req.getSession();
 
+        //
+        getCookies(req, session);
+        //
+        GeneralService.initParams(req);
+
         String command = req.getParameter("command");
-        logger.debug("Command from SecurityFilter = " + req.getParameter("command"));
-        logger.debug("Session role attribute from SecurityFilter = " + session.getAttribute(USER_ROLE));
+        logger.debug("Command from " + CLASS_NAME + " = " + req.getParameter("command"));
+        logger.debug("Session role attribute from " + CLASS_NAME + " = " + session.getAttribute(USER_ROLE));
 
         if (session.getAttribute(USER_ROLE) == null || session.getAttribute(USER_ROLE).toString().equals(User.Role.GUEST.toString())) {
             logger.debug("Entry to GUEST's if section. Session.USER_ROLE = '" + session.getAttribute(USER_ROLE) + '\'');
@@ -67,12 +69,27 @@ public class SecurityFilter implements Filter {
                 return;
             }
         } else {
-            logger.debug("SecurityFilter, skip all if sections. session.getAttribute(USER_ROLE) = '" + session.getAttribute(USER_ROLE) + '\'');
+            logger.debug(CLASS_NAME + ", skip all if sections. session.getAttribute(USER_ROLE) = '" + session.getAttribute(USER_ROLE) + '\'');
             logger.debug("session.getAttribute(USER_ROLE).equals(User.Role.USER.toString()) = " + session.getAttribute(USER_ROLE).equals(User.Role.USER.toString()));
             filterChain.doFilter(req, resp);
             return;
         }
         filterChain.doFilter(req, resp);
+    }
+
+    /**
+     * Get info from Cookies and set to Session
+     *
+     * @param req     HttpServletRequest
+     * @param session current sesion
+     */
+    private void getCookies(HttpServletRequest req, HttpSession session) {
+        if (session == null || session.getAttribute(USER_ROLE) == null) {
+            CookieService cookieService = new CookieService();
+            cookieService.initCookies(req);
+            logger.debug("Entry to getCookies block in " + CLASS_NAME);
+        } else
+            logger.debug("Skip getCookies block in " + CLASS_NAME);
     }
 
     private void forwardToErrorPage(HttpSession session, String command, HttpServletRequest req, HttpServletResponse resp)
@@ -84,7 +101,7 @@ public class SecurityFilter implements Filter {
 
     @Override
     public void destroy() {
-        logger.debug("Exit from filter");
+        logger.info("Exit from filter: " + CLASS_NAME);
     }
 
     /**
@@ -92,7 +109,7 @@ public class SecurityFilter implements Filter {
      */
     private void initGuestAccess() {
         guestAccessPath.add(null);
-        adminAccessPath.add(ERROR_PAGE_PATH);
+        guestAccessPath.add(ERROR_PAGE_PATH);
         guestAccessPath.add(COMMAND_VIEW_MAIN);
         guestAccessPath.add(COMMAND_VIEW_LOGIN);
         guestAccessPath.add(COMMAND_LOGIN);
@@ -106,7 +123,7 @@ public class SecurityFilter implements Filter {
      */
     private void initUserAccess() {
         userAccessPath.add(null);
-        adminAccessPath.add(ERROR_PAGE_PATH);
+        userAccessPath.add(ERROR_PAGE_PATH);
         userAccessPath.add(COMMAND_VIEW_MAIN);
         userAccessPath.add(COMMAND_VIEW_SCHEDULE);
         userAccessPath.add(COMMAND_LOGOUT);
