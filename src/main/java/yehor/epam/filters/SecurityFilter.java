@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 import yehor.epam.entities.User;
 import yehor.epam.services.CookieService;
 import yehor.epam.services.GeneralService;
+import yehor.epam.utilities.InnerRedirectManager;
 import yehor.epam.utilities.LoggerManager;
 
 import java.io.IOException;
@@ -53,7 +54,7 @@ public class SecurityFilter implements Filter {
         if (session.getAttribute(USER_ROLE) == null || session.getAttribute(USER_ROLE).toString().equals(User.Role.GUEST.toString())) {
             logger.debug("Entry to GUEST's if section. Session.USER_ROLE = '" + session.getAttribute(USER_ROLE) + '\'');
             if (!guestAccessPath.contains(command)) {
-                forwardToErrorPage(session, command, req, resp);
+                redirectToLoginPage(session, command, resp);
                 return;
             }
         } else if (session.getAttribute(USER_ROLE).toString().equals(User.Role.USER.toString())) {
@@ -99,6 +100,13 @@ public class SecurityFilter implements Filter {
         req.getRequestDispatcher(ERROR_PAGE_PATH).forward(req, resp);
     }
 
+    private void redirectToLoginPage(HttpSession session, String command,  HttpServletResponse resp)
+            throws IOException {
+        logger.warn("Have no enough permits for the command (" + session.getAttribute(USER_ROLE) + ") '" + command + '\'');
+        logger.info("Redirect to login page");
+        resp.sendRedirect(InnerRedirectManager.getRedirectLocation(COMMAND_LOGIN));
+    }
+
     @Override
     public void destroy() {
         logger.info("Exit from filter: " + CLASS_NAME);
@@ -128,6 +136,9 @@ public class SecurityFilter implements Filter {
         userAccessPath.add(COMMAND_VIEW_SCHEDULE);
         userAccessPath.add(COMMAND_LOGOUT);
         userAccessPath.add(COMMAND_VIEW_PROFILE_PAGE);
+        userAccessPath.add(COMMAND_VIEW_SESSION_PAGE);
+        userAccessPath.add(COMMAND_VIEW_BUY_TICKET_PAGE);
+        userAccessPath.add(COMMAND_BUY_TICKET);
     }
 
     /**
@@ -146,6 +157,10 @@ public class SecurityFilter implements Filter {
         adminAccessPath.add(COMMAND_VIEW_ADD_SESSION);
         adminAccessPath.add(COMMAND_ADD_SESSION);
         adminAccessPath.add(COMMAND_VIEW_SESSIONS_SETTING_PAGE);
+        adminAccessPath.add(COMMAND_VIEW_SESSION_PAGE);
+        adminAccessPath.add(COMMAND_VIEW_BUY_TICKET_PAGE);
+        adminAccessPath.add(COMMAND_BUY_TICKET);
+
 
     }
 }

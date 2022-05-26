@@ -14,13 +14,15 @@
     <fmt:message key="filmName" var="filmName"/>
     <fmt:message key="filmDescription" var="filmDescription"/>
     <fmt:message key="genres" var="genres"/>
-    <fmt:message key="genresTips" var="genresTips"/>
     <fmt:message key="poster" var="poster"/>
     <fmt:message key="posterPlaceholder" var="posterPlaceholder"/>
     <fmt:message key="duration" var="duration"/>
     <fmt:message key="durationPlaceholder" var="durationPlaceholder"/>
     <fmt:message key="filmUpload" var="filmUpload"/>
     <fmt:message key="uploadBtn" var="uploadBtn"/>
+</fmt:bundle>
+<fmt:bundle basename="i18n">
+    <fmt:message key="general.selector.multipleSelectTips" var="selectorTips"/>
 </fmt:bundle>
 
 <main role="main" class="container">
@@ -54,7 +56,7 @@
                                                 <option value="${film.id}">${film.name}</option>
                                             </c:forEach>
                                         </select>
-                                        <small id="selectTips" class="form-text text-muted">${genresTips}</small>
+                                        <small id="selectTips" class="form-text text-muted">${selectorTips}</small>
                                     </div>
                                 </div>
                                 <div class="col-md-6">

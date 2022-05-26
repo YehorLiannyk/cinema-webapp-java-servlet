@@ -4,10 +4,7 @@ import org.apache.log4j.Logger;
 import yehor.epam.connection.ConnectionException;
 import yehor.epam.connection.ConnectionPool;
 import yehor.epam.dao.*;
-import yehor.epam.dao.mysql.MySQLFilmDAO;
-import yehor.epam.dao.mysql.MySQLGenreDAO;
-import yehor.epam.dao.mysql.MySQLSessionDAO;
-import yehor.epam.dao.mysql.MySQLUserDAO;
+import yehor.epam.dao.mysql.*;
 import yehor.epam.utilities.LoggerManager;
 
 import java.sql.Connection;
@@ -53,7 +50,9 @@ public class MySQLFactory implements DAOFactory {
 
     @Override
     public SeatDAO getSeatDao() {
-        return null;
+        final MySQLSeatDAO mySQLSeatDAO = new MySQLSeatDAO();
+        mySQLSeatDAO.setConnection(connection);
+        return mySQLSeatDAO;
     }
 
     @Override

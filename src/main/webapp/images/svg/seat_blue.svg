@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 63.1 (92452) - https://sketch.com -->
+    <title>icon/24/seat/available</title>
+    <desc>Created with Sketch.</desc>
+    <g id="icon/24/seat/available" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-3" fill="#2446A1">
+            <path d="M7,0 L17,0 C18.1045695,-2.02906125e-16 19,0.8954305 19,2 L19,17 L19,17 L5,17 L5,2 C5,0.8954305 5.8954305,2.02906125e-16 7,0 Z" id="Rectangle"></path>
+            <path d="M2,18 L22,18 C23.1045695,18 24,18.8954305 24,20 L24,24 L24,24 L0,24 L0,20 C-1.3527075e-16,18.8954305 0.8954305,18 2,18 Z" id="Rectangle" transform="translate(12.000000, 21.000000) scale(1, -1) translate(-12.000000, -21.000000) "></path>
+            <path d="M1,5 L3,5 C3.55228475,5 4,5.44771525 4,6 L4,17 L4,17 L0,17 L0,6 C-6.76353751e-17,5.44771525 0.44771525,5 1,5 Z" id="Rectangle"></path>
+            <path d="M21,5 L23,5 C23.5522847,5 24,5.44771525 24,6 L24,17 L24,17 L20,17 L20,6 C20,5.44771525 20.4477153,5 21,5 Z" id="Rectangle"></path>
+        </g>
+    </g>
+</svg>

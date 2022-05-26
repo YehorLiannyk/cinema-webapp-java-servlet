@@ -13,7 +13,6 @@
 <fmt:bundle basename="i18n" prefix="admin.addSession.">
     <fmt:message key="pageTitle" var="pageTitle"/>
     <fmt:message key="films" var="films"/>
-    <fmt:message key="filmsTips" var="filmsTips"/>
     <fmt:message key="date" var="date"/>
     <fmt:message key="time" var="time"/>
     <fmt:message key="timeMinTips" var="timeMinTips"/>
@@ -22,6 +21,9 @@
     <fmt:message key="ticketPricePlaceholder" var="ticketPricePlaceholder"/>
     <fmt:message key="sessionUpload" var="sessionUpload"/>
     <fmt:message key="uploadBtn" var="uploadBtn"/>
+</fmt:bundle>
+<fmt:bundle basename="i18n">
+    <fmt:message key="general.selector.multipleSelectTips" var="selectorTips"/>
 </fmt:bundle>
 <c:set var="minTime" value="${applicationScope.minSessionTime}"/>
 <c:set var="maxTime" value="${applicationScope.maxSessionTime}"/>
@@ -46,7 +48,7 @@
                                                 <option value="${film.id}">${film.name}</option>
                                             </c:forEach>
                                         </select>
-                                        <small id="selectTips" class="form-text text-muted">${filmsTips}</small>
+                                        <small id="selectTips" class="form-text text-muted">${selectorTips}</small>
                                     </div>
 
                                     <div class="form-group">

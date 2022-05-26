@@ -162,10 +162,85 @@ main.container {
     min-height: 595px;
 }
 
+.vertical-buttons {
+    margin: 4rem 0;
+}
+
 i.fa.fa-key.fa-lg.me-3.fa-fw,
 i.fa.fa-envelope.fa-lg.me-3.fa-fw,
-i.fa.fa-lock.fa-lg.me-3.fa-fw{
+i.fa.fa-lock.fa-lg.me-3.fa-fw {
     height: 2.2em;
+}
+
+.card-header-custom {
+    border-radius: .25rem .25rem 0 0;
+    padding: .3rem 1.25rem;
+    background-color: #f5f5f5;
+    border: 1px solid #e5e5e5;
+    border-bottom: none;
+}
+
+.card-header-custom + .card-group > .card {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.card-custom-title {
+    text-align: center;
+    margin: 0 auto;
+}
+
+article.card-filter {
+    /*max-width: fit-content;*/
+    border: 1px solid rgba(0, 0, 0, .125);
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.header-filter {
+    border: 1px solid #e5e5e5;
+    border-radius: 0.25rem 0.25rem 0 0;
+    padding: 0.3rem 1.25rem;
+    background-color: #f5f5f5;
+    border-bottom: 0;
+}
+
+.btn-sorter {
+    margin: 0 auto;
+    display: block;
+}
+
+#elementsOnPage {
+    max-width: 2.9rem;
+}
+
+.under-filter-element,
+.under-filter-block {
+    margin: auto 0;
+}
+
+/**/
+/* Seat in session*/
+/**/
+[type=checkbox].seatsElement {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* IMAGE STYLES */
+[type=checkbox].seatsElement + img {
+    cursor: pointer;
+}
+
+/* CHECKED STYLES */
+[type=checkbox]:checked + img {
+    outline: 2px solid #061165;
+}
+
+.seatsImg {
+    max-width: 1.5rem;
 }
 
 /**/

@@ -13,10 +13,14 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import static yehor.epam.utilities.OtherConstants.MIN_SESSION_TIME;
 
 public class MySQLSessionDAO extends BaseDAO implements SessionDAO {
     private static final Logger logger = LoggerManager.getLogger(MySQLSessionDAO.class);
-    private static final String SELECT_ALL = "SELECT * FROM sessions s JOIN films f on s.film_id = f.film_id";
+    private static final String SELECT_ALL = "SELECT * FROM sessions s JOIN films f on s.film_id = f.film_id WHERE s.date>=? AND IF (s.date=?, s.time>=?, s.time>=?) ORDER BY s.date AND s.time";
+    private static final String SELECT_BY_ID = "SELECT * FROM sessions s JOIN films f on s.film_id = f.film_id WHERE s.session_id=?";
     private static final String INSERT = "INSERT INTO sessions VALUES (session_id, ?,?,?,?)";
 
     @Override
@@ -50,16 +54,35 @@ public class MySQLSessionDAO extends BaseDAO implements SessionDAO {
 
     @Override
     public Session findById(int id) {
-        return null;
+        Session session = null;
+        try (PreparedStatement statement = getConnection().prepareStatement(SELECT_BY_ID)) {
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                session = getSessionFromResultSet(resultSet);
+            }
+        } catch (SQLException e) {
+            logger.error("Couldn't find session by id in DB", e);
+            throw new DAOException("Couldn't find session by id in DB");
+        }
+        return session;
     }
 
     @Override
     public List<Session> findAll() {
         List<Session> sessions = new ArrayList<>();
-        try (Statement statement = getConnection().createStatement()) {
-            ResultSet resultSet = statement.executeQuery(SELECT_ALL);
+        try (PreparedStatement statement = getConnection().prepareStatement(SELECT_ALL)) {
+            final LocalDate nowDate = LocalDate.now();
+            final LocalTime nowTime = LocalTime.now();
+            statement.setDate(1, Date.valueOf(nowDate));
+            statement.setDate(2, Date.valueOf(nowDate));
+            statement.setTime(3, Time.valueOf(nowTime));
+            statement.setTime(4, Time.valueOf(MIN_SESSION_TIME));
+            logger.debug("Select: " + statement.toString());
+            ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 final Session session = getSessionFromResultSet(resultSet);
+                logger.debug("Session: " + session.toString());
                 sessions.add(session);
             }
         } catch (SQLException e) {
@@ -101,5 +124,10 @@ public class MySQLSessionDAO extends BaseDAO implements SessionDAO {
         final MySQLFilmDAO mySQLFilmDAO = new MySQLFilmDAO();
         mySQLFilmDAO.setConnection(getConnection());
         return mySQLFilmDAO.findById(filmId);
+    }
+
+    @Override
+    public List<Session> getFilteredAndSortedSessionList(Map<String, List<String>> map) {
+        return null;
     }
 }

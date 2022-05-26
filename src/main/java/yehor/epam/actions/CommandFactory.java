@@ -51,6 +51,11 @@ public class CommandFactory {
         commandMap.put(COMMAND_VIEW_ADD_SESSION, new AddSessionPageCommand());
         commandMap.put(COMMAND_ADD_SESSION, new AddSessionCommand());
         commandMap.put(COMMAND_VIEW_SESSIONS_SETTING_PAGE, new SessionsSettingPageCommand());
+        commandMap.put(COMMAND_VIEW_SESSION_PAGE, new SessionPageCommand());
+        //ticket
+        commandMap.put(COMMAND_VIEW_BUY_TICKET_PAGE, new BuyTicketPageCommand());
+        commandMap.put(COMMAND_BUY_TICKET, new BuyTicketCommand());
+
     }
 
     public BaseCommand defineCommand(HttpServletRequest request) {

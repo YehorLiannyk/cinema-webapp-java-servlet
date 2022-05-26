@@ -23,4 +23,5 @@
         <location>/WEB-INF/jsp/errors/generalError.jsp</location>
     </error-page>
 
+
 </web-app>
