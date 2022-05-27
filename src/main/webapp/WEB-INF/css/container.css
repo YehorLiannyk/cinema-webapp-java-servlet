@@ -219,6 +219,17 @@ article.card-filter {
     margin: auto 0;
 }
 
+.main-carousel {
+    background-image: url(https://images.hdqwalls.com/wallpapers/deadpool-2-movie-cinema-01.jpg);
+    background-size: cover;
+}
+
+.main-carousel-text {
+    background-color: black;
+    opacity: 80%;
+    border-radius: 2rem;
+}
+
 /**/
 /* Seat in session*/
 /**/

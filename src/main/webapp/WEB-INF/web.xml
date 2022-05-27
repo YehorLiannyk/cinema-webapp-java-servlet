@@ -3,7 +3,8 @@
          xmlns="https://jakarta.ee/xml/ns/jakartaee"
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
          version="5.0">
-    <filter>
+
+    <!--<filter>
         <filter-name>AuthFilter</filter-name>
         <filter-class>yehor.epam.filters.SecurityFilter</filter-class>
     </filter>
@@ -11,6 +12,16 @@
         <filter-name>AuthFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+
+    <filter>
+        <filter-name>EncodingFilter</filter-name>
+        <filter-class>yehor.epam.filters.EncodingFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>EncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>-->
+
     <error-page>
         <location>/WEB-INF/jsp/errors/generalError.jsp</location>
     </error-page>

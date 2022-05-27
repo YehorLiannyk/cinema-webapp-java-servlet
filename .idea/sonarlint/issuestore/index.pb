@@ -15,8 +15,6 @@ i
 9src/main/java/yehor/epam/dao/exception/AuthException.java,e\f\ef75f7f7339869ffe4edf8e555b24e70626fbfee
 g
 7src/main/java/yehor/epam/connection/ConnectionPool.java,5\5\55467858341875ea3d2f4f8d9d26d9a3bcf8a112
-d
-4src/main/java/yehor/epam/filters/EncodingFilter.java,d\4\d4298535e8e78879dbd3f625db1266d3b7c99b47
 [
 +src/main/java/yehor/epam/entities/User.java,5\8\58a1527182023ccae324fc78b2cf08a0ef17ee71
 k
@@ -73,8 +71,6 @@ Y
 )src/main/java/yehor/epam/dao/BaseDAO.java,3\5\35a833f1ab09519a222b5e361c3253bb0ddfaeb5
 m
 =src/main/java/yehor/epam/dao/exception/RegisterException.java,8\0\805d8e06144a8a231756daa7b8e015b81e7e6e12
-7
-pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec
 w
 G.idea/sonarlint/issuestore/6/d/6db656fd4c742fe9e90b5b61d6340a61b8b820bd,6\c\6c59390d48501d689bbada79c221553fdc354895
 w

@@ -27,8 +27,10 @@ public final class CommandConstants {
     public static final String COMMAND_ADD_SESSION = "addSession";
     public static final String COMMAND_VIEW_SESSIONS_SETTING_PAGE = "sessionsSettingPage";
     public static final String COMMAND_VIEW_SESSION_PAGE = "sessionPage";
+
     public static final String COMMAND_VIEW_BUY_TICKET_PAGE = "buyTicketPage";
     public static final String COMMAND_BUY_TICKET = "buyTicket";
+    public static final String COMMAND_VIEW_SUCCESS_PAY_PAGE = "successPayPage";
 
 
     private CommandConstants() {

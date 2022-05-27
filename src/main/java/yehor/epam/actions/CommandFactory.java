@@ -55,6 +55,7 @@ public class CommandFactory {
         //ticket
         commandMap.put(COMMAND_VIEW_BUY_TICKET_PAGE, new BuyTicketPageCommand());
         commandMap.put(COMMAND_BUY_TICKET, new BuyTicketCommand());
+        commandMap.put(COMMAND_VIEW_SUCCESS_PAY_PAGE, new SuccessPayPageCommand());
 
     }
 

@@ -1,6 +1,7 @@
 package yehor.epam.filters;
 
 import jakarta.servlet.*;
+import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -20,6 +21,7 @@ import static yehor.epam.utilities.JspPagePathConstants.ERROR_PAGE_PATH;
 import static yehor.epam.utilities.OtherConstants.REQUEST_PARAM_ERROR_MESSAGE;
 import static yehor.epam.utilities.OtherConstants.USER_ROLE;
 
+@WebFilter(urlPatterns = {"/*"}, filterName = "SecurityFilter")
 public class SecurityFilter implements Filter {
     private static final Logger logger = LoggerManager.getLogger(SecurityFilter.class);
     private static final String CLASS_NAME = SecurityFilter.class.getName();
@@ -161,7 +163,7 @@ public class SecurityFilter implements Filter {
         adminAccessPath.add(COMMAND_VIEW_SESSION_PAGE);
         adminAccessPath.add(COMMAND_VIEW_BUY_TICKET_PAGE);
         adminAccessPath.add(COMMAND_BUY_TICKET);
-        //COMMAND_SUCCESS_PAY
+        adminAccessPath.add(COMMAND_VIEW_SUCCESS_PAY_PAGE);
 
 
     }

@@ -2,24 +2,34 @@ package yehor.epam.filters;
 
 
 import jakarta.servlet.*;
+import jakarta.servlet.annotation.WebFilter;
+import org.apache.log4j.Logger;
+import yehor.epam.utilities.LoggerManager;
 
 import java.io.IOException;
 
+@WebFilter(urlPatterns = {"/*"}, filterName = "EncodingFilter")
 public class EncodingFilter implements Filter {
+    private static final Logger logger = LoggerManager.getLogger(EncodingFilter.class);
+    private static final String CLASS_NAME = EncodingFilter.class.getName();
+    private String encoding;
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        Filter.super.init(filterConfig);
+        logger.info("Entry to filter: " + CLASS_NAME);
+        encoding = "UTF-8";
     }
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        servletRequest.setCharacterEncoding("UTF-8");
-        servletResponse.setCharacterEncoding("UTF-8");
+        servletRequest.setCharacterEncoding(encoding);
+        servletResponse.setCharacterEncoding(encoding);
+        //servletResponse.setContentType("text/html;charset=" + encoding);
         filterChain.doFilter(servletRequest, servletResponse);
     }
 
     @Override
     public void destroy() {
-        Filter.super.destroy();
+        logger.info("Exit from filter: " + CLASS_NAME);
     }
 }
