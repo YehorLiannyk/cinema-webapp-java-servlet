@@ -40,8 +40,6 @@ public class ScheduleCommand implements BaseCommand {
             } else {
                 sessionList = sessionDAO.findAll();
             }
-
-
             request.setAttribute("sessionList", sessionList);
 
             request.getRequestDispatcher(SCHEDULE_PAGE_PATH).forward(request, response);

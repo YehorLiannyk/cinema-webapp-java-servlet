@@ -43,11 +43,11 @@
                                     <h5 class="card-title">Show only</h5>
                                     <label class="form-check">
                                         <input class="form-check-input" type="radio" checked="checked"
-                                               name="showAll" value="">
+                                               name="show" value="showAll">
                                         <span class="form-check-label">All</span>
                                     </label>
                                     <label class="form-check">
-                                        <input class="form-check-input" type="radio" name="showOnlyAvailable" value="">
+                                        <input class="form-check-input" type="radio" name="show" value="showOnlyAvailable">
                                         <span class="form-check-label">Only available</span>
                                     </label>
                                     <%--<button type="submit" class="btn btn-primary w-100 btn-sorter">Submit</button>--%>
@@ -90,7 +90,7 @@
                         <div class="w-100"></div>
                         <article class="card card-sorter" style="border-top: 0;">
                             <div class="col-12 py-2">
-                                <button type="submit" class="btn btn-primary w-50 btn-sorter">Submit
+                                <button type="submit" class="btn btn-primary w-25 btn-sorter">Submit
                                 </button>
                             </div>
                         </article>
@@ -152,7 +152,7 @@
 
                                                 <div class="col-md-3">
                                                     <div class="vertical-buttons">
-                                                        <button type="button" class="btn btn-lg btn-block btn-primary">
+                                                        <button type="button" class="btn btn-lg btn-block btn-primary my-2">
                                                                 ${aboutFilm}
                                                         </button>
                                                         <form name="session" method="post" action="main">

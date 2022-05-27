@@ -191,7 +191,7 @@ i.fa.fa-lock.fa-lg.me-3.fa-fw {
 }
 
 article.card-filter {
-    /*max-width: fit-content;*/
+    max-width: fit-content;
     border: 1px solid rgba(0, 0, 0, .125);
     padding-left: 5px;
     padding-right: 5px;

@@ -16,16 +16,12 @@ public class ScheduleService {
 
         final boolean hasSortBy = parameterMap.containsKey(SESSION_SORT_BY_PARAM_NAME);
         final boolean hasSortMethod = parameterMap.containsKey(SESSION_SORT_METHOD_PARAM_NAME);
-        final boolean hasFilterAll = parameterMap.containsKey(SESSION_FILTER_SHOW_ALL);
-        final boolean hasFilterOnlyAvailable = parameterMap.containsKey(SESSION_FILTER_SHOW_ONLY_AVAILABLE);
+        final boolean hasFilterShow = parameterMap.containsKey(SESSION_FILTER_SHOW_PARAM_NAME);
 
-        if (hasSortBy && hasSortMethod && (hasFilterOnlyAvailable || hasFilterAll)) {
+        if (hasSortBy && hasSortMethod && hasFilterShow) {
             filterSortMap.put(SESSION_SORT_BY_PARAM_NAME, parameterMap.get(SESSION_SORT_BY_PARAM_NAME)[0]);
             filterSortMap.put(SESSION_SORT_METHOD_PARAM_NAME, parameterMap.get(SESSION_SORT_METHOD_PARAM_NAME)[0]);
-            if (hasFilterAll)
-                filterSortMap.put(SESSION_FILTER_SHOW_ALL, parameterMap.get(SESSION_FILTER_SHOW_ALL)[0]);
-            else
-                filterSortMap.put(SESSION_FILTER_SHOW_ONLY_AVAILABLE, parameterMap.get(SESSION_FILTER_SHOW_ONLY_AVAILABLE)[0]);
+            filterSortMap.put(SESSION_FILTER_SHOW_PARAM_NAME, parameterMap.get(SESSION_FILTER_SHOW_PARAM_NAME)[0]);
         }
         logger.debug("Fill filterSortMap: " + filterSortMap);
         return filterSortMap;

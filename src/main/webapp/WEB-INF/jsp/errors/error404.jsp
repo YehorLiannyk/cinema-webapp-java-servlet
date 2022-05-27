@@ -12,6 +12,7 @@
     <div class="inline-block align-middle">
     <h2 class="font-weight-normal lead" id="desc">Couldn't find this page</h2>
         <h2 class="font-weight-normal lead">Request from ${pageContext.errorData.requestURI} is failed</h2>
+        <a href="${pageContext.request.getHeader("referer")}" class="btn btn-link">Back to previous page</a>
         <a href="main" class="btn btn-link">Back to Home</a>
     </div>
 </div>

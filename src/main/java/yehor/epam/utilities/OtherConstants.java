@@ -30,6 +30,7 @@ public final class OtherConstants {
     public static final int COOKIE_LOGIN_LIFETIME = (int) Duration.ofDays(180).toSeconds();
 
 
+    public static final String SESSION_FILTER_SHOW_PARAM_NAME = "show";
     public static final String SESSION_FILTER_SHOW_ONLY_AVAILABLE = "showOnlyAvailable";
     public static final String SESSION_FILTER_SHOW_ALL = "showAll";
 
@@ -42,7 +43,6 @@ public final class OtherConstants {
     public static final String SESSION_SORT_METHOD_ASC = "ascendingSortMethod";
     public static final String SESSION_SORT_METHOD_DESC = "descendingSortMethod";
 
-    public static final int DEFAULT_PAGINATION_AMOUNT = 4;
 
     private OtherConstants() {
     }

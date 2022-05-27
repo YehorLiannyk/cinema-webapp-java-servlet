@@ -14,7 +14,6 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import static yehor.epam.utilities.OtherConstants.*;
 
@@ -24,7 +23,8 @@ public class MySQLSessionDAO extends BaseDAO implements SessionDAO {
     private static final String SELECT_BY_ID = "SELECT * FROM sessions s JOIN films f on s.film_id = f.film_id WHERE s.session_id=?";
     private static final String INSERT = "INSERT INTO sessions VALUES (session_id, ?,?,?,?)";
     private static final String WHERE_DEFAULT = " WHERE s.date>=? AND IF (s.date=?, s.time>=?, s.time>=?)";
-    private static final String ORDER_BY_DEFAULT = " ORDER BY s.date AND s.time";
+    private static final String ORDER_BY_DATETIME_ASC = " ORDER BY s.date ASC, s.time ASC";
+    private static final String ORDER_BY_DATETIME_DESC = " ORDER BY s.date DESC, s.time DESC";
     private static final String ORDER_BY_FILM_NAME = " ORDER BY f.film_name ";
     private static final String DESCENDING = " DESC";
 
@@ -76,7 +76,7 @@ public class MySQLSessionDAO extends BaseDAO implements SessionDAO {
 
     @Override
     public List<Session> findAll() {
-        final String request = SELECT_ALL + WHERE_DEFAULT + ORDER_BY_DEFAULT;
+        final String request = SELECT_ALL + WHERE_DEFAULT + ORDER_BY_DATETIME_ASC;
         return getPreparedSessionListByRequest(request);
     }
 
@@ -142,22 +142,22 @@ public class MySQLSessionDAO extends BaseDAO implements SessionDAO {
         final String request = sortByFormRequest(map, SELECT_ALL + WHERE_DEFAULT);
         List<Session> sessionList = getPreparedSessionListByRequest(request);
         sessionList = removeFromListUnavailableSessions(map, sessionList);
-
         return sessionList;
     }
 
     private String sortByFormRequest(Map<String, String> map, String defaultRequest) {
         StringBuilder orderedRequest = new StringBuilder(defaultRequest);
         if (map.containsValue(SESSION_SORT_BY_DATETIME)) {
-            logger.debug("Map contains: " + SESSION_SORT_BY_DATETIME);
-            orderedRequest.append(ORDER_BY_DEFAULT);
+            if (map.containsValue(SESSION_SORT_METHOD_DESC)) {
+                orderedRequest.append(ORDER_BY_DATETIME_DESC);
+            } else {
+                orderedRequest.append(ORDER_BY_DATETIME_ASC);
+            }
         } else if (map.containsValue(SESSION_SORT_BY_FILM_NAME)) {
-            logger.debug("Map contains: " + SESSION_SORT_BY_FILM_NAME);
             orderedRequest.append(ORDER_BY_FILM_NAME);
-        }
-        if (map.containsValue(SESSION_SORT_METHOD_DESC)) {
-            logger.debug("Map contains: " + SESSION_SORT_BY_FILM_NAME);
-            orderedRequest.append(DESCENDING);
+            if (map.containsValue(SESSION_SORT_METHOD_DESC)) {
+                orderedRequest.append(DESCENDING);
+            }
         }
         return orderedRequest.toString();
     }
@@ -166,10 +166,12 @@ public class MySQLSessionDAO extends BaseDAO implements SessionDAO {
         if (map.containsValue(SESSION_FILTER_SHOW_ONLY_AVAILABLE)) {
             logger.debug("Map contains: " + SESSION_FILTER_SHOW_ONLY_AVAILABLE);
             final MySQLSeatDAO seatDAO = getSeatDAO();
-            sessionList = findAll()
-                    .stream()
-                    .filter(session -> seatDAO.getFreeSeatsAmountBySessionId(session.getId()) > 0)
-                    .collect(Collectors.toList());
+            for (Session session : sessionList) {
+                logger.debug("seatDAO.getFreeSeatsAmountBySessionId(session: " + session.getId() + ") > 0): " + seatDAO.getFreeSeatsAmountBySessionId(session.getId()));
+                if (seatDAO.getFreeSeatsAmountBySessionId(session.getId()) == 0) {
+                    sessionList.remove(session);
+                }
+            }
         }
         return sessionList;
     }

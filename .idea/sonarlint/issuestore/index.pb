@@ -19,8 +19,6 @@ d
 4src/main/java/yehor/epam/filters/EncodingFilter.java,d\4\d4298535e8e78879dbd3f625db1266d3b7c99b47
 U
 %src/main/java/yehor/epam/dao/DAO.java,0\6\063fff825b10f328ef189150de83492c94f37681
-_
-/src/main/webapp/WEB-INF/jsp/errors/error404.jsp,9\5\95411d861cac892ef03aa727718977401a420230
 [
 +src/main/java/yehor/epam/entities/User.java,5\8\58a1527182023ccae324fc78b2cf08a0ef17ee71
 k

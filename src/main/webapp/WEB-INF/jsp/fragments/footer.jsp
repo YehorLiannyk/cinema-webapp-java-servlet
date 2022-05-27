@@ -13,11 +13,11 @@
             <small class="d-block mb-3 text-muted">EPAM University Program 2022</small>
         </div>
     </div>
-    <script>
+    <%--<script>
         $(document).ready(function(){
             $('#myTable').dataTable();
         });
-    </script>
+    </script>--%>
 </footer>
 </body>
 </html>
