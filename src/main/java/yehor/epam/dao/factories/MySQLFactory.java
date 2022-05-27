@@ -64,7 +64,9 @@ public class MySQLFactory implements DAOFactory {
 
     @Override
     public TicketDAO getTicketDao() {
-        return null;
+        final MySQLTicketDAO mySQLTicketDAO = new MySQLTicketDAO();
+        mySQLTicketDAO.setConnection(connection);
+        return mySQLTicketDAO;
     }
 
     @Override

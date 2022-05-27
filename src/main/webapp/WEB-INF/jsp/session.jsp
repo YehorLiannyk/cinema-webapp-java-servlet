@@ -65,8 +65,9 @@
                         </div>
                         <div>
                             <p>Choose your seat:</p>
-                            <form name="seatChoose" method="post" action="main">
+                            <form name="seatIds" method="post" action="main">
                                 <input type="hidden" name="command" value="buyTicketPage">
+                                <input type="hidden" name="sessionId" value="${session.id}">
                                 <div class="row under-filter">
                                     <div class="col-md-8 under-filter-block px-3">
 
@@ -86,16 +87,17 @@
                                             <c:choose>
                                                 <c:when test="${isReserved == true}">
                                                     <label>
-                                                        <input type="checkbox" name="test" class="seatsElement"
+                                                        <input type="checkbox" name="seatIds" class="seatsElement"
                                                                value="${seat.id}" disabled>
-                                                        <img class="seatsImg"
-                                                             src="<c:url value="/images/svg/seat_gray.svg"/>">
+                                                        <%--don't know why utl with this svg here doesn't work so use absolute path--%>
+                                                        <img  class="seatsImg"
+                                                             src="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkAgMAAAANjH3HAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAADFBMVEUAAABJTFZJTFYAAAAi3Td3AAAAAnRSTlMAAHaTzTgAAAABYktHRACIBR1IAAAACXBIWXMAAC4jAAAuIwF4pT92AAAAB3RJTUUH5gUaFzYGgpvrAQAAAGpJREFUSMft0bsNgDAMRVHDZCxhiozgKbIEI6SIpwSnyQcZpYECvVtZOpKbR2SxaC0z1XZtOxoJnaQpkU7ylGgf5B25RkvbIEuwyW2am5SR7IqDrOUlBAKB/FW+Sr0gkCLiQH6Q4EgidoRPEPyF6GFUhe4AAAAASUVORK5CYII=">
                                                     </label>
                                                 </c:when>
 
                                                 <c:otherwise>
                                                     <label>
-                                                        <input type="checkbox" name="test" class="seatsElement"
+                                                        <input type="checkbox" name="seatIds" class="seatsElement"
                                                                value="${seat.id}">
                                                         <img class="seatsImg"
                                                              src="<c:url value="/images/svg/seat_blue.svg"/>">
@@ -118,7 +120,10 @@
                     <div class="w-100"></div>
 
                     <div class="col-md-12">
-
+                        <c:if test="${film.description != null}">
+                            <h5>Film description:</h5>
+                            <p>${film.description}</p>
+                        </c:if>
                     </div>
 
                 </div>

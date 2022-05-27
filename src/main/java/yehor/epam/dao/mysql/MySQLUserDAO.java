@@ -18,7 +18,8 @@ import java.util.List;
 
 public class MySQLUserDAO extends BaseDAO implements UserDAO {
     private static final Logger logger = LoggerManager.getLogger(MySQLUserDAO.class);
-    private String SELECT_USER = "SELECT * FROM users s JOIN roles r on s.role_id = r.role_id WHERE s.email=? AND s.password=?";
+    private String SELECT = "SELECT * FROM users s JOIN roles r on s.role_id = r.role_id WHERE s.email=? AND s.password=?";
+    private String SELECT_BY_ID = "SELECT * FROM users s JOIN roles r on s.role_id = r.role_id WHERE s.user_id=?";
     private String INSERT = "INSERT INTO users(user_id, first_name, second_name, email, password, phone_number, notification) VALUES(user_id,?,?,?,?,?,?)";
 
     @Override
@@ -55,7 +56,18 @@ public class MySQLUserDAO extends BaseDAO implements UserDAO {
 
     @Override
     public User findById(int id) {
-        return null;
+        User user = null;
+        try (PreparedStatement statement = getConnection().prepareStatement(SELECT_BY_ID)) {
+            statement.setInt(1, id);
+            final ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                user = getUserFromResultSet(resultSet);
+            }
+        } catch (SQLException e) {
+            logger.error("Couldn't find user by id: " + id, e);
+            throw new DAOException("Couldn't find user by id", e);
+        }
+        return user;
     }
 
     @Override
@@ -76,21 +88,22 @@ public class MySQLUserDAO extends BaseDAO implements UserDAO {
     @Override
     public User getUser(String login, String password) throws AuthException {
         User user = null;
-        try (PreparedStatement statement = getConnection().prepareStatement(SELECT_USER)) {
+        try (PreparedStatement statement = getConnection().prepareStatement(SELECT)) {
             statement.setString(1, login);
             statement.setString(2, password);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                user = gerUserFromResultSet(resultSet);
+                user = getUserFromResultSet(resultSet);
             }
             if (user == null) throw new AuthException("Couldn't find user with these login and password");
         } catch (SQLException e) {
             logger.error("Couldn't get user from DB", e);
+            throw new DAOException("Couldn't get user from DB", e);
         }
         return user;
     }
 
-    private User gerUserFromResultSet(ResultSet rs) {
+    private User getUserFromResultSet(ResultSet rs) {
         User user = null;
         try {
             user = new User(

@@ -7,22 +7,16 @@ m
 =.idea/artifacts/CINEMA_FINAL_PROJECT_SERVLET_war_exploded.xml,6\d\6db656fd4c742fe9e90b5b61d6340a61b8b820bd
 w
 G.idea/sonarlint/issuestore/6/0/60db8a429a7bdfc1151109bae53406e1ed79bfdc,f\b\fb582c58c041528363cd657f7c46d721a83c95f7
-]
--src/main/java/yehor/epam/entities/Basket.java,c\1\c1d6a7571f9ee9ba331ca0aa432d23e91ffb380c
 l
 <src/main/java/yehor/epam/connection/ConnectionException.java,6\b\6b3ffe1740573eceb65742ddae085c729aaf2d83
 I
 src/main/webapp/index.jsp,8\e\8e6d3b70c9f5b02570779b0441540d45eceb0ded
-]
--src/main/java/yehor/epam/entities/Ticket.java,1\9\19cc3be20b14f4b2cbb5526bb0b7f6f9c83a8f2e
 i
 9src/main/java/yehor/epam/dao/exception/AuthException.java,e\f\ef75f7f7339869ffe4edf8e555b24e70626fbfee
 g
 7src/main/java/yehor/epam/connection/ConnectionPool.java,5\5\55467858341875ea3d2f4f8d9d26d9a3bcf8a112
 d
 4src/main/java/yehor/epam/filters/EncodingFilter.java,d\4\d4298535e8e78879dbd3f625db1266d3b7c99b47
-Y
-)src/main/java/yehor/epam/dao/UserDAO.java,c\7\c72dc3dbb783237ec45dac04a4cfc68f4fd19ac2
 U
 %src/main/java/yehor/epam/dao/DAO.java,0\6\063fff825b10f328ef189150de83492c94f37681
 \
@@ -85,8 +79,6 @@ n
 >src/main/java/yehor/epam/actions/commands/RegisterCommand.java,3\b\3be8af9d84654338601f70a76d87f57b87e603d3
 Y
 )src/main/java/yehor/epam/dao/BaseDAO.java,3\5\35a833f1ab09519a222b5e361c3253bb0ddfaeb5
-h
-8src/main/java/yehor/epam/dao/exception/DAOException.java,a\e\aee211dd525130ae8f541a6bd4ea95ccbb46158b
 m
 =src/main/java/yehor/epam/dao/exception/RegisterException.java,8\0\805d8e06144a8a231756daa7b8e015b81e7e6e12
 7
@@ -121,5 +113,3 @@ w
 G.idea/sonarlint/issuestore/e/9/e9d657bcf21ffe44e87e48634492ac65932face2,0\0\00dfb8cd8f8896657d5552f47c83dd40a11174f2
 a
 1src/main/java/yehor/epam/entities/BaseEntity.java,0\4\04d7edea4fd6af796ad1da907e381f579ed7cbac
-d
-4src/main/java/yehor/epam/dao/mysql/MySQLUserDAO.java,d\b\db206e20690be1cb16d91dd8db089644a7a135be

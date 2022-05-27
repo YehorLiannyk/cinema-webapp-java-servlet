@@ -5,11 +5,13 @@ import yehor.epam.dao.BaseDAO;
 import yehor.epam.dao.SeatDAO;
 import yehor.epam.dao.exception.DAOException;
 import yehor.epam.entities.Seat;
+import yehor.epam.entities.Session;
 import yehor.epam.utilities.LoggerManager;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,26 +19,14 @@ public class MySQLSeatDAO extends BaseDAO implements SeatDAO {
     private static final Logger logger = LoggerManager.getLogger(MySQLSeatDAO.class);
     private static final String SELECT_ALL = "SELECT * FROM seats";
     private static final String SELECT_BY_ID = "SELECT * FROM seats WHERE seat_id=?";
+    private static final String SELECT_RECEIVED_SEAT_BY_ID = "SELECT * FROM reserved_seats WHERE seat_id=? AND session_id=?";
+
     private static final String SELECT_RECEIVED_SEATS_BY_SESSION_ID = "SELECT * FROM reserved_seats r_s JOIN seats s ON r_s.seat_id=s.seat_id WHERE session_id=?";
-    //private static final String INSERT = "INSERT INTO sessions VALUES (session_id, ?,?,?,?)";
+    private static final String INSERT_RESERVED_SEAT = "INSERT INTO reserved_seats VALUES (session_seat_id, ?,?)";
 
     @Override
     public boolean insert(Seat seat) {
         return false;
-    }
-
-    private void setSessionToStatement(Seat seat, PreparedStatement statement) throws SQLException {
-        /*try {
-            statement.setInt(1, seat.getFilm().getId());
-            final LocalDate date = seat.getDate();
-            final LocalTime time = seat.getTime();
-            statement.setDate(2, Date.valueOf(date));
-            statement.setTime(3, Time.valueOf(time));
-            statement.setBigDecimal(4, seat.getTicketPrice());
-        } catch (SQLException e) {
-            logger.error("Couldn't set seat to Statement", e);
-            throw new SQLException("Couldn't set seat to Statement", e);
-        }*/
     }
 
     @Override
@@ -113,5 +103,45 @@ public class MySQLSeatDAO extends BaseDAO implements SeatDAO {
         return reservedSeats;
     }
 
+    @Override
+    public boolean insertReservedSeat(final Session session, final Seat seat) throws SQLException {
+        boolean inserted = false;
+        try (PreparedStatement statement = getConnection().prepareStatement(INSERT_RESERVED_SEAT, Statement.RETURN_GENERATED_KEYS)) {
+            if (seat == null || session == null) {
+                logger.error("Received Seat or Session is null");
+                throw new DAOException("Received Seat or Session is null");
+            }
+            setReservedSeatToStatement(session, seat, statement);
+            final int row = seat.getRowNumber();
+            statement.executeUpdate();
+            if (row < 1) throw new DAOException("Statement inserted nothing");
+            inserted = true;
+        } catch (SQLException e) {
+            logger.error("Couldn't insert reserved seat to DataBase", e);
+            throw new DAOException("Couldn't insert  reserved seat to DataBase", e);
+        }
+        return inserted;
+    }
+
+    @Override
+    public boolean isSeatReserved(int seatId, int sessionId) {
+        boolean isReserved = true;
+        try  (PreparedStatement statement = getConnection().prepareStatement(SELECT_RECEIVED_SEAT_BY_ID)) {
+            statement.setInt(1, seatId);
+            statement.setInt(2, sessionId);
+            final ResultSet resultSet = statement.executeQuery();
+            isReserved = resultSet.next();
+        } catch (SQLException e) {
+            logger.error("Couldn't check is seat reserved", e);
+            throw new DAOException("Couldn't check is seat reserved");
+        }
+        return isReserved;
+    }
+
+    private void setReservedSeatToStatement(Session session, Seat seat, PreparedStatement statement) throws SQLException {
+        statement.setInt(1, session.getId());
+        statement.setInt(2, seat.getId());
+        logger.debug("statement.toString()" + statement.toString());
+    }
 
 }

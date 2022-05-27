@@ -160,6 +160,7 @@ public class SecurityFilter implements Filter {
         adminAccessPath.add(COMMAND_VIEW_SESSION_PAGE);
         adminAccessPath.add(COMMAND_VIEW_BUY_TICKET_PAGE);
         adminAccessPath.add(COMMAND_BUY_TICKET);
+        //COMMAND_SUCCESS_PAY
 
 
     }
