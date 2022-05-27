@@ -19,8 +19,6 @@ d
 4src/main/java/yehor/epam/filters/EncodingFilter.java,d\4\d4298535e8e78879dbd3f625db1266d3b7c99b47
 U
 %src/main/java/yehor/epam/dao/DAO.java,0\6\063fff825b10f328ef189150de83492c94f37681
-\
-,src/main/webapp/WEB-INF/jsp/errors/error.jsp,8\e\8ea5fadf1a6d0987fc0b283cc52a78a9fceccc8b
 _
 /src/main/webapp/WEB-INF/jsp/errors/error404.jsp,9\5\95411d861cac892ef03aa727718977401a420230
 [
@@ -31,8 +29,6 @@ l
 <src/main/java/yehor/epam/actions/commands/LogoutCommand.java,d\2\d24efcc0a6066ac9e2542f216f28dd72e9751e2e
 r
 Bsrc/main/java/yehor/epam/actions/commands/RegisterPageCommand.java,7\b\7b691afe3e7b4fa008307ce74493bc5354f5d87a
-`
-0src/main/webapp/WEB-INF/jsp/fragments/footer.jsp,f\5\f501750149bee52c666b04bbe5e8fd36664e0d01
 a
 1src/main/webapp/WEB-INF/css/bootstrap.min.css.map,5\2\52e1c508478bd9158a51d547134712c1ac68c0bb
 b

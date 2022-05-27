@@ -4,18 +4,23 @@ import org.apache.log4j.Logger;
 import yehor.epam.dao.BaseDAO;
 import yehor.epam.dao.TicketDAO;
 import yehor.epam.dao.exception.DAOException;
+import yehor.epam.entities.Seat;
+import yehor.epam.entities.Session;
 import yehor.epam.entities.Ticket;
+import yehor.epam.entities.User;
 import yehor.epam.utilities.LoggerManager;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MySQLTicketDAO extends BaseDAO implements TicketDAO {
     private static final Logger logger = LoggerManager.getLogger(MySQLTicketDAO.class);
     private static final String INSERT = "INSERT INTO tickets VALUES (ticket_id, ?,?,?,?)";
+    private static final String SELECT_BY_USER_ID = "SELECT * FROM tickets WHERE user_id=?";
 
     @Override
     public boolean insert(Ticket ticket) {
@@ -118,20 +123,22 @@ public class MySQLTicketDAO extends BaseDAO implements TicketDAO {
         return false;
     }
 
-    private Ticket getSeatFromResultSet(ResultSet rs) {
-        /*Seat seat = null;
+    private Ticket getTicketFromResultSet(ResultSet rs) {
+        Ticket ticket = null;
         try {
-            seat = new Seat(
-                    rs.getInt("seat_id"),
-                    rs.getInt("row_number"),
-                    rs.getInt("place_number")
+            User user = getUserDAO().findById(rs.getInt("user_id"));
+            Session session = getSessionDAO().findById(rs.getInt("session_id"));
+            Seat seat = getSeatDAO().findById(rs.getInt("seat_id"));
+            ticket = new Ticket(
+                    rs.getInt("ticket_id"),
+                    session, user, seat,
+                    rs.getBigDecimal("ticket_price")
             );
         } catch (SQLException e) {
-            logger.error("Couldn't get seat from ResultSet", e);
-            throw new DAOException("Couldn't get seat from ResultSet");
+            logger.error("Couldn't get ticket from ResultSet", e);
+            throw new DAOException("Couldn't get ticket from ResultSet");
         }
-        return seat;*/
-        return null;
+        return ticket;
     }
 
     private MySQLSeatDAO getSeatDAO() {
@@ -140,4 +147,33 @@ public class MySQLTicketDAO extends BaseDAO implements TicketDAO {
         return mySQLSeatDAO;
     }
 
+    private MySQLSessionDAO getSessionDAO() {
+        final MySQLSessionDAO mySQLSessionDAO = new MySQLSessionDAO();
+        mySQLSessionDAO.setConnection(getConnection());
+        return mySQLSessionDAO;
+    }
+
+    private MySQLUserDAO getUserDAO() {
+        final MySQLUserDAO mySQLUserDAO = new MySQLUserDAO();
+        mySQLUserDAO.setConnection(getConnection());
+        return mySQLUserDAO;
+    }
+
+
+    @Override
+    public List<Ticket> findAllByUserId(int userId) {
+        List<Ticket> ticketList = new ArrayList<>();
+        try (PreparedStatement statement = getConnection().prepareStatement(SELECT_BY_USER_ID)) {
+            statement.setInt(1, userId);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                final Ticket ticket = getTicketFromResultSet(resultSet);
+                ticketList.add(ticket);
+            }
+        } catch (SQLException e) {
+            logger.error("Couldn't get list of all films from DB", e);
+            throw new DAOException("Couldn't get list of all films from DB");
+        }
+        return ticketList;
+    }
 }

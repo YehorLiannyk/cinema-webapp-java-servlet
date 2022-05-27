@@ -12,6 +12,7 @@
     <div class="inline-block align-middle">
         <h2 class="font-weight-normal lead">Something goes wrong</h2>
         <h2 class="font-weight-normal lead" id="desc">${errorMessage}</h2>
+        <h2 class="font-weight-normal lead">${requestScope.}</h2>
         <a href="main" class="btn btn-link">Back to Home</a>
     </div>
 </div>

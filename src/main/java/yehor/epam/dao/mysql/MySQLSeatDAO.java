@@ -22,6 +22,7 @@ public class MySQLSeatDAO extends BaseDAO implements SeatDAO {
     private static final String SELECT_RECEIVED_SEAT_BY_ID = "SELECT * FROM reserved_seats WHERE seat_id=? AND session_id=?";
 
     private static final String SELECT_RECEIVED_SEATS_BY_SESSION_ID = "SELECT * FROM reserved_seats r_s JOIN seats s ON r_s.seat_id=s.seat_id WHERE session_id=?";
+    private static final String SELECT_FREE_SEATS_BY_SESSION_ID = "SELECT * FROM reserved_seats r_s RIGHT JOIN seats s ON r_s.seat_id=s.seat_id WHERE session_id=? AND r_s.seat_id IS NULL";
     private static final String INSERT_RESERVED_SEAT = "INSERT INTO reserved_seats VALUES (session_seat_id, ?,?)";
 
     @Override
@@ -126,16 +127,34 @@ public class MySQLSeatDAO extends BaseDAO implements SeatDAO {
     @Override
     public boolean isSeatReserved(int seatId, int sessionId) {
         boolean isReserved = true;
-        try  (PreparedStatement statement = getConnection().prepareStatement(SELECT_RECEIVED_SEAT_BY_ID)) {
+        try (PreparedStatement statement = getConnection().prepareStatement(SELECT_RECEIVED_SEAT_BY_ID)) {
             statement.setInt(1, seatId);
             statement.setInt(2, sessionId);
+            logger.debug("isSeatReserved statement:" + statement.toString());
             final ResultSet resultSet = statement.executeQuery();
             isReserved = resultSet.next();
+            logger.debug("isReserved = resultSet.next(): " + resultSet.next());
         } catch (SQLException e) {
             logger.error("Couldn't check is seat reserved", e);
             throw new DAOException("Couldn't check is seat reserved");
         }
         return isReserved;
+    }
+
+    @Override
+    public int getFreeSeatsAmountBySessionId(int sessionId) {
+       int freeAmount = 0;
+        try (PreparedStatement statement = getConnection().prepareStatement(SELECT_FREE_SEATS_BY_SESSION_ID)) {
+            statement.setInt(1, sessionId);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                freeAmount++;
+            }
+        } catch (SQLException e) {
+            logger.error("Couldn't count free seats", e);
+            throw new DAOException("Couldn't count free seats");
+        }
+        return freeAmount;
     }
 
     private void setReservedSeatToStatement(Session session, Seat seat, PreparedStatement statement) throws SQLException {

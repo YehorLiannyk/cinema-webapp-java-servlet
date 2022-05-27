@@ -30,6 +30,7 @@ public class SecurityFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         logger.info("Entry to filter: " + CLASS_NAME);
+
         initGuestAccess();
         initUserAccess();
         initAdminAccess();
@@ -100,11 +101,11 @@ public class SecurityFilter implements Filter {
         req.getRequestDispatcher(ERROR_PAGE_PATH).forward(req, resp);
     }
 
-    private void redirectToLoginPage(HttpSession session, String command,  HttpServletResponse resp)
+    private void redirectToLoginPage(HttpSession session, String command, HttpServletResponse resp)
             throws IOException {
         logger.warn("Have no enough permits for the command (" + session.getAttribute(USER_ROLE) + ") '" + command + '\'');
         logger.info("Redirect to login page");
-        resp.sendRedirect(InnerRedirectManager.getRedirectLocation(COMMAND_LOGIN));
+        resp.sendRedirect(InnerRedirectManager.getRedirectLocation(COMMAND_VIEW_LOGIN));
     }
 
     @Override

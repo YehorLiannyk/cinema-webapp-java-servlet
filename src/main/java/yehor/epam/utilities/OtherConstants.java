@@ -29,24 +29,20 @@ public final class OtherConstants {
      */
     public static final int COOKIE_LOGIN_LIFETIME = (int) Duration.ofDays(180).toSeconds();
 
-    public static final String FILTERED = "filtered";
-    public static final String SORTED = "sorted";
 
-    public static final String SESSION_FILTER_IS_AVAILABLE = "isAvailable";
-    public static final String SESSION_FILTER_IS_NOT_AVAILABLE = "isNotAvailable";
-    public static final String SESSION_FILTER_FILM_IDS = "filmIds";
-    public static final String SESSION_FILTER_MIN_TICKET_PRICE = "minTicketPrice";
-    public static final String SESSION_FILTER_MAX_TICKET_PRICE = "maxTicketPrice";
+    public static final String SESSION_FILTER_SHOW_ONLY_AVAILABLE = "showOnlyAvailable";
+    public static final String SESSION_FILTER_SHOW_ALL = "showAll";
 
+    public static final String SESSION_SORT_BY_PARAM_NAME = "sortBy";
+    public static final String SESSION_SORT_BY_DATETIME = "dateTimeSortBy";
+    public static final String SESSION_SORT_BY_FILM_NAME = "filmNameSortBy";
+    public static final String SESSION_SORT_BY_SEATS_REMAIN = "seatsRemainSortBy";
 
-    /*public static final String[] SESSION_SORTER_NAMES_ARRAY =
-            new String[]{"sortBy", "sortMethod"};
+    public static final String SESSION_SORT_METHOD_PARAM_NAME = "sortMethod";
+    public static final String SESSION_SORT_METHOD_ASC = "ascendingSortMethod";
+    public static final String SESSION_SORT_METHOD_DESC = "descendingSortMethod";
 
-    public static final String[] SESSION_SORTER_BY_PARAM_NAMES_ARRAY =
-            new String[]{"dateTimeSortBy", "filmNameSortBy", "seatsRemainSortBy"};
-
-    public static final String[] SESSION_SORTER_METHOD_NAMES_ARRAY =
-            new String[]{"ascendingSortMethod", "descendingSortMethod"};*/
+    public static final int DEFAULT_PAGINATION_AMOUNT = 4;
 
     private OtherConstants() {
     }

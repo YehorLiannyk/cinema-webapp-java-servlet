@@ -14,20 +14,26 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
-import static yehor.epam.utilities.OtherConstants.MIN_SESSION_TIME;
+import static yehor.epam.utilities.OtherConstants.*;
 
 public class MySQLSessionDAO extends BaseDAO implements SessionDAO {
     private static final Logger logger = LoggerManager.getLogger(MySQLSessionDAO.class);
-    private static final String SELECT_ALL = "SELECT * FROM sessions s JOIN films f on s.film_id = f.film_id WHERE s.date>=? AND IF (s.date=?, s.time>=?, s.time>=?) ORDER BY s.date AND s.time";
+    private static final String SELECT_ALL = "SELECT * FROM sessions s JOIN films f on s.film_id = f.film_id";
     private static final String SELECT_BY_ID = "SELECT * FROM sessions s JOIN films f on s.film_id = f.film_id WHERE s.session_id=?";
     private static final String INSERT = "INSERT INTO sessions VALUES (session_id, ?,?,?,?)";
+    private static final String WHERE_DEFAULT = " WHERE s.date>=? AND IF (s.date=?, s.time>=?, s.time>=?)";
+    private static final String ORDER_BY_DEFAULT = " ORDER BY s.date AND s.time";
+    private static final String ORDER_BY_FILM_NAME = " ORDER BY f.film_name ";
+    private static final String DESCENDING = " DESC";
+
 
     @Override
     public boolean insert(Session session) {
         boolean inserted = false;
         try (PreparedStatement statement = getConnection().prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS)) {
-            setSessionToStatement(session, statement);
+            setSessionToInsertStatement(session, statement);
             final int row = statement.executeUpdate();
             if (row > 1) throw new DAOException("More than one row was inserted to DB");
             inserted = true;
@@ -38,7 +44,7 @@ public class MySQLSessionDAO extends BaseDAO implements SessionDAO {
         return inserted;
     }
 
-    private void setSessionToStatement(Session session, PreparedStatement statement) throws SQLException {
+    private void setSessionToInsertStatement(Session session, PreparedStatement statement) throws SQLException {
         try {
             statement.setInt(1, session.getFilm().getId());
             final LocalDate date = session.getDate();
@@ -70,8 +76,13 @@ public class MySQLSessionDAO extends BaseDAO implements SessionDAO {
 
     @Override
     public List<Session> findAll() {
-        List<Session> sessions = new ArrayList<>();
-        try (PreparedStatement statement = getConnection().prepareStatement(SELECT_ALL)) {
+        final String request = SELECT_ALL + WHERE_DEFAULT + ORDER_BY_DEFAULT;
+        return getPreparedSessionListByRequest(request);
+    }
+
+    private List<Session> getPreparedSessionListByRequest(String request) {
+        List<Session> sessionList = new ArrayList<>();
+        try (PreparedStatement statement = getConnection().prepareStatement(request)) {
             final LocalDate nowDate = LocalDate.now();
             final LocalTime nowTime = LocalTime.now();
             statement.setDate(1, Date.valueOf(nowDate));
@@ -82,14 +93,13 @@ public class MySQLSessionDAO extends BaseDAO implements SessionDAO {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 final Session session = getSessionFromResultSet(resultSet);
-                logger.debug("Session: " + session.toString());
-                sessions.add(session);
+                sessionList.add(session);
             }
         } catch (SQLException e) {
-            logger.error("Couldn't get list of all sessions from DB", e);
-            throw new DAOException("Couldn't get list of all sessions from DB");
+            logger.error("Couldn't get list of all sessionList from DB", e);
+            throw new DAOException("Couldn't get list of all sessionList from DB");
         }
-        return sessions;
+        return sessionList;
     }
 
     @Override
@@ -111,7 +121,8 @@ public class MySQLSessionDAO extends BaseDAO implements SessionDAO {
                     rs.getDate("date").toLocalDate(),
                     rs.getTime("time").toLocalTime()
             );
-            final Film film = getFilmById(rs.getInt("film_id"));
+            final int filmId = rs.getInt("film_id");
+            final Film film = getFilmDAO().findById(filmId);
             session.setFilm(film);
         } catch (SQLException e) {
             logger.error("Couldn't get session from ResultSet", e);
@@ -120,14 +131,53 @@ public class MySQLSessionDAO extends BaseDAO implements SessionDAO {
         return session;
     }
 
-    private Film getFilmById(int filmId) {
+    private MySQLFilmDAO getFilmDAO() {
         final MySQLFilmDAO mySQLFilmDAO = new MySQLFilmDAO();
         mySQLFilmDAO.setConnection(getConnection());
-        return mySQLFilmDAO.findById(filmId);
+        return mySQLFilmDAO;
     }
 
     @Override
-    public List<Session> getFilteredAndSortedSessionList(Map<String, List<String>> map) {
-        return null;
+    public List<Session> getFilteredAndSortedSessionList(Map<String, String> map) {
+        final String request = sortByFormRequest(map, SELECT_ALL + WHERE_DEFAULT);
+        List<Session> sessionList = getPreparedSessionListByRequest(request);
+        sessionList = removeFromListUnavailableSessions(map, sessionList);
+
+        return sessionList;
+    }
+
+    private String sortByFormRequest(Map<String, String> map, String defaultRequest) {
+        StringBuilder orderedRequest = new StringBuilder(defaultRequest);
+        if (map.containsValue(SESSION_SORT_BY_DATETIME)) {
+            logger.debug("Map contains: " + SESSION_SORT_BY_DATETIME);
+            orderedRequest.append(ORDER_BY_DEFAULT);
+        } else if (map.containsValue(SESSION_SORT_BY_FILM_NAME)) {
+            logger.debug("Map contains: " + SESSION_SORT_BY_FILM_NAME);
+            orderedRequest.append(ORDER_BY_FILM_NAME);
+        }
+        if (map.containsValue(SESSION_SORT_METHOD_DESC)) {
+            logger.debug("Map contains: " + SESSION_SORT_BY_FILM_NAME);
+            orderedRequest.append(DESCENDING);
+        }
+        return orderedRequest.toString();
+    }
+
+    private List<Session> removeFromListUnavailableSessions(Map<String, String> map, List<Session> sessionList) {
+        if (map.containsValue(SESSION_FILTER_SHOW_ONLY_AVAILABLE)) {
+            logger.debug("Map contains: " + SESSION_FILTER_SHOW_ONLY_AVAILABLE);
+            final MySQLSeatDAO seatDAO = getSeatDAO();
+            sessionList = findAll()
+                    .stream()
+                    .filter(session -> seatDAO.getFreeSeatsAmountBySessionId(session.getId()) > 0)
+                    .collect(Collectors.toList());
+        }
+        return sessionList;
+    }
+
+
+    private MySQLSeatDAO getSeatDAO() {
+        final MySQLSeatDAO mySQLSeatDAO = new MySQLSeatDAO();
+        mySQLSeatDAO.setConnection(getConnection());
+        return mySQLSeatDAO;
     }
 }

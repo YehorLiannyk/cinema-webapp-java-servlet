@@ -26,17 +26,16 @@
 </fmt:bundle>
 
 <main class="container" data-new-gr-c-s-check-loaded="14.1062.0" data-gr-ext-installed="">
-
+    <h1>${pageTitle}</h1>
     <div class="filter-sorter">
         <div class="row">
             <%--  Filter  --%>
-            <aside class="col-md-3">
+            <aside class="col-md-8">
                 <header class="card-header-custom">
-                    <h5 class="card-custom-title">Filter</h5>
+                    <h5 class="card-custom-title">Sort and filter</h5>
                 </header>
                 <form name="filtration" method="post" action="main">
                     <input type="hidden" name="command" value="schedule">
-                    <input type="hidden" name="filtered" value="true">
                     <div class="card-group">
                         <article class="card card-filter">
                             <div class="filter-content">
@@ -44,31 +43,18 @@
                                     <h5 class="card-title">Show only</h5>
                                     <label class="form-check">
                                         <input class="form-check-input" type="radio" checked="checked"
-                                               name="all" value="">
+                                               name="showAll" value="">
                                         <span class="form-check-label">All</span>
                                     </label>
                                     <label class="form-check">
-                                        <input class="form-check-input" type="radio" name="onlyAvailable" value="">
+                                        <input class="form-check-input" type="radio" name="showOnlyAvailable" value="">
                                         <span class="form-check-label">Only available</span>
                                     </label>
-                                    <button type="submit" class="btn btn-primary w-100 btn-sorter">Submit</button>
+                                    <%--<button type="submit" class="btn btn-primary w-100 btn-sorter">Submit</button>--%>
                                 </div> <!-- card-body.// -->
                             </div>
                         </article> <!-- card-group-item.// -->
 
-                    </div> <!-- card.// -->
-                </form>
-            </aside> <!-- col.// -->
-
-            <%--    Sorter   --%>
-            <aside class="col-md-4">
-                <header class="card-header-custom">
-                    <h5 class="card-custom-title">Sorter</h5>
-                </header>
-                <form name="sorter" method="post" action="main">
-                    <input type="hidden" name="command" value="schedule">
-                    <input type="hidden" name="sorted" value="true">
-                    <div class="card-group">
                         <article class="card card-sorter">
                             <div class="filter-content">
                                 <div class="card-body">
@@ -95,107 +81,101 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="w-100"></div>
-                                        <div class="col">
-                                            <button type="submit" class="btn btn-primary w-50 btn-sorter">Submit
-                                            </button>
-                                        </div>
+                                        <%--<div class="w-100"></div>--%>
+
                                     </div>
                                 </div> <!-- card-body.// -->
                             </div>
-                        </article> <!-- card-group-item.// -->
+                        </article>
+                        <div class="w-100"></div>
+                        <article class="card card-sorter" style="border-top: 0;">
+                            <div class="col-12 py-2">
+                                <button type="submit" class="btn btn-primary w-50 btn-sorter">Submit
+                                </button>
+                            </div>
+                        </article>
+
                     </div> <!-- card.// -->
                 </form>
             </aside> <!-- col.// -->
-        </div> <!-- row.// -->
+        </div>
 
-        <div class="row p-2 under-filter">
-            <div class="col-md-2 under-filter-block px-2">
-                <p class="font-weight-light under-filter-element">Seleted: ##</p>
-            </div>
-            <div class="col-md-5 under-filter-block px-2">
-                <div class="row">
-                    <div class="col-md-3 under-filter-element">
-                        <button type="submit" class="btn btn-outline-dark btn-sm">Reset filters</button>
-                    </div>
-                    <div class="col-md-8 under-filter-element" style="display: initial;">
-                        <label for="elementsOnPage" class="font-weight-light under-filter-element">Show elements on
-                            page:</label>
-                        <input id="elementsOnPage" type="number"/>
-                        <button type="submit" class="btn btn-outline-dark btn-sm" style="vertical-align: bottom;">
-                            Set
-                        </button>
+        <%-- SESSIONS --%>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="film-posts py-4">
+
+                        <table id="myTable" class="table table-striped" data-locale="uk-UA">
+                            <thead>
+                            <tr>
+                                <th>Session list</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <c:forEach var="session" items="${requestScope.sessionList}">
+                                <c:set var="film" value="${session.getFilm()}"/>
+                                <tr>
+                                    <td>
+                                        <div class="p-4 film-post card w-100">
+                                            <div class="row card-body">
+                                                <div class="col-md-2">
+                                                    <img class="poster-img card-img" src="${film.posterUrl}">
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <h2 class="card-title">${film.name}</h2>
+                                                    <ul class="list-unstyled mt-3 mb-4">
+                                                        <li class="card-text">${genres}:
+                                                            <c:forEach var="genre" items="${film.genreList}"
+                                                                       varStatus="counter">
+                                                                <c:if test="${counter.index < (film.genreList.size() - 1)}">
+                                                                    <c:out value="${genre.name},"/>
+                                                                </c:if>
+                                                                <c:if test="${counter.index == (film.genreList.size() - 1)}">
+                                                                    <c:out value="${genre.name}"/>
+                                                                </c:if>
+                                                            </c:forEach>
+                                                        </li>
+                                                        <li class="card-text">
+                                                                ${duration}: ${film.getDurationInMinutes()} ${durationPostfix}
+                                                        </li>
+                                                        <li class="card-text">
+                                                                ${time}: ${session.date} ${timePrefix} ${session.time}
+                                                        </li>
+                                                        <li class="card-text">
+                                                                ${seatsRemain}: ###
+                                                        </li>
+                                                    </ul>
+                                                    <h5 class="card-text">${ticketPrice}: ${session.ticketPrice} ${currency}</h5>
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <div class="vertical-buttons">
+                                                        <button type="button" class="btn btn-lg btn-block btn-primary">
+                                                                ${aboutFilm}
+                                                        </button>
+                                                        <form name="session" method="post" action="main">
+                                                            <input type="hidden" name="command" value="sessionPage">
+                                                            <input type="hidden" name="sessionId" value="${session.id}">
+                                                            <button type="submit"
+                                                                    class="btn btn-lg btn-block btn-primary">
+                                                                    ${buyTicket}
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-
-    <%-- SISSONS --%>
-    <div class="container-fluid">
-        <h1>${pageTitle}</h1>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="film-posts py-4">
-
-                    <c:forEach var="session" items="${requestScope.sessionList}">
-                        <c:set var="film" value="${session.getFilm()}"/>
-                        <div class="p-4 film-post card w-100">
-                            <div class="row card-body">
-                                <div class="col-md-2">
-                                    <img class="poster-img card-img" src="${film.posterUrl}">
-                                </div>
-                                <div class="col-md-7">
-                                    <h2 class="card-title">${film.name}</h2>
-                                    <ul class="list-unstyled mt-3 mb-4">
-                                        <li class="card-text">${genres}:
-                                            <c:forEach var="genre" items="${film.genreList}" varStatus="counter">
-                                                <c:if test="${counter.index < (film.genreList.size() - 1)}">
-                                                    <c:out value="${genre.name},"/>
-                                                </c:if>
-                                                <c:if test="${counter.index == (film.genreList.size() - 1)}">
-                                                    <c:out value="${genre.name}"/>
-                                                </c:if>
-                                            </c:forEach>
-                                        </li>
-                                        <li class="card-text">
-                                                ${duration}: ${film.getDurationInMinutes()} ${durationPostfix}
-                                        </li>
-                                        <li class="card-text">
-                                                ${time}: ${session.date} ${timePrefix} ${session.time}
-                                        </li>
-                                        <li class="card-text">
-                                                ${seatsRemain}: ###
-                                        </li>
-                                    </ul>
-                                    <h5 class="card-text">${ticketPrice}: ${session.ticketPrice} ${currency}</h5>
-                                </div>
-
-                                <div class="col-md-3">
-                                    <div class="vertical-buttons">
-                                        <button type="button" class="btn btn-lg btn-block btn-primary">
-                                                ${aboutFilm}
-                                        </button>
-                                        <form name="session" method="post" action="main">
-                                            <input type="hidden" name="command" value="sessionPage">
-                                            <input type="hidden" name="sessionId" value="${session.id}">
-                                            <button type="submit" class="btn btn-lg btn-block btn-primary">
-                                                    ${buyTicket}
-                                            </button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </c:forEach>
-                </div>
-                <nav class="blog-pagination">
-                    <a class="btn btn-outline-primary" href="#">Older</a>
-                    <a class="btn btn-outline-secondary disabled" href="#">Newer</a>
-                </nav>
-            </div>
-        </div>
-    </div>
 </main>
 <jsp:include page="fragments/footer.jsp"/>
 

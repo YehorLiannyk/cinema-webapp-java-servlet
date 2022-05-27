@@ -36,7 +36,7 @@ public class ErrorService {
             new ErrorPageCommand().execute(request, response);
         if (!response.isCommitted()) {
         } else {
-            //logger.debug("Response is committed, so couldn't redirect to error page from " + ErrorService.class.getName());
+            logger.debug("Response is committed, so couldn't redirect to error page from " + ErrorService.class.getName());
         }
     }
 

@@ -8,7 +8,11 @@ import java.util.List;
 
 public interface SeatDAO extends DAO<Seat> {
     List<Seat> findAllReservedBySession(int sessionId);
+
     boolean insertReservedSeat(final Session session, final Seat seat) throws SQLException;
 
     boolean isSeatReserved(int seatId, int sessionId);
+
+    int getFreeSeatsAmountBySessionId(int sessionId);
+
 }

@@ -33,6 +33,7 @@ public class BuyTicketCommand implements BaseCommand {
             final TicketDAO ticketDao = factory.getTicketDao();
             for (Ticket ticket : ticketList) {
                 if (!seatDao.isSeatReserved(ticket.getSeat().getId(), ticket.getSession().getId())) {
+                    logger.debug("isSeatReserved. seatID: " + ticket.getSeat().getId() + "sessId: " + ticket.getSession().getId());
                     ticketDao.insert(ticket);
                 } else {
                     logger.warn("Seat is already reserved");
