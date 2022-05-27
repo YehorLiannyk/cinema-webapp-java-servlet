@@ -19,13 +19,16 @@ import static yehor.epam.utilities.OtherConstants.*;
 
 public class MySQLSessionDAO extends BaseDAO implements SessionDAO {
     private static final Logger logger = LoggerManager.getLogger(MySQLSessionDAO.class);
+    private static final String INSERT = "INSERT INTO sessions VALUES (session_id, ?,?,?,?,?)";
+    private static final String DECREMENT_FREE_SEATS = "UPDATE sessions SET free_seats = free_seats - 1 WHERE session_id=? AND free_seats > 0";
     private static final String SELECT_ALL = "SELECT * FROM sessions s JOIN films f on s.film_id = f.film_id";
     private static final String SELECT_BY_ID = "SELECT * FROM sessions s JOIN films f on s.film_id = f.film_id WHERE s.session_id=?";
-    private static final String INSERT = "INSERT INTO sessions VALUES (session_id, ?,?,?,?)";
+    private static final String SELECT_FREE_SEATS_BY_ID = "SELECT free_seats FROM sessions WHERE session_id=?";
     private static final String WHERE_DEFAULT = " WHERE s.date>=? AND IF (s.date=?, s.time>=?, s.time>=?)";
     private static final String ORDER_BY_DATETIME_ASC = " ORDER BY s.date ASC, s.time ASC";
     private static final String ORDER_BY_DATETIME_DESC = " ORDER BY s.date DESC, s.time DESC";
     private static final String ORDER_BY_FILM_NAME = " ORDER BY f.film_name ";
+    private static final String ORDER_BY_FREE_SEATS = " ORDER BY s.free_seats";
     private static final String DESCENDING = " DESC";
 
 
@@ -34,8 +37,11 @@ public class MySQLSessionDAO extends BaseDAO implements SessionDAO {
         boolean inserted = false;
         try (PreparedStatement statement = getConnection().prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS)) {
             setSessionToInsertStatement(session, statement);
-            final int row = statement.executeUpdate();
-            if (row > 1) throw new DAOException("More than one row was inserted to DB");
+            statement.executeUpdate();
+            final MySQLSeatDAO seatDAO = getSeatDAO();
+            final int sessionId = getLastGeneratedKey(statement);
+            session.setId(sessionId);
+            seatDAO.insertFreeSeatsForSession(session);
             inserted = true;
         } catch (SQLException e) {
             logger.error("Couldn't insert Session to DB", e);
@@ -44,7 +50,17 @@ public class MySQLSessionDAO extends BaseDAO implements SessionDAO {
         return inserted;
     }
 
+    private int getLastGeneratedKey(PreparedStatement statement) throws SQLException {
+        int key = -1;
+        final ResultSet generatedKeys = statement.getGeneratedKeys();
+        while (generatedKeys.next())
+            key = generatedKeys.getInt(1);
+        return key;
+    }
+
     private void setSessionToInsertStatement(Session session, PreparedStatement statement) throws SQLException {
+        final MySQLSeatDAO seatDAO = getSeatDAO();
+        final int allSeatsAmount = seatDAO.getAllSeatsAmount();
         try {
             statement.setInt(1, session.getFilm().getId());
             final LocalDate date = session.getDate();
@@ -52,6 +68,8 @@ public class MySQLSessionDAO extends BaseDAO implements SessionDAO {
             statement.setDate(2, Date.valueOf(date));
             statement.setTime(3, Time.valueOf(time));
             statement.setBigDecimal(4, session.getTicketPrice());
+            statement.setInt(5, allSeatsAmount);
+
         } catch (SQLException e) {
             logger.error("Couldn't set session to Statement", e);
             throw new SQLException("Couldn't set session to Statement", e);
@@ -119,7 +137,8 @@ public class MySQLSessionDAO extends BaseDAO implements SessionDAO {
                     rs.getInt("session_id"),
                     rs.getBigDecimal("ticket_price"),
                     rs.getDate("date").toLocalDate(),
-                    rs.getTime("time").toLocalTime()
+                    rs.getTime("time").toLocalTime(),
+                    rs.getInt("free_seats")
             );
             final int filmId = rs.getInt("film_id");
             final Film film = getFilmDAO().findById(filmId);
@@ -141,8 +160,46 @@ public class MySQLSessionDAO extends BaseDAO implements SessionDAO {
     public List<Session> getFilteredAndSortedSessionList(Map<String, String> map) {
         final String request = sortByFormRequest(map, SELECT_ALL + WHERE_DEFAULT);
         List<Session> sessionList = getPreparedSessionListByRequest(request);
-        sessionList = removeFromListUnavailableSessions(map, sessionList);
+        removeFromListUnavailableSessions(map, sessionList);
         return sessionList;
+    }
+
+    @Override
+    public int getFreeSeatAmount(Session session) {
+        return getFreeSeatAmount(session.getId());
+    }
+
+    @Override
+    public int getFreeSeatAmount(int sessionId) {
+        int amount = 0;
+        try (PreparedStatement statement = getConnection().prepareStatement(SELECT_FREE_SEATS_BY_ID)) {
+            statement.setInt(1, sessionId);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                amount = resultSet.getInt("free_seats");
+            }
+        } catch (SQLException e) {
+            logger.error("Couldn't get free seats", e);
+            throw new DAOException("Couldn't get free seats");
+        }
+        return amount;
+    }
+
+    @Override
+    public boolean decrementFreeSeatsAmount(int sessionId) {
+        boolean isDecremented = true;
+        try (PreparedStatement statement = getConnection().prepareStatement(DECREMENT_FREE_SEATS)) {
+            statement.setInt(1, sessionId);
+            final int row = statement.executeUpdate();
+            if (row == 0) {
+                logger.warn("Couldn't decrement session: " + sessionId + ", changed rows = " + row);
+                isDecremented = false;
+            }
+        } catch (SQLException e) {
+            logger.error("Couldn't decrement free seats amount of Session", e);
+            throw new DAOException("Couldn't decrement free seats amount of Session");
+        }
+        return isDecremented;
     }
 
     private String sortByFormRequest(Map<String, String> map, String defaultRequest) {
@@ -155,6 +212,11 @@ public class MySQLSessionDAO extends BaseDAO implements SessionDAO {
             }
         } else if (map.containsValue(SESSION_SORT_BY_FILM_NAME)) {
             orderedRequest.append(ORDER_BY_FILM_NAME);
+            if (map.containsValue(SESSION_SORT_METHOD_DESC)) {
+                orderedRequest.append(DESCENDING);
+            }
+        } else if (map.containsValue(SESSION_SORT_BY_SEATS_REMAIN)) {
+            orderedRequest.append(ORDER_BY_FREE_SEATS);
             if (map.containsValue(SESSION_SORT_METHOD_DESC)) {
                 orderedRequest.append(DESCENDING);
             }

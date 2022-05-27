@@ -3,16 +3,19 @@ package yehor.epam.dao;
 import yehor.epam.entities.Seat;
 import yehor.epam.entities.Session;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public interface SeatDAO extends DAO<Seat> {
-    List<Seat> findAllReservedBySession(int sessionId);
+    List<Seat> findAllFreeSeatBySessionId(int sessionId);
 
-    boolean insertReservedSeat(final Session session, final Seat seat) throws SQLException;
+    boolean reserveSeatBySession(final Seat seat, final Session session);
 
-    boolean isSeatReserved(int seatId, int sessionId);
+    boolean isSeatFree(int seatId, int sessionId);
 
     int getFreeSeatsAmountBySessionId(int sessionId);
+
+    void insertFreeSeatsForSession(Session session);
+
+    int getAllSeatsAmount();
 
 }

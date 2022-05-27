@@ -9,7 +9,6 @@ import yehor.epam.dao.SeatDAO;
 import yehor.epam.dao.TicketDAO;
 import yehor.epam.dao.factories.DAOFactory;
 import yehor.epam.dao.factories.MySQLFactory;
-import yehor.epam.entities.Seat;
 import yehor.epam.entities.Ticket;
 import yehor.epam.services.ErrorService;
 import yehor.epam.utilities.LoggerManager;
@@ -32,8 +31,8 @@ public class BuyTicketCommand implements BaseCommand {
             final SeatDAO seatDao = factory.getSeatDao();
             final TicketDAO ticketDao = factory.getTicketDao();
             for (Ticket ticket : ticketList) {
-                if (!seatDao.isSeatReserved(ticket.getSeat().getId(), ticket.getSession().getId())) {
-                    logger.debug("isSeatReserved. seatID: " + ticket.getSeat().getId() + "sessId: " + ticket.getSession().getId());
+                if (seatDao.isSeatFree(ticket.getSeat().getId(), ticket.getSession().getId())) {
+                    logger.debug("isSeatFree. seatID: " + ticket.getSeat().getId() + "sessId: " + ticket.getSession().getId());
                     ticketDao.insert(ticket);
                 } else {
                     logger.warn("Seat is already reserved");
@@ -44,10 +43,5 @@ public class BuyTicketCommand implements BaseCommand {
         } catch (Exception e) {
             ErrorService.handleException(request, response, CLASS_NAME, e);
         }
-    }
-
-    private List<Seat> getReservedSeats(DAOFactory factory, int sessionId) {
-        final SeatDAO seatDAO = factory.getSeatDao();
-        return seatDAO.findAllReservedBySession(sessionId);
     }
 }

@@ -22,9 +22,7 @@
     <fmt:message key="sessionUpload" var="sessionUpload"/>
     <fmt:message key="uploadBtn" var="uploadBtn"/>
 </fmt:bundle>
-<fmt:bundle basename="i18n">
-    <fmt:message key="general.selector.multipleSelectTips" var="selectorTips"/>
-</fmt:bundle>
+
 <c:set var="minTime" value="${applicationScope.minSessionTime}"/>
 <c:set var="maxTime" value="${applicationScope.maxSessionTime}"/>
 <c:set var="nowDate" value="${sessionScope.nowDate}"/>
@@ -48,7 +46,7 @@
                                                 <option value="${film.id}">${film.name}</option>
                                             </c:forEach>
                                         </select>
-                                        <small id="selectTips" class="form-text text-muted">${selectorTips}</small>
+                                        <small id="selectTips" class="form-text text-muted">   </small>
                                     </div>
 
                                     <div class="form-group">

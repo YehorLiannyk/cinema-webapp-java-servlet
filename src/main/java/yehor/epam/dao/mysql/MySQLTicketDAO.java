@@ -45,27 +45,25 @@ public class MySQLTicketDAO extends BaseDAO implements TicketDAO {
      */
     private void ticketInsertTransaction(Ticket ticket, PreparedStatement statement) throws SQLException {
         getConnection().setAutoCommit(false);
-        logger.debug("getConnection().setAutoCommit(false)");
         statement.executeUpdate();
-        logger.debug("statement.executeUpdate() for ticket only");
-        final boolean insertReservedSeats = getSeatDAO().insertReservedSeat(ticket.getSession(), ticket.getSeat());
+        final boolean freeSeatsAmount = getSessionDAO().decrementFreeSeatsAmount(ticket.getSession().getId());
+        if (!freeSeatsAmount) {
+            getConnection().rollback();
+            getConnection().setAutoCommit(true);
+            logger.debug("rollback and setAutoCommit(true)");
+            throw new DAOException("Ticket and reserved seat were not inserted, cause there is no free seats");
+        }
+        final boolean insertReservedSeats = getSeatDAO().reserveSeatBySession(ticket.getSeat(), ticket.getSession());
         if (insertReservedSeats) {
             getConnection().commit();
         } else {
             getConnection().rollback();
+            getConnection().setAutoCommit(true);
+            logger.debug("rollback and setAutoCommit(true), Ticket and reserved seat were not inserted");
             throw new DAOException("Ticket and reserved seat were not inserted");
         }
         getConnection().setAutoCommit(true);
-        logger.debug("getConnection().setAutoCommit(true)");
     }
-
-   /* private int getLastGeneratedKey(PreparedStatement statement) throws SQLException {
-        int key = -1;
-        final ResultSet generatedKeys = statement.getGeneratedKeys();
-        while (generatedKeys.next())
-            key = generatedKeys.getInt(1);
-        return key;
-    }*/
 
     private void setTicketToStatement(Ticket ticket, PreparedStatement statement) throws SQLException {
         try {

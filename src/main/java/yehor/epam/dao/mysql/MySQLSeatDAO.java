@@ -19,11 +19,12 @@ public class MySQLSeatDAO extends BaseDAO implements SeatDAO {
     private static final Logger logger = LoggerManager.getLogger(MySQLSeatDAO.class);
     private static final String SELECT_ALL = "SELECT * FROM seats";
     private static final String SELECT_BY_ID = "SELECT * FROM seats WHERE seat_id=?";
-    private static final String SELECT_RECEIVED_SEAT_BY_ID = "SELECT * FROM reserved_seats WHERE seat_id=? AND session_id=?";
 
-    private static final String SELECT_RECEIVED_SEATS_BY_SESSION_ID = "SELECT * FROM reserved_seats r_s JOIN seats s ON r_s.seat_id=s.seat_id WHERE session_id=?";
-    private static final String SELECT_FREE_SEATS_BY_SESSION_ID = "SELECT * FROM reserved_seats r_s RIGHT JOIN seats s ON r_s.seat_id=s.seat_id WHERE session_id=? AND r_s.seat_id IS NULL";
-    private static final String INSERT_RESERVED_SEAT = "INSERT INTO reserved_seats VALUES (session_seat_id, ?,?)";
+    private static final String INSERT_FREE_SEAT = "INSERT INTO free_seats VALUES (session_seat_id, ?,?)";
+    private static final String SELECT_FREE_SEATS_BY_SESSION_ID = "SELECT * FROM free_seats JOIN seats s on free_seats.seat_id = s.seat_id WHERE session_id=?";
+    private static final String SELECT_FREE_SEAT_BY_ID_AND_SESSION = "SELECT * FROM free_seats WHERE seat_id=? AND session_id=?";
+    private static final String REMOVE_FREE_SEAT = "DELETE FROM free_seats WHERE seat_id=? AND session_id=?";
+
 
     @Override
     public boolean insert(Seat seat) {
@@ -88,62 +89,62 @@ public class MySQLSeatDAO extends BaseDAO implements SeatDAO {
     }
 
     @Override
-    public List<Seat> findAllReservedBySession(int sessionId) {
-        List<Seat> reservedSeats = new ArrayList<>();
-        try (PreparedStatement statement = getConnection().prepareStatement(SELECT_RECEIVED_SEATS_BY_SESSION_ID)) {
+    public List<Seat> findAllFreeSeatBySessionId(int sessionId) {
+        List<Seat> freeSeatList = new ArrayList<>();
+        try (PreparedStatement statement = getConnection().prepareStatement(SELECT_FREE_SEATS_BY_SESSION_ID)) {
             statement.setInt(1, sessionId);
+            logger.debug("findAllFreeSeatBySessionId statement: " + statement.toString());
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 final Seat seat = getSeatFromResultSet(resultSet);
-                reservedSeats.add(seat);
+                freeSeatList.add(seat);
             }
         } catch (SQLException e) {
-            logger.error("Couldn't get list of all reservedSeats from DB", e);
-            throw new DAOException("Couldn't get list of all reservedSeats from DB");
+            logger.error("Couldn't get list of all freeSeatList from DB", e);
+            throw new DAOException("Couldn't get list of all freeSeatList from DB");
         }
-        return reservedSeats;
+        return freeSeatList;
     }
 
     @Override
-    public boolean insertReservedSeat(final Session session, final Seat seat) throws SQLException {
-        boolean inserted = false;
-        try (PreparedStatement statement = getConnection().prepareStatement(INSERT_RESERVED_SEAT, Statement.RETURN_GENERATED_KEYS)) {
+    public boolean reserveSeatBySession(final Seat seat, final Session session) {
+        boolean isReserved = false;
+        try (PreparedStatement statement = getConnection().prepareStatement(REMOVE_FREE_SEAT)) {
             if (seat == null || session == null) {
                 logger.error("Received Seat or Session is null");
                 throw new DAOException("Received Seat or Session is null");
             }
-            setReservedSeatToStatement(session, seat, statement);
-            final int row = seat.getRowNumber();
-            statement.executeUpdate();
-            if (row < 1) throw new DAOException("Statement inserted nothing");
-            inserted = true;
+            setFreeSeatToStatement(session, seat, statement);
+            final int row = statement.executeUpdate();
+            if (row > 1) throw new DAOException("Statement removed more than one row");
+            isReserved = true;
         } catch (SQLException e) {
-            logger.error("Couldn't insert reserved seat to DataBase", e);
-            throw new DAOException("Couldn't insert  reserved seat to DataBase", e);
-        }
-        return inserted;
-    }
-
-    @Override
-    public boolean isSeatReserved(int seatId, int sessionId) {
-        boolean isReserved = true;
-        try (PreparedStatement statement = getConnection().prepareStatement(SELECT_RECEIVED_SEAT_BY_ID)) {
-            statement.setInt(1, seatId);
-            statement.setInt(2, sessionId);
-            logger.debug("isSeatReserved statement:" + statement.toString());
-            final ResultSet resultSet = statement.executeQuery();
-            isReserved = resultSet.next();
-            logger.debug("isReserved = resultSet.next(): " + resultSet.next());
-        } catch (SQLException e) {
-            logger.error("Couldn't check is seat reserved", e);
-            throw new DAOException("Couldn't check is seat reserved");
+            logger.error("Couldn't reserve seat", e);
+            throw new DAOException("Couldn't reserve seat", e);
         }
         return isReserved;
     }
 
     @Override
+    public boolean isSeatFree(int seatId, int sessionId) {
+        boolean isFree = false;
+        try (PreparedStatement statement = getConnection().prepareStatement(SELECT_FREE_SEAT_BY_ID_AND_SESSION)) {
+            statement.setInt(1, seatId);
+            statement.setInt(2, sessionId);
+            logger.debug("isSeatReserved statement:" + statement.toString());
+            final ResultSet resultSet = statement.executeQuery();
+            isFree = resultSet.next();
+            logger.debug("isFree = resultSet.next(): " + resultSet.next());
+        } catch (SQLException e) {
+            logger.error("Couldn't check is seat reserved", e);
+            throw new DAOException("Couldn't check is seat reserved");
+        }
+        return isFree;
+    }
+
+    @Override
     public int getFreeSeatsAmountBySessionId(int sessionId) {
-       int freeAmount = 0;
+        int freeAmount = 0;
         try (PreparedStatement statement = getConnection().prepareStatement(SELECT_FREE_SEATS_BY_SESSION_ID)) {
             statement.setInt(1, sessionId);
             ResultSet resultSet = statement.executeQuery();
@@ -157,9 +158,42 @@ public class MySQLSeatDAO extends BaseDAO implements SeatDAO {
         return freeAmount;
     }
 
-    private void setReservedSeatToStatement(Session session, Seat seat, PreparedStatement statement) throws SQLException {
-        statement.setInt(1, session.getId());
-        statement.setInt(2, seat.getId());
+    @Override
+    public void insertFreeSeatsForSession(Session session) {
+        try (PreparedStatement statement = getConnection().prepareStatement(INSERT_FREE_SEAT, Statement.RETURN_GENERATED_KEYS)) {
+            final List<Seat> seatList = findAll();
+            final int sessionId = session.getId();
+            for (Seat seat : seatList) {
+                statement.setInt(1, sessionId);
+                statement.setInt(2, seat.getId());
+                statement.addBatch();
+            }
+            final int[] rows = statement.executeBatch();
+            if (rows.length < 1) throw new DAOException("Statement inserted nothing");
+        } catch (SQLException e) {
+            logger.error("Couldn't insert free seats to DataBase", e);
+            throw new DAOException("Couldn't insert free seats to DataBase", e);
+        }
+    }
+
+    @Override
+    public int getAllSeatsAmount() {
+        int amount = 0;
+        try (PreparedStatement statement = getConnection().prepareStatement(SELECT_ALL)) {
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                amount++;
+            }
+        } catch (SQLException e) {
+            logger.error("Couldn't count seats", e);
+            throw new DAOException("Couldn't count seats");
+        }
+        return amount;
+    }
+
+    private void setFreeSeatToStatement(Session session, Seat seat, PreparedStatement statement) throws SQLException {
+        statement.setInt(1, seat.getId());
+        statement.setInt(2, session.getId());
         logger.debug("statement.toString()" + statement.toString());
     }
 

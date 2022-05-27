@@ -28,7 +28,7 @@
 <c:set var="session" value="${requestScope.session}"/>
 <c:set var="film" value="${session.film}"/>
 <c:set var="allSeatList" value="${requestScope.allSeatList}"/>
-<c:set var="reservedSeatList" value="${requestScope.reservedSeatList}"/>
+<c:set var="freeSeatList" value="${requestScope.freeSeatList}"/>
 
 <main class="container" data-new-gr-c-s-check-loaded="14.1062.0" data-gr-ext-installed="">
     <%-- SISSON --%>
@@ -72,10 +72,10 @@
                                     <div class="col-md-8 under-filter-block px-3">
 
                                         <c:forEach var="seat" items="${allSeatList}" varStatus="upSeatCounter">
-                                            <c:set var="isReserved" value="false"/>
-                                            <c:forEach var="reservation" items="${reservedSeatList}">
-                                                <c:if test="${reservation.id == seat.id}">
-                                                    <c:set var="isReserved" value="true"/>
+                                            <c:set var="isFree" value="false"/>
+                                            <c:forEach var="freeSeat" items="${freeSeatList}">
+                                                <c:if test="${freeSeat.id == seat.id}">
+                                                    <c:set var="isFree" value="true"/>
                                                 </c:if>
                                             </c:forEach>
 
@@ -85,11 +85,11 @@
                                             </c:if>
 
                                             <c:choose>
-                                                <c:when test="${isReserved == true}">
+                                                <c:when test="${isFree == false}">
                                                     <label>
                                                         <input type="checkbox" name="seatIds" class="seatsElement"
                                                                value="${seat.id}" disabled>
-                                                        <%--don't know why utl with this svg here doesn't work so use absolute path--%>
+                                                        <%--don't know why url with this svg here doesn't work so use absolute path--%>
                                                         <img  class="seatsImg"
                                                              src="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkAgMAAAANjH3HAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAADFBMVEUAAABJTFZJTFYAAAAi3Td3AAAAAnRSTlMAAHaTzTgAAAABYktHRACIBR1IAAAACXBIWXMAAC4jAAAuIwF4pT92AAAAB3RJTUUH5gUaFzYGgpvrAQAAAGpJREFUSMft0bsNgDAMRVHDZCxhiozgKbIEI6SIpwSnyQcZpYECvVtZOpKbR2SxaC0z1XZtOxoJnaQpkU7ylGgf5B25RkvbIEuwyW2am5SR7IqDrOUlBAKB/FW+Sr0gkCLiQH6Q4EgidoRPEPyF6GFUhe4AAAAASUVORK5CYII=">
                                                     </label>

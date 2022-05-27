@@ -144,7 +144,7 @@
                                                                 ${time}: ${session.date} ${timePrefix} ${session.time}
                                                         </li>
                                                         <li class="card-text">
-                                                                ${seatsRemain}: ###
+                                                                ${seatsRemain}: ${session.seatsAmount}
                                                         </li>
                                                     </ul>
                                                     <h5 class="card-text">${ticketPrice}: ${session.ticketPrice} ${currency}</h5>

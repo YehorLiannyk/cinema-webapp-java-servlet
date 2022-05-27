@@ -52,9 +52,14 @@ public class MySQLFilmDAO extends BaseDAO implements FilmDAO {
             getConnection().commit();
         } else {
             getConnection().rollback();
+            getConnection().setAutoCommit(true);
+            logger.debug("rollback and setAutoCommit(true)");
+
             throw new DAOException("Film and genres were not inserted");
         }
         getConnection().setAutoCommit(true);
+        logger.debug("getConnection().setAutoCommit(true)");
+
     }
 
     private int getLastGeneratedKey(PreparedStatement statement) throws SQLException {

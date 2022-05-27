@@ -37,9 +37,9 @@ public class SessionPageCommand implements BaseCommand {
             request.setAttribute("allSeatList", allSeatList);
             logger.debug("allSeatList: " + allSeatList.toString());
 
-            final List<Seat> reservedSeatList = getReservedSeats(factory, sessionId);
-            request.setAttribute("reservedSeatList", reservedSeatList);
-            logger.debug("reservedSeatList: " + reservedSeatList.toString());
+            final List<Seat> freeSeatList = getFreeSeats(factory, sessionId);
+            request.setAttribute("freeSeatList", freeSeatList);
+            logger.debug("freeSeatList: " + freeSeatList.toString());
 
             request.getRequestDispatcher(SESSIONS_PAGE_PATH).forward(request, response);
         } catch (Exception e) {
@@ -47,9 +47,9 @@ public class SessionPageCommand implements BaseCommand {
         }
     }
 
-    private List<Seat> getReservedSeats(DAOFactory factory, int sessionId) {
+    private List<Seat> getFreeSeats(DAOFactory factory, int sessionId) {
         final SeatDAO seatDAO = factory.getSeatDao();
-        return seatDAO.findAllReservedBySession(sessionId);
+        return seatDAO.findAllFreeSeatBySessionId(sessionId);
     }
 
     private List<Seat> getSeats(DAOFactory factory) {
