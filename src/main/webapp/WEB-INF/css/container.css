@@ -65,7 +65,13 @@ span.menu-item {
 /**/
 /*  Dropdown menu styles */
 /**/
-.dropdown {
+#dropdownMenuButton {
+    background: 0;
+    border: 0;
+    color: #527eff;
+}
+
+/*.dropdown {
     position: relative;
     display: inline-block;
 }
@@ -78,7 +84,7 @@ span.menu-item {
 .dropdown > label,
 .dropdown > a[role="button"] {
     display: inline-block;
-    /*color: #333;*/
+    !*color: #333;*!
     line-height: 1.5em;
     text-decoration: none;
     cursor: pointer;
@@ -89,7 +95,7 @@ span.menu-item {
 .dropdown > label:hover,
 .dropdown > a[role="button"]:hover,
 .dropdown > a[role="button"]:focus {
-    /*border-color: #333;*/
+    !*border-color: #333;*!
 }
 
 .dropdown > label:after,
@@ -125,7 +131,7 @@ span.menu-item {
     display: block;
     padding: 6px 15px;
     text-decoration: none;
-    /*color: #333;*/
+    !*color: #333;*!
 }
 
 .dropdown > ul a:hover,
@@ -156,7 +162,7 @@ span.menu-item {
     width: 100%;
     text-indent: -100vw;
     z-index: 1000;
-}
+}*/
 
 main.container {
     min-height: 595px;
@@ -252,6 +258,16 @@ article.card-filter {
 
 .seatsImg {
     max-width: 1.5rem;
+}
+
+.seatsElement-admin {
+    cursor: default !important;
+}
+
+.seatsImg-admin {
+    width: 2.5rem;
+    max-width: 2.5rem !important;
+    cursor: default !important;
 }
 
 /**/

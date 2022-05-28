@@ -18,8 +18,7 @@ import java.util.List;
 
 import static yehor.epam.utilities.CommandConstants.*;
 import static yehor.epam.utilities.JspPagePathConstants.ERROR_PAGE_PATH;
-import static yehor.epam.utilities.OtherConstants.REQUEST_PARAM_ERROR_MESSAGE;
-import static yehor.epam.utilities.OtherConstants.USER_ROLE;
+import static yehor.epam.utilities.OtherConstants.*;
 
 @WebFilter(urlPatterns = {"/*"}, filterName = "SecurityFilter")
 public class SecurityFilter implements Filter {
@@ -88,7 +87,7 @@ public class SecurityFilter implements Filter {
      * @param session current sesion
      */
     private void getCookies(HttpServletRequest req, HttpSession session) {
-        if (session == null || session.getAttribute(USER_ROLE) == null) {
+        if (session == null || session.getAttribute(USER_ROLE) == null || session.getAttribute(USER_ID).equals(0)) {
             CookieService cookieService = new CookieService();
             cookieService.initCookies(req);
             logger.debug("Entry to getCookies block in " + CLASS_NAME);
@@ -107,7 +106,7 @@ public class SecurityFilter implements Filter {
             throws IOException {
         logger.warn("Have no enough permits for the command (" + session.getAttribute(USER_ROLE) + ") '" + command + '\'');
         logger.info("Redirect to login page");
-        resp.sendRedirect(InnerRedirectManager.getRedirectLocation(COMMAND_VIEW_LOGIN));
+        resp.sendRedirect(InnerRedirectManager.getRedirectLocation(COMMAND_VIEW_LOGIN_PAGE));
     }
 
     @Override
@@ -120,13 +119,15 @@ public class SecurityFilter implements Filter {
      */
     private void initGuestAccess() {
         guestAccessPath.add(null);
-        guestAccessPath.add(ERROR_PAGE_PATH);
-        guestAccessPath.add(COMMAND_VIEW_MAIN);
-        guestAccessPath.add(COMMAND_VIEW_LOGIN);
+        guestAccessPath.add(COMMAND_VIEW_ERROR_PAGE);
+        guestAccessPath.add(COMMAND_VIEW_MAIN_PAGE);
+        guestAccessPath.add(COMMAND_VIEW_SCHEDULE_PAGE);
+        guestAccessPath.add(COMMAND_VIEW_SESSION_PAGE);
+
+        guestAccessPath.add(COMMAND_VIEW_LOGIN_PAGE);
         guestAccessPath.add(COMMAND_LOGIN);
         guestAccessPath.add(COMMAND_REGISTER);
-        guestAccessPath.add(COMMAND_VIEW_REGISTER);
-        guestAccessPath.add(COMMAND_VIEW_SCHEDULE);
+        guestAccessPath.add(COMMAND_VIEW_REGISTER_PAGE);
     }
 
     /**
@@ -134,14 +135,17 @@ public class SecurityFilter implements Filter {
      */
     private void initUserAccess() {
         userAccessPath.add(null);
-        userAccessPath.add(ERROR_PAGE_PATH);
-        userAccessPath.add(COMMAND_VIEW_MAIN);
-        userAccessPath.add(COMMAND_VIEW_SCHEDULE);
-        userAccessPath.add(COMMAND_LOGOUT);
-        userAccessPath.add(COMMAND_VIEW_PROFILE_PAGE);
+        userAccessPath.add(COMMAND_VIEW_ERROR_PAGE);
+        userAccessPath.add(COMMAND_VIEW_MAIN_PAGE);
+        userAccessPath.add(COMMAND_VIEW_SCHEDULE_PAGE);
         userAccessPath.add(COMMAND_VIEW_SESSION_PAGE);
+
+        userAccessPath.add(COMMAND_LOGOUT);
+
+        userAccessPath.add(COMMAND_VIEW_PROFILE_PAGE);
         userAccessPath.add(COMMAND_VIEW_BUY_TICKET_PAGE);
         userAccessPath.add(COMMAND_BUY_TICKET);
+        userAccessPath.add(COMMAND_VIEW_SUCCESS_PAY_PAGE);
     }
 
     /**
@@ -149,22 +153,21 @@ public class SecurityFilter implements Filter {
      */
     private void initAdminAccess() {
         adminAccessPath.add(null);
-        adminAccessPath.add(ERROR_PAGE_PATH);
-        adminAccessPath.add(COMMAND_VIEW_MAIN);
-        adminAccessPath.add(COMMAND_VIEW_SCHEDULE);
+        adminAccessPath.add(COMMAND_VIEW_ERROR_PAGE);
+        adminAccessPath.add(COMMAND_VIEW_MAIN_PAGE);
+        adminAccessPath.add(COMMAND_VIEW_SCHEDULE_PAGE);
+
         adminAccessPath.add(COMMAND_LOGOUT);
-        adminAccessPath.add(COMMAND_VIEW_PROFILE_PAGE);
-        adminAccessPath.add(COMMAND_VIEW_ADD_FILM);
+
+        adminAccessPath.add(COMMAND_VIEW_ADD_FILM_PAGE);
         adminAccessPath.add(COMMAND_ADD_FILM);
         adminAccessPath.add(COMMAND_VIEW_FILMS_SETTING_PAGE);
-        adminAccessPath.add(COMMAND_VIEW_ADD_SESSION);
+
+        adminAccessPath.add(COMMAND_VIEW_ADD_SESSION_PAGE);
         adminAccessPath.add(COMMAND_ADD_SESSION);
         adminAccessPath.add(COMMAND_VIEW_SESSIONS_SETTING_PAGE);
-        adminAccessPath.add(COMMAND_VIEW_SESSION_PAGE);
-        adminAccessPath.add(COMMAND_VIEW_BUY_TICKET_PAGE);
-        adminAccessPath.add(COMMAND_BUY_TICKET);
-        adminAccessPath.add(COMMAND_VIEW_SUCCESS_PAY_PAGE);
-
+        adminAccessPath.add(COMMAND_DELETE_SESSION);
+        adminAccessPath.add(COMMAND_VIEW_SESSION_INFO_PAGE);
 
     }
 }

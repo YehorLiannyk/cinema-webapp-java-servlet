@@ -18,6 +18,7 @@ import java.util.List;
 
 public class MySQLUserDAO extends BaseDAO implements UserDAO {
     private static final Logger logger = LoggerManager.getLogger(MySQLUserDAO.class);
+    private static final String GET_MAX_ID = "SELECT MAX(user_id) FROM users";
     private String SELECT = "SELECT * FROM users s JOIN roles r on s.role_id = r.role_id WHERE s.email=? AND s.password=?";
     private String SELECT_BY_ID = "SELECT * FROM users s JOIN roles r on s.role_id = r.role_id WHERE s.user_id=?";
     private String INSERT = "INSERT INTO users(user_id, first_name, second_name, email, password, phone_number, notification) VALUES(user_id,?,?,?,?,?,?)";
@@ -101,6 +102,21 @@ public class MySQLUserDAO extends BaseDAO implements UserDAO {
             throw new DAOException("Couldn't get user from DB", e);
         }
         return user;
+    }
+
+    @Override
+    public int getMaxId() {
+        int maxId = 0;
+        try (Statement statement = getConnection().createStatement()) {
+            final ResultSet resultSet = statement.executeQuery(GET_MAX_ID);
+            while (resultSet.next())
+                maxId = resultSet.getInt(1);
+            if (maxId == 0) throw new DAOException("Received maxId = 0");
+        } catch (SQLException e) {
+            logger.error("Couldn't get max id from DB", e);
+            throw new DAOException("Couldn't get id from DB", e);
+        }
+        return maxId;
     }
 
     private User getUserFromResultSet(ResultSet rs) {

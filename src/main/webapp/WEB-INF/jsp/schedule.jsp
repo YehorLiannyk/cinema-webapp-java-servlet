@@ -35,7 +35,7 @@
                     <h5 class="card-custom-title">Sort and filter</h5>
                 </header>
                 <form name="filtration" method="post" action="main">
-                    <input type="hidden" name="command" value="schedule">
+                    <input type="hidden" name="command" value="schedulePage">
                     <div class="card-group">
                         <article class="card card-filter">
                             <div class="filter-content">
@@ -106,7 +106,7 @@
                 <div class="col-md-12">
                     <div class="film-posts py-4">
 
-                        <table id="myTable" class="table table-striped" data-locale="uk-UA">
+                        <table id="myTable" class="table table-striped">
                             <thead>
                             <tr>
                                 <th>Session list</th>

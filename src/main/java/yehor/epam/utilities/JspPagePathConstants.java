@@ -16,6 +16,7 @@ public final class JspPagePathConstants {
     // session
     public static final String ADD_SESSION_PAGE_PATH = "/WEB-INF/jsp/adminPages/addSession.jsp";
     public static final String SESSIONS_SETTING_PAGE_PATH = "/WEB-INF/jsp/adminPages/sessionsSetting.jsp";
+    public static final String SESSION_INFO_PAGE_PATH = "/WEB-INF/jsp/adminPages/sessionInfo.jsp";
     public static final String SESSIONS_PAGE_PATH = "/WEB-INF/jsp/session.jsp";
     //
     public static final String PAYING_PAGE_PATH = "/WEB-INF/jsp/paying.jsp";

@@ -46,7 +46,7 @@
                                                 <option value="${film.id}">${film.name}</option>
                                             </c:forEach>
                                         </select>
-                                        <small id="selectTips" class="form-text text-muted">   </small>
+                                        <small id="selectTips" class="form-text text-muted">Choose one</small>
                                     </div>
 
                                     <div class="form-group">

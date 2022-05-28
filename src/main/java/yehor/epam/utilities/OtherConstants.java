@@ -29,20 +29,21 @@ public final class OtherConstants {
      */
     public static final int COOKIE_LOGIN_LIFETIME = (int) Duration.ofDays(180).toSeconds();
 
+    // for captcha
+    public static final String CAPTCHA_SECRET_KEY = "6LeFvCUgAAAAAK4QAJyBYzzvvAZRweyc_RbaaprK";
+    public static final String CAPTCHA_URL = "https://www.google.com/recaptcha/api/siteverify";
 
+    // Constants for Filter and Sorter on Schedule page
     public static final String SESSION_FILTER_SHOW_PARAM_NAME = "show";
     public static final String SESSION_FILTER_SHOW_ONLY_AVAILABLE = "showOnlyAvailable";
-    public static final String SESSION_FILTER_SHOW_ALL = "showAll";
-
+    //
     public static final String SESSION_SORT_BY_PARAM_NAME = "sortBy";
     public static final String SESSION_SORT_BY_DATETIME = "dateTimeSortBy";
     public static final String SESSION_SORT_BY_FILM_NAME = "filmNameSortBy";
     public static final String SESSION_SORT_BY_SEATS_REMAIN = "seatsRemainSortBy";
-
+    //
     public static final String SESSION_SORT_METHOD_PARAM_NAME = "sortMethod";
-    public static final String SESSION_SORT_METHOD_ASC = "ascendingSortMethod";
     public static final String SESSION_SORT_METHOD_DESC = "descendingSortMethod";
-
 
     private OtherConstants() {
     }

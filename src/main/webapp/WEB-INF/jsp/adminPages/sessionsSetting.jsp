@@ -35,53 +35,104 @@
                     <div class="col-md-12">
                         <div class="film-posts py-4">
 
-                            <c:forEach var="session" items="${requestScope.sessionList}">
-                                <c:set var="film" value="${session.getFilm()}"/>
-                                <div class="p-4 film-post card w-100">
-                                    <div class="row card-body">
-                                        <div class="col-md-2">
-                                            <img class="poster-img card-img" src="${film.posterUrl}">
-                                        </div>
-                                        <div class="col-md-7">
-                                            <h2 class="card-title">${film.name}</h2>
-                                            <ul class="list-unstyled mt-3 mb-4">
-                                                <li class="card-text">${genres}:
-                                                    <c:forEach var="genre" items="${film.genreList}"
-                                                               varStatus="counter">
-                                                        <c:if test="${counter.index < (film.genreList.size() - 1)}">
-                                                            <c:out value="${genre.name},"/>
-                                                        </c:if>
-                                                        <c:if test="${counter.index == (film.genreList.size() - 1)}">
-                                                            <c:out value="${genre.name}"/>
-                                                        </c:if>
-                                                    </c:forEach>
-                                                </li>
-                                                <li class="card-text">
-                                                        ${duration}: ${film.getDurationInMinutes()} ${durationPostfix}
-                                                </li>
-                                                <li class="card-text">
-                                                        ${time}: ${session.date} ${timePrefix} ${session.time}
-                                                </li>
-                                                <li class="card-text">
-                                                        ${seatsRemain}: ###
-                                                </li>
-                                            </ul>
-                                            <h5 class="card-text">${ticketPrice}: ${session.ticketPrice} ${currency}</h5>
-                                        </div>
+                            <table id="myTable" class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Session list</th>
+                                </tr>
+                                </thead>
 
-                                        <div class="col-md-3">
-                                            <div class="vertical-buttons">
-                                                <button type="button" class="btn btn-lg btn-block btn-primary">
-                                                        ${aboutFilm}
-                                                </button>
-                                                <button type="button" class="btn btn-lg btn-block btn-primary">
-                                                        ${buyTicket}
-                                                </button>
+                                <tbody>
+                                <c:forEach var="session" items="${requestScope.sessionList}">
+                                    <c:set var="film" value="${session.getFilm()}"/>
+                                    <tr>
+                                        <td>
+                                            <div class="p-4 film-post card w-100">
+                                                <div class="row card-body">
+                                                    <div class="col-md-2">
+                                                        <img class="poster-img card-img" src="${film.posterUrl}">
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <h2 class="card-title">${film.name}</h2>
+                                                        <ul class="list-unstyled mt-3 mb-4">
+                                                            <li class="card-text">${genres}:
+                                                                <c:forEach var="genre" items="${film.genreList}"
+                                                                           varStatus="counter">
+                                                                    <c:if test="${counter.index < (film.genreList.size() - 1)}">
+                                                                        <c:out value="${genre.name},"/>
+                                                                    </c:if>
+                                                                    <c:if test="${counter.index == (film.genreList.size() - 1)}">
+                                                                        <c:out value="${genre.name}"/>
+                                                                    </c:if>
+                                                                </c:forEach>
+                                                            </li>
+                                                            <li class="card-text">
+                                                                    ${duration}: ${film.getDurationInMinutes()} ${durationPostfix}
+                                                            </li>
+                                                            <li class="card-text">
+                                                                    ${time}: ${session.date} ${timePrefix} ${session.time}
+                                                            </li>
+                                                            <li class="card-text">
+                                                                    ${seatsRemain}: ${session.seatsAmount}
+                                                            </li>
+                                                        </ul>
+                                                        <h5 class="card-text">${ticketPrice}: ${session.ticketPrice} ${currency}</h5>
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <div class="vertical-buttons">
+                                                            <form name="session" method="post" action="main">
+                                                                <input type="hidden" name="command" value="sessionInfoPage">
+                                                                <input type="hidden" name="sessionId"
+                                                                       value="${session.id}">
+                                                                <button type="submit"
+                                                                        class="btn btn-lg btn-block btn-primary my-2">
+                                                                        Session info
+                                                                </button>
+                                                            </form>
+                                                            <button type="button"
+                                                                    class="btn btn-lg btn-block btn-danger"
+                                                                    data-toggle="modal" data-target="#exampleModal">
+                                                                Delete session
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModal" tabindex="-1"
+                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title"
+                                                        id="exampleModalLabel">Modal title</h5>
+                                                </div>
+                                                <div class="modal-body">Sure you want to delete
+                                                    session?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <form name="session" method="post"
+                                                          action="main">
+                                                        <input type="hidden" name="command"
+                                                               value="deleteSession">
+                                                        <input type="hidden" name="sessionId"
+                                                               value="${session.id}">
+                                                        <button type="submit"
+                                                                class="btn btn-primary">Delete
+                                                        </button>
+                                                    </form>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </c:forEach>
+                                </c:forEach>
+                                </tbody>
+                            </table>
+
                         </div>
                     </div>
                 </div>
@@ -93,4 +144,6 @@
         </div>
     </div>
 </main>
+
+
 <jsp:include page="../fragments/footer.jsp"/>

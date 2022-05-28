@@ -7,8 +7,8 @@
 --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<jsp:include page="fragments/header.jsp"/>
-<jsp:include page="fragments/menu.jsp"/>
+<jsp:include page="../fragments/header.jsp"/>
+<jsp:include page="../fragments/menu.jsp"/>
 
 <fmt:bundle basename="i18n">
     <fmt:message key="general.currency.short" var="currency"/>
@@ -60,11 +60,14 @@
                                 <li class="card-text">
                                     ${time}: ${session.date} ${timePrefix} ${session.time}
                                 </li>
+                                <li class="card-text">
+                                    Seats left:  ${session.seatsAmount}
+                                </li>
                             </ul>
                             <h4 class="card-text">${ticketPrice}: ${session.ticketPrice} ${currency}</h4>
                         </div>
                         <div>
-                            <h4>Choose your seat:</h4>
+                            <h4>Seats for session:</h4>
                             <form name="seatIds" method="post" action="main">
                                 <input type="hidden" name="command" value="buyTicketPage">
                                 <input type="hidden" name="sessionId" value="${session.id}">
@@ -87,19 +90,19 @@
                                             <c:choose>
                                                 <c:when test="${isFree == false}">
                                                     <label>
-                                                        <input type="checkbox" name="seatIds" class="seatsElement"
+                                                        <input type="checkbox" name="seatIds" class="seatsElement-admin seatsElement"
                                                                value="${seat.id}" disabled>
                                                         <%--don't know why url with this svg here doesn't work so use absolute path--%>
-                                                        <img  class="seatsImg"
+                                                        <img  class="seatsImg-admin seatsImg"
                                                              src="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkAgMAAAANjH3HAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAADFBMVEUAAABJTFZJTFYAAAAi3Td3AAAAAnRSTlMAAHaTzTgAAAABYktHRACIBR1IAAAACXBIWXMAAC4jAAAuIwF4pT92AAAAB3RJTUUH5gUaFzYGgpvrAQAAAGpJREFUSMft0bsNgDAMRVHDZCxhiozgKbIEI6SIpwSnyQcZpYECvVtZOpKbR2SxaC0z1XZtOxoJnaQpkU7ylGgf5B25RkvbIEuwyW2am5SR7IqDrOUlBAKB/FW+Sr0gkCLiQH6Q4EgidoRPEPyF6GFUhe4AAAAASUVORK5CYII=">
                                                     </label>
                                                 </c:when>
 
                                                 <c:otherwise>
                                                     <label>
-                                                        <input type="checkbox" name="seatIds" class="seatsElement"
-                                                               value="${seat.id}">
-                                                        <img class="seatsImg"
+                                                        <input type="checkbox" name="seatIds" class="seatsElement-admin seatsElement"
+                                                               value="${seat.id}" disabled>
+                                                        <img class="seatsImg-admin seatsImg"
                                                              src="<c:url value="/images/svg/seat_blue.svg"/>">
                                                     </label>
                                                 </c:otherwise>
@@ -107,28 +110,13 @@
 
                                         </c:forEach>
                                     </div>
-                                    <div class="col-md-3 under-filter-block px-3">
-                                        <button type="submit" class="btn btn-lg btn-block btn-primary">
-                                            ${buyTicket}
-                                        </button>
-                                    </div>
                                 </div>
                             </form>
                         </div>
                     </div>
-
-                    <div class="w-100"></div>
-
-                    <div class="col-md-12">
-                        <c:if test="${film.description != null}">
-                            <h5>Film description:</h5>
-                            <p>${film.description}</p>
-                        </c:if>
-                    </div>
-
                 </div>
             </div>
         </div>
     </div>
 </main>
-<jsp:include page="fragments/footer.jsp"/>
+<jsp:include page="../fragments/footer.jsp"/>

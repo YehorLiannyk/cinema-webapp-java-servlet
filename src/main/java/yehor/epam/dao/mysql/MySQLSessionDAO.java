@@ -24,6 +24,8 @@ public class MySQLSessionDAO extends BaseDAO implements SessionDAO {
     private static final String SELECT_ALL = "SELECT * FROM sessions s JOIN films f on s.film_id = f.film_id";
     private static final String SELECT_BY_ID = "SELECT * FROM sessions s JOIN films f on s.film_id = f.film_id WHERE s.session_id=?";
     private static final String SELECT_FREE_SEATS_BY_ID = "SELECT free_seats FROM sessions WHERE session_id=?";
+    private static final String DELETE_BY_SESSION_ID = "DELETE FROM sessions WHERE session_id=?";
+
     private static final String WHERE_DEFAULT = " WHERE s.date>=? AND IF (s.date=?, s.time>=?, s.time>=?)";
     private static final String ORDER_BY_DATETIME_ASC = " ORDER BY s.date ASC, s.time ASC";
     private static final String ORDER_BY_DATETIME_DESC = " ORDER BY s.date DESC, s.time DESC";
@@ -183,6 +185,21 @@ public class MySQLSessionDAO extends BaseDAO implements SessionDAO {
             throw new DAOException("Couldn't get free seats");
         }
         return amount;
+    }
+
+    @Override
+    public boolean delete(int sessionId) {
+        boolean isDeleted = false;
+        try (PreparedStatement statement = getConnection().prepareStatement(DELETE_BY_SESSION_ID)) {
+            statement.setInt(1, sessionId);
+            final int row = statement.executeUpdate();
+            if (row > 1) throw new DAOException("Statement removed more than one row");
+            isDeleted = true;
+        } catch (SQLException e) {
+            logger.error("Couldn't delete session", e);
+            throw new DAOException("Couldn't delete session", e);
+        }
+        return isDeleted;
     }
 
     @Override

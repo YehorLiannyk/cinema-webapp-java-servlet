@@ -13,4 +13,7 @@ public interface SessionDAO extends DAO<Session> {
     int getFreeSeatAmount(int sessionId);
 
     boolean decrementFreeSeatsAmount(int sessionId);
+
+    boolean delete(int sessionId);
+
 }
