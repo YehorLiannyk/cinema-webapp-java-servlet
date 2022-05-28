@@ -3,9 +3,7 @@ package yehor.epam.actions;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 import yehor.epam.actions.commands.*;
-import yehor.epam.actions.commands.films.AddFilmCommand;
-import yehor.epam.actions.commands.films.AddFilmPageCommand;
-import yehor.epam.actions.commands.films.FilmsSettingPageCommand;
+import yehor.epam.actions.commands.films.*;
 import yehor.epam.actions.commands.sessions.*;
 import yehor.epam.actions.commands.signing.*;
 import yehor.epam.utilities.LoggerManager;
@@ -45,6 +43,8 @@ public class CommandFactory {
         commandMap.put(COMMAND_VIEW_ADD_FILM_PAGE, new AddFilmPageCommand());
         commandMap.put(COMMAND_ADD_FILM, new AddFilmCommand());
         commandMap.put(COMMAND_VIEW_FILMS_SETTING_PAGE, new FilmsSettingPageCommand());
+        commandMap.put(COMMAND_VIEW_FILM_PAGE_PAGE, new FilmInfoPageCommand());
+        commandMap.put(COMMAND_DELETE_FILM, new DeleteFilmCommand());
         //sessions
         commandMap.put(COMMAND_VIEW_ADD_SESSION_PAGE, new AddSessionPageCommand());
         commandMap.put(COMMAND_ADD_SESSION, new AddSessionCommand());

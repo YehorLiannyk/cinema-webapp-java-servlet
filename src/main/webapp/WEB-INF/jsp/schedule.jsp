@@ -21,7 +21,7 @@
     <fmt:message key="film.duration.postfix" var="durationPostfix"/>
     <fmt:message key="film.genres" var="genres"/>
     <fmt:message key="general.selector.multipleSelectTips" var="selectorTips"/>
-    <fmt:message key="film.aboutFilm" var="aboutFilm"/>
+    <fmt:message key="film.filmPage" var="filmPage"/>
 </fmt:bundle>
 
 <fmt:bundle basename="i18n" prefix="schedule.">
@@ -176,7 +176,7 @@
                                                     <div class="vertical-buttons">
                                                         <button type="button"
                                                                 class="btn btn-lg btn-block btn-primary my-2">
-                                                                ${aboutFilm}
+                                                                ${filmPage}
                                                         </button>
                                                         <form name="session" method="post" action="main">
                                                             <input type="hidden" name="command" value="sessionPage">

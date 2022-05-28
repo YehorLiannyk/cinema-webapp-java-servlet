@@ -22,7 +22,7 @@
     <fmt:message key="film.duration.postfix" var="durationPostfix"/>
     <fmt:message key="film.genres" var="genres"/>
     <fmt:message key="general.selector.multipleSelectTips" var="selectorTips"/>
-    <fmt:message key="film.aboutFilm" var="aboutFilm"/>
+    <fmt:message key="film.filmPage" var="filmPage"/>
 </fmt:bundle>
 
 <c:set var="session" value="${requestScope.session}"/>
@@ -34,7 +34,6 @@
 <ftg:menu userRole="${sessionScope.userRole}"/>
 
 <main class="container" data-new-gr-c-s-check-loaded="14.1062.0" data-gr-ext-installed="">
-    <%-- SISSON --%>
     <div class="container-fluid">
         <h1>${pageTitle}</h1>
         <div class="row">

@@ -1,8 +1,6 @@
 
 [
 +src/main/java/yehor/epam/dao/BasketDAO.java,6\c\6cf3aee598be4e3110c64862c17fa81a4d798c91
-Y
-)src/main/java/yehor/epam/dao/FilmDAO.java,c\4\c40cd71c2525d3aec8dedc7a25e4d5682997c06b
 w
 G.idea/sonarlint/issuestore/6/0/60db8a429a7bdfc1151109bae53406e1ed79bfdc,f\b\fb582c58c041528363cd657f7c46d721a83c95f7
 l
@@ -143,10 +141,6 @@ s
 Csrc/main/java/yehor/epam/actions/commands/BuyTicketPageCommand.java,6\4\644cba864d1d2b509476668fa31221ec814db0d6
 }
 Msrc/main/java/yehor/epam/actions/commands/sessions/AddSessionPageCommand.java,c\0\c02afd9a91745e6c7df15da126b0debe3e324f5f
-n
->src/main/java/yehor/epam/actions/commands/ScheduleCommand.java,4\d\4d68e62fb354a75260d86298c9566cc081007f2d
-d
-4src/main/java/yehor/epam/dao/mysql/MySQLFilmDAO.java,f\8\f87ab082cc977ba3d3397cc41c966d33782e002f
 f
 6src/main/java/yehor/epam/dao/mysql/MySQLTicketDAO.java,3\c\3c8aa529f18ca01a32f7ca8b682744c064f01eef
 Y

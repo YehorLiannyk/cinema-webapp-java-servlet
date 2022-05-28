@@ -29,7 +29,7 @@ public class ScheduleCommand implements BaseCommand {
             logger.debug("Created DAOFactory in " + CLASS_NAME + " execute command");
             List<Session> sessionList = null;
 
-            logged(request);
+            //logged(request);
 
             final Map<String, String[]> parameterMap = request.getParameterMap();
             final Map<String, String> filterSortMap = ScheduleService.getFilterSortMapFromParams(parameterMap);
@@ -47,7 +47,7 @@ public class ScheduleCommand implements BaseCommand {
             ErrorService.handleException(request, response, CLASS_NAME, e);
         }
     }
-
+/*
     public String convertWithIteration(Map<String, String[]> map) {
         StringBuilder mapAsString = new StringBuilder("{");
         for (String key : map.keySet()) {
@@ -67,5 +67,5 @@ public class ScheduleCommand implements BaseCommand {
 
         final Map<String, String[]> parameterMap = request.getParameterMap();
         logger.debug("parameterMap: " + convertWithIteration(parameterMap));
-    }
+    }*/
 }

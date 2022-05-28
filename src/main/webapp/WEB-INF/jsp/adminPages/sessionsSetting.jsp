@@ -23,7 +23,7 @@
     <fmt:message key="film.duration.postfix" var="durationPostfix"/>
     <fmt:message key="film.genres" var="genres"/>
     <fmt:message key="general.selector.multipleSelectTips" var="selectorTips"/>
-    <fmt:message key="film.aboutFilm" var="aboutFilm"/>
+    <fmt:message key="film.filmPage" var="filmPage"/>
 </fmt:bundle>
 
 <ftg:header pageTitle="${pageTitle}"/>
@@ -43,10 +43,9 @@
                                     <th>${sessionsTitle}</th>
                                 </tr>
                                 </thead>
-
                                 <tbody>
                                 <c:forEach var="session" items="${requestScope.sessionList}">
-                                    <c:set var="film" value="${session.getFilm()}"/>
+                                    <c:set var="film" value="${session.film}"/>
                                     <tr>
                                         <td>
                                             <div class="p-4 film-post card w-100">
@@ -104,7 +103,7 @@
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <h5 class="modal-title"
-                                                        id="exampleModalLabel">Modal title</h5>
+                                                        id="exampleModalLabel">Session deleting</h5>
                                                 </div>
                                                 <div class="modal-body">Sure you want to delete
                                                     session?

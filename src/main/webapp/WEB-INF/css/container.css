@@ -71,6 +71,12 @@ span.menu-item {
     color: #527eff;
 }
 
+#dropdownLangButton {
+    background: 0;
+    border: 0;
+    color: #527eff;
+}
+
 /*.dropdown {
     position: relative;
     display: inline-block;

@@ -27,7 +27,13 @@ public final class OtherConstants {
     /**
      * Lifetime of Cookie login in seconds, equal to 180 days
      */
-    public static final int COOKIE_LOGIN_LIFETIME = (int) Duration.ofDays(180).toSeconds();
+    public static final int COOKIE_LOGIN_LIFETIME = (int) Duration.ofDays(60).toSeconds();
+
+    public static final int COOKIE_LANG_LIFETIME = (int) Duration.ofDays(180).toSeconds();
+
+    public static final String LANG = "lang";
+
+    public static final String DEFAULT_LANG = "ua";
 
     // for captcha
     public static final String CAPTCHA_SECRET_KEY = "6LeFvCUgAAAAAK4QAJyBYzzvvAZRweyc_RbaaprK";

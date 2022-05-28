@@ -16,8 +16,10 @@
     <fmt:message key="film.duration.postfix" var="durationPostfix"/>
     <fmt:message key="film.duration" var="duration"/>
     <fmt:message key="film.genres" var="genres"/>
-    <fmt:message key="film.aboutFilm" var="aboutFilm"/>
+    <fmt:message key="film.filmPage" var="filmPage"/>
 </fmt:bundle>
+
+<c:url value="/main?command=filmPage" var="filmPage_url"/>
 
 <ftg:header pageTitle="${pageTitle}"/>
 <ftg:menu userRole="${sessionScope.userRole}"/>
@@ -57,9 +59,16 @@
                                             <mtg:filmGenresList film="${film}"/>
                                         </li>
                                     </ul>
-                                    <button type="button" class="btn btn-lg btn-block btn-primary">
-                                            ${aboutFilm}
-                                    </button>
+                                    <form name="film" method="post" action="main">
+                                        <input type="hidden" name="command"
+                                               value="filmPage">
+                                        <input type="hidden" name="filmId"
+                                               value="${film.id}">
+                                        <button type="submit"
+                                                class="btn btn-lg btn-block btn-primary">
+                                                ${filmPage}
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
                         </div>

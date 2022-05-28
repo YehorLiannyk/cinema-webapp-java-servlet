@@ -6,11 +6,18 @@
 <fmt:bundle basename="i18n" prefix="menu.">
     <fmt:message key="title" var="title"/>
     <fmt:message key="main" var="main"/>
+    <fmt:message key="languageSelector" var="languageSelector"/>
+    <fmt:message key="languageENG" var="langENG"/>
+    <fmt:message key="languageUA" var="langUA"/>
     <fmt:message key="guest.login" var="login"/>
     <fmt:message key="guest.register" var="register"/>
     <fmt:message key="schedule" var="schedule"/>
     <fmt:message key="user.logout" var="logout"/>
     <fmt:message key="user.myProfile" var="myProfile"/>
+    <fmt:message key="admin.addFilm" var="addFilm"/>
+    <fmt:message key="admin.filmSetting" var="filmSetting"/>
+    <fmt:message key="admin.addSession" var="addSession"/>
+    <fmt:message key="admin.sessionsSetting" var="sessionsSetting"/>
 </fmt:bundle>
 
 <c:url value="/main" var="main_url"/>
@@ -59,19 +66,32 @@
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <ul style="list-style-type: none;" class="px-3">
-                        <li class="menu-li py-1"><a href="${addFilm_url}">Add film</a></li>
-                        <li class="menu-li py-1"><a href="${filmSetting_url}">Films
-                            setting</a></li>
-                        <li class="menu-li py-1"><a href="${addSession_url}">Add session</a>
+                        <li class="menu-li py-1"><a href="${addFilm_url}">${addFilm}</a></li>
+                        <li class="menu-li py-1"><a href="${filmSetting_url}">${filmSetting}</a></li>
+                        <li class="menu-li py-1"><a href="${addSession_url}">${addSession}</a>
                         </li>
-                        <li class="menu-li py-1"><a href="${sessionSetting_url}">Sessions
-                            setting</a></li>
+                        <li class="menu-li py-1"><a href="${sessionSetting_url}">${sessionsSetting}</a></li>
                     </ul>
                 </div>
             </div>
+
             <a class="py-2 d-none d-md-inline-block" href="${logout_url}">
                     ${logout}
             </a>
+
         </c:if>
+
+        <div class="dropdown" style="border: 1px solid #527eff; border-radius: 0.3rem;">
+            <button class="py-2 d-none d-md-inline-block dropdown-toggle " type="button" id="dropdownLangButton"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                ${languageSelector}
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownLangButton" style="min-width: 8rem;">
+                <ul style="list-style-type: none;" class="px-3">
+                    <li class="menu-li py-1"><a href="?lang=en">${langENG}</a></li>
+                    <li class="menu-li py-1"><a href="?lang=ua">${langUA}</a></li>
+                </ul>
+            </div>
+        </div>
     </div>
 </nav>

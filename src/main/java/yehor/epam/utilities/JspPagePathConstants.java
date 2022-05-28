@@ -13,6 +13,8 @@ public final class JspPagePathConstants {
     // film
     public static final String ADD_FILM_PAGE_PATH = "/WEB-INF/jsp/adminPages/addFilm.jsp";
     public static final String FILMS_SETTING_PAGE_PATH = "/WEB-INF/jsp/adminPages/filmsSetting.jsp";
+    public static final String FILM_INFO_PAGE_PATH = "/WEB-INF/jsp/film.jsp";
+
     // session
     public static final String ADD_SESSION_PAGE_PATH = "/WEB-INF/jsp/adminPages/addSession.jsp";
     public static final String SESSIONS_SETTING_PAGE_PATH = "/WEB-INF/jsp/adminPages/sessionsSetting.jsp";
@@ -21,7 +23,6 @@ public final class JspPagePathConstants {
     //
     public static final String PAYING_PAGE_PATH = "/WEB-INF/jsp/paying.jsp";
     public static final String SUCCESS_PAID_PAGE_PATH = "/WEB-INF/jsp/successPay.jsp";
-    //public static final String SESSIONS_PAGE_PATH = "/WEB-INF/jsp/session.jsp";
 
     private JspPagePathConstants() {
     }

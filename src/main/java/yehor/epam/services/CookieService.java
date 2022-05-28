@@ -49,6 +49,13 @@ public class CookieService {
         logger.debug("User with id: " + userId + ", role: " + userRole + "has erased his login cookies");
     }
 
+    public void setLocaleCookie(HttpServletResponse response, String locale) {
+        Cookie cookie = new Cookie(LANG, locale);
+        cookie.setMaxAge(COOKIE_LANG_LIFETIME);
+        response.addCookie(cookie);
+        logger.info("Set locale cookie, where " + LANG + " = " + locale);
+    }
+
     public void initCookies(HttpServletRequest request) {
         final HttpSession session = request.getSession(true);
         final Cookie[] cookies = request.getCookies();
@@ -59,8 +66,10 @@ public class CookieService {
                     session.setAttribute(USER_ID, cookie.getValue());
                 if (cookieName.equals(USER_ROLE))
                     session.setAttribute(USER_ROLE, cookie.getValue());
+                if (cookieName.equals(LANG))
+                    session.setAttribute(LANG, cookie.getValue());
             }
-            logger.debug("Initialize session with cookies, sessionId = " + session.getId());
+            logger.info("Initialize session with cookies, sessionId = " + session.getId());
         }
     }
 }

@@ -18,9 +18,10 @@ import java.util.List;
 
 public class MySQLFilmDAO extends BaseDAO implements FilmDAO {
     private static final Logger logger = LoggerManager.getLogger(MySQLFilmDAO.class);
-    private static final String SELECT_ALL = "SELECT * FROM films";
+    private static final String SELECT_ALL = "SELECT * FROM films ORDER BY film_id DESC";
     private static final String SELECT_BY_ID = "SELECT * FROM films WHERE film_id=?";
     private static final String INSERT_FILM = "INSERT INTO films VALUES(film_id, ?,?,?,?)";
+    private static final String DELETE_BY_FILM_ID = "DELETE  FROM films WHERE film_id=?";
 
 
     @Override
@@ -121,7 +122,7 @@ public class MySQLFilmDAO extends BaseDAO implements FilmDAO {
 
     @Override
     public boolean delete(Film element) {
-        return false;
+        return delete(element.getId());
     }
 
     private Film getFilmFromResultSet(ResultSet rs) {
@@ -147,5 +148,20 @@ public class MySQLFilmDAO extends BaseDAO implements FilmDAO {
         final MySQLGenreDAO mySQLGenreDAO = new MySQLGenreDAO();
         mySQLGenreDAO.setConnection(getConnection());
         return mySQLGenreDAO;
+    }
+
+    @Override
+    public boolean delete(int filmId) {
+        boolean isDeleted = false;
+        try (PreparedStatement statement = getConnection().prepareStatement(DELETE_BY_FILM_ID)) {
+            statement.setInt(1, filmId);
+            final int row = statement.executeUpdate();
+            if (row > 1) throw new DAOException("Statement removed more than one row");
+            isDeleted = true;
+        } catch (SQLException e) {
+            logger.error("Couldn't delete film", e);
+            throw new DAOException("Couldn't delete film");
+        }
+        return isDeleted;
     }
 }

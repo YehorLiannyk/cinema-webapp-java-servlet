@@ -22,7 +22,7 @@
     <fmt:message key="film.duration.postfix" var="durationPostfix"/>
     <fmt:message key="film.genres" var="genres"/>
     <fmt:message key="general.selector.multipleSelectTips" var="selectorTips"/>
-    <fmt:message key="film.aboutFilm" var="aboutFilm"/>
+    <fmt:message key="film.filmPage" var="filmPage"/>
 </fmt:bundle>
 
 <ftg:header pageTitle="${pageTitle}"/>
@@ -34,7 +34,6 @@
 <c:set var="freeSeatList" value="${requestScope.freeSeatList}"/>
 
 <main class="container" data-new-gr-c-s-check-loaded="14.1062.0" data-gr-ext-installed="">
-    <%-- SISSON --%>
     <div class="container-fluid">
         <h1>${pageTitle}</h1>
         <div class="row">
@@ -115,7 +114,7 @@
 
                     <div class="w-100"></div>
 
-                    <div class="col-md-12">
+                    <div class="col-md-12 py-2">
                         <c:if test="${film.description != null}">
                             <h5>Film description:</h5>
                             <p>${film.description}</p>

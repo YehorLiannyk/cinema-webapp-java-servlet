@@ -9,8 +9,8 @@ import org.apache.log4j.Logger;
 import yehor.epam.entities.User;
 import yehor.epam.services.CookieService;
 import yehor.epam.services.GeneralService;
-import yehor.epam.utilities.RedirectManager;
 import yehor.epam.utilities.LoggerManager;
+import yehor.epam.utilities.RedirectManager;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -87,7 +87,7 @@ public class SecurityFilter implements Filter {
      * @param session current sesion
      */
     private void getCookies(HttpServletRequest req, HttpSession session) {
-        if (session == null || session.getAttribute(USER_ROLE) == null || session.getAttribute(USER_ID).equals(0)) {
+        if (session == null || session.getAttribute(USER_ROLE) == null || session.getAttribute(USER_ID).equals(0) || session.getAttribute(LANG) == null) {
             CookieService cookieService = new CookieService();
             cookieService.initCookies(req);
             logger.debug("Entry to getCookies block in " + CLASS_NAME);
@@ -123,6 +123,7 @@ public class SecurityFilter implements Filter {
         guestAccessPath.add(COMMAND_VIEW_MAIN_PAGE);
         guestAccessPath.add(COMMAND_VIEW_SCHEDULE_PAGE);
         guestAccessPath.add(COMMAND_VIEW_SESSION_PAGE);
+        guestAccessPath.add(COMMAND_VIEW_FILM_PAGE_PAGE);
 
         guestAccessPath.add(COMMAND_VIEW_LOGIN_PAGE);
         guestAccessPath.add(COMMAND_LOGIN);
@@ -139,6 +140,7 @@ public class SecurityFilter implements Filter {
         userAccessPath.add(COMMAND_VIEW_MAIN_PAGE);
         userAccessPath.add(COMMAND_VIEW_SCHEDULE_PAGE);
         userAccessPath.add(COMMAND_VIEW_SESSION_PAGE);
+        userAccessPath.add(COMMAND_VIEW_FILM_PAGE_PAGE);
 
         userAccessPath.add(COMMAND_LOGOUT);
 
@@ -156,12 +158,14 @@ public class SecurityFilter implements Filter {
         adminAccessPath.add(COMMAND_VIEW_ERROR_PAGE);
         adminAccessPath.add(COMMAND_VIEW_MAIN_PAGE);
         adminAccessPath.add(COMMAND_VIEW_SCHEDULE_PAGE);
+        adminAccessPath.add(COMMAND_VIEW_FILM_PAGE_PAGE);
 
         adminAccessPath.add(COMMAND_LOGOUT);
 
         adminAccessPath.add(COMMAND_VIEW_ADD_FILM_PAGE);
         adminAccessPath.add(COMMAND_ADD_FILM);
         adminAccessPath.add(COMMAND_VIEW_FILMS_SETTING_PAGE);
+        adminAccessPath.add(COMMAND_DELETE_FILM);
 
         adminAccessPath.add(COMMAND_VIEW_ADD_SESSION_PAGE);
         adminAccessPath.add(COMMAND_ADD_SESSION);

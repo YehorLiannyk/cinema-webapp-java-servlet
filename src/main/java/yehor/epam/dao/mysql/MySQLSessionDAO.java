@@ -129,7 +129,7 @@ public class MySQLSessionDAO extends BaseDAO implements SessionDAO {
 
     @Override
     public boolean delete(Session element) {
-        return false;
+        return delete(element.getId());
     }
 
     private Session getSessionFromResultSet(ResultSet rs) {

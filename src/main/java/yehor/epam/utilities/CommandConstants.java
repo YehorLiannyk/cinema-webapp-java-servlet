@@ -22,6 +22,8 @@ public final class CommandConstants {
     public static final String COMMAND_VIEW_ADD_FILM_PAGE = "addFilmPage";
     public static final String COMMAND_ADD_FILM = "addFilm";
     public static final String COMMAND_VIEW_FILMS_SETTING_PAGE = "filmsSettingPage";
+    public static final String COMMAND_VIEW_FILM_PAGE_PAGE = "filmPage";
+    public static final String COMMAND_DELETE_FILM = "deleteFilm";
     // sessions
     public static final String COMMAND_VIEW_ADD_SESSION_PAGE = "addSessionPage";
     public static final String COMMAND_ADD_SESSION = "addSession";
