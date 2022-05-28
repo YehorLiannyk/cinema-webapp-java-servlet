@@ -9,7 +9,7 @@ import org.apache.log4j.Logger;
 import yehor.epam.entities.User;
 import yehor.epam.services.CookieService;
 import yehor.epam.services.GeneralService;
-import yehor.epam.utilities.InnerRedirectManager;
+import yehor.epam.utilities.RedirectManager;
 import yehor.epam.utilities.LoggerManager;
 
 import java.io.IOException;
@@ -106,7 +106,7 @@ public class SecurityFilter implements Filter {
             throws IOException {
         logger.warn("Have no enough permits for the command (" + session.getAttribute(USER_ROLE) + ") '" + command + '\'');
         logger.info("Redirect to login page");
-        resp.sendRedirect(InnerRedirectManager.getRedirectLocation(COMMAND_VIEW_LOGIN_PAGE));
+        resp.sendRedirect(RedirectManager.getRedirectLocation(COMMAND_VIEW_LOGIN_PAGE));
     }
 
     @Override

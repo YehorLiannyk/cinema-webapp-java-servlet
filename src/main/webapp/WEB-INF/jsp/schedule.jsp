@@ -7,12 +7,10 @@
 --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<jsp:include page="fragments/header.jsp"/>
-<jsp:include page="fragments/menu.jsp"/>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="mtg" %>
 
 <fmt:bundle basename="i18n">
     <fmt:message key="general.currency.short" var="currency"/>
-    <fmt:message key="schedule.title" var="pageTitle"/>
     <fmt:message key="session.time" var="time"/>
     <fmt:message key="session.timePrefix" var="timePrefix"/>
     <fmt:message key="session.seatsRemain" var="seatsRemain"/>
@@ -25,14 +23,36 @@
     <fmt:message key="film.aboutFilm" var="aboutFilm"/>
 </fmt:bundle>
 
+<fmt:bundle basename="i18n" prefix="schedule.">
+    <fmt:message key="pageTitle" var="pageTitle"/>
+    <fmt:message key="title" var="title"/>
+    <fmt:message key="sortAndFilter" var="sortAndFilter"/>
+    <fmt:message key="listTitle" var="listTitle"/>
+    <fmt:message key="showSorter" var="showSorter"/>
+    <fmt:message key="showSorterAll" var="showSorterAll"/>
+    <fmt:message key="showSorterOnlyAv" var="showSorterOnlyAv"/>
+    <fmt:message key="sortBy" var="sortBy"/>
+    <fmt:message key="sortBy.datetime" var="sortDatetime"/>
+    <fmt:message key="sortBy.filmName" var="sortFilmName"/>
+    <fmt:message key="sortBy.seatsRemain" var="sortSeatsRemain"/>
+    <fmt:message key="sortMethod" var="sortMethod"/>
+    <fmt:message key="sortMethod.asc" var="asc"/>
+    <fmt:message key="sortMethod.desc" var="desc"/>
+    <fmt:message key="submitBtn" var="submitBtn"/>
+</fmt:bundle>
+
+<mtg:header pageTitle="${pageTitle}"/>
+<mtg:menu userRole="${sessionScope.userRole}"/>
+
+
 <main class="container" data-new-gr-c-s-check-loaded="14.1062.0" data-gr-ext-installed="">
-    <h1>${pageTitle}</h1>
+    <h1>${title}</h1>
     <div class="filter-sorter">
         <div class="row">
             <%--  Filter  --%>
             <aside class="col-md-8">
                 <header class="card-header-custom">
-                    <h5 class="card-custom-title">Sort and filter</h5>
+                    <h5 class="card-custom-title">${sortAndFilter}</h5>
                 </header>
                 <form name="filtration" method="post" action="main">
                     <input type="hidden" name="command" value="schedulePage">
@@ -40,17 +60,17 @@
                         <article class="card card-filter">
                             <div class="filter-content">
                                 <div class="card-body">
-                                    <h5 class="card-title">Show only</h5>
+                                    <h5 class="card-title">${showSorter}</h5>
                                     <label class="form-check">
                                         <input class="form-check-input" type="radio" checked="checked"
                                                name="show" value="showAll">
-                                        <span class="form-check-label">All</span>
+                                        <span class="form-check-label">${showSorterAll}</span>
                                     </label>
                                     <label class="form-check">
-                                        <input class="form-check-input" type="radio" name="show" value="showOnlyAvailable">
-                                        <span class="form-check-label">Only available</span>
+                                        <input class="form-check-input" type="radio" name="show"
+                                               value="showOnlyAvailable">
+                                        <span class="form-check-label">${showSorterOnlyAv}</span>
                                     </label>
-                                    <%--<button type="submit" class="btn btn-primary w-100 btn-sorter">Submit</button>--%>
                                 </div> <!-- card-body.// -->
                             </div>
                         </article> <!-- card-group-item.// -->
@@ -60,24 +80,24 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <h5 class="card-title">Sort by</h5>
+                                            <h5 class="card-title">${sortBy}</h5>
                                             <div class="form-group">
                                                 <select name="sortBy" id="sortBy" class="form-control"
                                                         style="min-width: 150px;" required>
-                                                    <option value="dateTimeSortBy" selected>Date and time</option>
-                                                    <option value="filmNameSortBy">Film name</option>
-                                                    <option value="seatsRemainSortBy">Seats remain</option>
+                                                    <option value="dateTimeSortBy" selected>${sortDatetime}</option>
+                                                    <option value="filmNameSortBy">${sortFilmName}</option>
+                                                    <option value="seatsRemainSortBy">${sortSeatsRemain}</option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
-                                            <h5 class="card-title">Sort method</h5>
+                                            <h5 class="card-title">${sortMethod}</h5>
                                             <div class="form-group">
                                                 <select name="sortMethod" id="sortMethod" class="form-control"
                                                         style="min-width: 150px;"
                                                         required>
-                                                    <option value="ascendingSortMethod" selected>Ascending</option>
-                                                    <option value="descendingSortMethod">Descending</option>
+                                                    <option value="ascendingSortMethod" selected>${asc}</option>
+                                                    <option value="descendingSortMethod">${desc}</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -90,7 +110,7 @@
                         <div class="w-100"></div>
                         <article class="card card-sorter" style="border-top: 0;">
                             <div class="col-12 py-2">
-                                <button type="submit" class="btn btn-primary w-25 btn-sorter">Submit
+                                <button type="submit" class="btn btn-primary w-25 btn-sorter">${submitBtn}
                                 </button>
                             </div>
                         </article>
@@ -109,7 +129,7 @@
                         <table id="myTable" class="table table-striped">
                             <thead>
                             <tr>
-                                <th>Session list</th>
+                                <th>${listTitle}</th>
                             </tr>
                             </thead>
 
@@ -152,7 +172,8 @@
 
                                                 <div class="col-md-3">
                                                     <div class="vertical-buttons">
-                                                        <button type="button" class="btn btn-lg btn-block btn-primary my-2">
+                                                        <button type="button"
+                                                                class="btn btn-lg btn-block btn-primary my-2">
                                                                 ${aboutFilm}
                                                         </button>
                                                         <form name="session" method="post" action="main">
@@ -177,7 +198,7 @@
             </div>
         </div>
 </main>
-<jsp:include page="fragments/footer.jsp"/>
+<mtg:footer/>
 
 
 

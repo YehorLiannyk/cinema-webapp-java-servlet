@@ -7,8 +7,7 @@
 --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<jsp:include page="../fragments/header.jsp"/>
-<jsp:include page="../fragments/menu.jsp"/>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="mtg" %>
 
 <fmt:bundle basename="i18n">
     <fmt:message key="general.currency.short" var="currency"/>
@@ -29,6 +28,9 @@
 <c:set var="film" value="${session.film}"/>
 <c:set var="allSeatList" value="${requestScope.allSeatList}"/>
 <c:set var="freeSeatList" value="${requestScope.freeSeatList}"/>
+
+<mtg:header pageTitle="${pageTitle}"/>
+<mtg:menu userRole="${sessionScope.userRole}"/>
 
 <main class="container" data-new-gr-c-s-check-loaded="14.1062.0" data-gr-ext-installed="">
     <%-- SISSON --%>
@@ -119,4 +121,4 @@
         </div>
     </div>
 </main>
-<jsp:include page="../fragments/footer.jsp"/>
+<mtg:footer/>

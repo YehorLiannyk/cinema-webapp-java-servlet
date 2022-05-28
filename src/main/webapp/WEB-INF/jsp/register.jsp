@@ -5,15 +5,30 @@
   Time: 18:49
   To change this template use File | Settings | File Templates.
 --%>
+
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<jsp:include page="fragments/header.jsp"/>
-<jsp:include page="fragments/menu.jsp"/>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="mtg" %>
 
 <fmt:bundle basename="i18n">
+    <fmt:message key="register.pageTitle" var="pageTitle"/>
     <fmt:message key="register.passwordMatch" var="passwordMatch"/>
     <fmt:message key="register.passwordNotMatch" var="passwordNotMatch"/>
+    <fmt:message key="register.email" var="email"/>
+    <fmt:message key="register.password" var="password"/>
+    <fmt:message key="register.fName" var="fName"/>
+    <fmt:message key="register.sName" var="sName"/>
+    <fmt:message key="register.signup" var="signup"/>
+    <fmt:message key="register.signupBtn" var="signupBtn"/>
+    <fmt:message key="register.notification" var="notification"/>
+    <fmt:message key="register.phoneNumber" var="phoneNumber"/>
+    <fmt:message key="register.passwordRepeat" var="passwordRepeat"/>
+    <fmt:message key="form.requiredField" var="requiredField"/>
+    <fmt:message key="form.nonRequiredField" var="nonRequiredField"/>
 </fmt:bundle>
+
+<mtg:header pageTitle="${pageTitle}"/>
+<mtg:menu userRole="${sessionScope.userRole}"/>
 
 <main class="container">
     <div class="row d-flex justify-content-center align-items-center h-100">
@@ -23,7 +38,7 @@
                     <div class="row justify-content-center">
                         <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
 
-                            <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
+                            <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">${signup}</p>
 
                             <form class="mx-1 mx-md-4" name="command" method="post" action="main">
                                 <input type="hidden" name="command" value="register">
@@ -31,27 +46,30 @@
                                 <div class="d-flex flex-row align-items-center mb-4">
                                     <i class="fa fa-user fa-lg me-3 fa-fw"></i>
                                     <div class="form-outline flex-fill mb-0">
-                                        <input type="text" name="firstName" id="form3Example1c" class="form-control"
+                                        <input type="text" name="firstName" id="firstName" class="form-control"
+                                               placeholder="${requiredField}"
                                                required/>
-                                        <label class="form-label" for="form3Example1c">Your first name</label>
+                                        <label class="form-label" for="firstName">${fName}</label>
                                     </div>
                                 </div>
 
                                 <div class="d-flex flex-row align-items-center mb-4">
                                     <i class="fa fa-user fa-lg me-3 fa-fw"></i>
                                     <div class="form-outline flex-fill mb-0">
-                                        <input type="text" name="secondName" id="form3Example2c" class="form-control"
+                                        <input type="text" name="secondName" id="secondName" class="form-control"
+                                               placeholder="${requiredField}"
                                                required/>
-                                        <label class="form-label" for="form3Example2c">Your second name</label>
+                                        <label class="form-label" for="secondName">${sName}</label>
                                     </div>
                                 </div>
 
                                 <div class="d-flex flex-row align-items-center mb-4">
                                     <i class="fa fa-envelope fa-lg me-3 fa-fw"></i>
                                     <div class="form-outline flex-fill mb-0">
-                                        <input type="email" name="email" id="form3Example3c" class="form-control"
+                                        <input type="email" name="email" id="email" class="form-control"
+                                               placeholder="${requiredField}"
                                                required/>
-                                        <label class="form-label" for="form3Example3c">Your Email</label>
+                                        <label class="form-label" for="email">${email}</label>
                                     </div>
                                 </div>
 
@@ -59,8 +77,8 @@
                                     <i class="fa fa-lock fa-lg me-3 fa-fw"></i>
                                     <div class="form-outline flex-fill mb-0">
                                         <input type="password" name="password" id="password" class="form-control"
-                                               onkeyup='check();' required/>
-                                        <label class="form-label" for="password">Password</label>
+                                               onkeyup='check();' placeholder="${requiredField}" required/>
+                                        <label class="form-label" for="password">${password}</label>
                                     </div>
                                 </div>
 
@@ -68,9 +86,9 @@
                                     <i class="fa fa-key fa-lg me-3 fa-fw"></i>
                                     <div class="form-outline flex-fill mb-0">
                                         <input type="password" id="confirm_password" name="confirm_password"
-                                               class="form-control"
+                                               class="form-control" placeholder="${requiredField}"
                                                onkeyup='check();' required/>
-                                        <label class="form-label" for="confirm_password">Repeat your password</label>
+                                        <label class="form-label" for="confirm_password">${passwordRepeat}</label>
                                         <span id='message'></span>
                                     </div>
                                 </div>
@@ -78,36 +96,35 @@
                                 <div class="d-flex flex-row align-items-center mb-4">
                                     <i class="fa fa-user fa-lg me-3 fa-fw"></i>
                                     <div class="form-outline flex-fill mb-0">
-                                        <input type="tel" name="phoneNumber" placeholder="380671234567"
-                                               pattern="380[0-9]{4}[0-9]{5}" maxlength="12" id="form3Example5c"
+                                        <input type="tel" name="phoneNumber"
+                                               placeholder="380671234567 ${nonRequiredField}"
+                                               pattern="380[0-9]{4}[0-9]{5}" maxlength="12" id="phoneNumber"
                                                class="form-control"/>
-                                        <label class="form-label" for="form3Example5c">Your phone number</label>
+                                        <label class="form-label" for="phoneNumber">${phoneNumber}</label>
                                     </div>
                                 </div>
 
                                 <div class="form-check d-flex mb-5">
                                     <input class="form-check-input me-2" name="notification" type="checkbox" checked
-                                           id="form2Example3c"/>
-                                    <label class="form-check-label" for="form2Example3c">
-                                        I want to receive all notifications
+                                           id="notification"/>
+                                    <label class="form-check-label" for="notification">
+                                        ${notification}
                                     </label>
                                 </div>
 
                                 <div class="g-recaptcha"
-                                     data-sitekey="6LeFvCUgAAAAACAtqpZg-ECgUPYLBP-_GqY8D0OT"></div>
+                                     data-sitekey="6LeFvCUgAAAAACAtqpZg-ECgUPYLBP-_GqY8D0OT">
+                                </div>
 
                                 <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                                    <button type="submit" class="btn btn-primary btn-lg">Register</button>
+                                    <button type="submit" class="btn btn-primary btn-lg">${signupBtn}</button>
                                 </div>
 
                             </form>
-
                         </div>
                         <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
-
                             <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp"
                                  class="img-fluid" alt="Sample image">
-
                         </div>
                     </div>
                 </div>
@@ -125,5 +142,4 @@
     });
 </script>
 
-
-<jsp:include page="fragments/footer.jsp"/>
+<mtg:footer/>

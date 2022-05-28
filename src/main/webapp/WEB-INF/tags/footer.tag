@@ -1,10 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: egorf
-  Date: 21.05.2022
-  Time: 20:37
-  To change this template use File | Settings | File Templates.
---%>
+<%@ tag pageEncoding="UTF-8" language="java" %>
 
 <footer class="container-fluid py-4">
     <div class="row">
@@ -13,11 +7,6 @@
             <small class="d-block mb-3 text-muted">EPAM University Program 2022</small>
         </div>
     </div>
-    <%--<script>
-        $(document).ready(function(){
-            $('#myTable').dataTable();
-        });
-    </script>--%>
 </footer>
 </body>
 </html>

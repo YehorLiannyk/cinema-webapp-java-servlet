@@ -7,8 +7,9 @@
 --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<jsp:include page="../fragments/header.jsp"/>
-<jsp:include page="../fragments/menu.jsp"/>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="mtg" %>
+
+
 <fmt:bundle basename="i18n" prefix="admin.addFilm.">
     <fmt:message key="pageTitle" var="pageTitle"/>
     <fmt:message key="filmName" var="filmName"/>
@@ -21,9 +22,13 @@
     <fmt:message key="filmUpload" var="filmUpload"/>
     <fmt:message key="uploadBtn" var="uploadBtn"/>
 </fmt:bundle>
+
 <fmt:bundle basename="i18n">
     <fmt:message key="general.selector.multipleSelectTips" var="selectorTips"/>
 </fmt:bundle>
+
+<mtg:header pageTitle="${pageTitle}"/>
+<mtg:menu userRole="${sessionScope.userRole}"/>
 
 <main role="main" class="container">
     <div class="row">
@@ -96,4 +101,4 @@
     </div>
 
 </main>
-<jsp:include page="../fragments/footer.jsp"/>
+<mtg:footer/>

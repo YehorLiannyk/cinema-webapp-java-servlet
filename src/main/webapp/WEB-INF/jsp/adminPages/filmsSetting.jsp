@@ -7,9 +7,13 @@
 --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="mtg" %>
 <fmt:setBundle basename="i18n"/>
-<jsp:include page="../fragments/header.jsp"/>
-<jsp:include page="../fragments/menu.jsp"/>
+<fmt:bundle basename="i18n">
+    <fmt:message key="admin.filmsSetting.pageTitle" var="pageTitle"/>
+</fmt:bundle>
+<mtg:header pageTitle="${pageTitle}"/>
+<mtg:menu userRole="${sessionScope.userRole}"/>
 
 <main role="main" class="container">
     <div class="row">
@@ -61,4 +65,4 @@
         </div>
     </div>
 </main>
-<jsp:include page="../fragments/footer.jsp"/>
+<mtg:footer/>

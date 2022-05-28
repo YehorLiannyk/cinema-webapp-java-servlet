@@ -11,13 +11,12 @@ import yehor.epam.dao.factories.DAOFactory;
 import yehor.epam.dao.factories.MySQLFactory;
 import yehor.epam.entities.Ticket;
 import yehor.epam.services.ErrorService;
-import yehor.epam.utilities.InnerRedirectManager;
+import yehor.epam.utilities.RedirectManager;
 import yehor.epam.utilities.LoggerManager;
 
 import java.util.List;
 
 import static yehor.epam.utilities.CommandConstants.COMMAND_VIEW_SUCCESS_PAY_PAGE;
-import static yehor.epam.utilities.JspPagePathConstants.SUCCESS_PAID_PAGE_PATH;
 
 public class BuyTicketCommand implements BaseCommand {
     private static final Logger logger = LoggerManager.getLogger(BuyTicketCommand.class);
@@ -41,7 +40,7 @@ public class BuyTicketCommand implements BaseCommand {
                     throw new TicketException("Seat is already reserved, choose another one");
                 }
             }
-            response.sendRedirect(InnerRedirectManager.getRedirectLocation(COMMAND_VIEW_SUCCESS_PAY_PAGE));
+            response.sendRedirect(RedirectManager.getRedirectLocation(COMMAND_VIEW_SUCCESS_PAY_PAGE));
         } catch (Exception e) {
             ErrorService.handleException(request, response, CLASS_NAME, e);
         }

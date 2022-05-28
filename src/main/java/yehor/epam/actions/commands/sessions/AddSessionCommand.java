@@ -11,7 +11,7 @@ import yehor.epam.dao.factories.MySQLFactory;
 import yehor.epam.entities.Film;
 import yehor.epam.entities.Session;
 import yehor.epam.services.ErrorService;
-import yehor.epam.utilities.InnerRedirectManager;
+import yehor.epam.utilities.RedirectManager;
 import yehor.epam.utilities.LoggerManager;
 
 import java.math.BigDecimal;
@@ -33,7 +33,7 @@ public class AddSessionCommand implements BaseCommand {
             session.setFilm(film);
             final SessionDAO sessionDAO = factory.getSessionDao();
             sessionDAO.insert(session);
-            response.sendRedirect(InnerRedirectManager.getRedirectLocation(COMMAND_VIEW_SESSIONS_SETTING_PAGE));
+            response.sendRedirect(RedirectManager.getRedirectLocation(COMMAND_VIEW_SESSIONS_SETTING_PAGE));
         } catch (Exception e) {
             ErrorService.handleException(request, response, className, e);
         }

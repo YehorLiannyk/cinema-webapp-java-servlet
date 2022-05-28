@@ -7,8 +7,7 @@
 --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<jsp:include page="../fragments/header.jsp"/>
-<jsp:include page="../fragments/menu.jsp"/>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="mtg" %>
 
 <fmt:bundle basename="i18n" prefix="admin.addSession.">
     <fmt:message key="pageTitle" var="pageTitle"/>
@@ -26,6 +25,9 @@
 <c:set var="minTime" value="${applicationScope.minSessionTime}"/>
 <c:set var="maxTime" value="${applicationScope.maxSessionTime}"/>
 <c:set var="nowDate" value="${sessionScope.nowDate}"/>
+
+<mtg:header pageTitle="${pageTitle}"/>
+<mtg:menu userRole="${sessionScope.userRole}"/>
 
 <main role="main" class="container">
     <div class="row">
@@ -98,4 +100,4 @@
     </div>
 
 </main>
-<jsp:include page="../fragments/footer.jsp"/>
+<mtg:footer/>

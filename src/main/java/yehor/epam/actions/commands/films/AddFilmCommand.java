@@ -11,7 +11,7 @@ import yehor.epam.dao.factories.MySQLFactory;
 import yehor.epam.entities.Film;
 import yehor.epam.entities.Genre;
 import yehor.epam.services.ErrorService;
-import yehor.epam.utilities.InnerRedirectManager;
+import yehor.epam.utilities.RedirectManager;
 import yehor.epam.utilities.LoggerManager;
 
 import java.time.Duration;
@@ -34,7 +34,7 @@ public class AddFilmCommand implements BaseCommand {
             film.setGenreList(genreList);
             final FilmDAO filmDAO = factory.getFilmDAO();
             filmDAO.insert(film);
-            response.sendRedirect(InnerRedirectManager.getRedirectLocation(COMMAND_VIEW_FILMS_SETTING_PAGE));
+            response.sendRedirect(RedirectManager.getRedirectLocation(COMMAND_VIEW_FILMS_SETTING_PAGE));
         } catch (Exception e) {
             ErrorService.handleException(request, response, className, e);
         }

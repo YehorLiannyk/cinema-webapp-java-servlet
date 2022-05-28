@@ -7,23 +7,21 @@
 --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<jsp:include page="fragments/header.jsp"/>
-<jsp:include page="fragments/menu.jsp"/>
-<fmt:bundle basename="i18n" prefix="admin.addFilm.">
-    <fmt:message key="pageTitle" var="pageTitle"/>
-    <fmt:message key="filmName" var="filmName"/>
-    <fmt:message key="filmDescription" var="filmDescription"/>
-    <fmt:message key="genres" var="genres"/>
-    <fmt:message key="poster" var="poster"/>
-    <fmt:message key="posterPlaceholder" var="posterPlaceholder"/>
-    <fmt:message key="duration" var="duration"/>
-    <fmt:message key="durationPlaceholder" var="durationPlaceholder"/>
-    <fmt:message key="filmUpload" var="filmUpload"/>
-    <fmt:message key="uploadBtn" var="uploadBtn"/>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="mtg" %>
+
+<fmt:bundle basename="i18n">
+    <fmt:message key="user.pageTitle" var="pageTitle"/>
+    <fmt:message key="user.activeTickets" var="activeTickets"/>
+    <fmt:message key="user.noActiveTickets" var="noActiveTickets"/>
 </fmt:bundle>
+
 <fmt:bundle basename="i18n">
     <fmt:message key="general.selector.multipleSelectTips" var="selectorTips"/>
 </fmt:bundle>
+
+<mtg:header pageTitle="${pageTitle}"/>
+<mtg:menu userRole="${sessionScope.userRole}"/>
+
 <c:set var="ticketList" value="${requestScope.ticketList}"/>
 
 <main role="main" class="container">
@@ -32,7 +30,7 @@
             <div class="panel-group" id="accordion">
                 <div class="panel panel-primary">
                     <div class="panel-collapse">
-                        <h1>Your active tickets:</h1>
+                        <h1>${activeTickets}</h1>
                         <div class="row">
                             <div class="col-md-12">
                                 <c:choose>
@@ -61,7 +59,7 @@
                                     </c:when>
 
                                     <c:otherwise>
-                                        <span> You have no any active ticket</span>
+                                        <span>${noActiveTickets}</span>
                                     </c:otherwise>
 
                                 </c:choose>
@@ -70,10 +68,10 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
 
 </main>
-<jsp:include page="fragments/footer.jsp"/>
+<mtg:footer/>
+

@@ -13,7 +13,7 @@ import yehor.epam.entities.User;
 import yehor.epam.services.CookieService;
 import yehor.epam.services.ErrorService;
 import yehor.epam.services.VerifyService;
-import yehor.epam.utilities.InnerRedirectManager;
+import yehor.epam.utilities.RedirectManager;
 import yehor.epam.utilities.LoggerManager;
 
 import static yehor.epam.utilities.CommandConstants.COMMAND_VIEW_PROFILE_PAGE;
@@ -22,12 +22,12 @@ import static yehor.epam.utilities.OtherConstants.USER_ROLE;
 
 public class RegisterCommand implements BaseCommand {
     private static final Logger logger = LoggerManager.getLogger(RegisterCommand.class);
-    private final String className = RegisterCommand.class.getName();
+    private static final String CLASS_NAME = RegisterCommand.class.getName();
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         try (DAOFactory factory = new MySQLFactory()) {
-            logger.debug("Created DAOFactory in " + className + " execute command");
+            logger.debug("Created DAOFactory in " + CLASS_NAME + " execute command");
 
             //captcha validation
             VerifyService verifyService = new VerifyService();
@@ -46,13 +46,13 @@ public class RegisterCommand implements BaseCommand {
                 session.setAttribute(USER_ROLE, user.getUserRole());
                 CookieService cookieService = new CookieService();
                 cookieService.loginCookie(response, user);
-                response.sendRedirect(InnerRedirectManager.getRedirectLocation(COMMAND_VIEW_PROFILE_PAGE));
+                response.sendRedirect(RedirectManager.getRedirectLocation(COMMAND_VIEW_PROFILE_PAGE));
             } else {
                 logger.debug("User wasn't inserted");
                 throw new RegisterException("User wasn't added to Database");
             }
         } catch (Exception e) {
-            ErrorService.handleException(request, response, className, e);
+            ErrorService.handleException(request, response, CLASS_NAME, e);
         }
     }
 

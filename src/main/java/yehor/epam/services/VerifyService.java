@@ -19,7 +19,6 @@ import static yehor.epam.utilities.OtherConstants.CAPTCHA_URL;
 public class VerifyService {
     private static final Logger logger = LoggerManager.getLogger(VerifyService.class);
     private static final String CLASS_NAME = VerifyService.class.getName();
-
     private static final String USER_AGENT = "Mozilla/5.0";
 
     public void captchaValidation(HttpServletRequest request, HttpServletResponse response) throws IOException {
