@@ -22,7 +22,7 @@
     <fmt:message key="film.duration.postfix" var="durationPostfix"/>
     <fmt:message key="film.genres" var="genres"/>
     <fmt:message key="general.selector.multipleSelectTips" var="selectorTips"/>
-    <fmt:message key="film.filmPage" var="filmPage"/>
+    <fmt:message key="film.goToFilmPage" var="filmPage"/>
 </fmt:bundle>
 
 <c:set var="session" value="${requestScope.session}"/>

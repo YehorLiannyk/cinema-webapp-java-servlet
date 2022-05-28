@@ -14,6 +14,7 @@
     <fmt:message key="schedule" var="schedule"/>
     <fmt:message key="user.logout" var="logout"/>
     <fmt:message key="user.myProfile" var="myProfile"/>
+    <fmt:message key="admin.filmSession" var="filmSession"/>
     <fmt:message key="admin.addFilm" var="addFilm"/>
     <fmt:message key="admin.filmSetting" var="filmSetting"/>
     <fmt:message key="admin.addSession" var="addSession"/>
@@ -62,7 +63,7 @@
             <div class="dropdown">
                 <button class="py-2 d-none d-md-inline-block dropdown-toggle " type="button" id="dropdownMenuButton"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Film/Session
+                    ${filmSession}
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <ul style="list-style-type: none;" class="px-3">

@@ -12,17 +12,17 @@
 
 <fmt:bundle basename="i18n">
     <fmt:message key="register.pageTitle" var="pageTitle"/>
-    <fmt:message key="register.passwordMatch" var="passwordMatch"/>
-    <fmt:message key="register.passwordNotMatch" var="passwordNotMatch"/>
-    <fmt:message key="register.email" var="email"/>
-    <fmt:message key="register.password" var="password"/>
-    <fmt:message key="register.fName" var="fName"/>
-    <fmt:message key="register.sName" var="sName"/>
-    <fmt:message key="register.signup" var="signup"/>
-    <fmt:message key="register.signupBtn" var="signupBtn"/>
-    <fmt:message key="register.notification" var="notification"/>
-    <fmt:message key="register.phoneNumber" var="phoneNumber"/>
-    <fmt:message key="register.passwordRepeat" var="passwordRepeat"/>
+    <fmt:message key="form.passwordMatch" var="passwordMatch"/>
+    <fmt:message key="form.passwordNotMatch" var="passwordNotMatch"/>
+    <fmt:message key="form.email" var="email"/>
+    <fmt:message key="form.password" var="password"/>
+    <fmt:message key="form.fName" var="fName"/>
+    <fmt:message key="form.sName" var="sName"/>
+    <fmt:message key="form.signup" var="signup"/>
+    <fmt:message key="form.signupBtn" var="signupBtn"/>
+    <fmt:message key="form.notification" var="notification"/>
+    <fmt:message key="form.phoneNumber" var="phoneNumber"/>
+    <fmt:message key="form.passwordRepeat" var="passwordRepeat"/>
     <fmt:message key="form.requiredField" var="requiredField"/>
     <fmt:message key="form.nonRequiredField" var="nonRequiredField"/>
 </fmt:bundle>

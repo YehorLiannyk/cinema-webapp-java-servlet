@@ -13,10 +13,10 @@
 <fmt:bundle basename="i18n">
     <fmt:message key="login.text" var="text"/>
     <fmt:message key="login.pageTitle" var="pageTitle"/>
-    <fmt:message key="login.email" var="email"/>
-    <fmt:message key="login.password" var="password"/>
-    <fmt:message key="login.rememberMe" var="rememberMe"/>
-    <fmt:message key="login.signin" var="signIn"/>
+    <fmt:message key="form.email" var="email"/>
+    <fmt:message key="form.password" var="password"/>
+    <fmt:message key="form.rememberMe" var="rememberMe"/>
+    <fmt:message key="form.signin" var="signIn"/>
     <fmt:message key="form.requiredField" var="requiredField"/>
 </fmt:bundle>
 

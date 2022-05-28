@@ -16,7 +16,9 @@
     <fmt:message key="film.duration.postfix" var="durationPostfix"/>
     <fmt:message key="film.duration" var="duration"/>
     <fmt:message key="film.genres" var="genres"/>
-    <fmt:message key="film.filmPage" var="filmPage"/>
+    <fmt:message key="film.goToFilmPage" var="filmPage"/>
+    <fmt:message key="mainpage.carousel.title" var="carouselTitle"/>
+    <fmt:message key="mainpage.carousel.text" var="carouselText"/>
 </fmt:bundle>
 
 <c:url value="/main?command=filmPage" var="filmPage_url"/>
@@ -27,9 +29,8 @@
 <div class="container">
     <div class="jumbotron p-3 p-md-5 text-white rounded bg-dark main-carousel">
         <div class="col-md-6 px-3 main-carousel-text">
-            <h1 class="display-4 font-italic">Your CINEMA</h1>
-            <p class="lead my-3">Кінотеатр, що створений для повного занурення у світ кіно.
-                Тут найкращі технології, високий рівень комфорту, чудовий сервіс та найхрусткіших попкорн!</p>
+            <h1 class="display-4 font-italic">${carouselTitle}</h1>
+            <p class="lead my-3 p-4">${carouselText}</p>
         </div>
     </div>
 </div>

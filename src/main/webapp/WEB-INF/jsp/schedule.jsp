@@ -21,7 +21,7 @@
     <fmt:message key="film.duration.postfix" var="durationPostfix"/>
     <fmt:message key="film.genres" var="genres"/>
     <fmt:message key="general.selector.multipleSelectTips" var="selectorTips"/>
-    <fmt:message key="film.filmPage" var="filmPage"/>
+    <fmt:message key="film.goToFilmPage" var="filmPage"/>
 </fmt:bundle>
 
 <fmt:bundle basename="i18n" prefix="schedule.">
@@ -174,10 +174,16 @@
 
                                                 <div class="col-md-3">
                                                     <div class="vertical-buttons">
-                                                        <button type="button"
-                                                                class="btn btn-lg btn-block btn-primary my-2">
-                                                                ${filmPage}
-                                                        </button>
+                                                        <form name="film" method="post" action="main">
+                                                            <input type="hidden" name="command"
+                                                                   value="filmPage">
+                                                            <input type="hidden" name="filmId"
+                                                                   value="${film.id}">
+                                                            <button type="submit"
+                                                                    class="btn btn-lg btn-block btn-primary my-2">
+                                                                    ${filmPage}
+                                                            </button>
+                                                        </form>
                                                         <form name="session" method="post" action="main">
                                                             <input type="hidden" name="command" value="sessionPage">
                                                             <input type="hidden" name="sessionId" value="${session.id}">

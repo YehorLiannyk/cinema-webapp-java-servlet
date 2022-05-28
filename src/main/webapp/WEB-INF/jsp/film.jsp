@@ -11,17 +11,12 @@
 <%@ taglib prefix="mtg" uri="mytags" %>
 
 <fmt:bundle basename="i18n">
-    <fmt:message key="general.currency.short" var="currency"/>
-    <fmt:message key="schedule.title" var="pageTitle"/>
-    <fmt:message key="session.time" var="time"/>
-    <fmt:message key="session.timePrefix" var="timePrefix"/>
+    <fmt:message key="film.filmPage" var="pageTitle"/>
     <fmt:message key="session.seatsRemain" var="seatsRemain"/>
-    <fmt:message key="session.ticketPrice" var="ticketPrice"/>
-    <fmt:message key="session.buyTicket" var="buyTicket"/>
     <fmt:message key="film.duration" var="duration"/>
     <fmt:message key="film.duration.postfix" var="durationPostfix"/>
     <fmt:message key="film.genres" var="genres"/>
-    <fmt:message key="general.selector.multipleSelectTips" var="selectorTips"/>
+    <fmt:message key="film.description" var="description"/>
 </fmt:bundle>
 
 <ftg:header pageTitle="${pageTitle}"/>
@@ -49,8 +44,8 @@
                                     ${duration}: ${film.getDurationInMinutes()} ${durationPostfix}
                                 </li>
                                 <li class="card-text py-1">
-                                    <c:if test="${film.description != null}">
-                                        <h6>Film description:</h6>
+                                    <c:if test="${film.description != null && film.description != ''}">
+                                        <h6>${description}</h6>
                                         <p>${film.description}</p>
                                     </c:if>
                                 </li>

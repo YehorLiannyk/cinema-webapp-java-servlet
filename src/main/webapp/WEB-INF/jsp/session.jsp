@@ -12,7 +12,7 @@
 
 <fmt:bundle basename="i18n">
     <fmt:message key="general.currency.short" var="currency"/>
-    <fmt:message key="schedule.title" var="pageTitle"/>
+    <fmt:message key="session.pageTitle" var="pageTitle"/>
     <fmt:message key="session.time" var="time"/>
     <fmt:message key="session.timePrefix" var="timePrefix"/>
     <fmt:message key="session.seatsRemain" var="seatsRemain"/>
@@ -21,8 +21,10 @@
     <fmt:message key="film.duration" var="duration"/>
     <fmt:message key="film.duration.postfix" var="durationPostfix"/>
     <fmt:message key="film.genres" var="genres"/>
+    <fmt:message key="film.description" var="description"/>
     <fmt:message key="general.selector.multipleSelectTips" var="selectorTips"/>
-    <fmt:message key="film.filmPage" var="filmPage"/>
+    <fmt:message key="film.goToFilmPage" var="filmPage"/>
+    <fmt:message key="session.chooseSeat" var="chooseSeat"/>
 </fmt:bundle>
 
 <ftg:header pageTitle="${pageTitle}"/>
@@ -59,7 +61,7 @@
                             <h4 class="card-text">${ticketPrice}: ${session.ticketPrice} ${currency}</h4>
                         </div>
                         <div>
-                            <h4>Choose your seat:</h4>
+                            <h5>${chooseSeat}:</h5>
                             <form name="seatIds" method="post" action="main">
                                 <input type="hidden" name="command" value="buyTicketPage">
                                 <input type="hidden" name="sessionId" value="${session.id}">
@@ -115,8 +117,8 @@
                     <div class="w-100"></div>
 
                     <div class="col-md-12 py-2">
-                        <c:if test="${film.description != null}">
-                            <h5>Film description:</h5>
+                        <c:if test="${film.description != null && film.description != ''}">
+                            <h5>${description}:</h5>
                             <p>${film.description}</p>
                         </c:if>
                     </div>

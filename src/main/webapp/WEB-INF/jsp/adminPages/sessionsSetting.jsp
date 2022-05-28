@@ -12,7 +12,7 @@
 
 <fmt:bundle basename="i18n">
     <fmt:message key="general.currency.short" var="currency"/>
-    <fmt:message key="schedule.title" var="pageTitle"/>
+    <fmt:message key="admin.sessionsSetting.pageTitle" var="pageTitle"/>
     <fmt:message key="session.time" var="time"/>
     <fmt:message key="session.timePrefix" var="timePrefix"/>
     <fmt:message key="session.seatsRemain" var="seatsRemain"/>
@@ -22,8 +22,10 @@
     <fmt:message key="film.duration" var="duration"/>
     <fmt:message key="film.duration.postfix" var="durationPostfix"/>
     <fmt:message key="film.genres" var="genres"/>
-    <fmt:message key="general.selector.multipleSelectTips" var="selectorTips"/>
-    <fmt:message key="film.filmPage" var="filmPage"/>
+    <fmt:message key="admin.sessionsSetting.delete" var="delete"/>
+    <fmt:message key="admin.sessionsSetting.sureWantDelete" var="sureWantDelete"/>
+    <fmt:message key="admin.sessionsSetting.sessionInfo" var="sessionInfo"/>
+    <fmt:message key="admin.sessionsSetting.filmDeleting" var="sessionDeleting"/>
 </fmt:bundle>
 
 <ftg:header pageTitle="${pageTitle}"/>
@@ -81,13 +83,13 @@
                                                                        value="${session.id}">
                                                                 <button type="submit"
                                                                         class="btn btn-lg btn-block btn-primary my-2">
-                                                                    Session info
+                                                                    ${sessionInfo}
                                                                 </button>
                                                             </form>
                                                             <button type="button"
                                                                     class="btn btn-lg btn-block btn-danger"
                                                                     data-toggle="modal" data-target="#exampleModal">
-                                                                Delete session
+                                                                ${delete}
                                                             </button>
                                                         </div>
                                                     </div>
@@ -103,10 +105,9 @@
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <h5 class="modal-title"
-                                                        id="exampleModalLabel">Session deleting</h5>
+                                                        id="exampleModalLabel">${sessionDeleting}</h5>
                                                 </div>
-                                                <div class="modal-body">Sure you want to delete
-                                                    session?
+                                                <div class="modal-body">${sureWantDelete}
                                                 </div>
                                                 <div class="modal-footer">
                                                     <form name="session" method="post"
@@ -116,7 +117,7 @@
                                                         <input type="hidden" name="sessionId"
                                                                value="${session.id}">
                                                         <button type="submit"
-                                                                class="btn btn-primary">Delete
+                                                                class="btn btn-primary">${delete}
                                                         </button>
                                                     </form>
                                                 </div>

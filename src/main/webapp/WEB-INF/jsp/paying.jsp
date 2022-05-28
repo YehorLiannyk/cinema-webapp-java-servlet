@@ -11,7 +11,6 @@
 
 <fmt:bundle basename="i18n">
     <fmt:message key="general.currency.short" var="currency"/>
-    <fmt:message key="schedule.title" var="pageTitle"/>
     <fmt:message key="session.time" var="time"/>
     <fmt:message key="session.timePrefix" var="timePrefix"/>
     <fmt:message key="session.seatsRemain" var="seatsRemain"/>
@@ -19,6 +18,15 @@
     <fmt:message key="session.buyTicket" var="buyTicket"/>
     <fmt:message key="film.duration" var="duration"/>
     <fmt:message key="film.duration.postfix" var="durationPostfix"/>
+    <fmt:message key="ticket.cost" var="costTitle"/>
+    <fmt:message key="ticket.film" var="filmTitle"/>
+    <fmt:message key="ticket.ticketTitle" var="ticketTitle"/>
+    <fmt:message key="ticket.seatRow" var="seatRowTitle"/>
+    <fmt:message key="ticket.seatPlace" var="seatPlaceTitle"/>
+    <fmt:message key="ticket.payBtn" var="payBtn"/>
+    <fmt:message key="paying.pageTitle" var="pageTitle"/>
+    <fmt:message key="ticket.date" var="dateTitle"/>
+    <fmt:message key="paying.totalCost" var="totalCostTitle"/>
 </fmt:bundle>
 
 <ftg:header pageTitle="${pageTitle}"/>
@@ -30,7 +38,7 @@
 
 <main class="container" data-new-gr-c-s-check-loaded="14.1062.0" data-gr-ext-installed="">
     <div class="container-fluid">
-        <h1>Tickets info:</h1>
+        <h1>${pageTitle}</h1>
         <div class="row">
             <div class="col-md-12">
                 <c:forEach var="ticket" items="${ticketList}">
@@ -40,23 +48,23 @@
 
                     <div class="card w-100">
                         <div class="col-md-6">
-                            <h3>Ticket: </h3>
-                            <p>Date: ${session.date}</p>
+                            <h3>${ticketTitle}: </h3>
+                            <p>${dateTitle}: ${session.date}</p>
                             <p>${time}: ${session.time}</p>
-                            <p>Seat row: ${seat.rowNumber}</p>
-                            <p>Seat place: ${seat.placeNumber}</p>
-                            <p>Film: ${film.name}</p>
+                            <p>${seatRowTitle}: ${seat.rowNumber}</p>
+                            <p>${seatPlaceTitle}: ${seat.placeNumber}</p>
+                            <p>${filmTitle}: ${film.name}</p>
                             <p>${duration}: ${film.getDurationInMinutes()} ${durationPostfix}</p>
-                            <p>Cost: ${session.ticketPrice}</p>
+                            <p>${costTitle}: ${session.ticketPrice} ${currency}</p>
                         </div>
                     </div>
                 </c:forEach>
                 <div class="w-100"></div>
                 <br/>
-                <h2 style="text-align: right">Total cost: ${totalCost}</h2>
+                <h2 style="text-align: right">${totalCostTitle}: ${totalCost}</h2>
                 <form name="seatIds" method="post" action="main">
                     <input type="hidden" name="command" value="buyTicket">
-                    <button type="submit" class="btn btn-success w-25" style="float: right;">Pay</button>
+                    <button type="submit" class="btn btn-success w-25" style="float: right;">${payBtn}</button>
                 </form>
             </div>
         </div>

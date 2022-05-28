@@ -14,7 +14,11 @@
     <fmt:message key="filmList.title" var="title"/>
     <fmt:message key="film.duration.postfix" var="durationPostfix"/>
     <fmt:message key="film.duration" var="duration"/>
+    <fmt:message key="film.goToFilmPage" var="goToFilmPage"/>
     <fmt:message key="film.genres" var="genres"/>
+    <fmt:message key="admin.filmsSetting.delete" var="delete"/>
+    <fmt:message key="admin.filmsSetting.sureWantDelete" var="sureWantDelete"/>
+    <fmt:message key="admin.filmsSetting.filmDeleting" var="filmDeleting"/>
 </fmt:bundle>
 
 <ftg:header pageTitle="${pageTitle}"/>
@@ -56,13 +60,13 @@
                                                    value="${film.id}">
                                             <button type="submit"
                                                     class="btn btn-lg btn-block btn-primary my-2">
-                                                Film page
+                                                ${goToFilmPage}
                                             </button>
                                         </form>
                                         <button type="button"
                                                 class="btn btn-lg btn-block btn-danger"
                                                 data-toggle="modal" data-target="#exampleModal">
-                                            Delete film
+                                            ${delete}
                                         </button>
                                     </div>
                                 </div>
@@ -76,10 +80,9 @@
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title"
-                                            id="exampleModalLabel">Film deleting</h5>
+                                            id="exampleModalLabel">${filmDeleting}</h5>
                                     </div>
-                                    <div class="modal-body">Sure you want to delete
-                                        the film?
+                                    <div class="modal-body">${sureWantDelete}
                                     </div>
                                     <div class="modal-footer">
                                         <form name="film" method="post"
@@ -89,7 +92,7 @@
                                             <input type="hidden" name="filmId"
                                                    value="${film.id}">
                                             <button type="submit"
-                                                    class="btn btn-primary">Delete
+                                                    class="btn btn-primary">${delete}
                                             </button>
                                         </form>
                                     </div>
