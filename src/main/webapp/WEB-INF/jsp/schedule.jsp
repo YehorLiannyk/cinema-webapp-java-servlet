@@ -7,7 +7,8 @@
 --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib tagdir="/WEB-INF/tags" prefix="mtg" %>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="ftg" %>
+<%@ taglib prefix="mtg" uri="mytags" %>
 
 <fmt:bundle basename="i18n">
     <fmt:message key="general.currency.short" var="currency"/>
@@ -41,8 +42,8 @@
     <fmt:message key="submitBtn" var="submitBtn"/>
 </fmt:bundle>
 
-<mtg:header pageTitle="${pageTitle}"/>
-<mtg:menu userRole="${sessionScope.userRole}"/>
+<ftg:header pageTitle="${pageTitle}"/>
+<ftg:menu userRole="${sessionScope.userRole}"/>
 
 
 <main class="container" data-new-gr-c-s-check-loaded="14.1062.0" data-gr-ext-installed="">
@@ -147,7 +148,8 @@
                                                     <h2 class="card-title">${film.name}</h2>
                                                     <ul class="list-unstyled mt-3 mb-4">
                                                         <li class="card-text">${genres}:
-                                                            <c:forEach var="genre" items="${film.genreList}"
+                                                            <mtg:filmGenresList film="${film}" />
+                                                            <%--<c:forEach var="genre" items="${film.genreList}"
                                                                        varStatus="counter">
                                                                 <c:if test="${counter.index < (film.genreList.size() - 1)}">
                                                                     <c:out value="${genre.name},"/>
@@ -155,7 +157,7 @@
                                                                 <c:if test="${counter.index == (film.genreList.size() - 1)}">
                                                                     <c:out value="${genre.name}"/>
                                                                 </c:if>
-                                                            </c:forEach>
+                                                            </c:forEach>--%>
                                                         </li>
                                                         <li class="card-text">
                                                                 ${duration}: ${film.getDurationInMinutes()} ${durationPostfix}
@@ -198,7 +200,7 @@
             </div>
         </div>
 </main>
-<mtg:footer/>
+<ftg:footer/>
 
 
 

@@ -7,7 +7,7 @@
 --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib tagdir="/WEB-INF/tags" prefix="mtg" %>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="ftg" %>
 
 <fmt:bundle basename="i18n">
     <fmt:message key="general.currency.short" var="currency"/>
@@ -19,13 +19,10 @@
     <fmt:message key="session.buyTicket" var="buyTicket"/>
     <fmt:message key="film.duration" var="duration"/>
     <fmt:message key="film.duration.postfix" var="durationPostfix"/>
-    <fmt:message key="film.genres" var="genres"/>
-    <fmt:message key="general.selector.multipleSelectTips" var="selectorTips"/>
-    <fmt:message key="film.aboutFilm" var="aboutFilm"/>
 </fmt:bundle>
 
-<mtg:header pageTitle="${pageTitle}"/>
-<mtg:menu userRole="${sessionScope.userRole}"/>
+<ftg:header pageTitle="${pageTitle}"/>
+<ftg:menu userRole="${sessionScope.userRole}"/>
 
 <c:set var="ticketList" value="${sessionScope.ticketList}"/>
 <c:set var="totalCost" value="${requestScope.totalCost}"/>
@@ -45,11 +42,11 @@
                         <div class="col-md-6">
                             <h3>Ticket: </h3>
                             <p>Date: ${session.date}</p>
-                            <p>Time: ${session.time}</p>
+                            <p>${time}: ${session.time}</p>
                             <p>Seat row: ${seat.rowNumber}</p>
                             <p>Seat place: ${seat.placeNumber}</p>
                             <p>Film: ${film.name}</p>
-                            <p>Duration: ${film.getDurationInMinutes()}</p>
+                            <p>${duration}: ${film.getDurationInMinutes()} ${durationPostfix}</p>
                             <p>Cost: ${session.ticketPrice}</p>
                         </div>
                     </div>
@@ -65,5 +62,5 @@
         </div>
     </div>
 </main>
-<mtg:footer/>
+<ftg:footer/>
 

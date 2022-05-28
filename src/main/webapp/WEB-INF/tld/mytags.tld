@@ -9,6 +9,15 @@
     <short-name>mtg</short-name>
     <uri>mytags</uri>
 
-    <!-- Invoke 'Generate' action to add tags or functions -->
-
+    <tag>
+        <name>filmGenresList</name>
+        <tag-class>yehor.epam.tags.FilmGenresTag</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <name>film</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>yehor.epam.entities.Film</type>
+        </attribute>
+    </tag>
 </taglib>

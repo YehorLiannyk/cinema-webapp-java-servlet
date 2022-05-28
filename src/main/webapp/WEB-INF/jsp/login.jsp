@@ -8,7 +8,7 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib tagdir="/WEB-INF/tags" prefix="mtg" %>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="ftg" %>
 
 <fmt:bundle basename="i18n">
     <fmt:message key="login.text" var="text"/>
@@ -20,8 +20,8 @@
     <fmt:message key="form.requiredField" var="requiredField"/>
 </fmt:bundle>
 
-<mtg:header pageTitle="${pageTitle}"/>
-<mtg:menu userRole="${sessionScope.userRole}"/>
+<ftg:header pageTitle="${pageTitle}"/>
+<ftg:menu userRole="${sessionScope.userRole}"/>
 
 <main class="container" data-new-gr-c-s-check-loaded="14.1062.0" data-gr-ext-installed="">
     <div class="row d-flex justify-content-center align-items-center h-100">
@@ -83,4 +83,4 @@
         </div>
     </div>
 </main>
-<mtg:footer/>
+<ftg:footer/>

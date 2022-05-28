@@ -7,7 +7,7 @@
 --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib tagdir="/WEB-INF/tags" prefix="mtg" %>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="ftg" %>
 
 <fmt:bundle basename="i18n">
     <fmt:message key="user.pageTitle" var="pageTitle"/>
@@ -19,8 +19,8 @@
     <fmt:message key="general.selector.multipleSelectTips" var="selectorTips"/>
 </fmt:bundle>
 
-<mtg:header pageTitle="${pageTitle}"/>
-<mtg:menu userRole="${sessionScope.userRole}"/>
+<ftg:header pageTitle="${pageTitle}"/>
+<ftg:menu userRole="${sessionScope.userRole}"/>
 
 <c:set var="ticketList" value="${requestScope.ticketList}"/>
 
@@ -73,5 +73,5 @@
     </div>
 
 </main>
-<mtg:footer/>
+<ftg:footer/>
 

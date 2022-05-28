@@ -8,7 +8,7 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib tagdir="/WEB-INF/tags" prefix="mtg" %>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="ftg" %>
 
 <fmt:bundle basename="i18n">
     <fmt:message key="register.pageTitle" var="pageTitle"/>
@@ -27,8 +27,8 @@
     <fmt:message key="form.nonRequiredField" var="nonRequiredField"/>
 </fmt:bundle>
 
-<mtg:header pageTitle="${pageTitle}"/>
-<mtg:menu userRole="${sessionScope.userRole}"/>
+<ftg:header pageTitle="${pageTitle}"/>
+<ftg:menu userRole="${sessionScope.userRole}"/>
 
 <main class="container">
     <div class="row d-flex justify-content-center align-items-center h-100">
@@ -104,7 +104,7 @@
                                     </div>
                                 </div>
 
-                                <div class="form-check d-flex mb-5">
+                                <div class="form-check d-flex mb-4">
                                     <input class="form-check-input me-2" name="notification" type="checkbox" checked
                                            id="notification"/>
                                     <label class="form-check-label" for="notification">
@@ -112,7 +112,7 @@
                                     </label>
                                 </div>
 
-                                <div class="g-recaptcha"
+                                <div class="d-flex mb-5 g-recaptcha"
                                      data-sitekey="6LeFvCUgAAAAACAtqpZg-ECgUPYLBP-_GqY8D0OT">
                                 </div>
 
@@ -142,4 +142,4 @@
     });
 </script>
 
-<mtg:footer/>
+<ftg:footer/>

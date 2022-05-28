@@ -7,13 +7,14 @@
 --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib tagdir="/WEB-INF/tags" prefix="mtg" %>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="ftg" %>
+<%@ taglib prefix="mtg" uri="mytags" %>
 <fmt:setBundle basename="i18n"/>
 <fmt:bundle basename="i18n">
     <fmt:message key="admin.filmsSetting.pageTitle" var="pageTitle"/>
 </fmt:bundle>
-<mtg:header pageTitle="${pageTitle}"/>
-<mtg:menu userRole="${sessionScope.userRole}"/>
+<ftg:header pageTitle="${pageTitle}"/>
+<ftg:menu userRole="${sessionScope.userRole}"/>
 
 <main role="main" class="container">
     <div class="row">
@@ -38,16 +39,8 @@
                                             <fmt:message key="film.duration.postfix"/>
                                         </li>
                                         <li class="card-text"><fmt:message key="film.genres"/>:
-                                            <c:forEach var="genre" items="${film.genreList}" varStatus="counter">
-                                                <c:if test="${counter.index < (film.genreList.size() - 1)}">
-                                                    <c:out value="${genre.name},"/>
-                                                </c:if>
-                                                <c:if test="${counter.index == (film.genreList.size() - 1)}">
-                                                    <c:out value="${genre.name}"/>
-                                                </c:if>
-                                            </c:forEach>
+                                            <mtg:filmGenresList film="${film}"/>
                                         </li>
-                                        <li class="card-text"><fmt:message key="film.sessionAmount"/>: 3</li>
                                     </ul>
                                     <button type="button" class="btn btn-lg btn-block btn-primary">
                                         <fmt:message key="film.buyTicket"/>
@@ -65,4 +58,4 @@
         </div>
     </div>
 </main>
-<mtg:footer/>
+<ftg:footer/>

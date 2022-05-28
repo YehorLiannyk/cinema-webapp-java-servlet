@@ -7,7 +7,8 @@
 --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib tagdir="/WEB-INF/tags" prefix="mtg" %>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="ftg" %>
+<%@ taglib prefix="mtg" uri="mytags" %>
 
 <fmt:bundle basename="i18n">
     <fmt:message key="general.currency.short" var="currency"/>
@@ -17,6 +18,7 @@
     <fmt:message key="session.seatsRemain" var="seatsRemain"/>
     <fmt:message key="session.ticketPrice" var="ticketPrice"/>
     <fmt:message key="session.buyTicket" var="buyTicket"/>
+    <fmt:message key="schedule.listTitle" var="sessionsTitle"/>
     <fmt:message key="film.duration" var="duration"/>
     <fmt:message key="film.duration.postfix" var="durationPostfix"/>
     <fmt:message key="film.genres" var="genres"/>
@@ -24,23 +26,21 @@
     <fmt:message key="film.aboutFilm" var="aboutFilm"/>
 </fmt:bundle>
 
-<mtg:header pageTitle="${pageTitle}"/>
-<mtg:menu userRole="${sessionScope.userRole}"/>
+<ftg:header pageTitle="${pageTitle}"/>
+<ftg:menu userRole="${sessionScope.userRole}"/>
 
 <main role="main" class="container">
     <div class="row">
         <div class="col-md-12 blog-main">
-            <%-- SISSONS --%>
             <div class="container-fluid">
                 <h1>${pageTitle}</h1>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="film-posts py-4">
-
                             <table id="myTable" class="table table-striped">
                                 <thead>
                                 <tr>
-                                    <th>Session list</th>
+                                    <th>${sessionsTitle}</th>
                                 </tr>
                                 </thead>
 
@@ -58,15 +58,7 @@
                                                         <h2 class="card-title">${film.name}</h2>
                                                         <ul class="list-unstyled mt-3 mb-4">
                                                             <li class="card-text">${genres}:
-                                                                <c:forEach var="genre" items="${film.genreList}"
-                                                                           varStatus="counter">
-                                                                    <c:if test="${counter.index < (film.genreList.size() - 1)}">
-                                                                        <c:out value="${genre.name},"/>
-                                                                    </c:if>
-                                                                    <c:if test="${counter.index == (film.genreList.size() - 1)}">
-                                                                        <c:out value="${genre.name}"/>
-                                                                    </c:if>
-                                                                </c:forEach>
+                                                                <mtg:filmGenresList film="${film}"/>
                                                             </li>
                                                             <li class="card-text">
                                                                     ${duration}: ${film.getDurationInMinutes()} ${durationPostfix}
@@ -84,13 +76,13 @@
                                                     <div class="col-md-3">
                                                         <div class="vertical-buttons">
                                                             <form name="session" method="post" action="main">
-                                                                <input type="hidden" name="command" value="sessionInfoPage">
+                                                                <input type="hidden" name="command"
+                                                                       value="sessionInfoPage">
                                                                 <input type="hidden" name="sessionId"
                                                                        value="${session.id}">
-                                                                <button type="submit
-"
+                                                                <button type="submit"
                                                                         class="btn btn-lg btn-block btn-primary my-2">
-                                                                        Session info
+                                                                    Session info
                                                                 </button>
                                                             </form>
                                                             <button type="button"
@@ -147,4 +139,4 @@
         </div>
     </div>
 </main>
-<mtg:footer/>
+<ftg:footer/>

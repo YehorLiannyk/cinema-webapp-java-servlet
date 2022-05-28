@@ -7,7 +7,8 @@
 --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib tagdir="/WEB-INF/tags" prefix="mtg" %>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="ftg" %>
+<%@ taglib prefix="mtg" uri="mytags" %>
 
 <fmt:bundle basename="i18n">
     <fmt:message key="general.currency.short" var="currency"/>
@@ -24,8 +25,8 @@
     <fmt:message key="film.aboutFilm" var="aboutFilm"/>
 </fmt:bundle>
 
-<mtg:header pageTitle="${pageTitle}"/>
-<mtg:menu userRole="${sessionScope.userRole}"/>
+<ftg:header pageTitle="${pageTitle}"/>
+<ftg:menu userRole="${sessionScope.userRole}"/>
 
 <c:set var="session" value="${requestScope.session}"/>
 <c:set var="film" value="${session.film}"/>
@@ -47,14 +48,7 @@
                             <h2 class="card-title">${film.name}</h2>
                             <ul class="list-unstyled mt-3 mb-4">
                                 <li class="card-text">${genres}:
-                                    <c:forEach var="genre" items="${film.genreList}" varStatus="counter">
-                                        <c:if test="${counter.index < (film.genreList.size() - 1)}">
-                                            <c:out value="${genre.name},"/>
-                                        </c:if>
-                                        <c:if test="${counter.index == (film.genreList.size() - 1)}">
-                                            <c:out value="${genre.name}"/>
-                                        </c:if>
-                                    </c:forEach>
+                                    <mtg:filmGenresList film="${film}"/>
                                 </li>
                                 <li class="card-text">
                                     ${duration}: ${film.getDurationInMinutes()} ${durationPostfix}
@@ -91,8 +85,8 @@
                                                     <label>
                                                         <input type="checkbox" name="seatIds" class="seatsElement"
                                                                value="${seat.id}" disabled>
-                                                        <%--don't know why url with this svg here doesn't work so use absolute path--%>
-                                                        <img  class="seatsImg"
+                                                            <%--don't know why url with this svg here doesn't work so use absolute path--%>
+                                                        <img class="seatsImg"
                                                              src="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkAgMAAAANjH3HAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAADFBMVEUAAABJTFZJTFYAAAAi3Td3AAAAAnRSTlMAAHaTzTgAAAABYktHRACIBR1IAAAACXBIWXMAAC4jAAAuIwF4pT92AAAAB3RJTUUH5gUaFzYGgpvrAQAAAGpJREFUSMft0bsNgDAMRVHDZCxhiozgKbIEI6SIpwSnyQcZpYECvVtZOpKbR2SxaC0z1XZtOxoJnaQpkU7ylGgf5B25RkvbIEuwyW2am5SR7IqDrOUlBAKB/FW+Sr0gkCLiQH6Q4EgidoRPEPyF6GFUhe4AAAAASUVORK5CYII=">
                                                     </label>
                                                 </c:when>
@@ -133,4 +127,4 @@
         </div>
     </div>
 </main>
-<mtg:footer/>
+<ftg:footer/>

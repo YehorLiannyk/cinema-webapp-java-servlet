@@ -7,7 +7,8 @@
 --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib tagdir="/WEB-INF/tags" prefix="mtg" %>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="ftg" %>
+<%@ taglib prefix="mtg" uri="mytags" %>
 
 <fmt:bundle basename="i18n">
     <fmt:message key="mainPage.title" var="pageTitle"/>
@@ -18,8 +19,8 @@
     <fmt:message key="film.aboutFilm" var="aboutFilm"/>
 </fmt:bundle>
 
-<mtg:header pageTitle="${pageTitle}"/>
-<mtg:menu userRole="${sessionScope.userRole}"/>
+<ftg:header pageTitle="${pageTitle}"/>
+<ftg:menu userRole="${sessionScope.userRole}"/>
 
 <div class="container">
     <div class="jumbotron p-3 p-md-5 text-white rounded bg-dark main-carousel">
@@ -53,18 +54,11 @@
                                                 ${duration}: ${film.getDurationInMinutes()} ${durationPostfix}
                                         </li>
                                         <li class="card-text"> ${genres}:
-                                            <c:forEach var="genre" items="${film.genreList}" varStatus="counter">
-                                                <c:if test="${counter.index < (film.genreList.size() - 1)}">
-                                                    <c:out value="${genre.name},"/>
-                                                </c:if>
-                                                <c:if test="${counter.index == (film.genreList.size() - 1)}">
-                                                    <c:out value="${genre.name}"/>
-                                                </c:if>
-                                            </c:forEach>
+                                            <mtg:filmGenresList film="${film}"/>
                                         </li>
                                     </ul>
                                     <button type="button" class="btn btn-lg btn-block btn-primary">
-                                        ${aboutFilm}
+                                            ${aboutFilm}
                                     </button>
                                 </div>
                             </div>
@@ -79,4 +73,4 @@
         </div>
     </div>
 </main>
-<mtg:footer/>
+<ftg:footer/>
