@@ -39,7 +39,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="film-posts py-4">
-                            <table id="myTable" class="table table-striped">
+                            <table id="pagination_table" class="table table-striped">
                                 <thead>
                                 <tr>
                                     <th>${sessionsTitle}</th>
@@ -132,10 +132,6 @@
                     </div>
                 </div>
             </div>
-            <nav class="blog-pagination pagination justify-content-center">
-                <a class="btn btn-outline-primary" href="#">Older</a>
-                <a class="btn btn-outline-secondary disabled" href="#">Newer</a>
-            </nav>
         </div>
     </div>
 </main>

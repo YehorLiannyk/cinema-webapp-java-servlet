@@ -126,8 +126,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="film-posts py-4">
-
-                        <table id="myTable" class="table table-striped">
+                        <table class="table table-striped" id="pagination_table">
                             <thead>
                             <tr>
                                 <th>${listTitle}</th>
@@ -148,16 +147,7 @@
                                                     <h2 class="card-title">${film.name}</h2>
                                                     <ul class="list-unstyled mt-3 mb-4">
                                                         <li class="card-text">${genres}:
-                                                            <mtg:filmGenresList film="${film}" />
-                                                            <%--<c:forEach var="genre" items="${film.genreList}"
-                                                                       varStatus="counter">
-                                                                <c:if test="${counter.index < (film.genreList.size() - 1)}">
-                                                                    <c:out value="${genre.name},"/>
-                                                                </c:if>
-                                                                <c:if test="${counter.index == (film.genreList.size() - 1)}">
-                                                                    <c:out value="${genre.name}"/>
-                                                                </c:if>
-                                                            </c:forEach>--%>
+                                                            <mtg:filmGenresList film="${film}"/>
                                                         </li>
                                                         <li class="card-text">
                                                                 ${duration}: ${film.getDurationInMinutes()} ${durationPostfix}
@@ -201,6 +191,7 @@
                             </c:forEach>
                             </tbody>
                         </table>
+
                     </div>
                 </div>
             </div>

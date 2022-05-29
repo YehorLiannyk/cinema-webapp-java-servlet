@@ -86,7 +86,7 @@
                                                                         ${sendMail}
                                                                 </button>
                                                             </form>
-                                                            <form name="ticketPDF" method="post" action="main">
+                                                            <form name="ticketPDF" method="post" action="main" target="_blank">
                                                                 <input type="hidden" name="command"
                                                                        value="downloadTicket">
                                                                 <input type="hidden" name="ticketId"

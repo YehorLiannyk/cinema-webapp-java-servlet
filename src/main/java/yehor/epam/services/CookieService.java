@@ -13,11 +13,13 @@ import static yehor.epam.utilities.OtherConstants.*;
 public class CookieService {
     private static final Logger logger = LoggerManager.getLogger(CookieService.class);
 
-    public void loginCookie(HttpServletResponse response, User user) {
+    public void loginCookie(HttpServletResponse response, User user, String rememberMe) {
         Cookie cookieId = new Cookie(USER_ID, Integer.toString(user.getId()));
         Cookie cookieRole = new Cookie(USER_ROLE, user.getUserRole().toString());
-        cookieId.setMaxAge(COOKIE_LOGIN_LIFETIME);
-        cookieRole.setMaxAge(COOKIE_LOGIN_LIFETIME);
+        int cookieLifetime = COOKIE_LOGIN_LIFETIME;
+        if (rememberMe == null || rememberMe.isEmpty()) cookieLifetime = -1;
+        cookieId.setMaxAge(cookieLifetime);
+        cookieRole.setMaxAge(cookieLifetime);
         response.addCookie(cookieId);
         response.addCookie(cookieRole);
         logger.debug("Set user's cookie with id: " + user.getId() + ", role = " + user.getUserRole().toString() + " login");

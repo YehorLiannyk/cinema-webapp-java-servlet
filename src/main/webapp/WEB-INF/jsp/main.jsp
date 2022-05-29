@@ -42,9 +42,17 @@
                 ${title}
             </h1>
             <div class="film-posts py-4">
-                <div class="row">
 
-                    <c:forEach var="film" items="${sessionScope.filmList}">
+                <table id="pagination_table">
+                    <thead>
+                    </thead>
+                    <tbody>
+                    <c:forEach var="film" items="${sessionScope.filmList}" varStatus="counter">
+                        <c:if test="${counter.index %2 == 0}">
+                            <tr>
+                            <td>
+                            <div class="row">
+                        </c:if>
                         <div class="col-md-6 p-4 film-post card">
                             <div class="row card-body">
                                 <div class="col-md-4">
@@ -66,20 +74,25 @@
                                         <input type="hidden" name="filmId"
                                                value="${film.id}">
                                         <button type="submit"
-                                                class="btn btn-lg btn-block btn-primary">
+                                                class="btn btn-lg btn-block btn-primary w-75">
                                                 ${filmPage}
                                         </button>
                                     </form>
                                 </div>
                             </div>
                         </div>
+
+                        <c:if test="${counter.index %2 != 0 && counter.index != 0}">
+                            </div>
+                            </td>
+                            </tr>
+                        </c:if>
+
                     </c:forEach>
-                </div>
+                    </tbody>
+                </table>
+
             </div>
-            <nav class="blog-pagination">
-                <a class="btn btn-outline-primary" href="#">Older</a>
-                <a class="btn btn-outline-secondary disabled" href="#">Newer</a>
-            </nav>
         </div>
     </div>
 </main>

@@ -34,14 +34,16 @@ public class LoginCommand implements BaseCommand {
             logger.debug("Created DAOFactory in " + className + " execute command");
             final String login = request.getParameter("login");
             final String password = request.getParameter("password");
+            final String rememberMe = request.getParameter("rememberMe");
             final UserDAO userDao = factory.getUserDao();
-            userAuth(request, response, login, password, userDao);
+            userAuth(request, response, login, password, userDao, rememberMe);
         } catch (Exception e) {
             ErrorService.handleException(request, response, className, e);
         }
     }
 
-    private void userAuth(HttpServletRequest request, HttpServletResponse response, String login, String password, UserDAO userDao) throws IOException {
+    private void userAuth(HttpServletRequest request, HttpServletResponse response, String login,
+                          String password, UserDAO userDao, String rememberMe) throws IOException {
         try {
             final Map<String, String> saltAndPass = userDao.getSaltAndPassByLogin(login);
             final String saltValue = saltAndPass.get("salt");
@@ -49,7 +51,7 @@ public class LoginCommand implements BaseCommand {
             PassEncryptionManager passManager = new PassEncryptionManager();
             boolean isVerified = passManager.verifyUserPassword(password, encryptedPass, saltValue);
             if (!isVerified) throw new AuthException("Wrong password");
-            final User user = prepareUser(request, response, login, userDao);
+            final User user = prepareUser(request, response, login, userDao, rememberMe);
             redirectUser(response, user);
         } catch (AuthException e) {
             logger.warn("Troubles with user login: " + request.getParameter("login"), e);
@@ -64,14 +66,15 @@ public class LoginCommand implements BaseCommand {
             response.sendRedirect(RedirectManager.getRedirectLocation(COMMAND_VIEW_MAIN_PAGE));
     }
 
-    private User prepareUser(HttpServletRequest request, HttpServletResponse response, String login, UserDAO userDao) throws AuthException {
+    private User prepareUser(HttpServletRequest request, HttpServletResponse response,
+                             String login, UserDAO userDao, String rememberMe) throws AuthException {
         final User user = userDao.getUser(login);
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(true);
         session.setAttribute(USER_ID, user.getId());
         session.setAttribute(USER_ROLE, user.getUserRole());
         logger.info("User with id: " + user.getId() + ", role = " + user.getUserRole().toString() + " login");
         CookieService cookieService = new CookieService();
-        cookieService.loginCookie(response, user);
+        cookieService.loginCookie(response, user, rememberMe);
         return user;
     }
 }

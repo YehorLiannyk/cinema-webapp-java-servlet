@@ -42,6 +42,7 @@
 
                             <form class="mx-1 mx-md-4" name="command" method="post" action="main">
                                 <input type="hidden" name="command" value="register">
+                                <input type="hidden" name="rememberMe" value="rememberMe" checked/>
 
                                 <div class="d-flex flex-row align-items-center mb-4">
                                     <i class="fa fa-user fa-lg me-3 fa-fw"></i>

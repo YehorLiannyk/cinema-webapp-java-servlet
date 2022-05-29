@@ -57,7 +57,8 @@
                                 </div>
 
                                 <div class="form-check d-flex mb-5">
-                                    <input class="form-check-input me-2" name="notification" type="checkbox" checked
+                                    <input class="form-check-input me-2" name="rememberMe" value="rememberMe"
+                                           type="checkbox" checked
                                            id="form2Example3c"/>
                                     <label class="form-check-label" for="form2Example3c">
                                         ${rememberMe}

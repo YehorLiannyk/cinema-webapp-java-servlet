@@ -45,8 +45,9 @@ public class RegisterCommand implements BaseCommand {
                 final HttpSession session = request.getSession(true);
                 session.setAttribute(USER_ID, user.getId());
                 session.setAttribute(USER_ROLE, user.getUserRole());
+                final String rememberMe = request.getParameter("rememberMe");
                 CookieService cookieService = new CookieService();
-                cookieService.loginCookie(response, user);
+                cookieService.loginCookie(response, user, rememberMe);
                 response.sendRedirect(RedirectManager.getRedirectLocation(COMMAND_VIEW_PROFILE_PAGE));
             } else {
                 logger.debug("User wasn't inserted");
