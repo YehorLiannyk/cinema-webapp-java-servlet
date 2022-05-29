@@ -4,8 +4,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 import yehor.epam.actions.commands.*;
 import yehor.epam.actions.commands.films.*;
+import yehor.epam.actions.commands.mail.SendMailCommand;
+import yehor.epam.actions.commands.mail.SendTicketViaMailCommand;
 import yehor.epam.actions.commands.sessions.*;
 import yehor.epam.actions.commands.signing.*;
+import yehor.epam.actions.commands.tickets.BuyTicketCommand;
+import yehor.epam.actions.commands.tickets.BuyTicketPageCommand;
+import yehor.epam.actions.commands.tickets.DownloadPDFTicketCommand;
 import yehor.epam.utilities.LoggerManager;
 
 import java.util.HashMap;
@@ -24,6 +29,10 @@ public class CommandFactory {
 
     private void init() {
         commandMap = new HashMap<>();
+
+        commandMap.put(COMMAND_SEND_MAIL, new SendMailCommand());
+        commandMap.put(COMMAND_SEND_TICKET_VIA_MAIL, new SendTicketViaMailCommand());
+        commandMap.put(COMMAND_DOWNLOAD_PDF_TICKET, new DownloadPDFTicketCommand());
 
         commandMap.put(COMMAND_VIEW_MAIN_PAGE, new MainPageCommand());
         commandMap.put(COMMAND_VIEW_SCHEDULE_PAGE, new ScheduleCommand());

@@ -148,6 +148,12 @@ public class SecurityFilter implements Filter {
         userAccessPath.add(COMMAND_VIEW_BUY_TICKET_PAGE);
         userAccessPath.add(COMMAND_BUY_TICKET);
         userAccessPath.add(COMMAND_VIEW_SUCCESS_PAY_PAGE);
+
+        userAccessPath.add(COMMAND_SEND_MAIL);
+        userAccessPath.add(COMMAND_DOWNLOAD_PDF_TICKET);
+        userAccessPath.add(COMMAND_SEND_TICKET_VIA_MAIL);
+
+
     }
 
     /**

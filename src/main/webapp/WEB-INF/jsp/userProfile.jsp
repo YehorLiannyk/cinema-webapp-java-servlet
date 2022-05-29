@@ -33,6 +33,8 @@
     <fmt:message key="ticket.payBtn" var="payBtn"/>
     <fmt:message key="paying.pageTitle" var="pageTitle"/>
     <fmt:message key="ticket.date" var="dateTitle"/>
+    <fmt:message key="ticket.sendMail" var="sendMail"/>
+    <fmt:message key="ticket.downloadTicket" var="downloadTicket"/>
     <fmt:message key="paying.totalCost" var="totalCostTitle"/>
 </fmt:bundle>
 
@@ -60,15 +62,42 @@
                                             <c:set var="seat" value="${ticket.seat}"/>
 
                                             <div class="card w-100">
-                                                <div class="col-md-6">
-                                                    <h3>${ticketTitle}: </h3>
-                                                    <p>${dateTitle}: ${session.date}</p>
-                                                    <p>${time}: ${session.time}</p>
-                                                    <p>${seatRowTitle}: ${seat.rowNumber}</p>
-                                                    <p>${seatPlaceTitle}: ${seat.placeNumber}</p>
-                                                    <p>${filmTitle}: ${film.name}</p>
-                                                    <p>${duration}: ${film.getDurationInMinutes()} ${durationPostfix}</p>
-                                                    <p>${costTitle}: ${session.ticketPrice} ${currency}</p>
+                                                <div class="row p-3">
+                                                    <div class="col-md-6">
+                                                        <h3>${ticketTitle}: </h3>
+                                                        <p>${dateTitle}: ${session.date}</p>
+                                                        <p>${time}: ${session.time}</p>
+                                                        <p>${seatRowTitle}: ${seat.rowNumber}</p>
+                                                        <p>${seatPlaceTitle}: ${seat.placeNumber}</p>
+                                                        <p>${filmTitle}: ${film.name}</p>
+                                                        <p>${duration}: ${film.getDurationInMinutes()} ${durationPostfix}</p>
+                                                        <p>${costTitle}: ${session.ticketPrice} ${currency}</p>
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <div class="vertical-buttons">
+                                                            <form name="ticketMail" method="post" action="main">
+                                                                <input type="hidden" name="command"
+                                                                       value="sendTicketViaMail">
+                                                                <input type="hidden" name="ticketId"
+                                                                       value="${ticket.id}">
+                                                                <button type="submit"
+                                                                        class="btn btn-lg btn-block btn-primary my-2">
+                                                                        ${sendMail}
+                                                                </button>
+                                                            </form>
+                                                            <form name="ticketPDF" method="post" action="main">
+                                                                <input type="hidden" name="command"
+                                                                       value="downloadTicket">
+                                                                <input type="hidden" name="ticketId"
+                                                                       value="${ticket.id}">
+                                                                <button type="submit"
+                                                                        class="btn btn-lg btn-block btn-primary my-2">
+                                                                        ${downloadTicket}
+                                                                </button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </c:forEach>

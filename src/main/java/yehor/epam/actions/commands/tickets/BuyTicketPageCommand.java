@@ -1,4 +1,4 @@
-package yehor.epam.actions.commands;
+package yehor.epam.actions.commands.tickets;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

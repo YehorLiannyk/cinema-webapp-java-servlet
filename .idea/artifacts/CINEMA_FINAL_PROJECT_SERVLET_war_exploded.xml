@@ -22,6 +22,10 @@
           <element id="library" level="project" name="Maven: commons-logging:commons-logging:1.2" />
           <element id="library" level="project" name="Maven: org.glassfish:jakarta.json:1.1.5" />
           <element id="library" level="project" name="Maven: org.json:json:20220320" />
+          <element id="library" level="project" name="Maven: jakarta.mail:jakarta.mail-api:2.0.1" />
+          <element id="library" level="project" name="Maven: com.sun.mail:jakarta.mail:2.0.1" />
+          <element id="library" level="project" name="Maven: com.sun.activation:jakarta.activation:2.0.1" />
+          <element id="library" level="project" name="Maven: com.itextpdf:itextpdf:5.5.13" />
         </element>
       </element>
       <element id="directory" name="META-INF">

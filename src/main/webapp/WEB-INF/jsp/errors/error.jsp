@@ -8,6 +8,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="ftg" %>
+
 <fmt:bundle basename="i18n">
     <fmt:message key="error.pageTitle" var="pageTitle"/>
     <fmt:message key="error.oops" var="oops"/>
@@ -15,6 +16,7 @@
     <fmt:message key="error.backPrevPage" var="backPrevPage"/>
     <fmt:message key="error.goMainPage" var="goMainPage"/>
 </fmt:bundle>
+
 <ftg:header pageTitle="${pageTitle}"/>
 <ftg:menu userRole="${sessionScope.userRole}"/>
 

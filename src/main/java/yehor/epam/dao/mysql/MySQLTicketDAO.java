@@ -21,6 +21,7 @@ public class MySQLTicketDAO extends BaseDAO implements TicketDAO {
     private static final Logger logger = LoggerManager.getLogger(MySQLTicketDAO.class);
     private static final String INSERT = "INSERT INTO tickets VALUES (ticket_id, ?,?,?,?)";
     private static final String SELECT_BY_USER_ID = "SELECT * FROM tickets WHERE user_id=?";
+    private static final String SELECT_BY_ID = "SELECT * FROM tickets t WHERE ticket_id=?";
 
     @Override
     public boolean insert(Ticket ticket) {
@@ -79,19 +80,18 @@ public class MySQLTicketDAO extends BaseDAO implements TicketDAO {
 
     @Override
     public Ticket findById(int id) {
-        /*Seat seat = null;
+        Ticket ticket = null;
         try (PreparedStatement statement = getConnection().prepareStatement(SELECT_BY_ID)) {
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                seat = getSeatFromResultSet(resultSet);
+                ticket = getTicketFromResultSet(resultSet);
             }
         } catch (SQLException e) {
-            logger.error("Couldn't find seat by id in DB", e);
-            throw new DAOException("Couldn't find seat by id in DB");
+            logger.error("Couldn't find ticket by id in DB", e);
+            throw new DAOException("Couldn't find ticket by id in DB");
         }
-        return seat;*/
-        return null;
+        return ticket;
     }
 
     @Override

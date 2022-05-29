@@ -56,4 +56,14 @@ public class Ticket extends BaseEntity {
     public void setTicketPrice(BigDecimal ticketPrice) {
         this.ticketPrice = ticketPrice;
     }
+
+    @Override
+    public String toString() {
+        return "Ticket{" +
+                "session=" + session +
+                ", user=" + user +
+                ", seat=" + seat +
+                ", ticketPrice=" + ticketPrice +
+                '}';
+    }
 }

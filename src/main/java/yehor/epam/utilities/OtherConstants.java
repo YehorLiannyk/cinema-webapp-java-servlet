@@ -35,6 +35,10 @@ public final class OtherConstants {
 
     public static final String DEFAULT_LANG = "ua";
 
+    public static final String DEFAULT_CURRENCY = "UAH";
+
+    public static final String FONTS_BAHNSCHRIFT_TTF_PATH = "fonts/bahnschrift.ttf";
+
     // for captcha
     public static final String CAPTCHA_SECRET_KEY = "6LeFvCUgAAAAAK4QAJyBYzzvvAZRweyc_RbaaprK";
     public static final String CAPTCHA_URL = "https://www.google.com/recaptcha/api/siteverify";

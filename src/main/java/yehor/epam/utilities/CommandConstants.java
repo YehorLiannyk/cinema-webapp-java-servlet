@@ -5,6 +5,9 @@ public final class CommandConstants {
      * Main Servlet (<code>Controller</code>) value
      */
     public static final String COMMAND_MAIN_SERVLET = "main";
+    public static final String COMMAND_SEND_MAIL = "sendMail";
+    public static final String COMMAND_SEND_TICKET_VIA_MAIL = "sendTicketViaMail";
+    public static final String COMMAND_DOWNLOAD_PDF_TICKET = "downloadTicket";
     // Menu pages
     public static final String COMMAND_VIEW_MAIN_PAGE = "mainPage";
     public static final String COMMAND_VIEW_SCHEDULE_PAGE = "schedulePage";
