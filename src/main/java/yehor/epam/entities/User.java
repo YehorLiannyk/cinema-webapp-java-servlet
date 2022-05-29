@@ -8,8 +8,9 @@ public class User extends BaseEntity {
     private String phoneNumber;
     private Role userRole = Role.USER;
     private boolean notification;
+    private String salt;
 
-    public User(int id, String firstName, String secondName, String email, String password, String phoneNumber, User.Role role, boolean notification) {
+    public User(int id, String firstName, String secondName, String email, String password, String phoneNumber, User.Role role, boolean notification, String salt) {
         super(id);
         this.firstName = firstName;
         this.secondName = secondName;
@@ -18,14 +19,15 @@ public class User extends BaseEntity {
         this.phoneNumber = phoneNumber;
         this.userRole = role;
         this.notification = notification;
+        this.salt = salt;
     }
 
-    public User(int id, String firstName, String secondName, String email, String password, User.Role role, boolean notification) {
-        this(id, firstName, secondName, email, password, null, role, notification);
+    public User(int id, String firstName, String secondName, String email, String password, User.Role role, boolean notification,String salt) {
+        this(id, firstName, secondName, email, password, null, role, notification, salt);
     }
 
-    public User(int id, String firstName, String secondName, String email, String password, boolean notification) {
-        this(id, firstName, secondName, email, password, null, Role.GUEST, notification);
+    public User(int id, String firstName, String secondName, String email, String password, boolean notification, String salt) {
+        this(id, firstName, secondName, email, password, null, Role.GUEST, notification, salt);
     }
 
     /**
@@ -37,13 +39,14 @@ public class User extends BaseEntity {
      * @param password    User's password
      * @param phoneNumber User's phoneNumber (not important)
      */
-    public User(String firstName, String secondName, String email, String password, String phoneNumber, boolean notification) {
+    public User(String firstName, String secondName, String email, String password, String phoneNumber, boolean notification, String salt) {
         this.firstName = firstName;
         this.secondName = secondName;
         this.email = email;
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.notification = notification;
+        this.salt = salt;
     }
 
     public String getFirstName() {
@@ -104,6 +107,14 @@ public class User extends BaseEntity {
 
     public void setUserRole(Role userRole) {
         this.userRole = userRole;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
 
     public enum Role {

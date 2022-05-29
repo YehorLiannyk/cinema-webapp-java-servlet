@@ -18,7 +18,7 @@ public class SendMailCommand implements BaseCommand {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         try {
-            logger.debug("Entry to " + CLASS_NAME + " execute command");
+            logger.info("Entry to " + CLASS_NAME + " execute command");
 
             ServletContext context = request.getServletContext();
             String host = context.getInitParameter("host");
@@ -45,31 +45,9 @@ public class SendMailCommand implements BaseCommand {
         try {
             MailService mailService = new MailService();
             mailService.sendEmail(host, port, user, pass, recipient, subject, content);
-            logger.info("The e-mail was sent successfully");
         } catch (Exception e) {
             logger.error("Couldn't send mail", e);
             throw new Exception("Couldn't send mail", e);
         }
     }
-/*
-    public String convertWithIteration(Map<String, String[]> map) {
-        StringBuilder mapAsString = new StringBuilder("{");
-        for (String key : map.keySet()) {
-            mapAsString.append(key + "=" + Arrays.toString(map.get(key)) + ", ");
-        }
-        mapAsString.delete(mapAsString.length() - 2, mapAsString.length()).append("}");
-        return mapAsString.toString();
-    }
-
-    private void logged(HttpServletRequest request) {
-        final Enumeration<String> parameterNames = request.getParameterNames();
-        StringBuilder enumeration = new StringBuilder();
-        while (parameterNames.hasMoreElements())
-            enumeration.append(parameterNames.nextElement()).append(", ");
-        logger.debug("parameterNames: " + enumeration.toString());
-
-
-        final Map<String, String[]> parameterMap = request.getParameterMap();
-        logger.debug("parameterMap: " + convertWithIteration(parameterMap));
-    }*/
 }

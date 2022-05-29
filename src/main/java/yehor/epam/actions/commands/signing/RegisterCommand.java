@@ -12,9 +12,10 @@ import yehor.epam.dao.factories.MySQLFactory;
 import yehor.epam.entities.User;
 import yehor.epam.services.CookieService;
 import yehor.epam.services.ErrorService;
+import yehor.epam.services.PassEncryptionManager;
 import yehor.epam.services.VerifyService;
-import yehor.epam.utilities.RedirectManager;
 import yehor.epam.utilities.LoggerManager;
+import yehor.epam.utilities.RedirectManager;
 
 import static yehor.epam.utilities.CommandConstants.COMMAND_VIEW_PROFILE_PAGE;
 import static yehor.epam.utilities.OtherConstants.USER_ID;
@@ -57,13 +58,18 @@ public class RegisterCommand implements BaseCommand {
     }
 
     private User getUserFromRequest(HttpServletRequest request) {
+        final String password = request.getParameter("password");
+        PassEncryptionManager passManager = new PassEncryptionManager();
+        String saltValue = passManager.getSaltValue(30);
+        String securePassword = passManager.generateSecurePassword(password, saltValue);
         return new User(
                 request.getParameter("firstName"),
                 request.getParameter("secondName"),
                 request.getParameter("email"),
-                request.getParameter("password"),
+                securePassword,
                 request.getParameter("phoneNumber"),
-                fromCheckboxToBoolean(request.getParameter("notification"))
+                fromCheckboxToBoolean(request.getParameter("notification")),
+                saltValue
         );
     }
 

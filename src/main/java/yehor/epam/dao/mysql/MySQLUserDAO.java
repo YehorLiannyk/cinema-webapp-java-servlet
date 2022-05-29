@@ -14,14 +14,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MySQLUserDAO extends BaseDAO implements UserDAO {
     private static final Logger logger = LoggerManager.getLogger(MySQLUserDAO.class);
     private static final String GET_MAX_ID = "SELECT MAX(user_id) FROM users";
-    private String SELECT = "SELECT * FROM users s JOIN roles r on s.role_id = r.role_id WHERE s.email=? AND s.password=?";
+    private String SELECT = "SELECT * FROM users s JOIN roles r on s.role_id = r.role_id WHERE s.email=?";
     private String SELECT_BY_ID = "SELECT * FROM users s JOIN roles r on s.role_id = r.role_id WHERE s.user_id=?";
-    private String INSERT = "INSERT INTO users(user_id, first_name, second_name, email, password, phone_number, notification) VALUES(user_id,?,?,?,?,?,?)";
+    private String INSERT = "INSERT INTO users(user_id, first_name, second_name, email, password, phone_number, notification, salt) VALUES(user_id,?,?,?,?,?,?,?)";
+    private String SELECT_PASS_AND_SALT = "SELECT password, salt FROM users WHERE email=?";
 
     @Override
     public boolean insert(User user) {
@@ -49,6 +52,7 @@ public class MySQLUserDAO extends BaseDAO implements UserDAO {
             statement.setString(4, user.getPassword());
             statement.setString(5, user.getPhoneNumber());
             statement.setBoolean(6, user.getNotification());
+            statement.setString(7, user.getSalt());
         } catch (SQLException e) {
             logger.error("Couldn't set user to PreparedStatement");
             throw new SQLException("Couldn't set user to PreparedStatement");
@@ -87,11 +91,10 @@ public class MySQLUserDAO extends BaseDAO implements UserDAO {
     }
 
     @Override
-    public User getUser(String login, String password) throws AuthException {
+    public User getUser(String login) throws AuthException {
         User user = null;
         try (PreparedStatement statement = getConnection().prepareStatement(SELECT)) {
             statement.setString(1, login);
-            statement.setString(2, password);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 user = getUserFromResultSet(resultSet);
@@ -119,6 +122,26 @@ public class MySQLUserDAO extends BaseDAO implements UserDAO {
         return maxId;
     }
 
+    @Override
+    public Map<String, String> getSaltAndPassByLogin(String login) throws AuthException {
+        Map<String, String> map = new HashMap<>();
+        try (PreparedStatement statement = getConnection().prepareStatement(SELECT_PASS_AND_SALT)) {
+            statement.setString(1, login);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                final String salt = resultSet.getString("salt");
+                map.put("salt", salt);
+                final String password = resultSet.getString("password");
+                map.put("password", password);
+            }
+            if (map.isEmpty()) throw new AuthException("Couldn't find user with this login");
+        } catch (SQLException e) {
+            logger.error("Couldn't get salt and password from DB", e);
+            throw new DAOException("Couldn't get salt and password from DB", e);
+        }
+        return map;
+    }
+
     private User getUserFromResultSet(ResultSet rs) {
         User user = null;
         try {
@@ -128,7 +151,8 @@ public class MySQLUserDAO extends BaseDAO implements UserDAO {
                     rs.getString("second_name"),
                     rs.getString("email"),
                     rs.getString("password"),
-                    rs.getBoolean("notification")
+                    rs.getBoolean("notification"),
+                    rs.getString("salt")
             );
 
             final String phoneNumber = rs.getString("phone_number");

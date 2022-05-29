@@ -26,6 +26,7 @@
           <element id="library" level="project" name="Maven: com.sun.mail:jakarta.mail:2.0.1" />
           <element id="library" level="project" name="Maven: com.sun.activation:jakarta.activation:2.0.1" />
           <element id="library" level="project" name="Maven: com.itextpdf:itextpdf:5.5.13" />
+          <element id="library" level="project" name="Maven: jakarta.activation:jakarta.activation-api:2.1.0" />
         </element>
       </element>
       <element id="directory" name="META-INF">
