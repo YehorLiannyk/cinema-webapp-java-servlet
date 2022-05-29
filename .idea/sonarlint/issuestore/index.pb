@@ -189,8 +189,6 @@ q
 Asrc/main/java/yehor/epam/actions/commands/ProfilePageCommand.java,a\9\a9cf8c9e546eaec9744d72d919c090ca4e31bc5b
 U
 %src/main/webapp/WEB-INF/tags/menu.tag,e\a\eaa080d7dd0b0a7046cd01992313f338687261e6
-b
-2src/main/java/yehor/epam/filters/LocaleFilter.java,4\d\4d3797006cd49573c9c1ad9b072353c1ebfc1454
 e
 5src/main/java/yehor/epam/utilities/LoggerManager.java,7\1\71d404eeb10afe991346a28e7eac143048d1fdc8
 [
