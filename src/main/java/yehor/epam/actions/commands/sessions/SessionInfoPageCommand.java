@@ -12,6 +12,9 @@ import yehor.epam.utilities.LoggerManager;
 
 import static yehor.epam.utilities.JspPagePathConstants.SESSION_INFO_PAGE_PATH;
 
+/**
+ * Command to show Admin Session info page
+ */
 public class SessionInfoPageCommand implements BaseCommand {
     private static final Logger logger = LoggerManager.getLogger(SessionInfoPageCommand.class);
     private static final String CLASS_NAME = SessionInfoPageCommand.class.getName();

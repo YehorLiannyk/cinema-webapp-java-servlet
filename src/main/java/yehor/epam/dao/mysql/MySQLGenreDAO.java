@@ -49,8 +49,7 @@ public class MySQLGenreDAO extends BaseDAO implements GenreDAO {
         try (Statement statement = getConnection().createStatement()) {
             ResultSet resultSet = statement.executeQuery(SELECT_ALL);
             while (resultSet.next()) {
-                final Genre genre = getGenreFromResultSet
-                        (resultSet);
+                final Genre genre = getGenreFromResultSet(resultSet);
                 genreList.add(genre);
             }
         } catch (SQLException e) {
@@ -85,11 +84,9 @@ public class MySQLGenreDAO extends BaseDAO implements GenreDAO {
     public boolean insertFilmGenres(final int filmId, List<Genre> genreList) throws SQLException {
         boolean inserted = false;
         if (genreList.isEmpty()) throw new DAOException("Received genreList is empty");
-        logger.debug("genreList.size = " + genreList.size());
         try (PreparedStatement statement = getConnection().prepareStatement(INSERT_GENRES_OF_FILM)) {
             for (Genre genre : genreList) {
                 if (genre == null) throw new DAOException("Received Genre from genreList is null");
-                logger.debug("genreId = " + genre.getId());
                 statement.setInt(1, filmId);
                 statement.setInt(2, genre.getId());
                 statement.addBatch();

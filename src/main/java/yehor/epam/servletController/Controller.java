@@ -11,6 +11,9 @@ import yehor.epam.utilities.LoggerManager;
 
 import static yehor.epam.utilities.CommandConstants.COMMAND_MAIN_SERVLET;
 
+/**
+ * Main Servlet
+ */
 @WebServlet(name = "controller", value = "/" + COMMAND_MAIN_SERVLET + "")
 public class Controller extends HttpServlet {
     private static final Logger logger = LoggerManager.getLogger(Controller.class);
@@ -30,6 +33,12 @@ public class Controller extends HttpServlet {
         processRequest(request, response);
     }
 
+    /**
+     * Method receiving all GET and POST requests
+     *
+     * @param request  HttpServletRequest
+     * @param response HttpServletResponse
+     */
     private void processRequest(HttpServletRequest request, HttpServletResponse response) {
         CommandFactory factory = new CommandFactory();
         BaseCommand command = factory.defineCommand(request);

@@ -13,6 +13,9 @@ import yehor.epam.utilities.LoggerManager;
 
 import static yehor.epam.utilities.JspPagePathConstants.FILM_INFO_PAGE_PATH;
 
+/**
+ * Film info page command
+ */
 public class FilmInfoPageCommand implements BaseCommand {
     private static final Logger logger = LoggerManager.getLogger(FilmInfoPageCommand.class);
     private static final String CLASS_NAME = FilmInfoPageCommand.class.getName();
@@ -23,12 +26,10 @@ public class FilmInfoPageCommand implements BaseCommand {
             logger.debug("Created DAOFactory in " + CLASS_NAME + " execute command");
 
             final int filmId = Integer.parseInt(request.getParameter("filmId"));
-            logger.debug("request.getParameter(\"filmId\") = " + filmId);
 
             final FilmDAO filmDAO = factory.getFilmDAO();
             final Film film = filmDAO.findById(filmId);
             request.setAttribute("film", film);
-            logger.debug("Film: " + film.toString());
 
             request.getRequestDispatcher(FILM_INFO_PAGE_PATH).forward(request, response);
         } catch (Exception e) {

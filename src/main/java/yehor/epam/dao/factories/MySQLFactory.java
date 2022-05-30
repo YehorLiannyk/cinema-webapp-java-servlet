@@ -9,6 +9,10 @@ import yehor.epam.utilities.LoggerManager;
 
 import java.sql.Connection;
 
+/**
+ * MySQL Factory from AbstractFactory pattern.
+ * Create DAOs
+ */
 public class MySQLFactory implements DAOFactory {
     private static final Logger logger = LoggerManager.getLogger(MySQLFactory.class);
     Connection connection;
@@ -22,10 +26,6 @@ public class MySQLFactory implements DAOFactory {
         }
     }
 
-    @Override
-    public BasketDAO getBasketDao() {
-        return null;
-    }
 
     @Override
     public UserDAO getUserDao() {

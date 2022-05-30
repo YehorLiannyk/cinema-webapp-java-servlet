@@ -1,6 +1,9 @@
 package yehor.epam.connection;
 
-public class ConnectionException extends Exception{
+/**
+ * ConnectionException class for ConnectionPool's exceptions
+ */
+public class ConnectionException extends Exception {
     public ConnectionException() {
         this("ConnectionException was occurred");
     }

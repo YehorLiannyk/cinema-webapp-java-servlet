@@ -1,13 +1,26 @@
 package yehor.epam.entities;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
+/**
+ * Ticket entity
+ */
 public class Ticket extends BaseEntity {
+    /**
+     * Ticket session
+     */
     private Session session;
+    /**
+     * Customer
+     */
     private User user;
+    /**
+     * Chosen seat
+     */
     private Seat seat;
+    /**
+     * Ticket price
+     */
     private BigDecimal ticketPrice;
 
     public Ticket(int id, Session session, User user, Seat seat, BigDecimal ticketPrice) {

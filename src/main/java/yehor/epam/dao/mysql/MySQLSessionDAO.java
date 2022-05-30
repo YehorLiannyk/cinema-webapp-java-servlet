@@ -109,7 +109,6 @@ public class MySQLSessionDAO extends BaseDAO implements SessionDAO {
             statement.setDate(2, Date.valueOf(nowDate));
             statement.setTime(3, Time.valueOf(nowTime));
             statement.setTime(4, Time.valueOf(MIN_SESSION_TIME));
-            logger.debug("Select: " + statement.toString());
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 final Session session = getSessionFromResultSet(resultSet);
@@ -219,6 +218,13 @@ public class MySQLSessionDAO extends BaseDAO implements SessionDAO {
         return isDecremented;
     }
 
+    /**
+     * Build request based on received filter and sort settings
+     *
+     * @param map            map containing filter and sort params only
+     * @param defaultRequest default SELECT_ALL sql request
+     * @return formed sql request
+     */
     private String sortByFormRequest(Map<String, String> map, String defaultRequest) {
         StringBuilder orderedRequest = new StringBuilder(defaultRequest);
         if (map.containsValue(SESSION_SORT_BY_DATETIME)) {
@@ -241,12 +247,18 @@ public class MySQLSessionDAO extends BaseDAO implements SessionDAO {
         return orderedRequest.toString();
     }
 
+    /**
+     * Remove from SessionList unavailable session (where no free ticket left)
+     *
+     * @param map         map containing filter and sort params only
+     * @param sessionList sorted already sessionList
+     * @return filtered SessionList
+     */
     private List<Session> removeFromListUnavailableSessions(Map<String, String> map, List<Session> sessionList) {
         if (map.containsValue(SESSION_FILTER_SHOW_ONLY_AVAILABLE)) {
             logger.debug("Map contains: " + SESSION_FILTER_SHOW_ONLY_AVAILABLE);
             final MySQLSeatDAO seatDAO = getSeatDAO();
             for (Session session : sessionList) {
-                logger.debug("seatDAO.getFreeSeatsAmountBySessionId(session: " + session.getId() + ") > 0): " + seatDAO.getFreeSeatsAmountBySessionId(session.getId()));
                 if (seatDAO.getFreeSeatsAmountBySessionId(session.getId()) == 0) {
                     sessionList.remove(session);
                 }

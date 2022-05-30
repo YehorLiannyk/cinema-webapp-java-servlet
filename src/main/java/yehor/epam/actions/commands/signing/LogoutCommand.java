@@ -16,9 +16,12 @@ import static yehor.epam.utilities.CommandConstants.COMMAND_MAIN_SERVLET;
 import static yehor.epam.utilities.OtherConstants.USER_ID;
 import static yehor.epam.utilities.OtherConstants.USER_ROLE;
 
+/**
+ * Command to logout User, end sessions and clean cookie
+ */
 public class LogoutCommand implements BaseCommand {
     private static final Logger logger = LoggerManager.getLogger(LogoutCommand.class);
-    private String className = LogoutCommand.class.getName();
+    private static final String CLASS_NAME = LogoutCommand.class.getName();
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
@@ -32,10 +35,9 @@ public class LogoutCommand implements BaseCommand {
             logger.info("Session id = " + sessionId + " was invalided by user logout, userId = " + userId);
             CookieService cookieService = new CookieService();
             cookieService.logoutCookie(request, response);
-            logger.debug("Redirect to main page");
             response.sendRedirect(COMMAND_MAIN_SERVLET);
         } catch (IOException e) {
-            ErrorService.handleException(request, response, className, e);
+            ErrorService.handleException(request, response, CLASS_NAME, e);
         }
     }
 }

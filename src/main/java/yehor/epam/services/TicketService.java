@@ -11,7 +11,6 @@ import yehor.epam.entities.Seat;
 import yehor.epam.entities.Session;
 import yehor.epam.entities.Ticket;
 import yehor.epam.utilities.LoggerManager;
-import yehor.epam.utilities.OtherConstants;
 import yehor.epam.utilities.exception.PDFException;
 
 import java.io.ByteArrayOutputStream;
@@ -21,11 +20,16 @@ import java.text.DecimalFormat;
 import static yehor.epam.utilities.OtherConstants.DEFAULT_CURRENCY;
 import static yehor.epam.utilities.OtherConstants.FONTS_BAHNSCHRIFT_TTF_PATH;
 
-
+/**
+ * Class service for ticket in particular for PDF formation purpose
+ */
 public class TicketService {
     private static final Logger logger = LoggerManager.getLogger(TicketService.class);
     private final Font headFont;
 
+    /**
+     * Create TicketService object and set main Font for pdf file
+     */
     public TicketService() {
         BaseFont unicode = null;
         try {
@@ -37,6 +41,12 @@ public class TicketService {
         headFont = new Font(unicode, 12);
     }
 
+    /**
+     * create ByteArrayOutputStream from ticket object and form it to PDF table
+     *
+     * @param ticket Ticket object
+     * @return ByteArrayOutputStream
+     */
     public ByteArrayOutputStream formPDFTicket(Ticket ticket) {
         Document document = new Document();
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -77,8 +87,6 @@ public class TicketService {
             table.addCell(rCell);
             //
 
-            //fillTable(table, ticket);
-
             PdfWriter.getInstance(document, outputStream);
             document.open();
             document.add(table);
@@ -92,6 +100,13 @@ public class TicketService {
         return outputStream;
     }
 
+    /**
+     * Add appropriate row to PDF table
+     *
+     * @param string text
+     * @param table  the PDF table
+     * @param ticket Ticket
+     */
     private void addRowToTable(String string, PdfPTable table, String ticket) {
         PdfPCell lCell;
         PdfPCell rCell;
@@ -108,13 +123,18 @@ public class TicketService {
         lCell.setHorizontalAlignment(Element.ALIGN_LEFT);
     }
 
-
     private void setRightCell(PdfPCell cell) {
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
         cell.setHorizontalAlignment(Element.ALIGN_MIDDLE);
         cell.setPaddingRight(5);
     }
 
+    /**
+     * get ticket price from BigDecimal in two digits after comma format
+     *
+     * @param ticket ticket
+     * @return formatted value in String
+     */
     private String getTicketPriceInFormat(Ticket ticket) {
         DecimalFormat df = new DecimalFormat();
         df.setMaximumFractionDigits(2);
@@ -122,5 +142,4 @@ public class TicketService {
         df.setGroupingUsed(false);
         return df.format(ticket.getTicketPrice());
     }
-
 }

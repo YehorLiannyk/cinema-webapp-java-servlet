@@ -31,8 +31,7 @@ public class MySQLUserDAO extends BaseDAO implements UserDAO {
         boolean inserted = false;
         try (PreparedStatement statement = getConnection().prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS)) {
             setUserToStatement(user, statement);
-            int rows = statement.executeUpdate();
-            if (rows > 1) throw new DAOException("More than one rows were inserted to Database");
+            statement.executeUpdate();
             inserted = true;
         } catch (SQLException e) {
             logger.error("Couldn't add user to Database", e);
@@ -154,14 +153,12 @@ public class MySQLUserDAO extends BaseDAO implements UserDAO {
                     rs.getBoolean("notification"),
                     rs.getString("salt")
             );
-
             final String phoneNumber = rs.getString("phone_number");
             if (phoneNumber != null)
                 user.setPhoneNumber(phoneNumber);
 
             final User.Role role = getUserRole(rs);
             user.setUserRole(role);
-
         } catch (SQLException e) {
             logger.error("Couldn't get user from ResultSet", e);
             throw new DAOException("Couldn't get user from ResultSet", e);

@@ -8,15 +8,13 @@ public abstract class BaseEntity {
 
     /**
      * BaseEntity constructor
-     * @param id id of Entity
+     *
+     * @param id Entity id
      */
     protected BaseEntity(int id) {
         this.id = id;
     }
 
-    /**
-     * Not recommended to use this constructor as might be forgotten to set the id for Entity
-     */
     protected BaseEntity() {
     }
 
@@ -25,8 +23,8 @@ public abstract class BaseEntity {
     }
 
     /**
-     * <code>NOT RECOMMENDED TO USE</code>
      * Set id for Entity
+     *
      * @param id new id for Entity
      */
     public void setId(int id) {

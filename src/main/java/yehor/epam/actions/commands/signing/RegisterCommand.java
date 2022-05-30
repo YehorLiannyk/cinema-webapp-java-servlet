@@ -21,6 +21,9 @@ import static yehor.epam.utilities.CommandConstants.COMMAND_VIEW_PROFILE_PAGE;
 import static yehor.epam.utilities.OtherConstants.USER_ID;
 import static yehor.epam.utilities.OtherConstants.USER_ROLE;
 
+/**
+ * Command for User registration
+ */
 public class RegisterCommand implements BaseCommand {
     private static final Logger logger = LoggerManager.getLogger(RegisterCommand.class);
     private static final String CLASS_NAME = RegisterCommand.class.getName();
@@ -41,23 +44,40 @@ public class RegisterCommand implements BaseCommand {
             user.setId(userId);
 
             if (inserted) {
-                logger.debug("User was inserted");
-                final HttpSession session = request.getSession(true);
-                session.setAttribute(USER_ID, user.getId());
-                session.setAttribute(USER_ROLE, user.getUserRole());
-                final String rememberMe = request.getParameter("rememberMe");
-                CookieService cookieService = new CookieService();
-                cookieService.loginCookie(response, user, rememberMe);
+                prepareUserSessionAndCookie(request, response, user);
                 response.sendRedirect(RedirectManager.getRedirectLocation(COMMAND_VIEW_PROFILE_PAGE));
             } else {
-                logger.debug("User wasn't inserted");
-                throw new RegisterException("User wasn't added to Database");
+                logger.warn("User wasn't inserted");
+                throw new RegisterException("Couldn't create User");
             }
         } catch (Exception e) {
             ErrorService.handleException(request, response, CLASS_NAME, e);
         }
     }
 
+    /**
+     * Set cookies and Session attributes (UserId and UserRole)
+     *
+     * @param request  HttpServletRequest
+     * @param response HttpServletResponse
+     * @param user     User
+     */
+    private void prepareUserSessionAndCookie(HttpServletRequest request, HttpServletResponse response, User user) {
+        logger.info("User was inserted");
+        final HttpSession session = request.getSession(true);
+        session.setAttribute(USER_ID, user.getId());
+        session.setAttribute(USER_ROLE, user.getUserRole());
+        final String rememberMe = request.getParameter("rememberMe");
+        CookieService cookieService = new CookieService();
+        cookieService.loginCookie(response, user, rememberMe);
+    }
+
+    /**
+     * Get user from request
+     *
+     * @param request HttpServletRequest
+     * @return User object
+     */
     private User getUserFromRequest(HttpServletRequest request) {
         final String password = request.getParameter("password");
         PassEncryptionManager passManager = new PassEncryptionManager();
@@ -74,6 +94,12 @@ public class RegisterCommand implements BaseCommand {
         );
     }
 
+    /**
+     * Get boolean from checkbox value
+     *
+     * @param checkboxValue checkboxValue
+     * @return checkboxValue in boolean
+     */
     private boolean fromCheckboxToBoolean(String checkboxValue) {
         return checkboxValue != null && checkboxValue.equals("on");
     }

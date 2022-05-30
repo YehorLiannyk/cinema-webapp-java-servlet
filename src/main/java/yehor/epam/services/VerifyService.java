@@ -16,11 +16,21 @@ import java.net.URL;
 import static yehor.epam.utilities.OtherConstants.CAPTCHA_SECRET_KEY;
 import static yehor.epam.utilities.OtherConstants.CAPTCHA_URL;
 
+/**
+ * Class service for Google Recaptcha verification
+ */
 public class VerifyService {
     private static final Logger logger = LoggerManager.getLogger(VerifyService.class);
     private static final String CLASS_NAME = VerifyService.class.getName();
     private static final String USER_AGENT = "Mozilla/5.0";
 
+    /**
+     * Validate Google Recaptcha
+     *
+     * @param request  HttpServletRequest
+     * @param response HttpServletResponse
+     * @throws IOException
+     */
     public void captchaValidation(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
             String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
@@ -32,7 +42,13 @@ public class VerifyService {
         }
     }
 
-    public boolean verify(String gRecaptchaResponse) {
+    /**
+     * Verification of Google Recaptcha
+     *
+     * @param gRecaptchaResponse
+     * @return true if Google Recaptcha is successful and false if not
+     */
+    private boolean verify(String gRecaptchaResponse) {
         if (gRecaptchaResponse == null || "".equals(gRecaptchaResponse)) {
             logger.warn("gRecaptchaResponse is null or empty, couldn't verify");
             return false;
@@ -61,6 +77,13 @@ public class VerifyService {
         }
     }
 
+    /**
+     * Reading received info from connection
+     *
+     * @param connection HttpsURLConnection
+     * @return true if Google Recaptcha is successful and false if not
+     * @throws IOException
+     */
     private boolean readFromConnection(HttpsURLConnection connection) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         String inputLine;

@@ -11,8 +11,8 @@ import yehor.epam.dao.factories.MySQLFactory;
 import yehor.epam.entities.Film;
 import yehor.epam.entities.Genre;
 import yehor.epam.services.ErrorService;
-import yehor.epam.utilities.RedirectManager;
 import yehor.epam.utilities.LoggerManager;
+import yehor.epam.utilities.RedirectManager;
 
 import java.time.Duration;
 import java.util.ArrayList;
@@ -21,14 +21,17 @@ import java.util.Map;
 
 import static yehor.epam.utilities.CommandConstants.COMMAND_VIEW_FILMS_SETTING_PAGE;
 
+/**
+ * Admin add film command to DB
+ */
 public class AddFilmCommand implements BaseCommand {
     private static final Logger logger = LoggerManager.getLogger(AddFilmCommand.class);
-    private String className = AddFilmCommand.class.getName();
+    private static final String CLASS_NAME = AddFilmCommand.class.getName();
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         try (DAOFactory factory = new MySQLFactory()) {
-            logger.debug("Created DAOFactory in " + className + " execute command");
+            logger.debug("Created DAOFactory in " + CLASS_NAME + " execute command");
             final Film film = getFilmFromRequest(request);
             final List<Genre> genreList = getGenreListFromRequest(request, factory);
             film.setGenreList(genreList);
@@ -36,12 +39,11 @@ public class AddFilmCommand implements BaseCommand {
             filmDAO.insert(film);
             response.sendRedirect(RedirectManager.getRedirectLocation(COMMAND_VIEW_FILMS_SETTING_PAGE));
         } catch (Exception e) {
-            ErrorService.handleException(request, response, className, e);
+            ErrorService.handleException(request, response, CLASS_NAME, e);
         }
     }
 
     private Film getFilmFromRequest(HttpServletRequest request) {
-        logger.debug("request.getParameter(\"filmDuration\") = " + request.getParameter("filmDuration"));
         final long filmDuration = Long.parseLong(request.getParameter("filmDuration"));
         return new Film(
                 request.getParameter("filmName"),

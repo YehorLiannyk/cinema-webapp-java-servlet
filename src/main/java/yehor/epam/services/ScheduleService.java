@@ -8,9 +8,21 @@ import java.util.Map;
 
 import static yehor.epam.utilities.OtherConstants.*;
 
+/**
+ * Class service of Schedule page
+ */
 public class ScheduleService {
     private static final Logger logger = LoggerManager.getLogger(ScheduleService.class);
 
+    private ScheduleService() {
+    }
+
+    /**
+     * Clean off received parameterMap of non filter/sort parameters
+     *
+     * @param parameterMap request's parameterMap
+     * @return map containing only filter/sort parameters
+     */
     public static Map<String, String> getFilterSortMapFromParams(Map<String, String[]> parameterMap) {
         final Map<String, String> filterSortMap = new HashMap<>();
 
@@ -23,10 +35,7 @@ public class ScheduleService {
             filterSortMap.put(SESSION_SORT_METHOD_PARAM_NAME, parameterMap.get(SESSION_SORT_METHOD_PARAM_NAME)[0]);
             filterSortMap.put(SESSION_FILTER_SHOW_PARAM_NAME, parameterMap.get(SESSION_FILTER_SHOW_PARAM_NAME)[0]);
         }
-        logger.debug("Fill filterSortMap: " + filterSortMap);
+        logger.info("Finish form filterSortMap");
         return filterSortMap;
-    }
-
-    private ScheduleService() {
     }
 }

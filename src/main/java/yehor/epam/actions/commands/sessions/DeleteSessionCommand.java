@@ -8,11 +8,14 @@ import yehor.epam.dao.SessionDAO;
 import yehor.epam.dao.factories.DAOFactory;
 import yehor.epam.dao.factories.MySQLFactory;
 import yehor.epam.services.ErrorService;
-import yehor.epam.utilities.RedirectManager;
 import yehor.epam.utilities.LoggerManager;
+import yehor.epam.utilities.RedirectManager;
 
 import static yehor.epam.utilities.CommandConstants.COMMAND_VIEW_SESSIONS_SETTING_PAGE;
 
+/**
+ * Deleting Session (Admin)
+ */
 public class DeleteSessionCommand implements BaseCommand {
     private static final Logger logger = LoggerManager.getLogger(DeleteSessionCommand.class);
     private static final String CLASS_NAME = DeleteSessionCommand.class.getName();

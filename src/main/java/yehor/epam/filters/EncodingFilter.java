@@ -8,6 +8,9 @@ import yehor.epam.utilities.LoggerManager;
 
 import java.io.IOException;
 
+/**
+ * Encoding to UTF-8 filter
+ */
 @WebFilter(urlPatterns = {"/*"}, filterName = "EncodingFilter")
 public class EncodingFilter implements Filter {
     private static final Logger logger = LoggerManager.getLogger(EncodingFilter.class);
@@ -24,7 +27,6 @@ public class EncodingFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         servletRequest.setCharacterEncoding(encoding);
         servletResponse.setCharacterEncoding(encoding);
-        //servletResponse.setContentType("text/html;charset=" + encoding);
         filterChain.doFilter(servletRequest, servletResponse);
     }
 

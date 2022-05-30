@@ -28,7 +28,6 @@ public class MySQLTicketDAO extends BaseDAO implements TicketDAO {
         boolean inserted = false;
         try (PreparedStatement statement = getConnection().prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS)) {
             setTicketToStatement(ticket, statement);
-            logger.debug("setTicketToStatement: " + statement.toString());
             ticketInsertTransaction(ticket, statement);
             inserted = true;
         } catch (SQLException e) {
@@ -96,18 +95,6 @@ public class MySQLTicketDAO extends BaseDAO implements TicketDAO {
 
     @Override
     public List<Ticket> findAll() {
-        /*List<Seat> seats = new ArrayList<>();
-        try (PreparedStatement statement = getConnection().prepareStatement(SELECT_ALL)) {
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                final Seat seat = getSeatFromResultSet(resultSet);
-                seats.add(seat);
-            }
-        } catch (SQLException e) {
-            logger.error("Couldn't get list of all seats from Database", e);
-            throw new DAOException("Couldn't get list of all seats from Database");
-        }
-        return seats;*/
         return null;
     }
 
@@ -156,7 +143,6 @@ public class MySQLTicketDAO extends BaseDAO implements TicketDAO {
         mySQLUserDAO.setConnection(getConnection());
         return mySQLUserDAO;
     }
-
 
     @Override
     public List<Ticket> findAllByUserId(int userId) {

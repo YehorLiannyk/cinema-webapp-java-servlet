@@ -5,7 +5,6 @@ import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
 import jakarta.mail.Session;
 import jakarta.mail.Transport;
-import jakarta.mail.internet.AddressException;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import org.apache.log4j.Logger;
@@ -14,6 +13,9 @@ import yehor.epam.utilities.LoggerManager;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 
+/**
+ * Class service of Email sender (not working)
+ */
 public class MailService {
     private static final Logger logger = LoggerManager.getLogger(MailService.class);
     private static final String CLASS_NAME = MailService.class.getName();
@@ -45,7 +47,7 @@ public class MailService {
             message.setSubject(subject);
             message.setContent(msg, "text/html;charset=UTF-8");
 
-            Thread t =  Thread.currentThread();
+            Thread t = Thread.currentThread();
             ClassLoader ccl = t.getContextClassLoader();
             t.setContextClassLoader(session.getClass().getClassLoader());
             try {

@@ -4,7 +4,7 @@ import yehor.epam.entities.BaseEntity;
 
 import java.util.List;
 
-public interface DAO<T extends BaseEntity>{
+public interface DAO<T extends BaseEntity> {
     /**
      * Insert T element to the DataBase
      *

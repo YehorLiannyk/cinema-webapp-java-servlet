@@ -8,6 +8,9 @@ import yehor.epam.utilities.LoggerManager;
 
 import static yehor.epam.utilities.OtherConstants.USER_ROLE;
 
+/**
+ * Listener that log changing users' roles
+ */
 @WebListener
 public class UserRoleListener implements HttpSessionAttributeListener {
     private static final Logger logger = LoggerManager.getLogger(UserRoleListener.class);

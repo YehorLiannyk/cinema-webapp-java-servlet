@@ -12,6 +12,9 @@ import yehor.epam.utilities.LoggerManager;
 
 import static yehor.epam.utilities.JspPagePathConstants.FILMS_SETTING_PAGE_PATH;
 
+/**
+ * Admin film setting page
+ */
 public class FilmsSettingPageCommand implements BaseCommand {
     private static final Logger logger = LoggerManager.getLogger(FilmsSettingPageCommand.class);
     private static final String CLASS_NAME = FilmsSettingPageCommand.class.getName();

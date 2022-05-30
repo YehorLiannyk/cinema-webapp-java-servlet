@@ -3,18 +3,46 @@ package yehor.epam.dao.factories;
 import yehor.epam.dao.*;
 
 public interface DAOFactory extends AutoCloseable {
-    BasketDAO getBasketDao();
-
+    /**
+     * Get Film DAO
+     *
+     * @return Film DAO
+     */
     FilmDAO getFilmDAO();
 
+    /**
+     * Get Genre DAO
+     *
+     * @return Genre DAO
+     */
     GenreDAO getGenreDAO();
 
+    /**
+     * Get Seat DAO
+     *
+     * @return Seat DAO
+     */
     SeatDAO getSeatDao();
 
+    /**
+     * Get Session DAO
+     *
+     * @return Session DAO
+     */
     SessionDAO getSessionDao();
 
+    /**
+     * Get Ticket DAO
+     *
+     * @return Ticket DAO
+     */
     TicketDAO getTicketDao();
 
+    /**
+     * Get User DAO
+     *
+     * @return User DAO
+     */
     UserDAO getUserDao();
 
 

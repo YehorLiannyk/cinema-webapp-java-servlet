@@ -11,8 +11,8 @@ import yehor.epam.dao.factories.MySQLFactory;
 import yehor.epam.entities.Film;
 import yehor.epam.entities.Session;
 import yehor.epam.services.ErrorService;
-import yehor.epam.utilities.RedirectManager;
 import yehor.epam.utilities.LoggerManager;
+import yehor.epam.utilities.RedirectManager;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -20,14 +20,17 @@ import java.time.LocalTime;
 
 import static yehor.epam.utilities.CommandConstants.COMMAND_VIEW_SESSIONS_SETTING_PAGE;
 
+/**
+ * Admin add Session Command
+ */
 public class AddSessionCommand implements BaseCommand {
     private static final Logger logger = LoggerManager.getLogger(AddSessionCommand.class);
-    private String className = AddSessionCommand.class.getName();
+    private static final String CLASS_NAME = AddSessionCommand.class.getName();
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         try (DAOFactory factory = new MySQLFactory()) {
-            logger.debug("Created DAOFactory in " + className + " execute command");
+            logger.debug("Created DAOFactory in " + CLASS_NAME + " execute command");
             final Session session = getSessionFromRequest(request);
             final Film film = getFilmFromRequest(request, factory);
             session.setFilm(film);
@@ -35,7 +38,7 @@ public class AddSessionCommand implements BaseCommand {
             sessionDAO.insert(session);
             response.sendRedirect(RedirectManager.getRedirectLocation(COMMAND_VIEW_SESSIONS_SETTING_PAGE));
         } catch (Exception e) {
-            ErrorService.handleException(request, response, className, e);
+            ErrorService.handleException(request, response, CLASS_NAME, e);
         }
     }
 

@@ -16,6 +16,9 @@ import java.util.Locale;
 import static yehor.epam.utilities.OtherConstants.DEFAULT_LANG;
 import static yehor.epam.utilities.OtherConstants.LANG;
 
+/**
+ * Filter for localization
+ */
 @WebFilter(filterName = "LocaleFilter", urlPatterns = {"/*"})
 public class LocaleFilter implements Filter {
     private static final Logger logger = LoggerManager.getLogger(LocaleFilter.class);

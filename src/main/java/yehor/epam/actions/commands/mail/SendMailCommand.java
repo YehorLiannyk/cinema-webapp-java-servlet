@@ -5,12 +5,18 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import yehor.epam.actions.BaseCommand;
-import yehor.epam.services.MailService;
 import yehor.epam.entities.Ticket;
 import yehor.epam.entities.User;
 import yehor.epam.services.ErrorService;
+import yehor.epam.services.MailService;
 import yehor.epam.utilities.LoggerManager;
+import yehor.epam.utilities.RedirectManager;
 
+import static yehor.epam.utilities.CommandConstants.COMMAND_VIEW_PROFILE_PAGE;
+
+/**
+ * Send mail command
+ */
 public class SendMailCommand implements BaseCommand {
     private static final Logger logger = LoggerManager.getLogger(SendMailCommand.class);
     private static final String CLASS_NAME = SendMailCommand.class.getName();
@@ -30,17 +36,29 @@ public class SendMailCommand implements BaseCommand {
             // reads form fields
             String recipient = ((User) request.getAttribute("user")).getEmail();
             String subject = (request.getAttribute("mailSubject")).toString();
-            String content = ((Ticket)request.getAttribute("ticket")).toString();
+            String content = ((Ticket) request.getAttribute("ticket")).toString();
             logger.debug("Info receiver, recipient:" + recipient + " subject: " + subject + " content: " + content);
 
             sendEmail(host, port, user, pass, recipient, subject, content);
 
-            //response.sendRedirect(RedirectManager.getRedirectLocation(COMMAND_VIEW_PROFILE_PAGE));
+            response.sendRedirect(RedirectManager.getRedirectLocation(COMMAND_VIEW_PROFILE_PAGE));
         } catch (Exception e) {
             ErrorService.handleException(request, response, CLASS_NAME, e);
         }
     }
 
+    /**
+     * send mail command
+     *
+     * @param host      host
+     * @param port      port
+     * @param user      sender
+     * @param pass      sender mail password
+     * @param recipient recipient
+     * @param subject   mail subject
+     * @param content   mail content
+     * @throws Exception
+     */
     private void sendEmail(String host, String port, String user, String pass, String recipient, String subject, String content) throws Exception {
         try {
             MailService mailService = new MailService();

@@ -9,28 +9,58 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
 
+/**
+ * ConnectionPoll implemented with  BasicDataSource
+ */
 public class ConnectionPool {
     private static final Logger logger = LoggerManager.getLogger(ConnectionPool.class);
 
-    private static final String PROPERTIES_FILE = "/Database.properties";
+    private static final String PROPERTIES_FILE = "/db.properties";
     private static final BasicDataSource ds = new BasicDataSource();
 
     private static ConnectionPool connectionPool;
 
+    /**
+     * Driver class name
+     */
     private String driverClassName;
+    /**
+     * DB user
+     */
     private String user;
+    /**
+     * DB user password
+     */
     private String password;
+    /**
+     * DB url
+     */
     private String url;
+    /**
+     * The minimum number of established connections that should be kept in the pool
+     */
     private int minIdle;
+    /**
+     * The maximum number of established connections
+     */
     private int maxIdle;
+    /**
+     * The maximum number of milliseconds that the pool will wait
+     */
     private long maxWait;
 
     private ConnectionPool() {
         init();
-        logger.debug("Connection pool was created");
+        logger.info("Connection pool was created");
     }
 
+    /**
+     * Get Connection poll
+     *
+     * @return ConnectionPool
+     */
     public static ConnectionPool getInstance() {
+        logger.debug("ConnectionPool.getInstance() was called");
         if (connectionPool == null) {
             synchronized (ConnectionPool.class) {
                 if (connectionPool == null) {
@@ -38,10 +68,15 @@ public class ConnectionPool {
                 }
             }
         }
-        logger.debug("ConnectionPool.getInstance() was called");
         return connectionPool;
     }
 
+    /**
+     * Get connection from pool
+     *
+     * @return Connection
+     * @throws ConnectionException
+     */
     public Connection getConnection() throws ConnectionException {
         logger.debug("ConnectionPool.getConnection() was called");
         Connection connection = null;
@@ -55,6 +90,9 @@ public class ConnectionPool {
         return connection;
     }
 
+    /**
+     * Load properties
+     */
     private void loadProperties() {
         Properties properties = getProperties();
 

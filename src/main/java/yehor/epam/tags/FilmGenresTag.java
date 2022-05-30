@@ -9,6 +9,9 @@ import yehor.epam.entities.Genre;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Class of implementing film's genreList tag, which print Film's Genres and commas
+ */
 public class FilmGenresTag extends TagSupport {
     private Film film;
 

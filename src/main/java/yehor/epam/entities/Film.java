@@ -4,11 +4,29 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Film entity
+ */
 public class Film extends BaseEntity {
+    /**
+     * Film's duration
+     */
     Duration duration;
+    /**
+     * Film's genres
+     */
     List<Genre> genreList;
+    /**
+     * Film's name
+     */
     private String name;
+    /**
+     * Film's description (non required)
+     */
     private String description;
+    /**
+     * URL of Film's poster
+     */
     private String posterUrl;
 
     public Film(int id, String name, String description, String posterUrl, Duration duration, List<Genre> genreList) {

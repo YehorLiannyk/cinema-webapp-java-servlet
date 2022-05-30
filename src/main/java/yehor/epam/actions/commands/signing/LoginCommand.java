@@ -24,24 +24,38 @@ import static yehor.epam.utilities.CommandConstants.COMMAND_VIEW_PROFILE_PAGE;
 import static yehor.epam.utilities.OtherConstants.USER_ID;
 import static yehor.epam.utilities.OtherConstants.USER_ROLE;
 
+/**
+ * User login class, check if user exist and verify login and password
+ */
 public class LoginCommand implements BaseCommand {
     private static final Logger logger = LoggerManager.getLogger(LoginCommand.class);
-    private String className = LoginCommand.class.getName();
+    private static final String CLASS_NAME = LoginCommand.class.getName();
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         try (DAOFactory factory = new MySQLFactory()) {
-            logger.debug("Created DAOFactory in " + className + " execute command");
+            logger.debug("Created DAOFactory in " + CLASS_NAME + " execute command");
             final String login = request.getParameter("login");
             final String password = request.getParameter("password");
             final String rememberMe = request.getParameter("rememberMe");
             final UserDAO userDao = factory.getUserDao();
             userAuth(request, response, login, password, userDao, rememberMe);
         } catch (Exception e) {
-            ErrorService.handleException(request, response, className, e);
+            ErrorService.handleException(request, response, CLASS_NAME, e);
         }
     }
 
+    /**
+     * Authorization of User and redirect
+     *
+     * @param request    HttpServletRequest
+     * @param response   HttpServletResponse
+     * @param login      User's login
+     * @param password   User's non encrypted password
+     * @param userDao    UserDAO
+     * @param rememberMe checkbox value Remember me
+     * @throws IOException
+     */
     private void userAuth(HttpServletRequest request, HttpServletResponse response, String login,
                           String password, UserDAO userDao, String rememberMe) throws IOException {
         try {
@@ -55,10 +69,17 @@ public class LoginCommand implements BaseCommand {
             redirectUser(response, user);
         } catch (AuthException e) {
             logger.warn("Troubles with user login: " + request.getParameter("login"), e);
-            ErrorService.handleException(request, response, className, e);
+            ErrorService.handleException(request, response, CLASS_NAME, e);
         }
     }
 
+    /**
+     * If user is USER redirect to user profile page, if is ADMIN to main page
+     *
+     * @param response
+     * @param user
+     * @throws IOException
+     */
     private void redirectUser(HttpServletResponse response, User user) throws IOException {
         if (user.getUserRole() == User.Role.USER)
             response.sendRedirect(RedirectManager.getRedirectLocation(COMMAND_VIEW_PROFILE_PAGE));
@@ -66,6 +87,17 @@ public class LoginCommand implements BaseCommand {
             response.sendRedirect(RedirectManager.getRedirectLocation(COMMAND_VIEW_MAIN_PAGE));
     }
 
+    /**
+     * Prepare user's session and create cookie
+     *
+     * @param request    HttpServletRequest
+     * @param response   HttpServletResponse
+     * @param login      User's login
+     * @param userDao    UserDAO
+     * @param rememberMe checkbox value Remember me
+     * @return User object
+     * @throws AuthException
+     */
     private User prepareUser(HttpServletRequest request, HttpServletResponse response,
                              String login, UserDAO userDao, String rememberMe) throws AuthException {
         final User user = userDao.getUser(login);

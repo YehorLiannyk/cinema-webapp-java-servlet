@@ -9,14 +9,21 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.Random;
 
+/**
+ * Class service for encryption password by salt
+ */
 public class PassEncryptionManager {
-    /* Declaration of variables */
     private static final Random SECURE_RANDOM = new SecureRandom();
     private static final String CHARACTERS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     private static final int ITERATIONS = 10000;
     private static final int KEY_LENGTH = 256;
 
-    /* Method to generate the salt value. */
+    /**
+     * Method to generate the password salt value
+     *
+     * @param length length of salt
+     * @return
+     */
     public String getSaltValue(int length) {
         StringBuilder finalValue = new StringBuilder(length);
         for (int i = 0; i < length; i++) {
@@ -25,7 +32,13 @@ public class PassEncryptionManager {
         return new String(finalValue);
     }
 
-    /* Method to generate the hash value */
+    /**
+     * Method to generate the hash value
+     *
+     * @param password source password
+     * @param salt     salt value
+     * @return return the key in its primary encoding format, or null if this key does not support encoding.
+     */
     public byte[] hash(char[] password, byte[] salt) {
         PBEKeySpec spec = new PBEKeySpec(password, salt, ITERATIONS, KEY_LENGTH);
         Arrays.fill(password, Character.MIN_VALUE);
@@ -39,18 +52,28 @@ public class PassEncryptionManager {
         }
     }
 
-    /* Method to encrypt the password using the original password and salt value. */
+    /**
+     * Method to encrypt the password using the original password and salt value
+     *
+     * @param password source password
+     * @param salt     salt value
+     * @return encrypted password
+     */
     public String generateSecurePassword(String password, String salt) {
-        String finalValue = null;
         byte[] securePassword = hash(password.toCharArray(), salt.getBytes());
-        finalValue = Base64.getEncoder().encodeToString(securePassword);
-        return finalValue;
+        return Base64.getEncoder().encodeToString(securePassword);
     }
 
-    /* Method to verify if both password matches or not */
+    /**
+     * Method to verify if both password matches or not
+     *
+     * @param providedPassword received clean password
+     * @param securedPassword  received encrypted password
+     * @param salt             salt value
+     * @return true if passwords are equal and false if not
+     */
     public boolean verifyUserPassword(String providedPassword, String securedPassword, String salt) {
         boolean finalValue = false;
-        /* Generate New secure password with the same salt */
         String newSecurePassword = generateSecurePassword(providedPassword, salt);
         /* Check if two passwords are equal */
         finalValue = newSecurePassword.equalsIgnoreCase(securedPassword);

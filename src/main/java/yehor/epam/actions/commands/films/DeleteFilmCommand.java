@@ -13,6 +13,9 @@ import yehor.epam.utilities.RedirectManager;
 
 import static yehor.epam.utilities.CommandConstants.COMMAND_VIEW_FILMS_SETTING_PAGE;
 
+/**
+ * Admin delete film command
+ */
 public class DeleteFilmCommand implements BaseCommand {
     private static final Logger logger = LoggerManager.getLogger(DeleteFilmCommand.class);
     private static final String CLASS_NAME = DeleteFilmCommand.class.getName();

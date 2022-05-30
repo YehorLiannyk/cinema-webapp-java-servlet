@@ -11,12 +11,20 @@ import yehor.epam.utilities.LoggerManager;
 
 import java.util.List;
 
+/**
+ * Class service of Session
+ */
 public class SessionService {
     private static final Logger logger = LoggerManager.getLogger(SessionService.class);
 
+    /**
+     * Prepare Session list, allSeat and only freeSeat lists and set to them to session
+     *
+     * @param request HttpServletRequest
+     * @param factory DAOFactory
+     */
     public void prepareSessionPage(HttpServletRequest request, DAOFactory factory) {
         final int sessionId = Integer.parseInt(request.getParameter("sessionId"));
-        logger.debug("request.getParameter(\"sessionId\") = " + sessionId);
 
         final Session session = getSession(factory, sessionId);
         request.setAttribute("session", session);

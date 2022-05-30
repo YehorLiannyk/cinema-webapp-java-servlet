@@ -12,6 +12,9 @@ import yehor.epam.utilities.LoggerManager;
 
 import static yehor.epam.utilities.JspPagePathConstants.SESSIONS_PAGE_PATH;
 
+/**
+ * Command to show Sessions page
+ */
 public class SessionPageCommand implements BaseCommand {
     private static final Logger logger = LoggerManager.getLogger(SessionPageCommand.class);
     private static final String CLASS_NAME = SessionPageCommand.class.getName();

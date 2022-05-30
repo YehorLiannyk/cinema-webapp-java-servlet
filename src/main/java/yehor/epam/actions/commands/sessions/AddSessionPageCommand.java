@@ -15,24 +15,24 @@ import java.util.List;
 
 import static yehor.epam.utilities.JspPagePathConstants.ADD_SESSION_PAGE_PATH;
 
+/**
+ * Admin add Session page command
+ */
 public class AddSessionPageCommand implements BaseCommand {
     private static final Logger logger = LoggerManager.getLogger(AddSessionPageCommand.class);
-    private String className = AddSessionPageCommand.class.getName();
+    private static final String CLASS_NAME = AddSessionPageCommand.class.getName();
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         try (DAOFactory factory = new MySQLFactory()) {
-            logger.debug("Created DAOFactory in " + className + " execute command");
+            logger.debug("Created DAOFactory in " + CLASS_NAME + " execute command");
             final FilmDAO filmDAO = factory.getFilmDAO();
             final List<Film> filmList = filmDAO.findAll();
-            logger.debug("filmList.size = " + filmList.size());
-            logger.debug("filmList.firstElement = " + filmList.get(0).getName());
             request.setAttribute("filmList", filmList);
             logger.debug("Forward to add session page");
             request.getRequestDispatcher(ADD_SESSION_PAGE_PATH).forward(request, response);
         } catch (Exception e) {
-            ErrorService.handleException(request, response, className, e);
-
+            ErrorService.handleException(request, response, CLASS_NAME, e);
         }
     }
 }

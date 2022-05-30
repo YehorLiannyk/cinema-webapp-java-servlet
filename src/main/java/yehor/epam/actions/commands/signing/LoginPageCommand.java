@@ -9,9 +9,12 @@ import yehor.epam.utilities.LoggerManager;
 
 import static yehor.epam.utilities.JspPagePathConstants.LOGIN_PAGE_PATH;
 
+/**
+ * Command for forwarding to login page
+ */
 public class LoginPageCommand implements BaseCommand {
     private static final Logger logger = LoggerManager.getLogger(LoginPageCommand.class);
-    private String className = LoginPageCommand.class.getName();
+    private static final String CLASS_NAME = LoginPageCommand.class.getName();
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
@@ -19,7 +22,7 @@ public class LoginPageCommand implements BaseCommand {
             logger.debug("Forward to login page");
             request.getRequestDispatcher(LOGIN_PAGE_PATH).forward(request, response);
         } catch (Exception e) {
-            ErrorService.handleException(request, response, className, e);
+            ErrorService.handleException(request, response, CLASS_NAME, e);
         }
     }
 }

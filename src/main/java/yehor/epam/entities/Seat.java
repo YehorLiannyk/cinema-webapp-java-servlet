@@ -1,7 +1,16 @@
 package yehor.epam.entities;
 
+/**
+ * Class of Session's Seat
+ */
 public class Seat extends BaseEntity {
+    /**
+     * Number of row
+     */
     private int rowNumber;
+    /**
+     * Number of place
+     */
     private int placeNumber;
 
     public Seat(int id, int rowNumber, int placeNumber) {

@@ -15,22 +15,24 @@ import java.util.List;
 
 import static yehor.epam.utilities.JspPagePathConstants.ADD_FILM_PAGE_PATH;
 
+/**
+ * Admin film page command
+ */
 public class AddFilmPageCommand implements BaseCommand {
     private static final Logger logger = LoggerManager.getLogger(AddFilmPageCommand.class);
-    private String className = AddFilmPageCommand.class.getName();
+    private static final String CLASS_NAME = AddFilmPageCommand.class.getName();
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         try (DAOFactory factory = new MySQLFactory()) {
-            logger.debug("Created DAOFactory in " + className + " execute command");
+            logger.debug("Created DAOFactory in " + CLASS_NAME + " execute command");
             final GenreDAO genreDAO = factory.getGenreDAO();
             final List<Genre> genreList = genreDAO.findAll();
             request.setAttribute("genreList", genreList);
             logger.debug("Forward to add film page");
             request.getRequestDispatcher(ADD_FILM_PAGE_PATH).forward(request, response);
         } catch (Exception e) {
-            ErrorService.handleException(request, response, className, e);
-
+            ErrorService.handleException(request, response, CLASS_NAME, e);
         }
     }
 }

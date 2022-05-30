@@ -93,7 +93,6 @@ public class MySQLSeatDAO extends BaseDAO implements SeatDAO {
         List<Seat> freeSeatList = new ArrayList<>();
         try (PreparedStatement statement = getConnection().prepareStatement(SELECT_FREE_SEATS_BY_SESSION_ID)) {
             statement.setInt(1, sessionId);
-            logger.debug("findAllFreeSeatBySessionId statement: " + statement.toString());
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 final Seat seat = getSeatFromResultSet(resultSet);
@@ -131,10 +130,8 @@ public class MySQLSeatDAO extends BaseDAO implements SeatDAO {
         try (PreparedStatement statement = getConnection().prepareStatement(SELECT_FREE_SEAT_BY_ID_AND_SESSION)) {
             statement.setInt(1, seatId);
             statement.setInt(2, sessionId);
-            logger.debug("isSeatReserved statement:" + statement.toString());
             final ResultSet resultSet = statement.executeQuery();
             isFree = resultSet.next();
-            logger.debug("isFree = resultSet.next(): " + resultSet.next());
         } catch (SQLException e) {
             logger.error("Couldn't check is seat reserved", e);
             throw new DAOException("Couldn't check is seat reserved");
@@ -194,7 +191,6 @@ public class MySQLSeatDAO extends BaseDAO implements SeatDAO {
     private void setFreeSeatToStatement(Session session, Seat seat, PreparedStatement statement) throws SQLException {
         statement.setInt(1, seat.getId());
         statement.setInt(2, session.getId());
-        logger.debug("statement.toString()" + statement.toString());
     }
 
 }

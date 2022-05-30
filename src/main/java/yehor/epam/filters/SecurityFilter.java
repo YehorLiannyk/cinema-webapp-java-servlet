@@ -20,6 +20,9 @@ import static yehor.epam.utilities.CommandConstants.*;
 import static yehor.epam.utilities.JspPagePathConstants.ERROR_PAGE_PATH;
 import static yehor.epam.utilities.OtherConstants.*;
 
+/**
+ * Security filter for delimitation of user accessible command
+ */
 @WebFilter(urlPatterns = {"/*"}, filterName = "SecurityFilter")
 public class SecurityFilter implements Filter {
     private static final Logger logger = LoggerManager.getLogger(SecurityFilter.class);
@@ -95,6 +98,16 @@ public class SecurityFilter implements Filter {
             logger.debug("Skip getCookies block in " + CLASS_NAME);
     }
 
+    /**
+     * Forward to error page if have no enough permits
+     *
+     * @param session HttpSession
+     * @param command received command
+     * @param req     HttpServletRequest
+     * @param resp    HttpServletResponse
+     * @throws ServletException
+     * @throws IOException
+     */
     private void forwardToErrorPage(HttpSession session, String command, HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         logger.warn("Have no enough permits for the command (" + session.getAttribute(USER_ROLE) + ") '" + command + '\'');
@@ -102,6 +115,14 @@ public class SecurityFilter implements Filter {
         req.getRequestDispatcher(ERROR_PAGE_PATH).forward(req, resp);
     }
 
+    /**
+     * Redirect GUEST to login page if he haS no enough permits
+     *
+     * @param session HttpSession
+     * @param command received command
+     * @param resp    HttpServletResponse
+     * @throws IOException
+     */
     private void redirectToLoginPage(HttpSession session, String command, HttpServletResponse resp)
             throws IOException {
         logger.warn("Have no enough permits for the command (" + session.getAttribute(USER_ROLE) + ") '" + command + '\'');
@@ -152,8 +173,6 @@ public class SecurityFilter implements Filter {
         userAccessPath.add(COMMAND_SEND_MAIL);
         userAccessPath.add(COMMAND_DOWNLOAD_PDF_TICKET);
         userAccessPath.add(COMMAND_SEND_TICKET_VIA_MAIL);
-
-
     }
 
     /**
@@ -178,6 +197,5 @@ public class SecurityFilter implements Filter {
         adminAccessPath.add(COMMAND_VIEW_SESSIONS_SETTING_PAGE);
         adminAccessPath.add(COMMAND_DELETE_SESSION);
         adminAccessPath.add(COMMAND_VIEW_SESSION_INFO_PAGE);
-
     }
 }

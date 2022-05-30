@@ -4,11 +4,29 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+/**
+ * Film session
+ */
 public class Session extends BaseEntity {
+    /**
+     * Ticket price
+     */
     private BigDecimal ticketPrice;
+    /**
+     * Session date
+     */
     private LocalDate date;
+    /**
+     * Session time
+     */
     private LocalTime time;
+    /**
+     * Session's film
+     */
     private Film film;
+    /**
+     * General seat amount
+     */
     private int seatsAmount;
 
     public Session(int id, BigDecimal ticketPrice, LocalDate date, LocalTime time, Film film, int seatsAmount) {

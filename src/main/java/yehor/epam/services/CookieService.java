@@ -10,9 +10,19 @@ import yehor.epam.utilities.LoggerManager;
 
 import static yehor.epam.utilities.OtherConstants.*;
 
+/**
+ * Class service of Cookies
+ */
 public class CookieService {
     private static final Logger logger = LoggerManager.getLogger(CookieService.class);
 
+    /**
+     * Set Cookie after login
+     *
+     * @param response   HttpServletResponse
+     * @param user       user
+     * @param rememberMe login checkbox Remember me
+     */
     public void loginCookie(HttpServletResponse response, User user, String rememberMe) {
         Cookie cookieId = new Cookie(USER_ID, Integer.toString(user.getId()));
         Cookie cookieRole = new Cookie(USER_ROLE, user.getUserRole().toString());
@@ -25,6 +35,12 @@ public class CookieService {
         logger.debug("Set user's cookie with id: " + user.getId() + ", role = " + user.getUserRole().toString() + " login");
     }
 
+    /**
+     * Clean login cookies
+     *
+     * @param request  HttpServletRequest
+     * @param response HttpServletResponse
+     */
     public void logoutCookie(HttpServletRequest request, HttpServletResponse response) {
         final Cookie[] cookies = request.getCookies();
         int userId = -1;
@@ -51,6 +67,12 @@ public class CookieService {
         logger.debug("User with id: " + userId + ", role: " + userRole + "has erased his login cookies");
     }
 
+    /**
+     * Setting Locale/language cookies
+     *
+     * @param response HttpServletResponse
+     * @param locale   locale param value
+     */
     public void setLocaleCookie(HttpServletResponse response, String locale) {
         Cookie cookie = new Cookie(LANG, locale);
         cookie.setMaxAge(COOKIE_LANG_LIFETIME);
@@ -58,6 +80,11 @@ public class CookieService {
         logger.info("Set locale cookie, where " + LANG + " = " + locale);
     }
 
+    /**
+     * Init cookies when start session
+     *
+     * @param request HttpServletRequest
+     */
     public void initCookies(HttpServletRequest request) {
         final HttpSession session = request.getSession(true);
         final Cookie[] cookies = request.getCookies();

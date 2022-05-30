@@ -1,13 +1,40 @@
 package yehor.epam.entities;
 
+/**
+ * User entity
+ */
 public class User extends BaseEntity {
+    /**
+     * User's first name
+     */
     private String firstName;
+    /**
+     * User's second name
+     */
     private String secondName;
+    /**
+     * User's  email
+     */
     private String email;
+    /**
+     * User's encrypted password
+     */
     private String password;
+    /**
+     * User's phone number (non required)
+     */
     private String phoneNumber;
+    /**
+     * User's role
+     */
     private Role userRole = Role.USER;
+    /**
+     * Email notification swtitcher
+     */
     private boolean notification;
+    /**
+     * User's encryption
+     */
     private String salt;
 
     public User(int id, String firstName, String secondName, String email, String password, String phoneNumber, User.Role role, boolean notification, String salt) {
@@ -22,7 +49,7 @@ public class User extends BaseEntity {
         this.salt = salt;
     }
 
-    public User(int id, String firstName, String secondName, String email, String password, User.Role role, boolean notification,String salt) {
+    public User(int id, String firstName, String secondName, String email, String password, User.Role role, boolean notification, String salt) {
         this(id, firstName, secondName, email, password, null, role, notification, salt);
     }
 
@@ -117,6 +144,9 @@ public class User extends BaseEntity {
         this.salt = salt;
     }
 
+    /**
+     * Possible User roles
+     */
     public enum Role {
         GUEST("GUEST"),
         USER("USER"),
@@ -128,13 +158,13 @@ public class User extends BaseEntity {
             this.name = name;
         }
 
+        public static User.Role getUserRoleFromString(String roleValue) throws IllegalArgumentException {
+            return User.Role.valueOf(roleValue.toUpperCase());
+        }
+
         @Override
         public String toString() {
             return this.name;
-        }
-
-        public static User.Role getUserRoleFromString(String roleValue) throws IllegalArgumentException {
-            return User.Role.valueOf(roleValue.toUpperCase());
         }
     }
 }
