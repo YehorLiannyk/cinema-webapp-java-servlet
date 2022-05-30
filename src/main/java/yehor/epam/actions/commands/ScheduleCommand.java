@@ -12,13 +12,14 @@ import yehor.epam.services.ErrorService;
 import yehor.epam.services.ScheduleService;
 import yehor.epam.utilities.LoggerManager;
 
-import java.util.Arrays;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 
 import static yehor.epam.utilities.JspPagePathConstants.SCHEDULE_PAGE_PATH;
 
+/**
+ * Command to set Schedule page
+ */
 public class ScheduleCommand implements BaseCommand {
     private static final Logger logger = LoggerManager.getLogger(ScheduleCommand.class);
     private static final String CLASS_NAME = ScheduleCommand.class.getName();
@@ -26,20 +27,13 @@ public class ScheduleCommand implements BaseCommand {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         try (DAOFactory factory = new MySQLFactory()) {
-            logger.debug("Created DAOFactory in " + CLASS_NAME + " execute command");
+            logger.info("Created DAOFactory in " + CLASS_NAME + " execute command");
             List<Session> sessionList = null;
-
-            //logged(request);
 
             final Map<String, String[]> parameterMap = request.getParameterMap();
             final Map<String, String> filterSortMap = ScheduleService.getFilterSortMapFromParams(parameterMap);
 
-            final SessionDAO sessionDAO = factory.getSessionDao();
-            if (!filterSortMap.isEmpty()) {
-                sessionList = sessionDAO.getFilteredAndSortedSessionList(filterSortMap);
-            } else {
-                sessionList = sessionDAO.findAll();
-            }
+            sessionList = getAppropriateSessionList(factory, filterSortMap);
             request.setAttribute("sessionList", sessionList);
 
             request.getRequestDispatcher(SCHEDULE_PAGE_PATH).forward(request, response);
@@ -47,25 +41,19 @@ public class ScheduleCommand implements BaseCommand {
             ErrorService.handleException(request, response, CLASS_NAME, e);
         }
     }
-/*
-    public String convertWithIteration(Map<String, String[]> map) {
-        StringBuilder mapAsString = new StringBuilder("{");
-        for (String key : map.keySet()) {
-            mapAsString.append(key + "=" + Arrays.toString(map.get(key)) + ", ");
-        }
-        mapAsString.delete(mapAsString.length() - 2, mapAsString.length()).append("}");
-        return mapAsString.toString();
+
+    /**
+     * Return usual SessionList if Schedule page wasn't sort or filter
+     *
+     * @param factory       DAOFactory
+     * @param filterSortMap Map contains only sorting and filtering params
+     * @return usual SessionList or already filtered and sorted
+     */
+    private List<Session> getAppropriateSessionList(DAOFactory factory, Map<String, String> filterSortMap) {
+        final SessionDAO sessionDAO = factory.getSessionDao();
+        if (!filterSortMap.isEmpty())
+            return sessionDAO.getFilteredAndSortedSessionList(filterSortMap);
+        else
+            return sessionDAO.findAll();
     }
-
-    private void logged(HttpServletRequest request) {
-        final Enumeration<String> parameterNames = request.getParameterNames();
-        StringBuilder enumeration = new StringBuilder();
-        while (parameterNames.hasMoreElements())
-            enumeration.append(parameterNames.nextElement()).append(", ");
-        logger.debug("parameterNames: " + enumeration.toString());
-
-
-        final Map<String, String[]> parameterMap = request.getParameterMap();
-        logger.debug("parameterMap: " + convertWithIteration(parameterMap));
-    }*/
 }

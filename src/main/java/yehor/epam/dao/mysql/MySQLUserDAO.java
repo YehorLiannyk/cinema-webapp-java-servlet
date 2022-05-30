@@ -32,10 +32,10 @@ public class MySQLUserDAO extends BaseDAO implements UserDAO {
         try (PreparedStatement statement = getConnection().prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS)) {
             setUserToStatement(user, statement);
             int rows = statement.executeUpdate();
-            if (rows > 1) throw new DAOException("More than one rows were inserted to DB");
+            if (rows > 1) throw new DAOException("More than one rows were inserted to Database");
             inserted = true;
         } catch (SQLException e) {
-            logger.error("Couldn't add user to DB", e);
+            logger.error("Couldn't add user to Database", e);
             if (e.getMessage().contains("Duplicate entry '" + user.getEmail() + "'"))
                 throw new RegisterException("There is a user with such an email already");
             else
@@ -101,8 +101,8 @@ public class MySQLUserDAO extends BaseDAO implements UserDAO {
             }
             if (user == null) throw new AuthException("Couldn't find user with these login and password");
         } catch (SQLException e) {
-            logger.error("Couldn't get user from DB", e);
-            throw new DAOException("Couldn't get user from DB", e);
+            logger.error("Couldn't get user from Database", e);
+            throw new DAOException("Couldn't get user from Database", e);
         }
         return user;
     }
@@ -116,8 +116,8 @@ public class MySQLUserDAO extends BaseDAO implements UserDAO {
                 maxId = resultSet.getInt(1);
             if (maxId == 0) throw new DAOException("Received maxId = 0");
         } catch (SQLException e) {
-            logger.error("Couldn't get max id from DB", e);
-            throw new DAOException("Couldn't get id from DB", e);
+            logger.error("Couldn't get max id from Database", e);
+            throw new DAOException("Couldn't get id from Database", e);
         }
         return maxId;
     }
@@ -136,8 +136,8 @@ public class MySQLUserDAO extends BaseDAO implements UserDAO {
             }
             if (map.isEmpty()) throw new AuthException("Couldn't find user with this login");
         } catch (SQLException e) {
-            logger.error("Couldn't get salt and password from DB", e);
-            throw new DAOException("Couldn't get salt and password from DB", e);
+            logger.error("Couldn't get salt and password from Database", e);
+            throw new DAOException("Couldn't get salt and password from Database", e);
         }
         return map;
     }

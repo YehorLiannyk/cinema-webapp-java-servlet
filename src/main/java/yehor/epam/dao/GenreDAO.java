@@ -15,7 +15,7 @@ public interface GenreDAO extends DAO<Genre> {
     List<Genre> getGenreListOfFilm(int filmId);
 
     /**
-     * Insert Films Genres to DB
+     * Insert Films Genres to Database
      * @param filmId id of Film
      * @param genreList List of Films Genres
      */

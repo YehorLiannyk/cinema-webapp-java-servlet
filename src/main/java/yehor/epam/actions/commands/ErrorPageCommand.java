@@ -8,6 +8,9 @@ import yehor.epam.utilities.LoggerManager;
 
 import static yehor.epam.utilities.JspPagePathConstants.ERROR_PAGE_PATH;
 
+/**
+ * Command forwarding to Error page from ErrorService
+ */
 public class ErrorPageCommand implements BaseCommand {
     private static final Logger logger = LoggerManager.getLogger(ErrorPageCommand.class);
     private static final String CLASS_NAME = ErrorPageCommand.class.getName();

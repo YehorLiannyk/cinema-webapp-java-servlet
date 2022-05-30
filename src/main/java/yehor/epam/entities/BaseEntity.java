@@ -1,7 +1,7 @@
 package yehor.epam.entities;
 
 /**
- * Abstract base class of all DB Entity
+ * Abstract base class of all Database Entity
  */
 public abstract class BaseEntity {
     private int id;

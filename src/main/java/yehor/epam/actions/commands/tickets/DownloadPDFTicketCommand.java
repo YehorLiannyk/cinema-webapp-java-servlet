@@ -11,11 +11,13 @@ import yehor.epam.entities.Ticket;
 import yehor.epam.services.ErrorService;
 import yehor.epam.services.TicketService;
 import yehor.epam.utilities.LoggerManager;
-import yehor.epam.utilities.exception.PDFException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
+/**
+ * Command to download Ticket in PDF format
+ */
 public class DownloadPDFTicketCommand implements BaseCommand {
     private static final Logger logger = LoggerManager.getLogger(DownloadPDFTicketCommand.class);
     private static final String CLASS_NAME = DownloadPDFTicketCommand.class.getName();
@@ -23,21 +25,25 @@ public class DownloadPDFTicketCommand implements BaseCommand {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         try (DAOFactory factory = new MySQLFactory()) {
-            logger.debug("Created DAOFactory in " + CLASS_NAME + " execute command");
-
+            logger.info("Created DAOFactory in " + CLASS_NAME + " execute command");
             response.setContentType("application/pdf;charset=UTF-8");
             response.addHeader("Content-Disposition", "inline; filename=" + "ticket.pdf");
-
-            logger.debug("request.getAttribute(\"ticketId\" = " + request.getAttribute("ticketId"));
             int ticketId = Integer.parseInt(request.getParameter("ticketId"));
             final Ticket ticket = factory.getTicketDao().findById(ticketId);
-
             formAndWritePDF(request, response, ticket);
         } catch (Exception e) {
             ErrorService.handleException(request, response, CLASS_NAME, e);
         }
     }
 
+    /**
+     * Call form PDF method and then write received ByteArrayOutputStream to servletOutputStream
+     *
+     * @param request  HttpServletRequest
+     * @param response HttpServletResponse
+     * @param ticket   Ticket for PDF
+     * @throws IOException
+     */
     private void formAndWritePDF(HttpServletRequest request, HttpServletResponse response, Ticket ticket) throws IOException {
         ByteArrayOutputStream byteArrayOutputStream = null;
         try {
@@ -54,6 +60,14 @@ public class DownloadPDFTicketCommand implements BaseCommand {
         }
     }
 
+    /**
+     * Return ServletOutputStream if everything is fine or close it and forward to ErrorPage
+     *
+     * @param request  HttpServletRequest
+     * @param response HttpServletResponse
+     * @return ServletOutputStream if no exception is thrown
+     * @throws IOException
+     */
     private ServletOutputStream getServletOutputStream(HttpServletRequest request, HttpServletResponse response) throws IOException {
         ServletOutputStream servletOutputStream = null;
         try {

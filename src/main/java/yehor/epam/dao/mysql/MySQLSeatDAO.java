@@ -41,8 +41,8 @@ public class MySQLSeatDAO extends BaseDAO implements SeatDAO {
                 seat = getSeatFromResultSet(resultSet);
             }
         } catch (SQLException e) {
-            logger.error("Couldn't find seat by id in DB", e);
-            throw new DAOException("Couldn't find seat by id in DB");
+            logger.error("Couldn't find seat by id in Database", e);
+            throw new DAOException("Couldn't find seat by id in Database");
         }
         return seat;
     }
@@ -57,8 +57,8 @@ public class MySQLSeatDAO extends BaseDAO implements SeatDAO {
                 seats.add(seat);
             }
         } catch (SQLException e) {
-            logger.error("Couldn't get list of all seats from DB", e);
-            throw new DAOException("Couldn't get list of all seats from DB");
+            logger.error("Couldn't get list of all seats from Database", e);
+            throw new DAOException("Couldn't get list of all seats from Database");
         }
         return seats;
     }
@@ -100,8 +100,8 @@ public class MySQLSeatDAO extends BaseDAO implements SeatDAO {
                 freeSeatList.add(seat);
             }
         } catch (SQLException e) {
-            logger.error("Couldn't get list of all freeSeatList from DB", e);
-            throw new DAOException("Couldn't get list of all freeSeatList from DB");
+            logger.error("Couldn't get list of all freeSeatList from Database", e);
+            throw new DAOException("Couldn't get list of all freeSeatList from Database");
         }
         return freeSeatList;
     }

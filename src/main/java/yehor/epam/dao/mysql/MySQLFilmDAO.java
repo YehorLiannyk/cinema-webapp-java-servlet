@@ -39,7 +39,7 @@ public class MySQLFilmDAO extends BaseDAO implements FilmDAO {
     }
 
     /**
-     * Transaction method for preventing Film writing to DB without writing its Genres
+     * Transaction method for preventing Film writing to Database without writing its Genres
      *
      * @param film      Film item
      * @param statement PreparedStatement
@@ -93,8 +93,8 @@ public class MySQLFilmDAO extends BaseDAO implements FilmDAO {
                 film = getFilmFromResultSet(resultSet);
             }
         } catch (SQLException e) {
-            logger.error("Couldn't find film by id in DB", e);
-            throw new DAOException("Couldn't find film by id in DB");
+            logger.error("Couldn't find film by id in Database", e);
+            throw new DAOException("Couldn't find film by id in Database");
         }
         return film;
     }
@@ -109,8 +109,8 @@ public class MySQLFilmDAO extends BaseDAO implements FilmDAO {
                 films.add(film);
             }
         } catch (SQLException e) {
-            logger.error("Couldn't get list of all films from DB", e);
-            throw new DAOException("Couldn't get list of all films from DB");
+            logger.error("Couldn't get list of all films from Database", e);
+            throw new DAOException("Couldn't get list of all films from Database");
         }
         return films;
     }

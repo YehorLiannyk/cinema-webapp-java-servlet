@@ -115,8 +115,8 @@ public class MySQLGenreDAO extends BaseDAO implements GenreDAO {
                 genreList.add(genre);
             }
         } catch (SQLException e) {
-            logger.error("Couldn't get list of genres from DB", e);
-            throw new DAOException("Couldn't get list of genres from DB");
+            logger.error("Couldn't get list of genres from Database", e);
+            throw new DAOException("Couldn't get list of genres from Database");
         }
         return genreList;
     }

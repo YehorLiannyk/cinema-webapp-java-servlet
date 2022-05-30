@@ -1,0 +1,11 @@
+
+~
+java:S1488,"aImmediately return this expression instead of assigning it to the temporary variable "genreList".(­üÕÈ8Ç•µû0
+P
+java:S1128"3Remove this unused import 'yehor.epam.dao.FilmDAO'.(ÌºÖâ8¨ò”û0
+R
+java:S1128"5Remove this unused import 'yehor.epam.entities.Film'.(ËåÎ€8©ò”û0
+€
+java:S1128"^Remove this unused import 'yehor.epam.utilities.JspPagePathConstants.FILMS_SETTING_PAGE_PATH'.(–Àµøÿÿÿÿ8ü ¹Ü0
+N
+java:S1144*"1Remove this unused private "getGenreList" method.(åë¯¢8£ù·û0

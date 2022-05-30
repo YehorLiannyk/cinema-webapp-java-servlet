@@ -46,8 +46,8 @@ public class MySQLSessionDAO extends BaseDAO implements SessionDAO {
             seatDAO.insertFreeSeatsForSession(session);
             inserted = true;
         } catch (SQLException e) {
-            logger.error("Couldn't insert Session to DB", e);
-            throw new DAOException("Couldn't insert Session to DB");
+            logger.error("Couldn't insert Session to Database", e);
+            throw new DAOException("Couldn't insert Session to Database");
         }
         return inserted;
     }
@@ -88,8 +88,8 @@ public class MySQLSessionDAO extends BaseDAO implements SessionDAO {
                 session = getSessionFromResultSet(resultSet);
             }
         } catch (SQLException e) {
-            logger.error("Couldn't find session by id in DB", e);
-            throw new DAOException("Couldn't find session by id in DB");
+            logger.error("Couldn't find session by id in Database", e);
+            throw new DAOException("Couldn't find session by id in Database");
         }
         return session;
     }
@@ -116,8 +116,8 @@ public class MySQLSessionDAO extends BaseDAO implements SessionDAO {
                 sessionList.add(session);
             }
         } catch (SQLException e) {
-            logger.error("Couldn't get list of all sessionList from DB", e);
-            throw new DAOException("Couldn't get list of all sessionList from DB");
+            logger.error("Couldn't get list of all sessionList from Database", e);
+            throw new DAOException("Couldn't get list of all sessionList from Database");
         }
         return sessionList;
     }

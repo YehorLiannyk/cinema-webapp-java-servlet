@@ -12,7 +12,7 @@ import java.util.Properties;
 public class ConnectionPool {
     private static final Logger logger = LoggerManager.getLogger(ConnectionPool.class);
 
-    private static final String PROPERTIES_FILE = "/db.properties";
+    private static final String PROPERTIES_FILE = "/Database.properties";
     private static final BasicDataSource ds = new BasicDataSource();
 
     private static ConnectionPool connectionPool;
@@ -72,7 +72,7 @@ public class ConnectionPool {
         try {
             properties.load(ConnectionPool.class.getResourceAsStream(PROPERTIES_FILE));
         } catch (IOException e) {
-            logger.error("Can't load properties file for DB", e);
+            logger.error("Can't load properties file for Database", e);
         }
         return properties;
     }

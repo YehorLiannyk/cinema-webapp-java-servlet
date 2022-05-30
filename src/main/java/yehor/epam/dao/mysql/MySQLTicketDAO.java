@@ -39,7 +39,7 @@ public class MySQLTicketDAO extends BaseDAO implements TicketDAO {
     }
 
     /**
-     * Transaction method for preventing Ticket writing to DB without writing its to reserved_seats
+     * Transaction method for preventing Ticket writing to Database without writing its to reserved_seats
      *
      * @param ticket    Ticket item
      * @param statement PreparedStatement
@@ -88,8 +88,8 @@ public class MySQLTicketDAO extends BaseDAO implements TicketDAO {
                 ticket = getTicketFromResultSet(resultSet);
             }
         } catch (SQLException e) {
-            logger.error("Couldn't find ticket by id in DB", e);
-            throw new DAOException("Couldn't find ticket by id in DB");
+            logger.error("Couldn't find ticket by id in Database", e);
+            throw new DAOException("Couldn't find ticket by id in Database");
         }
         return ticket;
     }
@@ -104,8 +104,8 @@ public class MySQLTicketDAO extends BaseDAO implements TicketDAO {
                 seats.add(seat);
             }
         } catch (SQLException e) {
-            logger.error("Couldn't get list of all seats from DB", e);
-            throw new DAOException("Couldn't get list of all seats from DB");
+            logger.error("Couldn't get list of all seats from Database", e);
+            throw new DAOException("Couldn't get list of all seats from Database");
         }
         return seats;*/
         return null;
@@ -169,8 +169,8 @@ public class MySQLTicketDAO extends BaseDAO implements TicketDAO {
                 ticketList.add(ticket);
             }
         } catch (SQLException e) {
-            logger.error("Couldn't get list of all films from DB", e);
-            throw new DAOException("Couldn't get list of all films from DB");
+            logger.error("Couldn't get list of all films from Database", e);
+            throw new DAOException("Couldn't get list of all films from Database");
         }
         return ticketList;
     }
