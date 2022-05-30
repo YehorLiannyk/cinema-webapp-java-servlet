@@ -18,6 +18,7 @@
     <fmt:message key="session.seatsRemain" var="seatsRemain"/>
     <fmt:message key="session.ticketPrice" var="ticketPrice"/>
     <fmt:message key="session.buyTicket" var="buyTicket"/>
+    <fmt:message key="session.sessionSeat" var="sessionSeat"/>
     <fmt:message key="film.duration" var="duration"/>
     <fmt:message key="film.duration.postfix" var="durationPostfix"/>
     <fmt:message key="film.genres" var="genres"/>
@@ -56,13 +57,13 @@
                                     ${time}: ${session.date} ${timePrefix} ${session.time}
                                 </li>
                                 <li class="card-text">
-                                    Seats left: ${session.seatsAmount}
+                                    ${seatsRemain}: ${session.seatsAmount}
                                 </li>
                             </ul>
                             <h4 class="card-text">${ticketPrice}: ${session.ticketPrice} ${currency}</h4>
                         </div>
                         <div>
-                            <h4>Seats for session:</h4>
+                            <h4>${sessionSeat}:</h4>
                             <form name="seatIds" method="post" action="main">
                                 <input type="hidden" name="command" value="buyTicketPage">
                                 <input type="hidden" name="sessionId" value="${session.id}">

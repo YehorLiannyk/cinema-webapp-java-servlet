@@ -12,6 +12,8 @@
 <fmt:bundle basename="i18n" prefix="admin.addSession.">
     <fmt:message key="pageTitle" var="pageTitle"/>
     <fmt:message key="films" var="films"/>
+    <fmt:message key="filmTips" var="filmTips"/>
+    <fmt:message key="filmTips" var="filmTips"/>
     <fmt:message key="date" var="date"/>
     <fmt:message key="time" var="time"/>
     <fmt:message key="timeMinTips" var="timeMinTips"/>
@@ -48,7 +50,7 @@
                                                 <option value="${film.id}">${film.name}</option>
                                             </c:forEach>
                                         </select>
-                                        <small id="selectTips" class="form-text text-muted">Choose one</small>
+                                        <small id="selectTips" class="form-text text-muted">${filmTipss}</small>
                                     </div>
 
                                     <div class="form-group">
