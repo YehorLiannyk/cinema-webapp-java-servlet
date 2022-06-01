@@ -12,7 +12,4 @@ public class VerifyException extends RuntimeException {
         super(message, cause);
     }
 
-    public VerifyException(Throwable cause) {
-        super(cause);
-    }
 }

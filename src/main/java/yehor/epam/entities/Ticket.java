@@ -23,6 +23,9 @@ public class Ticket extends BaseEntity {
      */
     private BigDecimal ticketPrice;
 
+    public Ticket() {
+    }
+
     public Ticket(int id, Session session, User user, Seat seat, BigDecimal ticketPrice) {
         super(id);
         this.session = session;

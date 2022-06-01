@@ -29,13 +29,16 @@ public class User extends BaseEntity {
      */
     private Role userRole = Role.USER;
     /**
-     * Email notification swtitcher
+     * Email notification switcher
      */
     private boolean notification;
     /**
      * User's encryption
      */
     private String salt;
+
+    public User() {
+    }
 
     public User(int id, String firstName, String secondName, String email, String password, String phoneNumber, User.Role role, boolean notification, String salt) {
         super(id);
@@ -47,10 +50,6 @@ public class User extends BaseEntity {
         this.userRole = role;
         this.notification = notification;
         this.salt = salt;
-    }
-
-    public User(int id, String firstName, String secondName, String email, String password, User.Role role, boolean notification, String salt) {
-        this(id, firstName, secondName, email, password, null, role, notification, salt);
     }
 
     public User(int id, String firstName, String secondName, String email, String password, boolean notification, String salt) {
@@ -117,10 +116,6 @@ public class User extends BaseEntity {
     }
 
     public boolean getNotification() {
-        return notification;
-    }
-
-    public boolean isNotification() {
         return notification;
     }
 

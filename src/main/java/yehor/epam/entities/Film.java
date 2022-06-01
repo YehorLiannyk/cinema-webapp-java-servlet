@@ -29,6 +29,9 @@ public class Film extends BaseEntity {
      */
     private String posterUrl;
 
+    public Film() {
+    }
+
     public Film(int id, String name, String description, String posterUrl, Duration duration, List<Genre> genreList) {
         super(id);
         this.name = name;
@@ -47,10 +50,6 @@ public class Film extends BaseEntity {
         this.description = description;
         this.posterUrl = posterUrl;
         this.duration = duration;
-    }
-
-    public Film(String name, String posterUrl, Duration duration) {
-        this(name, "", posterUrl, duration);
     }
 
     public Duration getDuration() {

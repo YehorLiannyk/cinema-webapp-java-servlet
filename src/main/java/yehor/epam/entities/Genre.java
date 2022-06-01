@@ -14,6 +14,9 @@ public class Genre extends BaseEntity {
         this.name = name;
     }
 
+    public Genre() {
+    }
+
     public String getName() {
         return name;
     }

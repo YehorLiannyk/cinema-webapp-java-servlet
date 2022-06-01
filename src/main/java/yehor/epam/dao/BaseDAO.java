@@ -12,6 +12,9 @@ public abstract class BaseDAO {
         return connection;
     }
 
+    public BaseDAO() {
+    }
+
     public void setConnection(Connection connection) {
         this.connection = connection;
     }

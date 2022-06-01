@@ -15,7 +15,7 @@ import java.sql.Connection;
  */
 public class MySQLFactory implements DAOFactory {
     private static final Logger logger = LoggerManager.getLogger(MySQLFactory.class);
-    Connection connection;
+    private Connection connection;
 
     public MySQLFactory() {
         try {

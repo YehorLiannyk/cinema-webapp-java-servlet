@@ -29,6 +29,9 @@ public class Session extends BaseEntity {
      */
     private int seatsAmount;
 
+    public Session() {
+    }
+
     public Session(int id, BigDecimal ticketPrice, LocalDate date, LocalTime time, Film film, int seatsAmount) {
         super(id);
         this.ticketPrice = ticketPrice;

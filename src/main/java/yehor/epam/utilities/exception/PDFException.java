@@ -12,7 +12,4 @@ public class PDFException extends RuntimeException {
         super(message, cause);
     }
 
-    public PDFException(Throwable cause) {
-        super(cause);
-    }
 }

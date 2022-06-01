@@ -13,6 +13,9 @@ public class Seat extends BaseEntity {
      */
     private int placeNumber;
 
+    public Seat() {
+    }
+
     public Seat(int id, int rowNumber, int placeNumber) {
         super(id);
         this.rowNumber = rowNumber;
