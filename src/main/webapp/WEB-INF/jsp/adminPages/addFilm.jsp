@@ -43,10 +43,10 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <input type="text" class="form-control" name="filmName"
-                                               placeholder="${filmName}" required/>
+                                               placeholder="${filmName}" maxlength="120" required/>
                                     </div>
                                     <div class="form-group">
-                                        <textarea class="form-control" name="filmDescription"
+                                        <textarea class="form-control" name="filmDescription" maxlength="800"
                                                   placeholder="${filmDescription}" rows="5"></textarea>
                                     </div>
                                 </div>

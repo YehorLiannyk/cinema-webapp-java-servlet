@@ -40,7 +40,7 @@
                                     <i class="fa fa-envelope fa-lg me-3 fa-fw"></i>
                                     <div class="form-outline flex-fill mb-0">
                                         <input type="email" name="login" id="form3Example3c" class="form-control"
-                                               placeholder="${requiredField}"
+                                               placeholder="${requiredField}" maxlength="320"
                                                value="${requestScope.email}" required/>
                                         <label class="form-label" for="form3Example3c">${email}</label>
                                     </div>
@@ -50,7 +50,7 @@
                                     <i class="fa fa-lock fa-lg me-3 fa-fw"></i>
                                     <div class="form-outline flex-fill mb-0">
                                         <input type="password" name="password" id="form3Example4c" class="form-control"
-                                               placeholder="${requiredField}"
+                                               placeholder="${requiredField}" maxlength="200"
                                                value="${requestScope.password}" required/>
                                         <label class="form-label" for="form3Example4c">${password}</label>
                                     </div>

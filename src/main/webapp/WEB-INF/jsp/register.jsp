@@ -48,7 +48,7 @@
                                     <i class="fa fa-user fa-lg me-3 fa-fw"></i>
                                     <div class="form-outline flex-fill mb-0">
                                         <input type="text" name="firstName" id="firstName" class="form-control"
-                                               placeholder="${requiredField}"
+                                               placeholder="${requiredField}" maxlength="45"
                                                required/>
                                         <label class="form-label" for="firstName">${fName}</label>
                                     </div>
@@ -58,7 +58,7 @@
                                     <i class="fa fa-user fa-lg me-3 fa-fw"></i>
                                     <div class="form-outline flex-fill mb-0">
                                         <input type="text" name="secondName" id="secondName" class="form-control"
-                                               placeholder="${requiredField}"
+                                               placeholder="${requiredField}" maxlength="45"
                                                required/>
                                         <label class="form-label" for="secondName">${sName}</label>
                                     </div>
@@ -68,7 +68,7 @@
                                     <i class="fa fa-envelope fa-lg me-3 fa-fw"></i>
                                     <div class="form-outline flex-fill mb-0">
                                         <input type="email" name="email" id="email" class="form-control"
-                                               placeholder="${requiredField}"
+                                               placeholder="${requiredField}" maxlength="320"
                                                required/>
                                         <label class="form-label" for="email">${email}</label>
                                     </div>
@@ -77,7 +77,7 @@
                                 <div class="d-flex flex-row align-items-center mb-4">
                                     <i class="fa fa-lock fa-lg me-3 fa-fw"></i>
                                     <div class="form-outline flex-fill mb-0">
-                                        <input type="password" name="password" id="password" class="form-control"
+                                        <input type="password" name="password" id="password" class="form-control" maxlength="200"
                                                onkeyup='check();' placeholder="${requiredField}" required/>
                                         <label class="form-label" for="password">${password}</label>
                                     </div>
@@ -87,7 +87,7 @@
                                     <i class="fa fa-key fa-lg me-3 fa-fw"></i>
                                     <div class="form-outline flex-fill mb-0">
                                         <input type="password" id="confirm_password" name="confirm_password"
-                                               class="form-control" placeholder="${requiredField}"
+                                               class="form-control" placeholder="${requiredField}" maxlength="200"
                                                onkeyup='check();' required/>
                                         <label class="form-label" for="confirm_password">${passwordRepeat}</label>
                                         <span id='message'></span>
@@ -141,6 +141,14 @@
         } else
             $('#message').html('${passwordNotMatch}').css('color', 'red');
     });
+
+    $("form").submit(function(){
+        if ($('#password').val() != $('#confirm_password').val()) {
+            return false;
+        }
+        return true;
+    });
+
 </script>
 
 <ftg:footer/>

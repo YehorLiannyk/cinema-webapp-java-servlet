@@ -69,7 +69,6 @@
                                                                 ${goToFilmPage}
                                                         </button>
                                                     </form>
-                                                    <span>id : ${film.id}</span>
                                                     <button type="button"
                                                             class="btn btn-lg btn-block btn-danger"
                                                             data-toggle="modal" data-target="#modal${film.id}">
@@ -98,7 +97,6 @@
                                                                value="deleteFilm">
                                                         <input type="hidden" name="filmId"
                                                                value="${film.id}">
-                                                        <span>id : ${film.id}</span>
                                                         <button type="submit"
                                                                 class="btn btn-primary">${delete}
                                                         </button>
