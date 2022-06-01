@@ -69,9 +69,10 @@
                                                                 ${goToFilmPage}
                                                         </button>
                                                     </form>
+                                                    <span>id : ${film.id}</span>
                                                     <button type="button"
                                                             class="btn btn-lg btn-block btn-danger"
-                                                            data-toggle="modal" data-target="#exampleModal">
+                                                            data-toggle="modal" data-target="#modal${film.id}">
                                                             ${delete}
                                                     </button>
                                                 </div>
@@ -80,7 +81,7 @@
                                     </div>
 
                                     <!-- Modal -->
-                                    <div class="modal fade" id="exampleModal" tabindex="-1"
+                                    <div class="modal fade" id="modal${film.id}" tabindex="-1"
                                          aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
@@ -97,6 +98,7 @@
                                                                value="deleteFilm">
                                                         <input type="hidden" name="filmId"
                                                                value="${film.id}">
+                                                        <span>id : ${film.id}</span>
                                                         <button type="submit"
                                                                 class="btn btn-primary">${delete}
                                                         </button>

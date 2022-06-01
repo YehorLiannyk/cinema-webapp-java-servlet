@@ -161,7 +161,7 @@ public class MySQLSessionDAO extends BaseDAO implements SessionDAO {
     public List<Session> getFilteredAndSortedSessionList(Map<String, String> map) {
         final String request = sortByFormRequest(map, SELECT_ALL + WHERE_DEFAULT);
         List<Session> sessionList = getPreparedSessionListByRequest(request);
-        removeFromListUnavailableSessions(map, sessionList);
+        sessionList = removeFromListUnavailableSessions(map, sessionList);
         return sessionList;
     }
 
@@ -256,17 +256,20 @@ public class MySQLSessionDAO extends BaseDAO implements SessionDAO {
      */
     private List<Session> removeFromListUnavailableSessions(Map<String, String> map, List<Session> sessionList) {
         if (map.containsValue(SESSION_FILTER_SHOW_ONLY_AVAILABLE)) {
+            List<Session> list = new ArrayList<>(sessionList.size());
             logger.debug("Map contains: " + SESSION_FILTER_SHOW_ONLY_AVAILABLE);
             final MySQLSeatDAO seatDAO = getSeatDAO();
             for (Session session : sessionList) {
-                if (seatDAO.getFreeSeatsAmountBySessionId(session.getId()) == 0) {
-                    sessionList.remove(session);
+                logger.debug("getFreeSeatsAmountBySessionId: " + session.getId() + " = " + seatDAO.getFreeSeatsAmountBySessionId(session.getId()));
+                if (seatDAO.getFreeSeatsAmountBySessionId(session.getId()) != 0) {
+                    list.add(session);
                 }
             }
+            logger.debug("list.tostring() " + list.toString());
+            return list;
         }
         return sessionList;
     }
-
 
     private MySQLSeatDAO getSeatDAO() {
         final MySQLSeatDAO mySQLSeatDAO = new MySQLSeatDAO();

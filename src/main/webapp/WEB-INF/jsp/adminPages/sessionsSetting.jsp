@@ -88,7 +88,7 @@
                                                             </form>
                                                             <button type="button"
                                                                     class="btn btn-lg btn-block btn-danger"
-                                                                    data-toggle="modal" data-target="#exampleModal">
+                                                                    data-toggle="modal" data-target="#modal${session.id}">
                                                                 ${delete}
                                                             </button>
                                                         </div>
@@ -99,7 +99,7 @@
                                     </tr>
 
                                     <!-- Modal -->
-                                    <div class="modal fade" id="exampleModal" tabindex="-1"
+                                    <div class="modal fade" id="modal${session.id}" tabindex="-1"
                                          aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content">

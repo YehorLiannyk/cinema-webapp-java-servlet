@@ -43,8 +43,6 @@ Y
 )src/main/webapp/images/svg/seat_gray2.svg,0\e\0e50d096672739ef6f16d50cffe279ed6dca49a8
 X
 (src/main/webapp/images/svg/seat_blue.svg,8\d\8d81b9b076bf0b766ce0f269b6883c304815a7c2
-b
-2src/main/webapp/WEB-INF/jsp/adminPages/addFilm.jsp,5\6\563097b5ab15a83673b80882cc07049d436fa6d1
 _
 /src/main/webapp/WEB-INF/jsp/errors/error404.jsp,9\5\95411d861cac892ef03aa727718977401a420230
 c
@@ -59,8 +57,6 @@ V
 &src/main/webapp/WEB-INF/jsp/paying.jsp,2\1\218f7b0bc41445f3687e2b84af804ebe3c554c99
 W
 'src/main/webapp/WEB-INF/jsp/session.jsp,0\3\030889367a8d0a301f981acc4ed19163b859d99a
-U
-%src/main/webapp/WEB-INF/tags/menu.tag,e\a\eaa080d7dd0b0a7046cd01992313f338687261e6
 \
 ,src/main/webapp/WEB-INF/jsp/errors/error.jsp,8\e\8ea5fadf1a6d0987fc0b283cc52a78a9fceccc8b
 m
@@ -69,8 +65,6 @@ O
 src/main/webapp/WEB-INF/web.xml,2\e\2e22b6edd746fa3dc40ad7276c87c8d87d72a392
 T
 $src/main/webapp/WEB-INF/jsp/main.jsp,6\f\6f403f79e20c43a2cba066e00ddd388aad99d791
-X
-(src/main/webapp/WEB-INF/jsp/schedule.jsp,7\1\71cbeb8298f5db881d7e4d7cbc4a30b0429aeda8
 Z
 *src/main/java/yehor/epam/dao/GenreDAO.java,1\e\1e694a9e4a004c59563b680e53bbd8a08ddd3854
 U

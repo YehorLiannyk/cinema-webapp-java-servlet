@@ -22,6 +22,7 @@
     <fmt:message key="film.genres" var="genres"/>
     <fmt:message key="general.selector.multipleSelectTips" var="selectorTips"/>
     <fmt:message key="film.goToFilmPage" var="filmPage"/>
+    <fmt:message key="admin.sessionsSetting.sessionInfo" var="sessionInfo"/>
 </fmt:bundle>
 
 <fmt:bundle basename="i18n" prefix="schedule.">
@@ -43,7 +44,8 @@
 </fmt:bundle>
 
 <ftg:header pageTitle="${pageTitle}"/>
-<ftg:menu userRole="${sessionScope.userRole}"/>
+<c:set value="${sessionScope.userRole}" var="userRole"/>
+<ftg:menu userRole="${userRole}"/>
 
 
 <main class="container" data-new-gr-c-s-check-loaded="14.1062.0" data-gr-ext-installed="">
@@ -174,14 +176,32 @@
                                                                     ${filmPage}
                                                             </button>
                                                         </form>
-                                                        <form name="session" method="post" action="main">
-                                                            <input type="hidden" name="command" value="sessionPage">
-                                                            <input type="hidden" name="sessionId" value="${session.id}">
-                                                            <button type="submit"
-                                                                    class="btn btn-lg btn-block btn-primary">
-                                                                    ${buyTicket}
-                                                            </button>
-                                                        </form>
+                                                        <c:choose>
+                                                            <c:when test="${userRole == 'ADMIN'}">
+                                                                <form name="session" method="post" action="main">
+                                                                    <input type="hidden" name="command"
+                                                                           value="sessionInfoPage">
+                                                                    <input type="hidden" name="sessionId"
+                                                                           value="${session.id}">
+                                                                    <button type="submit"
+                                                                            class="btn btn-lg btn-block btn-primary my-2">
+                                                                            ${sessionInfo}
+                                                                    </button>
+                                                                </form>
+                                                            </c:when>
+
+                                                            <c:otherwise>
+                                                                <form name="session" method="post" action="main">
+                                                                    <input type="hidden" name="command" value="sessionPage">
+                                                                    <input type="hidden" name="sessionId"
+                                                                           value="${session.id}">
+                                                                    <button type="submit"
+                                                                            class="btn btn-lg btn-block btn-primary">
+                                                                            ${buyTicket}
+                                                                    </button>
+                                                                </form>
+                                                            </c:otherwise>
+                                                        </c:choose>
                                                     </div>
                                                 </div>
                                             </div>

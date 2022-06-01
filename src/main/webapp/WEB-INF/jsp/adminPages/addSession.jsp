@@ -75,7 +75,7 @@
                                             <div class="col-md-8">
                                                 <div class="form-group">
                                                     <label for="ticket">${ticketPrice}</label>
-                                                    <input type="number" class="form-control" id="ticket"
+                                                    <input type="number" min="0" class="form-control" id="ticket"
                                                            name="ticketPrice" placeholder="${ticketPricePlaceholder}"
                                                            required/>
                                                 </div>
