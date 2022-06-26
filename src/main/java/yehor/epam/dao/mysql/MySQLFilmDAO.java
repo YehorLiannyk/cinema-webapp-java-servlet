@@ -3,7 +3,7 @@ package yehor.epam.dao.mysql;
 import org.apache.log4j.Logger;
 import yehor.epam.dao.BaseDAO;
 import yehor.epam.dao.FilmDAO;
-import yehor.epam.dao.exception.DAOException;
+import yehor.epam.exceptions.DAOException;
 import yehor.epam.entities.Film;
 import yehor.epam.entities.Genre;
 import yehor.epam.utilities.LoggerManager;

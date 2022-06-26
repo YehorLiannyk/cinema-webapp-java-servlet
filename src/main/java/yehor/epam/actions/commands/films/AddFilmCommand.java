@@ -4,41 +4,49 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import yehor.epam.actions.BaseCommand;
-import yehor.epam.dao.FilmDAO;
-import yehor.epam.dao.GenreDAO;
-import yehor.epam.dao.factories.DAOFactory;
-import yehor.epam.dao.factories.MySQLFactory;
 import yehor.epam.entities.Film;
 import yehor.epam.entities.Genre;
+import yehor.epam.exceptions.ServiceException;
 import yehor.epam.services.ErrorService;
+import yehor.epam.services.FilmService;
+import yehor.epam.services.GenreService;
+import yehor.epam.services.impl.FilmServiceImpl;
+import yehor.epam.services.impl.GenreServiceImpl;
 import yehor.epam.utilities.LoggerManager;
 import yehor.epam.utilities.RedirectManager;
 
+import java.io.IOException;
 import java.time.Duration;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import static yehor.epam.utilities.CommandConstants.COMMAND_VIEW_FILMS_SETTING_PAGE;
 
 /**
- * Admin add film command to DB
+ * Admin adding film command
  */
 public class AddFilmCommand implements BaseCommand {
     private static final Logger logger = LoggerManager.getLogger(AddFilmCommand.class);
     private static final String CLASS_NAME = AddFilmCommand.class.getName();
+    private final FilmService filmService;
+    private final GenreService genreService;
+
+    public AddFilmCommand() {
+        filmService = new FilmServiceImpl();
+        genreService = new GenreServiceImpl();
+    }
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
-        try (DAOFactory factory = new MySQLFactory()) {
-            logger.debug("Created DAOFactory in " + CLASS_NAME + " execute command");
-            final Film film = getFilmFromRequest(request);
-            final List<Genre> genreList = getGenreListFromRequest(request, factory);
+        logger.debug("Called execute() in " + CLASS_NAME);
+        try {
+            Film film = getFilmFromRequest(request);
+            final String[] genresId = request.getParameterMap().get("genresId");
+            final List<Genre> genreList = genreService.getGenreListByIdArray(genresId);
             film.setGenreList(genreList);
-            final FilmDAO filmDAO = factory.getFilmDAO();
-            filmDAO.insert(film);
+            filmService.addFilm(film);
             response.sendRedirect(RedirectManager.getRedirectLocation(COMMAND_VIEW_FILMS_SETTING_PAGE));
-        } catch (Exception e) {
+        } catch (ServiceException | IOException e) {
             ErrorService.handleException(request, response, CLASS_NAME, e);
         }
     }
@@ -53,20 +61,8 @@ public class AddFilmCommand implements BaseCommand {
         );
     }
 
-    private List<Genre> getGenreListFromRequest(HttpServletRequest request, DAOFactory factory) {
-        List<Genre> genreList = new ArrayList<>();
-        final Map<String, String[]> parameterMap = request.getParameterMap();
-        final String[] genresId = parameterMap.get("genresId");
-        final GenreDAO genreDAO = factory.getGenreDAO();
-        if (genresId == null || genresId.length == 0) {
-            logger.error("Genre Array is null or empty");
-            throw new NullPointerException("Genre Array is null or empty");
-        }
-        for (String genreId : genresId) {
-            final Genre genre = genreDAO.findById(Integer.parseInt(genreId));
-            genreList.add(genre);
-        }
-        return genreList;
-    }
+
+
+
 
 }

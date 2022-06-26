@@ -1,6 +1,7 @@
 package yehor.epam.dao;
 
 import yehor.epam.entities.Session;
+import yehor.epam.exceptions.DAOException;
 
 import java.util.List;
 import java.util.Map;
@@ -28,7 +29,7 @@ public interface SessionDAO extends DAO<Session> {
      * @param sessionId Session id
      * @return free seat amount
      */
-    int getFreeSeatAmount(int sessionId);
+    int getFreeSeatAmount(int sessionId) throws DAOException;
 
     /**
      * Decrement Session's free seat amount
@@ -36,7 +37,7 @@ public interface SessionDAO extends DAO<Session> {
      * @param sessionId session id
      * @return true if amount was > 0 and false if is equal to 0
      */
-    boolean decrementFreeSeatsAmount(int sessionId);
+    boolean decrementFreeSeatsAmount(int sessionId) throws DAOException;
 
     /**
      * Delete session by session id
@@ -44,6 +45,6 @@ public interface SessionDAO extends DAO<Session> {
      * @param sessionId session id
      * @return true if session was deleted and false if not
      */
-    boolean delete(int sessionId);
+    boolean delete(int sessionId) throws DAOException;
 
 }

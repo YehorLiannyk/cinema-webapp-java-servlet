@@ -1,4 +1,4 @@
-package yehor.epam.actions.commands.exceptions;
+package yehor.epam.exceptions;
 
 /**
  * Ticket Exception Class. Occurred while buying ticket, in particular when seat was reserved by another one

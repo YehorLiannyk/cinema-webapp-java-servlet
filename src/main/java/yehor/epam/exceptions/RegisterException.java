@@ -1,4 +1,4 @@
-package yehor.epam.dao.exception;
+package yehor.epam.exceptions;
 
 /**
  * Exception thrown when register is unsuccessful. Common reason: this email is used already

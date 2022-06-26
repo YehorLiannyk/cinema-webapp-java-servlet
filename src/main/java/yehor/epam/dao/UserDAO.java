@@ -1,6 +1,6 @@
 package yehor.epam.dao;
 
-import yehor.epam.dao.exception.AuthException;
+import yehor.epam.exceptions.AuthException;
 import yehor.epam.entities.User;
 
 import java.util.Map;

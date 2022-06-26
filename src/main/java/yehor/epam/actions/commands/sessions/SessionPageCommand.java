@@ -7,7 +7,7 @@ import yehor.epam.actions.BaseCommand;
 import yehor.epam.dao.factories.DAOFactory;
 import yehor.epam.dao.factories.MySQLFactory;
 import yehor.epam.services.ErrorService;
-import yehor.epam.services.SessionService;
+import yehor.epam.services.impl.SessionServiceImpl;
 import yehor.epam.utilities.LoggerManager;
 
 import static yehor.epam.utilities.JspPagePathConstants.SESSIONS_PAGE_PATH;
@@ -23,7 +23,7 @@ public class SessionPageCommand implements BaseCommand {
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         try (DAOFactory factory = new MySQLFactory()) {
             logger.info("Created DAOFactory in " + CLASS_NAME + " execute command");
-            SessionService sessionService = new SessionService();
+            SessionServiceImpl sessionService = new SessionServiceImpl();
             sessionService.prepareSessionPage(request, factory);
             request.getRequestDispatcher(SESSIONS_PAGE_PATH).forward(request, response);
         } catch (Exception e) {

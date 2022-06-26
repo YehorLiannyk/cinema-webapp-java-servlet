@@ -14,7 +14,7 @@ import yehor.epam.utilities.LoggerManager;
 /**
  * Send ticket via email command
  */
-public class SendTicketViaMailCommand implements BaseCommand {
+/*public class SendTicketViaMailCommand implements BaseCommand {
     private static final Logger logger = LoggerManager.getLogger(SendTicketViaMailCommand.class);
     private static final String CLASS_NAME = SendTicketViaMailCommand.class.getName();
 
@@ -39,4 +39,4 @@ public class SendTicketViaMailCommand implements BaseCommand {
             ErrorService.handleException(request, response, CLASS_NAME, e);
         }
     }
-}
+}*/

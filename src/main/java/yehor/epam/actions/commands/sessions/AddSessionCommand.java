@@ -10,7 +10,12 @@ import yehor.epam.dao.factories.DAOFactory;
 import yehor.epam.dao.factories.MySQLFactory;
 import yehor.epam.entities.Film;
 import yehor.epam.entities.Session;
+import yehor.epam.exceptions.ServiceException;
 import yehor.epam.services.ErrorService;
+import yehor.epam.services.FilmService;
+import yehor.epam.services.SessionService;
+import yehor.epam.services.impl.FilmServiceImpl;
+import yehor.epam.services.impl.SessionServiceImpl;
 import yehor.epam.utilities.LoggerManager;
 import yehor.epam.utilities.RedirectManager;
 
@@ -26,16 +31,22 @@ import static yehor.epam.utilities.CommandConstants.COMMAND_VIEW_SESSIONS_SETTIN
 public class AddSessionCommand implements BaseCommand {
     private static final Logger logger = LoggerManager.getLogger(AddSessionCommand.class);
     private static final String CLASS_NAME = AddSessionCommand.class.getName();
+    private final SessionService sessionService;
+    private final FilmService filmService;
+
+    public AddSessionCommand() {
+        sessionService = new SessionServiceImpl();
+        filmService = new FilmServiceImpl();
+    }
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
-        try (DAOFactory factory = new MySQLFactory()) {
-            logger.debug("Created DAOFactory in " + CLASS_NAME + " execute command");
+        logger.debug("Called execute() in " + CLASS_NAME);
+        try {
             final Session session = getSessionFromRequest(request);
-            final Film film = getFilmFromRequest(request, factory);
+            final Film film = getFilmFromRequest(request);
             session.setFilm(film);
-            final SessionDAO sessionDAO = factory.getSessionDao();
-            sessionDAO.insert(session);
+            sessionService.addSession(session);
             response.sendRedirect(RedirectManager.getRedirectLocation(COMMAND_VIEW_SESSIONS_SETTING_PAGE));
         } catch (Exception e) {
             ErrorService.handleException(request, response, CLASS_NAME, e);
@@ -50,10 +61,9 @@ public class AddSessionCommand implements BaseCommand {
         );
     }
 
-    private Film getFilmFromRequest(HttpServletRequest request, DAOFactory factory) {
+    private Film getFilmFromRequest(HttpServletRequest request) throws ServiceException {
         final int filmId = Integer.parseInt(request.getParameter("filmId"));
-        final FilmDAO filmDAO = factory.getFilmDAO();
-        return filmDAO.findById(filmId);
+        return filmService.getFilmById(filmId);
     }
 
 }

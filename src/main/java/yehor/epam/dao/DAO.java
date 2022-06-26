@@ -1,6 +1,7 @@
 package yehor.epam.dao;
 
 import yehor.epam.entities.BaseEntity;
+import yehor.epam.exceptions.DAOException;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ public interface DAO<T extends BaseEntity> {
      * @return true - inserted successfully
      * false - did not insert
      */
-    boolean insert(T element);
+    boolean insert(T element) throws DAOException;
 
     /**
      * Find element by id
@@ -20,14 +21,14 @@ public interface DAO<T extends BaseEntity> {
      * @param id id of the element to find
      * @return element
      */
-    T findById(int id);
+    T findById(int id) throws DAOException;
 
     /**
      * Get all T elements from Database in List
      *
      * @return List of received elements
      */
-    List<T> findAll();
+    List<T> findAll() throws DAOException;
 
     /**
      * Replace element in Database with one another

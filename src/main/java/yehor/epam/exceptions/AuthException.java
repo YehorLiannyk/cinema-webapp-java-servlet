@@ -1,4 +1,4 @@
-package yehor.epam.dao.exception;
+package yehor.epam.exceptions;
 
 /**
  * Authorization and authentication exception

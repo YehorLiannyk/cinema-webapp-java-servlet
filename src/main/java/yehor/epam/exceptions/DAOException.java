@@ -1,9 +1,9 @@
-package yehor.epam.dao.exception;
+package yehor.epam.exceptions;
 
 /**
  * Exception user in DAO classes. Thrown when got trouble getting the T object from Database
  */
-public class DAOException extends RuntimeException {
+public class DAOException extends Exception {
     public DAOException(String message) {
         super(message);
     }

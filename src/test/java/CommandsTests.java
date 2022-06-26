@@ -12,7 +12,7 @@ import yehor.epam.actions.commands.signing.*;
 import yehor.epam.actions.commands.tickets.BuyTicketCommand;
 import yehor.epam.actions.commands.tickets.BuyTicketPageCommand;
 import yehor.epam.actions.commands.tickets.DownloadPDFTicketCommand;
-import yehor.epam.dao.exception.DAOException;
+import yehor.epam.exceptions.DAOException;
 
 import static org.mockito.Mockito.*;
 

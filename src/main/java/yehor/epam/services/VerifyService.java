@@ -3,7 +3,7 @@ package yehor.epam.services;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
-import yehor.epam.services.exceptions.VerifyException;
+import yehor.epam.exceptions.VerifyException;
 import yehor.epam.utilities.LoggerManager;
 
 import javax.json.Json;

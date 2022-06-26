@@ -1,4 +1,4 @@
-package yehor.epam.connection;
+package yehor.epam.exceptions;
 
 /**
  * ConnectionException class for ConnectionPool's exceptions

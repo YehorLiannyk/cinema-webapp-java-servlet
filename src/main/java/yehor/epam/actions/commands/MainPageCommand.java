@@ -7,7 +7,7 @@ import yehor.epam.actions.BaseCommand;
 import yehor.epam.dao.factories.DAOFactory;
 import yehor.epam.dao.factories.MySQLFactory;
 import yehor.epam.services.ErrorService;
-import yehor.epam.services.FilmService;
+import yehor.epam.services.impl.FilmServiceImpl;
 import yehor.epam.utilities.LoggerManager;
 
 import static yehor.epam.utilities.JspPagePathConstants.MAIN_PAGE_PATH;
@@ -23,7 +23,7 @@ public class MainPageCommand implements BaseCommand {
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         try (DAOFactory factory = new MySQLFactory()) {
             logger.info("Created DAOFactory in " + CLASS_NAME + " execute command");
-            FilmService filmService = new FilmService();
+            FilmServiceImpl filmService = new FilmServiceImpl();
             filmService.setFilmListToSession(request, factory);
             request.getRequestDispatcher(MAIN_PAGE_PATH).forward(request, response);
         } catch (Exception e) {

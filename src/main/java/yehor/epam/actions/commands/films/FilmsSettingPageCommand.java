@@ -6,9 +6,13 @@ import org.apache.log4j.Logger;
 import yehor.epam.actions.BaseCommand;
 import yehor.epam.dao.factories.DAOFactory;
 import yehor.epam.dao.factories.MySQLFactory;
+import yehor.epam.entities.Film;
 import yehor.epam.services.ErrorService;
 import yehor.epam.services.FilmService;
+import yehor.epam.services.impl.FilmServiceImpl;
 import yehor.epam.utilities.LoggerManager;
+
+import java.util.List;
 
 import static yehor.epam.utilities.JspPagePathConstants.FILMS_SETTING_PAGE_PATH;
 
@@ -18,17 +22,20 @@ import static yehor.epam.utilities.JspPagePathConstants.FILMS_SETTING_PAGE_PATH;
 public class FilmsSettingPageCommand implements BaseCommand {
     private static final Logger logger = LoggerManager.getLogger(FilmsSettingPageCommand.class);
     private static final String CLASS_NAME = FilmsSettingPageCommand.class.getName();
+    private final FilmService filmService;
 
+    public FilmsSettingPageCommand() {
+        filmService = new FilmServiceImpl();
+    }
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
-        try (DAOFactory factory = new MySQLFactory()) {
-            logger.info("Created DAOFactory in " + CLASS_NAME + " execute command");
-            FilmService filmService = new FilmService();
-            filmService.setFilmListToSession(request, factory);
+        logger.debug("Called execute() in " + CLASS_NAME);
+        try {
+            final List<Film> all = filmService.getAll();
+            request.getSession().setAttribute("filmList", all);
             request.getRequestDispatcher(FILMS_SETTING_PAGE_PATH).forward(request, response);
         } catch (Exception e) {
             ErrorService.handleException(request, response, CLASS_NAME, e);
-
         }
     }
 }

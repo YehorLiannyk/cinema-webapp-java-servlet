@@ -67,8 +67,8 @@ public class CommandFactory {
         commandMap.put(COMMAND_BUY_TICKET, new BuyTicketCommand());
         commandMap.put(COMMAND_VIEW_SUCCESS_PAY_PAGE, new SuccessPayPageCommand());
         commandMap.put(COMMAND_DELETE_SESSION, new DeleteSessionCommand());
-        commandMap.put(COMMAND_SEND_MAIL, new SendMailCommand());
-        commandMap.put(COMMAND_SEND_TICKET_VIA_MAIL, new SendTicketViaMailCommand());
+        //commandMap.put(COMMAND_SEND_MAIL, new SendMailCommand());
+        //commandMap.put(COMMAND_SEND_TICKET_VIA_MAIL, new SendTicketViaMailCommand());
         commandMap.put(COMMAND_DOWNLOAD_PDF_TICKET, new DownloadPDFTicketCommand());
     }
 

@@ -3,11 +3,13 @@ package yehor.epam.dao.mysql;
 import org.apache.log4j.Logger;
 import yehor.epam.dao.BaseDAO;
 import yehor.epam.dao.SessionDAO;
-import yehor.epam.dao.exception.DAOException;
+import yehor.epam.exceptions.DAOException;
 import yehor.epam.entities.Film;
 import yehor.epam.entities.Session;
 import yehor.epam.utilities.LoggerManager;
 
+import javax.naming.OperationNotSupportedException;
+import javax.ws.rs.NotSupportedException;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -35,7 +37,7 @@ public class MySQLSessionDAO extends BaseDAO implements SessionDAO {
 
 
     @Override
-    public boolean insert(Session session) {
+    public boolean insert(Session session) throws DAOException {
         boolean inserted = false;
         try (PreparedStatement statement = getConnection().prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS)) {
             setSessionToInsertStatement(session, statement);
@@ -79,7 +81,7 @@ public class MySQLSessionDAO extends BaseDAO implements SessionDAO {
     }
 
     @Override
-    public Session findById(int id) {
+    public Session findById(int id) throws DAOException {
         Session session = null;
         try (PreparedStatement statement = getConnection().prepareStatement(SELECT_BY_ID)) {
             statement.setInt(1, id);
@@ -95,12 +97,12 @@ public class MySQLSessionDAO extends BaseDAO implements SessionDAO {
     }
 
     @Override
-    public List<Session> findAll() {
+    public List<Session> findAll() throws DAOException {
         final String request = SELECT_ALL + WHERE_DEFAULT + ORDER_BY_DATETIME_ASC;
         return getPreparedSessionListByRequest(request);
     }
 
-    private List<Session> getPreparedSessionListByRequest(String request) {
+    private List<Session> getPreparedSessionListByRequest(String request) throws DAOException {
         List<Session> sessionList = new ArrayList<>();
         try (PreparedStatement statement = getConnection().prepareStatement(request)) {
             final LocalDate nowDate = LocalDate.now();
@@ -123,7 +125,7 @@ public class MySQLSessionDAO extends BaseDAO implements SessionDAO {
 
     @Override
     public Session update(Session element) {
-        return null;
+        throw new NotSupportedException();
     }
 
     @Override
@@ -131,7 +133,7 @@ public class MySQLSessionDAO extends BaseDAO implements SessionDAO {
         return delete(element.getId());
     }
 
-    private Session getSessionFromResultSet(ResultSet rs) {
+    private Session getSessionFromResultSet(ResultSet rs) throws DAOException {
         Session session = null;
         try {
             session = new Session(
@@ -171,7 +173,7 @@ public class MySQLSessionDAO extends BaseDAO implements SessionDAO {
     }
 
     @Override
-    public int getFreeSeatAmount(int sessionId) {
+    public int getFreeSeatAmount(int sessionId) throws DAOException {
         int amount = 0;
         try (PreparedStatement statement = getConnection().prepareStatement(SELECT_FREE_SEATS_BY_ID)) {
             statement.setInt(1, sessionId);
@@ -187,7 +189,7 @@ public class MySQLSessionDAO extends BaseDAO implements SessionDAO {
     }
 
     @Override
-    public boolean delete(int sessionId) {
+    public boolean delete(int sessionId) throws DAOException {
         boolean isDeleted = false;
         try (PreparedStatement statement = getConnection().prepareStatement(DELETE_BY_SESSION_ID)) {
             statement.setInt(1, sessionId);
@@ -202,7 +204,7 @@ public class MySQLSessionDAO extends BaseDAO implements SessionDAO {
     }
 
     @Override
-    public boolean decrementFreeSeatsAmount(int sessionId) {
+    public boolean decrementFreeSeatsAmount(int sessionId) throws DAOException {
         boolean isDecremented = true;
         try (PreparedStatement statement = getConnection().prepareStatement(DECREMENT_FREE_SEATS)) {
             statement.setInt(1, sessionId);

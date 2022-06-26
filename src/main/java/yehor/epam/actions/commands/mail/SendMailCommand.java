@@ -17,7 +17,7 @@ import static yehor.epam.utilities.CommandConstants.COMMAND_VIEW_PROFILE_PAGE;
 /**
  * Send mail command
  */
-public class SendMailCommand implements BaseCommand {
+/*public class SendMailCommand implements BaseCommand {
     private static final Logger logger = LoggerManager.getLogger(SendMailCommand.class);
     private static final String CLASS_NAME = SendMailCommand.class.getName();
 
@@ -47,7 +47,7 @@ public class SendMailCommand implements BaseCommand {
         }
     }
 
-    /**
+    *//**
      * send mail command
      *
      * @param host      host
@@ -58,7 +58,7 @@ public class SendMailCommand implements BaseCommand {
      * @param subject   mail subject
      * @param content   mail content
      * @throws Exception
-     */
+     *//*
     private void sendEmail(String host, String port, String user, String pass, String recipient, String subject, String content) throws Exception {
         try {
             MailService mailService = new MailService();
@@ -68,4 +68,4 @@ public class SendMailCommand implements BaseCommand {
             throw new Exception("Couldn't send mail", e);
         }
     }
-}
+}*/

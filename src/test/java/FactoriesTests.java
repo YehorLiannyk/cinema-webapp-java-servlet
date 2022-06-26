@@ -1,7 +1,7 @@
 import org.junit.Test;
 import yehor.epam.dao.*;
-import yehor.epam.dao.exception.AuthException;
-import yehor.epam.dao.exception.DAOException;
+import yehor.epam.exceptions.AuthException;
+import yehor.epam.exceptions.DAOException;
 import yehor.epam.dao.factories.MySQLFactory;
 import yehor.epam.dao.mysql.*;
 import yehor.epam.entities.*;

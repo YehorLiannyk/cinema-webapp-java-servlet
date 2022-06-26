@@ -4,7 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import yehor.epam.actions.BaseCommand;
-import yehor.epam.actions.commands.exceptions.TicketException;
+import yehor.epam.exceptions.TicketException;
 import yehor.epam.dao.SeatDAO;
 import yehor.epam.dao.TicketDAO;
 import yehor.epam.dao.factories.DAOFactory;

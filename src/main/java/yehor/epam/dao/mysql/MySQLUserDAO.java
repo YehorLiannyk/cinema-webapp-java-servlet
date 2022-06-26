@@ -3,9 +3,9 @@ package yehor.epam.dao.mysql;
 import org.apache.log4j.Logger;
 import yehor.epam.dao.BaseDAO;
 import yehor.epam.dao.UserDAO;
-import yehor.epam.dao.exception.AuthException;
-import yehor.epam.dao.exception.DAOException;
-import yehor.epam.dao.exception.RegisterException;
+import yehor.epam.exceptions.AuthException;
+import yehor.epam.exceptions.DAOException;
+import yehor.epam.exceptions.RegisterException;
 import yehor.epam.entities.User;
 import yehor.epam.utilities.LoggerManager;
 

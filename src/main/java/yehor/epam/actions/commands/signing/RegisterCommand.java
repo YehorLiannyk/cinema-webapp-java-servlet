@@ -6,7 +6,7 @@ import jakarta.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 import yehor.epam.actions.BaseCommand;
 import yehor.epam.dao.UserDAO;
-import yehor.epam.dao.exception.RegisterException;
+import yehor.epam.exceptions.RegisterException;
 import yehor.epam.dao.factories.DAOFactory;
 import yehor.epam.dao.factories.MySQLFactory;
 import yehor.epam.entities.User;

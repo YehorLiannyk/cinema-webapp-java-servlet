@@ -1,4 +1,4 @@
-package yehor.epam.services.exceptions;
+package yehor.epam.exceptions;
 
 /**
  * Google Recaptcha verify exception

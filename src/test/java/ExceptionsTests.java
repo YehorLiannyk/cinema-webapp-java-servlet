@@ -1,10 +1,10 @@
 import org.junit.Test;
-import yehor.epam.actions.commands.exceptions.TicketException;
-import yehor.epam.connection.ConnectionException;
-import yehor.epam.dao.exception.AuthException;
-import yehor.epam.dao.exception.DAOException;
-import yehor.epam.dao.exception.RegisterException;
-import yehor.epam.services.exceptions.VerifyException;
+import yehor.epam.exceptions.TicketException;
+import yehor.epam.exceptions.ConnectionException;
+import yehor.epam.exceptions.AuthException;
+import yehor.epam.exceptions.DAOException;
+import yehor.epam.exceptions.RegisterException;
+import yehor.epam.exceptions.VerifyException;
 import yehor.epam.utilities.exception.PDFException;
 
 import static org.junit.Assert.assertEquals;
