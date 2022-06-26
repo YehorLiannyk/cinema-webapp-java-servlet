@@ -16,7 +16,7 @@ import yehor.epam.utilities.LoggerManager;
 import java.util.HashMap;
 import java.util.Map;
 
-import static yehor.epam.utilities.CommandConstants.*;
+import static yehor.epam.utilities.constants.CommandConstants.*;
 
 /**
  * Factory class from Factory method pattern

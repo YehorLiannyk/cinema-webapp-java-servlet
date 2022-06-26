@@ -1,4 +1,4 @@
-package yehor.epam.utilities;
+package yehor.epam.utilities.constants;
 
 /**
  * Constants of all JSP page paths

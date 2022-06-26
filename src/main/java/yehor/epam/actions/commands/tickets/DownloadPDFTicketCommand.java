@@ -8,8 +8,8 @@ import yehor.epam.actions.BaseCommand;
 import yehor.epam.dao.factories.DAOFactory;
 import yehor.epam.dao.factories.MySQLFactory;
 import yehor.epam.entities.Ticket;
-import yehor.epam.services.ErrorService;
-import yehor.epam.services.TicketService;
+import yehor.epam.services.impl.ErrorServiceImpl;
+import yehor.epam.services.impl.TicketServiceImpl;
 import yehor.epam.utilities.LoggerManager;
 
 import java.io.ByteArrayOutputStream;
@@ -32,7 +32,7 @@ public class DownloadPDFTicketCommand implements BaseCommand {
             final Ticket ticket = factory.getTicketDao().findById(ticketId);
             formAndWritePDF(request, response, ticket);
         } catch (Exception e) {
-            ErrorService.handleException(request, response, CLASS_NAME, e);
+            ErrorServiceImpl.handleException(request, response, CLASS_NAME, e);
         }
     }
 
@@ -47,7 +47,7 @@ public class DownloadPDFTicketCommand implements BaseCommand {
     private void formAndWritePDF(HttpServletRequest request, HttpServletResponse response, Ticket ticket) throws IOException {
         ByteArrayOutputStream byteArrayOutputStream = null;
         try {
-            TicketService ticketService = new TicketService();
+            TicketServiceImpl ticketService = new TicketServiceImpl();
             byteArrayOutputStream = ticketService.formPDFTicket(ticket);
             final ServletOutputStream servletOutputStream = getServletOutputStream(request, response);
             byteArrayOutputStream.writeTo(servletOutputStream);
@@ -56,7 +56,7 @@ public class DownloadPDFTicketCommand implements BaseCommand {
                 byteArrayOutputStream.flush();
                 byteArrayOutputStream.close();
             }
-            ErrorService.handleException(request, response, CLASS_NAME, e);
+            ErrorServiceImpl.handleException(request, response, CLASS_NAME, e);
         }
     }
 
@@ -77,7 +77,7 @@ public class DownloadPDFTicketCommand implements BaseCommand {
                 servletOutputStream.flush();
                 servletOutputStream.close();
             }
-            ErrorService.handleException(request, response, CLASS_NAME, e);
+            ErrorServiceImpl.handleException(request, response, CLASS_NAME, e);
         }
         return servletOutputStream;
     }

@@ -1,4 +1,4 @@
-package yehor.epam.services;
+package yehor.epam.services.impl;
 
 
 import jakarta.mail.Message;

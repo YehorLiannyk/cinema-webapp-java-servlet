@@ -6,20 +6,28 @@ import jakarta.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 import yehor.epam.actions.BaseCommand;
 import yehor.epam.dao.UserDAO;
-import yehor.epam.exceptions.RegisterException;
 import yehor.epam.dao.factories.DAOFactory;
 import yehor.epam.dao.factories.MySQLFactory;
 import yehor.epam.entities.User;
+import yehor.epam.exceptions.RegisterException;
+import yehor.epam.exceptions.ServiceException;
 import yehor.epam.services.CookieService;
-import yehor.epam.services.ErrorService;
-import yehor.epam.services.PassEncryptionManager;
+import yehor.epam.services.UserService;
 import yehor.epam.services.VerifyService;
+import yehor.epam.services.impl.CookieServiceImpl;
+import yehor.epam.services.impl.ErrorServiceImpl;
+import yehor.epam.services.impl.UserServiceImpl;
+import yehor.epam.services.impl.VerifyServiceImpl;
 import yehor.epam.utilities.LoggerManager;
+import yehor.epam.utilities.PassEncryptionManager;
 import yehor.epam.utilities.RedirectManager;
+import yehor.epam.utilities.constants.OtherConstants;
 
-import static yehor.epam.utilities.CommandConstants.COMMAND_VIEW_PROFILE_PAGE;
-import static yehor.epam.utilities.OtherConstants.USER_ID;
-import static yehor.epam.utilities.OtherConstants.USER_ROLE;
+import java.io.IOException;
+
+import static yehor.epam.utilities.constants.CommandConstants.COMMAND_VIEW_PROFILE_PAGE;
+import static yehor.epam.utilities.constants.OtherConstants.USER_ID;
+import static yehor.epam.utilities.constants.OtherConstants.USER_ROLE;
 
 /**
  * Command for User registration
@@ -27,31 +35,45 @@ import static yehor.epam.utilities.OtherConstants.USER_ROLE;
 public class RegisterCommand implements BaseCommand {
     private static final Logger logger = LoggerManager.getLogger(RegisterCommand.class);
     private static final String CLASS_NAME = RegisterCommand.class.getName();
+    private final UserService userService;
+    private final CookieService cookieService;
+    private final VerifyService verifyService;
+
+    public RegisterCommand() {
+        userService = new UserServiceImpl();
+        cookieService = new CookieServiceImpl();
+        verifyService = new VerifyServiceImpl();
+    }
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
-        try (DAOFactory factory = new MySQLFactory()) {
-            logger.debug("Created DAOFactory in " + CLASS_NAME + " execute command");
-
-            //captcha validation
-            VerifyService verifyService = new VerifyService();
-            verifyService.captchaValidation(request, response);
-
-            final User user = getUserFromRequest(request);
-            final UserDAO userDao = factory.getUserDao();
-            final boolean inserted = userDao.insert(user);
-            final int userId = userDao.getMaxId();
-            user.setId(userId);
-
-            if (inserted) {
-                prepareUserSessionAndCookie(request, response, user);
-                response.sendRedirect(RedirectManager.getRedirectLocation(COMMAND_VIEW_PROFILE_PAGE));
-            } else {
-                logger.warn("User wasn't inserted");
-                throw new RegisterException("Couldn't create User");
-            }
+        logger.debug("Called execute() in " + CLASS_NAME);
+        try {
+            verifyService.captchaValidation(request, response); //captcha validation
+            saveUser(request, response);
+            response.sendRedirect(RedirectManager.getRedirectLocation(COMMAND_VIEW_PROFILE_PAGE));
         } catch (Exception e) {
-            ErrorService.handleException(request, response, CLASS_NAME, e);
+            ErrorServiceImpl.handleException(request, response, CLASS_NAME, e);
+        }
+    }
+
+    /**
+     * Call service method to save user
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
+     * @throws ServiceException
+     * @throws IOException
+     */
+    private void saveUser(HttpServletRequest request, HttpServletResponse response) throws ServiceException, IOException {
+        final User user = getUserFromRequest(request);
+        final boolean inserted = userService.save(user);
+        final int userId = userService.getMaxId();
+        user.setId(userId);
+        if (inserted) {
+            prepareUserSessionAndCookie(request, response, user);
+        } else {
+            logger.warn("User wasn't saved");
+            throw new RegisterException("Couldn't create User");
         }
     }
 
@@ -68,7 +90,6 @@ public class RegisterCommand implements BaseCommand {
         session.setAttribute(USER_ID, user.getId());
         session.setAttribute(USER_ROLE, user.getUserRole());
         final String rememberMe = request.getParameter("rememberMe");
-        CookieService cookieService = new CookieService();
         cookieService.loginCookie(response, user, rememberMe);
     }
 
@@ -81,7 +102,7 @@ public class RegisterCommand implements BaseCommand {
     private User getUserFromRequest(HttpServletRequest request) {
         final String password = request.getParameter("password");
         PassEncryptionManager passManager = new PassEncryptionManager();
-        String saltValue = passManager.getSaltValue(30);
+        String saltValue = passManager.getSaltValue(OtherConstants.SALT_LENGTH);
         String securePassword = passManager.generateSecurePassword(password, saltValue);
         return new User(
                 request.getParameter("firstName"),

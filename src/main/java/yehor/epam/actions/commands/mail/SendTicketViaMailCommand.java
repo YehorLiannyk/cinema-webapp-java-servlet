@@ -1,16 +1,5 @@
 package yehor.epam.actions.commands.mail;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import org.apache.log4j.Logger;
-import yehor.epam.actions.BaseCommand;
-import yehor.epam.dao.factories.DAOFactory;
-import yehor.epam.dao.factories.MySQLFactory;
-import yehor.epam.entities.Ticket;
-import yehor.epam.entities.User;
-import yehor.epam.services.ErrorService;
-import yehor.epam.utilities.LoggerManager;
-
 /**
  * Send ticket via email command
  */

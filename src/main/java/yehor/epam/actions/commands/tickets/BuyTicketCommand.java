@@ -10,17 +10,17 @@ import yehor.epam.dao.TicketDAO;
 import yehor.epam.dao.factories.DAOFactory;
 import yehor.epam.dao.factories.MySQLFactory;
 import yehor.epam.entities.Ticket;
-import yehor.epam.services.ErrorService;
+import yehor.epam.services.impl.ErrorServiceImpl;
 import yehor.epam.utilities.RedirectManager;
 import yehor.epam.utilities.LoggerManager;
 
 import java.util.List;
 
-import static yehor.epam.utilities.CommandConstants.COMMAND_VIEW_SUCCESS_PAY_PAGE;
+import static yehor.epam.utilities.constants.CommandConstants.COMMAND_VIEW_SUCCESS_PAY_PAGE;
 
 public class BuyTicketCommand implements BaseCommand {
     private static final Logger logger = LoggerManager.getLogger(BuyTicketCommand.class);
-    private String CLASS_NAME = BuyTicketCommand.class.getName();
+    private static final String CLASS_NAME = BuyTicketCommand.class.getName();
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
@@ -42,7 +42,7 @@ public class BuyTicketCommand implements BaseCommand {
             }
             response.sendRedirect(RedirectManager.getRedirectLocation(COMMAND_VIEW_SUCCESS_PAY_PAGE));
         } catch (Exception e) {
-            ErrorService.handleException(request, response, CLASS_NAME, e);
+            ErrorServiceImpl.handleException(request, response, CLASS_NAME, e);
         }
     }
 }

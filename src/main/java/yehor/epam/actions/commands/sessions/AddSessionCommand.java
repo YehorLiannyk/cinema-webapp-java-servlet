@@ -4,14 +4,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import yehor.epam.actions.BaseCommand;
-import yehor.epam.dao.FilmDAO;
-import yehor.epam.dao.SessionDAO;
-import yehor.epam.dao.factories.DAOFactory;
-import yehor.epam.dao.factories.MySQLFactory;
 import yehor.epam.entities.Film;
 import yehor.epam.entities.Session;
 import yehor.epam.exceptions.ServiceException;
-import yehor.epam.services.ErrorService;
+import yehor.epam.services.impl.ErrorServiceImpl;
 import yehor.epam.services.FilmService;
 import yehor.epam.services.SessionService;
 import yehor.epam.services.impl.FilmServiceImpl;
@@ -23,7 +19,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import static yehor.epam.utilities.CommandConstants.COMMAND_VIEW_SESSIONS_SETTING_PAGE;
+import static yehor.epam.utilities.constants.CommandConstants.COMMAND_VIEW_SESSIONS_SETTING_PAGE;
 
 /**
  * Admin add Session Command
@@ -49,7 +45,7 @@ public class AddSessionCommand implements BaseCommand {
             sessionService.addSession(session);
             response.sendRedirect(RedirectManager.getRedirectLocation(COMMAND_VIEW_SESSIONS_SETTING_PAGE));
         } catch (Exception e) {
-            ErrorService.handleException(request, response, CLASS_NAME, e);
+            ErrorServiceImpl.handleException(request, response, CLASS_NAME, e);
         }
     }
 

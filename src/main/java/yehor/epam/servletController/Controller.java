@@ -9,7 +9,7 @@ import yehor.epam.actions.BaseCommand;
 import yehor.epam.actions.CommandFactory;
 import yehor.epam.utilities.LoggerManager;
 
-import static yehor.epam.utilities.CommandConstants.COMMAND_MAIN_SERVLET;
+import static yehor.epam.utilities.constants.CommandConstants.COMMAND_MAIN_SERVLET;
 
 /**
  * Main Servlet

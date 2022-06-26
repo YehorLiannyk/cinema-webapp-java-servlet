@@ -1,11 +1,9 @@
 import jakarta.mail.MessagingException;
-import jakarta.servlet.http.HttpServletRequest;
 import org.junit.Test;
 import yehor.epam.entities.Ticket;
-import yehor.epam.services.GeneralService;
-import yehor.epam.services.MailService;
-import yehor.epam.services.PassEncryptionManager;
-import yehor.epam.services.TicketService;
+import yehor.epam.services.impl.MailService;
+import yehor.epam.utilities.PassEncryptionManager;
+import yehor.epam.services.impl.TicketServiceImpl;
 import yehor.epam.utilities.exception.PDFException;
 
 import java.io.ByteArrayOutputStream;
@@ -39,7 +37,7 @@ public class ServicesTests {
 
     @Test
     public void ticketServiceTest() {
-        TicketService ticketService = mock(TicketService.class);
+        TicketServiceImpl ticketService = mock(TicketServiceImpl.class);
         final Ticket ticket = mock(Ticket.class);
         when(ticketService.formPDFTicket(ticket)).thenReturn(new ByteArrayOutputStream());
         when(ticketService.formPDFTicket(ticket)).thenThrow(PDFException.class);

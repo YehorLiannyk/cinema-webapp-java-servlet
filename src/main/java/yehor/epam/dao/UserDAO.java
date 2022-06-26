@@ -13,12 +13,12 @@ public interface UserDAO extends DAO<User> {
      * @return User
      * @throws AuthException throw if there is no user with this login, in case if password check is skipped
      */
-    User getUser(String login) throws AuthException;
+    User getUserByLogin(String login) throws AuthException;
 
     /**
      * Get max if of user table for setting User's id to user object
      *
-     * @return
+     * @return max id of user's table
      */
     int getMaxId();
 

@@ -7,7 +7,7 @@ import yehor.epam.actions.BaseCommand;
 import yehor.epam.entities.Film;
 import yehor.epam.entities.Genre;
 import yehor.epam.exceptions.ServiceException;
-import yehor.epam.services.ErrorService;
+import yehor.epam.services.impl.ErrorServiceImpl;
 import yehor.epam.services.FilmService;
 import yehor.epam.services.GenreService;
 import yehor.epam.services.impl.FilmServiceImpl;
@@ -18,9 +18,8 @@ import yehor.epam.utilities.RedirectManager;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.List;
-import java.util.Map;
 
-import static yehor.epam.utilities.CommandConstants.COMMAND_VIEW_FILMS_SETTING_PAGE;
+import static yehor.epam.utilities.constants.CommandConstants.COMMAND_VIEW_FILMS_SETTING_PAGE;
 
 /**
  * Admin adding film command
@@ -47,7 +46,7 @@ public class AddFilmCommand implements BaseCommand {
             filmService.addFilm(film);
             response.sendRedirect(RedirectManager.getRedirectLocation(COMMAND_VIEW_FILMS_SETTING_PAGE));
         } catch (ServiceException | IOException e) {
-            ErrorService.handleException(request, response, CLASS_NAME, e);
+            ErrorServiceImpl.handleException(request, response, CLASS_NAME, e);
         }
     }
 

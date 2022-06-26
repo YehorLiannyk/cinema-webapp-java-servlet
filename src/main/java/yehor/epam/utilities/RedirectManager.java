@@ -1,6 +1,6 @@
 package yehor.epam.utilities;
 
-import static yehor.epam.utilities.CommandConstants.COMMAND_MAIN_SERVLET;
+import static yehor.epam.utilities.constants.CommandConstants.COMMAND_MAIN_SERVLET;
 
 /**
  * Manager for app inner redirection among commands

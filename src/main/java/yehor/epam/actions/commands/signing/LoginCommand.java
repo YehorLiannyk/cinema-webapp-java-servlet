@@ -5,24 +5,23 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 import yehor.epam.actions.BaseCommand;
-import yehor.epam.dao.UserDAO;
-import yehor.epam.exceptions.AuthException;
-import yehor.epam.dao.factories.DAOFactory;
-import yehor.epam.dao.factories.MySQLFactory;
 import yehor.epam.entities.User;
+import yehor.epam.exceptions.AuthException;
+import yehor.epam.exceptions.ServiceException;
 import yehor.epam.services.CookieService;
-import yehor.epam.services.ErrorService;
-import yehor.epam.services.PassEncryptionManager;
+import yehor.epam.services.UserService;
+import yehor.epam.services.impl.CookieServiceImpl;
+import yehor.epam.services.impl.ErrorServiceImpl;
+import yehor.epam.services.impl.UserServiceImpl;
 import yehor.epam.utilities.LoggerManager;
 import yehor.epam.utilities.RedirectManager;
 
 import java.io.IOException;
-import java.util.Map;
 
-import static yehor.epam.utilities.CommandConstants.COMMAND_VIEW_MAIN_PAGE;
-import static yehor.epam.utilities.CommandConstants.COMMAND_VIEW_PROFILE_PAGE;
-import static yehor.epam.utilities.OtherConstants.USER_ID;
-import static yehor.epam.utilities.OtherConstants.USER_ROLE;
+import static yehor.epam.utilities.constants.CommandConstants.COMMAND_VIEW_MAIN_PAGE;
+import static yehor.epam.utilities.constants.CommandConstants.COMMAND_VIEW_PROFILE_PAGE;
+import static yehor.epam.utilities.constants.OtherConstants.USER_ID;
+import static yehor.epam.utilities.constants.OtherConstants.USER_ROLE;
 
 /**
  * User login class, check if user exist and verify login and password
@@ -30,83 +29,71 @@ import static yehor.epam.utilities.OtherConstants.USER_ROLE;
 public class LoginCommand implements BaseCommand {
     private static final Logger logger = LoggerManager.getLogger(LoginCommand.class);
     private static final String CLASS_NAME = LoginCommand.class.getName();
+    private final UserService userService;
+    private final CookieService cookieService;
+
+    public LoginCommand() {
+        userService = new UserServiceImpl();
+        cookieService = new CookieServiceImpl();
+    }
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
-        try (DAOFactory factory = new MySQLFactory()) {
-            logger.debug("Created DAOFactory in " + CLASS_NAME + " execute command");
+        logger.debug("Called execute() in " + CLASS_NAME);
+        try {
             final String login = request.getParameter("login");
             final String password = request.getParameter("password");
             final String rememberMe = request.getParameter("rememberMe");
-            final UserDAO userDao = factory.getUserDao();
-            userAuth(request, response, login, password, userDao, rememberMe);
+            authUser(request, response, login, password);
+            final User user = userService.getUserByLogin(login);
+            prepareUser(user, request, response, rememberMe);
+
+            final String redirectPage = getRedirectPage(user.getUserRole());
+            response.sendRedirect(RedirectManager.getRedirectLocation(redirectPage));
         } catch (Exception e) {
-            ErrorService.handleException(request, response, CLASS_NAME, e);
+            ErrorServiceImpl.handleException(request, response, CLASS_NAME, e);
         }
     }
 
     /**
-     * Authorization of User and redirect
+     * User authentication
      *
-     * @param request    HttpServletRequest
-     * @param response   HttpServletResponse
-     * @param login      User's login
-     * @param password   User's non encrypted password
-     * @param userDao    UserDAO
-     * @param rememberMe checkbox value Remember me
-     * @throws IOException
+     * @param request  HttpServletRequest
+     * @param response HttpServletResponse
+     * @param login    User's login
+     * @param password User's non encrypted password
      */
-    private void userAuth(HttpServletRequest request, HttpServletResponse response, String login,
-                          String password, UserDAO userDao, String rememberMe) throws IOException {
+    private void authUser(HttpServletRequest request, HttpServletResponse response, String login, String password) throws ServiceException {
         try {
-            final Map<String, String> saltAndPass = userDao.getSaltAndPassByLogin(login);
-            final String saltValue = saltAndPass.get("salt");
-            final String encryptedPass = saltAndPass.get("password");
-            PassEncryptionManager passManager = new PassEncryptionManager();
-            boolean isVerified = passManager.verifyUserPassword(password, encryptedPass, saltValue);
-            if (!isVerified) throw new AuthException("Wrong password");
-            final User user = prepareUser(request, response, login, userDao, rememberMe);
-            redirectUser(response, user);
+            userService.authenticateUser(login, password);
         } catch (AuthException e) {
-            logger.warn("Troubles with user login: " + request.getParameter("login"), e);
-            ErrorService.handleException(request, response, CLASS_NAME, e);
+            logger.error("Couldn't auth user with user login: " + login, e);
+            ErrorServiceImpl.handleException(request, response, CLASS_NAME, e);
         }
     }
 
     /**
-     * If user is USER redirect to user profile page, if is ADMIN to main page
-     *
-     * @param response
-     * @param user
-     * @throws IOException
-     */
-    private void redirectUser(HttpServletResponse response, User user) throws IOException {
-        if (user.getUserRole() == User.Role.USER)
-            response.sendRedirect(RedirectManager.getRedirectLocation(COMMAND_VIEW_PROFILE_PAGE));
-        else
-            response.sendRedirect(RedirectManager.getRedirectLocation(COMMAND_VIEW_MAIN_PAGE));
-    }
-
-    /**
-     * Prepare user's session and create cookie
-     *
+     * @param user       User
      * @param request    HttpServletRequest
      * @param response   HttpServletResponse
-     * @param login      User's login
-     * @param userDao    UserDAO
      * @param rememberMe checkbox value Remember me
-     * @return User object
-     * @throws AuthException
      */
-    private User prepareUser(HttpServletRequest request, HttpServletResponse response,
-                             String login, UserDAO userDao, String rememberMe) throws AuthException {
-        final User user = userDao.getUser(login);
+    private void prepareUser(User user, HttpServletRequest request, HttpServletResponse response, String rememberMe) {
         HttpSession session = request.getSession(true);
         session.setAttribute(USER_ID, user.getId());
         session.setAttribute(USER_ROLE, user.getUserRole());
         logger.info("User with id: " + user.getId() + ", role = " + user.getUserRole().toString() + " login");
-        CookieService cookieService = new CookieService();
         cookieService.loginCookie(response, user, rememberMe);
-        return user;
+    }
+
+    /**
+     * If user is USER get profile page, if ADMIN - get main page
+     * @param userRole User role
+     * @return page to redirect
+     */
+    private String getRedirectPage(User.Role userRole) {
+        if (userRole == User.Role.USER)
+            return COMMAND_VIEW_PROFILE_PAGE;
+        return COMMAND_VIEW_MAIN_PAGE;
     }
 }

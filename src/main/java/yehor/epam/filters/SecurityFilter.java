@@ -7,8 +7,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 import yehor.epam.entities.User;
-import yehor.epam.services.CookieService;
-import yehor.epam.services.GeneralService;
+import yehor.epam.services.impl.CookieServiceImpl;
+import yehor.epam.services.impl.GeneralServiceImpl;
 import yehor.epam.utilities.LoggerManager;
 import yehor.epam.utilities.RedirectManager;
 
@@ -16,9 +16,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static yehor.epam.utilities.CommandConstants.*;
-import static yehor.epam.utilities.JspPagePathConstants.ERROR_PAGE_PATH;
-import static yehor.epam.utilities.OtherConstants.*;
+import static yehor.epam.utilities.constants.CommandConstants.*;
+import static yehor.epam.utilities.constants.JspPagePathConstants.ERROR_PAGE_PATH;
+import static yehor.epam.utilities.constants.OtherConstants.*;
 
 /**
  * Security filter for delimitation of user accessible command
@@ -50,7 +50,7 @@ public class SecurityFilter implements Filter {
         //
         getCookies(req, session);
         //
-        GeneralService.initParams(req);
+        GeneralServiceImpl.initParams(req);
 
         String command = req.getParameter("command");
         logger.debug("Command from " + CLASS_NAME + " = " + req.getParameter("command"));
@@ -91,7 +91,7 @@ public class SecurityFilter implements Filter {
      */
     private void getCookies(HttpServletRequest req, HttpSession session) {
         if (session == null || session.getAttribute(USER_ROLE) == null || session.getAttribute(USER_ID).equals(0) || session.getAttribute(LANG) == null) {
-            CookieService cookieService = new CookieService();
+            CookieServiceImpl cookieService = new CookieServiceImpl();
             cookieService.initCookies(req);
             logger.debug("Entry to getCookies block in " + CLASS_NAME);
         } else

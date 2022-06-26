@@ -8,13 +8,13 @@ import yehor.epam.dao.TicketDAO;
 import yehor.epam.dao.factories.DAOFactory;
 import yehor.epam.dao.factories.MySQLFactory;
 import yehor.epam.entities.Ticket;
-import yehor.epam.services.ErrorService;
+import yehor.epam.services.impl.ErrorServiceImpl;
 import yehor.epam.utilities.LoggerManager;
 
 import java.util.List;
 
-import static yehor.epam.utilities.JspPagePathConstants.USER_PROFILE_PAGE_PATH;
-import static yehor.epam.utilities.OtherConstants.USER_ID;
+import static yehor.epam.utilities.constants.JspPagePathConstants.USER_PROFILE_PAGE_PATH;
+import static yehor.epam.utilities.constants.OtherConstants.USER_ID;
 
 /**
  * Command to show User Profile page
@@ -33,7 +33,7 @@ public class ProfilePageCommand implements BaseCommand {
             request.setAttribute("ticketList", ticketList);
             request.getRequestDispatcher(USER_PROFILE_PAGE_PATH).forward(request, response);
         } catch (Exception e) {
-            ErrorService.handleException(request, response, SIMPLE_NAME, e);
+            ErrorServiceImpl.handleException(request, response, SIMPLE_NAME, e);
         }
     }
 }

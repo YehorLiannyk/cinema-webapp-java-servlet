@@ -27,7 +27,7 @@ public class MySQLUserDAO extends BaseDAO implements UserDAO {
     private String SELECT_PASS_AND_SALT = "SELECT password, salt FROM users WHERE email=?";
 
     @Override
-    public boolean insert(User user) {
+    public boolean insert(User user) throws DAOException {
         boolean inserted = false;
         try (PreparedStatement statement = getConnection().prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS)) {
             setUserToStatement(user, statement);
@@ -90,7 +90,7 @@ public class MySQLUserDAO extends BaseDAO implements UserDAO {
     }
 
     @Override
-    public User getUser(String login) throws AuthException {
+    public User getUserByLogin(String login) throws AuthException {
         User user = null;
         try (PreparedStatement statement = getConnection().prepareStatement(SELECT)) {
             statement.setString(1, login);

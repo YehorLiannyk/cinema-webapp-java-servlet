@@ -13,7 +13,7 @@ import yehor.epam.entities.Seat;
 import yehor.epam.entities.Session;
 import yehor.epam.entities.Ticket;
 import yehor.epam.entities.User;
-import yehor.epam.services.ErrorService;
+import yehor.epam.services.impl.ErrorServiceImpl;
 import yehor.epam.utilities.LoggerManager;
 
 import java.math.BigDecimal;
@@ -21,8 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static yehor.epam.utilities.JspPagePathConstants.PAYING_PAGE_PATH;
-import static yehor.epam.utilities.OtherConstants.USER_ID;
+import static yehor.epam.utilities.constants.JspPagePathConstants.PAYING_PAGE_PATH;
+import static yehor.epam.utilities.constants.OtherConstants.USER_ID;
 
 /**
  * Command show page of chosen tickets
@@ -52,7 +52,7 @@ public class BuyTicketPageCommand implements BaseCommand {
 
             request.getRequestDispatcher(PAYING_PAGE_PATH).forward(request, response);
         } catch (Exception e) {
-            ErrorService.handleException(request, response, CLASS_NAME, e);
+            ErrorServiceImpl.handleException(request, response, CLASS_NAME, e);
         }
     }
 

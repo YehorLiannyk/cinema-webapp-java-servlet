@@ -8,14 +8,14 @@ import yehor.epam.dao.SessionDAO;
 import yehor.epam.dao.factories.DAOFactory;
 import yehor.epam.dao.factories.MySQLFactory;
 import yehor.epam.entities.Session;
-import yehor.epam.services.ErrorService;
-import yehor.epam.services.ScheduleService;
+import yehor.epam.services.impl.ErrorServiceImpl;
+import yehor.epam.services.impl.ScheduleService;
 import yehor.epam.utilities.LoggerManager;
 
 import java.util.List;
 import java.util.Map;
 
-import static yehor.epam.utilities.JspPagePathConstants.SCHEDULE_PAGE_PATH;
+import static yehor.epam.utilities.constants.JspPagePathConstants.SCHEDULE_PAGE_PATH;
 
 /**
  * Command to set Schedule page
@@ -38,7 +38,7 @@ public class ScheduleCommand implements BaseCommand {
 
             request.getRequestDispatcher(SCHEDULE_PAGE_PATH).forward(request, response);
         } catch (Exception e) {
-            ErrorService.handleException(request, response, CLASS_NAME, e);
+            ErrorServiceImpl.handleException(request, response, CLASS_NAME, e);
         }
     }
 

@@ -1,4 +1,4 @@
-package yehor.epam.utilities;
+package yehor.epam.utilities.constants;
 
 import java.time.Duration;
 import java.time.LocalTime;
@@ -96,6 +96,7 @@ public final class OtherConstants {
      * Schedule page descending sort method
      */
     public static final String SESSION_SORT_METHOD_DESC = "descendingSortMethod";
+    public static final int SALT_LENGTH = 30;
 
     private OtherConstants() {
     }

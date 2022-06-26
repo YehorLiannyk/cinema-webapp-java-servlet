@@ -1,4 +1,4 @@
-package yehor.epam.services;
+package yehor.epam.services.impl;
 
 import org.apache.log4j.Logger;
 import yehor.epam.utilities.LoggerManager;
@@ -6,7 +6,7 @@ import yehor.epam.utilities.LoggerManager;
 import java.util.HashMap;
 import java.util.Map;
 
-import static yehor.epam.utilities.OtherConstants.*;
+import static yehor.epam.utilities.constants.OtherConstants.*;
 
 /**
  * Class service of Schedule page

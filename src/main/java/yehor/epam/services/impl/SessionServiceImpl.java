@@ -1,17 +1,15 @@
 package yehor.epam.services.impl;
 
-import jakarta.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
-import yehor.epam.dao.SeatDAO;
 import yehor.epam.dao.SessionDAO;
 import yehor.epam.dao.factories.DAOFactory;
 import yehor.epam.dao.factories.DaoFactoryDeliver;
-import yehor.epam.entities.Seat;
 import yehor.epam.entities.Session;
 import yehor.epam.exceptions.ServiceException;
 import yehor.epam.services.SessionService;
 import yehor.epam.utilities.LoggerManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -60,6 +58,19 @@ public class SessionServiceImpl implements SessionService {
         } catch (Exception e) {
             throwServiceException("Couldn't add session", e);
         }
+    }
+
+    @Override
+    public List<Session> getAll() throws ServiceException {
+        List<Session> sessionList = new ArrayList<>();
+        try (DAOFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
+            logCreatingDaoFactory();
+            final SessionDAO sessionDAO = factory.getSessionDao();
+            sessionList = sessionDAO.findAll();
+        } catch (Exception e) {
+            throwServiceException("Couldn't get session list", e);
+        }
+        return sessionList;
     }
 
     private void logCreatingDaoFactory() {

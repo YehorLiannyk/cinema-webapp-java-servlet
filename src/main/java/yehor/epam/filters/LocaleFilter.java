@@ -7,14 +7,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.jsp.jstl.core.Config;
 import org.apache.log4j.Logger;
-import yehor.epam.services.CookieService;
+import yehor.epam.services.impl.CookieServiceImpl;
 import yehor.epam.utilities.LoggerManager;
 
 import java.io.IOException;
 import java.util.Locale;
 
-import static yehor.epam.utilities.OtherConstants.DEFAULT_LANG;
-import static yehor.epam.utilities.OtherConstants.LANG;
+import static yehor.epam.utilities.constants.OtherConstants.DEFAULT_LANG;
+import static yehor.epam.utilities.constants.OtherConstants.LANG;
 
 /**
  * Filter for localization
@@ -53,7 +53,7 @@ public class LocaleFilter implements Filter {
         //get locale from request if it has
         if (req.getParameter(LANG) != null) {
             final String langParameter = req.getParameter(LANG);
-            CookieService cookieService = new CookieService();
+            CookieServiceImpl cookieService = new CookieServiceImpl();
             cookieService.setLocaleCookie(res, langParameter);
             locale = langParameter;
             logger.info("Set locale = " + langParameter + " from request");

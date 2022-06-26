@@ -8,7 +8,6 @@ import yehor.epam.entities.Film;
 import yehor.epam.entities.Session;
 import yehor.epam.utilities.LoggerManager;
 
-import javax.naming.OperationNotSupportedException;
 import javax.ws.rs.NotSupportedException;
 import java.sql.*;
 import java.time.LocalDate;
@@ -17,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static yehor.epam.utilities.OtherConstants.*;
+import static yehor.epam.utilities.constants.OtherConstants.*;
 
 public class MySQLSessionDAO extends BaseDAO implements SessionDAO {
     private static final Logger logger = LoggerManager.getLogger(MySQLSessionDAO.class);

@@ -1,4 +1,4 @@
-package yehor.epam.utilities;
+package yehor.epam.utilities.constants;
 
 /**
  * Constants of all servlet's commands used by CommandFactory

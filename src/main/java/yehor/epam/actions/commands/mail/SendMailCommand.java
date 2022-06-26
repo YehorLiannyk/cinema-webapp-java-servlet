@@ -1,19 +1,5 @@
 package yehor.epam.actions.commands.mail;
 
-import jakarta.servlet.ServletContext;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import org.apache.log4j.Logger;
-import yehor.epam.actions.BaseCommand;
-import yehor.epam.entities.Ticket;
-import yehor.epam.entities.User;
-import yehor.epam.services.ErrorService;
-import yehor.epam.services.MailService;
-import yehor.epam.utilities.LoggerManager;
-import yehor.epam.utilities.RedirectManager;
-
-import static yehor.epam.utilities.CommandConstants.COMMAND_VIEW_PROFILE_PAGE;
-
 /**
  * Send mail command
  */

@@ -1,4 +1,4 @@
-package yehor.epam.services;
+package yehor.epam.utilities;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;

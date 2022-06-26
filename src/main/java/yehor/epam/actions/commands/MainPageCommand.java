@@ -6,11 +6,11 @@ import org.apache.log4j.Logger;
 import yehor.epam.actions.BaseCommand;
 import yehor.epam.dao.factories.DAOFactory;
 import yehor.epam.dao.factories.MySQLFactory;
-import yehor.epam.services.ErrorService;
+import yehor.epam.services.impl.ErrorServiceImpl;
 import yehor.epam.services.impl.FilmServiceImpl;
 import yehor.epam.utilities.LoggerManager;
 
-import static yehor.epam.utilities.JspPagePathConstants.MAIN_PAGE_PATH;
+import static yehor.epam.utilities.constants.JspPagePathConstants.MAIN_PAGE_PATH;
 
 /**
  * Command preparing and forward to Main page
@@ -27,7 +27,7 @@ public class MainPageCommand implements BaseCommand {
             filmService.setFilmListToSession(request, factory);
             request.getRequestDispatcher(MAIN_PAGE_PATH).forward(request, response);
         } catch (Exception e) {
-            ErrorService.handleException(request, response, CLASS_NAME, e);
+            ErrorServiceImpl.handleException(request, response, CLASS_NAME, e);
         }
     }
 }

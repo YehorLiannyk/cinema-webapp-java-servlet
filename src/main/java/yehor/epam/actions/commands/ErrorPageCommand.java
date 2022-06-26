@@ -6,7 +6,7 @@ import org.apache.log4j.Logger;
 import yehor.epam.actions.BaseCommand;
 import yehor.epam.utilities.LoggerManager;
 
-import static yehor.epam.utilities.JspPagePathConstants.ERROR_PAGE_PATH;
+import static yehor.epam.utilities.constants.JspPagePathConstants.ERROR_PAGE_PATH;
 
 /**
  * Command forwarding to Error page from ErrorService

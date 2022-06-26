@@ -54,8 +54,8 @@ public class FactoriesTests {
     public void mySQLUserDAOTest() throws AuthException {
         MySQLUserDAO userDAO = mock(MySQLUserDAO.class);
         User user = mock(User.class);
-        when(userDAO.getUser("login")).thenReturn(mock(User.class));
-        when(userDAO.getUser("login")).thenThrow(DAOException.class);
+        when(userDAO.getUserByLogin("login")).thenReturn(mock(User.class));
+        when(userDAO.getUserByLogin("login")).thenThrow(DAOException.class);
         when(userDAO.findAll()).thenReturn(mock(List.class));
         when(userDAO.findAll()).thenThrow(DAOException.class);
         when(userDAO.update(user)).thenReturn(user);

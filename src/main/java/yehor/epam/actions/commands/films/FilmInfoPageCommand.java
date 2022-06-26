@@ -5,12 +5,12 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import yehor.epam.actions.BaseCommand;
 import yehor.epam.entities.Film;
-import yehor.epam.services.ErrorService;
+import yehor.epam.services.impl.ErrorServiceImpl;
 import yehor.epam.services.FilmService;
 import yehor.epam.services.impl.FilmServiceImpl;
 import yehor.epam.utilities.LoggerManager;
 
-import static yehor.epam.utilities.JspPagePathConstants.FILM_INFO_PAGE_PATH;
+import static yehor.epam.utilities.constants.JspPagePathConstants.FILM_INFO_PAGE_PATH;
 
 /**
  * Film info page command
@@ -32,7 +32,7 @@ public class FilmInfoPageCommand implements BaseCommand {
             request.setAttribute("film", film);
             request.getRequestDispatcher(FILM_INFO_PAGE_PATH).forward(request, response);
         } catch (Exception e) {
-            ErrorService.handleException(request, response, CLASS_NAME, e);
+            ErrorServiceImpl.handleException(request, response, CLASS_NAME, e);
         }
     }
 
