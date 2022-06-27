@@ -57,7 +57,7 @@ public class MySQLFactory implements DAOFactory {
 
     @Override
     public SessionDAO getSessionDao() {
-        final MySQLSessionDAO mySQLSessionDAO = new MySQLSessionDAO();
+        MySQLSessionDAO mySQLSessionDAO = new MySQLSessionDAO();
         mySQLSessionDAO.setConnection(connection);
         return mySQLSessionDAO;
     }

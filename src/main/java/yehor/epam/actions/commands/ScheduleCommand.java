@@ -35,6 +35,9 @@ public class ScheduleCommand implements BaseCommand {
             final Map<String, String[]> parameterMap = request.getParameterMap();
             final Map<String, String> filterSortMap = sessionService.getFilterSortMapFromParams(parameterMap);
             List<Session> sessionList = getAppropriateSessionList(filterSortMap);
+            logger.debug("parameterMap keySet: " + parameterMap.keySet());
+            logger.debug("filterSortMap size: " + filterSortMap.size());
+            logger.debug("Session list: " + sessionList);
             request.setAttribute("sessionList", sessionList);
             request.getRequestDispatcher(SCHEDULE_PAGE_PATH).forward(request, response);
         } catch (Exception e) {
@@ -49,7 +52,7 @@ public class ScheduleCommand implements BaseCommand {
      * @return usual SessionList or already filtered and sorted
      */
     private List<Session> getAppropriateSessionList(Map<String, String> filterSortMap) throws ServiceException {
-        if (filterSortMap != null && !filterSortMap.isEmpty())
+        if (!filterSortMap.isEmpty())
             return sessionService.getFilteredAndSortedSessionList(filterSortMap);
         logger.debug("Return not sorted session list");
         return sessionService.getAll();

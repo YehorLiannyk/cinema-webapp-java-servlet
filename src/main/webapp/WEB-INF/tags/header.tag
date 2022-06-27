@@ -19,7 +19,6 @@
             crossorigin="anonymous"></script>
 
     <script src='https://www.google.com/recaptcha/api.js'></script>
-
     <script>
         <jsp:directive.include file="/WEB-INF/js/bootstrap.min.js"/>
     </script>
@@ -28,7 +27,6 @@
     </script>
 
     <link rel="stylesheet" href="http://cdn.datatables.net/1.10.2/css/jquery.dataTables.min.css">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <link rel="icon" type="image/x-icon" href="<c:url value="/images/favicon.ico"/>">

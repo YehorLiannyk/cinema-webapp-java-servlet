@@ -41,5 +41,5 @@ build/
 *.log
 
 ### Sonarlint ###
-**/sonarline/
+*.pb
 /.idea/sonarlint/**

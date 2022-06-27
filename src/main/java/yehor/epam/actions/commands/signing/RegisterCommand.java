@@ -64,7 +64,7 @@ public class RegisterCommand implements BaseCommand {
      * @throws ServiceException
      * @throws IOException
      */
-    private void saveUser(HttpServletRequest request, HttpServletResponse response) throws ServiceException, IOException {
+    private void saveUser(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
         final User user = getUserFromRequest(request);
         final boolean inserted = userService.save(user);
         final int userId = userService.getMaxId();

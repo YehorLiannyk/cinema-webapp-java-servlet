@@ -3,12 +3,11 @@ package yehor.epam.dao.mysql;
 import org.slf4j.Logger;
 import yehor.epam.dao.BaseDAO;
 import yehor.epam.dao.SessionDAO;
-import yehor.epam.exceptions.DAOException;
 import yehor.epam.entities.Film;
 import yehor.epam.entities.Session;
+import yehor.epam.exceptions.DAOException;
 import yehor.epam.utilities.LoggerManager;
 
-import javax.ws.rs.NotSupportedException;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -124,7 +123,7 @@ public class MySQLSessionDAO extends BaseDAO implements SessionDAO {
 
     @Override
     public Session update(Session element) {
-        throw new NotSupportedException();
+        return null;
     }
 
     @Override

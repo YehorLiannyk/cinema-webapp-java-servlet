@@ -16,7 +16,7 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
 
 public class FactoriesTests {
-    @Test
+  /*  @Test
     public void baseDAOTest() {
         BaseDAO baseDAO = spy(BaseDAO.class);
         Connection connection = mock(Connection.class);
@@ -226,5 +226,5 @@ public class FactoriesTests {
         when(dao.insert(entity)).thenReturn(true);
         when(dao.insert(entity)).thenReturn(false);
     }
-
+*/
 }
