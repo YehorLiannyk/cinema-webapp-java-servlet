@@ -9,6 +9,8 @@ public interface UserService {
 
     User getUserByLogin(String login) throws ServiceException;
 
+    User getById(int id) throws ServiceException;
+
     int getMaxId() throws ServiceException;
 
     boolean save(User user) throws ServiceException;

@@ -96,7 +96,15 @@ public final class OtherConstants {
      * Schedule page descending sort method
      */
     public static final String SESSION_SORT_METHOD_DESC = "descendingSortMethod";
+
+    /**
+     * Salt length for password encrypt
+     */
     public static final int SALT_LENGTH = 30;
+    /**
+     * Default name for ticket file name
+     */
+    public static final String DEF_TICKET_FILENAME= "ticket";
 
     private OtherConstants() {
     }

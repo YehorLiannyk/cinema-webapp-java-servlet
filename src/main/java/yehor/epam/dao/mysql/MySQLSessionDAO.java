@@ -61,7 +61,7 @@ public class MySQLSessionDAO extends BaseDAO implements SessionDAO {
         return key;
     }
 
-    private void setSessionToInsertStatement(Session session, PreparedStatement statement) throws SQLException {
+    private void setSessionToInsertStatement(Session session, PreparedStatement statement) throws SQLException, DAOException {
         final MySQLSeatDAO seatDAO = getSeatDAO();
         final int allSeatsAmount = seatDAO.getAllSeatsAmount();
         try {
@@ -128,7 +128,7 @@ public class MySQLSessionDAO extends BaseDAO implements SessionDAO {
     }
 
     @Override
-    public boolean delete(Session element) {
+    public boolean delete(Session element) throws DAOException {
         return delete(element.getId());
     }
 
@@ -152,14 +152,14 @@ public class MySQLSessionDAO extends BaseDAO implements SessionDAO {
         return session;
     }
 
-    private MySQLFilmDAO getFilmDAO() {
-        final MySQLFilmDAO mySQLFilmDAO = new MySQLFilmDAO();
+    private MySQLFilmDao getFilmDAO() {
+        final MySQLFilmDao mySQLFilmDAO = new MySQLFilmDao();
         mySQLFilmDAO.setConnection(getConnection());
         return mySQLFilmDAO;
     }
 
     @Override
-    public List<Session> getFilteredAndSortedSessionList(Map<String, String> map) {
+    public List<Session> findFilteredAndSortedSessionList(Map<String, String> map) throws DAOException {
         final String request = sortByFormRequest(map, SELECT_ALL + WHERE_DEFAULT);
         List<Session> sessionList = getPreparedSessionListByRequest(request);
         sessionList = removeFromListUnavailableSessions(map, sessionList);
@@ -167,7 +167,7 @@ public class MySQLSessionDAO extends BaseDAO implements SessionDAO {
     }
 
     @Override
-    public int getFreeSeatAmount(Session session) {
+    public int getFreeSeatAmount(Session session) throws DAOException {
         return getFreeSeatAmount(session.getId());
     }
 
@@ -255,7 +255,7 @@ public class MySQLSessionDAO extends BaseDAO implements SessionDAO {
      * @param sessionList sorted already sessionList
      * @return filtered SessionList
      */
-    private List<Session> removeFromListUnavailableSessions(Map<String, String> map, List<Session> sessionList) {
+    private List<Session> removeFromListUnavailableSessions(Map<String, String> map, List<Session> sessionList) throws DAOException {
         if (map.containsValue(SESSION_FILTER_SHOW_ONLY_AVAILABLE)) {
             List<Session> list = new ArrayList<>(sessionList.size());
             logger.debug("Map contains: " + SESSION_FILTER_SHOW_ONLY_AVAILABLE);

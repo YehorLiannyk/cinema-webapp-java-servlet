@@ -2,7 +2,7 @@ package yehor.epam.dao.mysql;
 
 import org.apache.log4j.Logger;
 import yehor.epam.dao.BaseDAO;
-import yehor.epam.dao.TicketDAO;
+import yehor.epam.dao.TicketDao;
 import yehor.epam.exceptions.DAOException;
 import yehor.epam.entities.Seat;
 import yehor.epam.entities.Session;
@@ -17,14 +17,14 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MySQLTicketDAO extends BaseDAO implements TicketDAO {
-    private static final Logger logger = LoggerManager.getLogger(MySQLTicketDAO.class);
+public class MySQLTicketDao extends BaseDAO implements TicketDao {
+    private static final Logger logger = LoggerManager.getLogger(MySQLTicketDao.class);
     private static final String INSERT = "INSERT INTO tickets VALUES (ticket_id, ?,?,?,?)";
     private static final String SELECT_BY_USER_ID = "SELECT * FROM tickets WHERE user_id=?";
     private static final String SELECT_BY_ID = "SELECT * FROM tickets t WHERE ticket_id=?";
 
     @Override
-    public boolean insert(Ticket ticket) {
+    public boolean insert(Ticket ticket) throws DAOException {
         boolean inserted = false;
         try (PreparedStatement statement = getConnection().prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS)) {
             setTicketToStatement(ticket, statement);
@@ -43,7 +43,7 @@ public class MySQLTicketDAO extends BaseDAO implements TicketDAO {
      * @param ticket    Ticket item
      * @param statement PreparedStatement
      */
-    private void ticketInsertTransaction(Ticket ticket, PreparedStatement statement) throws SQLException {
+    private void ticketInsertTransaction(Ticket ticket, PreparedStatement statement) throws SQLException, DAOException {
         getConnection().setAutoCommit(false);
         statement.executeUpdate();
         final boolean freeSeatsAmount = getSessionDAO().decrementFreeSeatsAmount(ticket.getSession().getId());
@@ -78,7 +78,7 @@ public class MySQLTicketDAO extends BaseDAO implements TicketDAO {
     }
 
     @Override
-    public Ticket findById(int id) {
+    public Ticket findById(int id) throws DAOException {
         Ticket ticket = null;
         try (PreparedStatement statement = getConnection().prepareStatement(SELECT_BY_ID)) {
             statement.setInt(1, id);
@@ -108,7 +108,7 @@ public class MySQLTicketDAO extends BaseDAO implements TicketDAO {
         return false;
     }
 
-    private Ticket getTicketFromResultSet(ResultSet rs) {
+    private Ticket getTicketFromResultSet(ResultSet rs) throws DAOException {
         Ticket ticket = null;
         try {
             User user = getUserDAO().findById(rs.getInt("user_id"));
@@ -145,7 +145,7 @@ public class MySQLTicketDAO extends BaseDAO implements TicketDAO {
     }
 
     @Override
-    public List<Ticket> findAllByUserId(int userId) {
+    public List<Ticket> findAllByUserId(int userId) throws DAOException {
         List<Ticket> ticketList = new ArrayList<>();
         try (PreparedStatement statement = getConnection().prepareStatement(SELECT_BY_USER_ID)) {
             statement.setInt(1, userId);

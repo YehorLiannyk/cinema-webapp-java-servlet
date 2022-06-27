@@ -25,7 +25,6 @@ public class VerifyServiceImpl implements VerifyService {
     private static final String CLASS_NAME = VerifyServiceImpl.class.getName();
     private static final String USER_AGENT = "Mozilla/5.0";
 
-
     @Override
     public void captchaValidation(HttpServletRequest request, HttpServletResponse response) {
         try {

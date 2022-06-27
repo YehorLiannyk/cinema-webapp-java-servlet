@@ -17,11 +17,12 @@ public class ErrorPageCommand implements BaseCommand {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
+        logger.debug("Called execute() in " + CLASS_NAME);
         try {
             logger.debug("Forward to error page");
             request.getRequestDispatcher(ERROR_PAGE_PATH).forward(request, response);
         } catch (Exception e) {
-            logger.error(CLASS_NAME + "got exception: ", e);
+            logger.error(CLASS_NAME + " got exception: ", e);
         }
     }
 }

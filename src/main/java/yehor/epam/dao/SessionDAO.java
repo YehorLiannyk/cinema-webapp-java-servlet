@@ -13,7 +13,7 @@ public interface SessionDAO extends DAO<Session> {
      * @param map request's parameterMap contains only filter and sorter params
      * @return sessionList
      */
-    List<Session> getFilteredAndSortedSessionList(Map<String, String> map);
+    List<Session> findFilteredAndSortedSessionList(Map<String, String> map) throws DAOException;
 
     /**
      * Get free seats amount of Session
@@ -21,7 +21,7 @@ public interface SessionDAO extends DAO<Session> {
      * @param session Session
      * @return free seats amount
      */
-    int getFreeSeatAmount(Session session);
+    int getFreeSeatAmount(Session session) throws DAOException;
 
     /**
      * Get free seats amount of Session

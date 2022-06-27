@@ -4,8 +4,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 import yehor.epam.actions.commands.*;
 import yehor.epam.actions.commands.films.*;
-import yehor.epam.actions.commands.mail.SendMailCommand;
-import yehor.epam.actions.commands.mail.SendTicketViaMailCommand;
 import yehor.epam.actions.commands.sessions.*;
 import yehor.epam.actions.commands.signing.*;
 import yehor.epam.actions.commands.tickets.BuyTicketCommand;

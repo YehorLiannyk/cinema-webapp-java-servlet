@@ -43,7 +43,7 @@ public class AddFilmCommand implements BaseCommand {
             final String[] genresId = request.getParameterMap().get("genresId");
             final List<Genre> genreList = genreService.getGenreListByIdArray(genresId);
             film.setGenreList(genreList);
-            filmService.addFilm(film);
+            filmService.saveFilm(film);
             response.sendRedirect(RedirectManager.getRedirectLocation(COMMAND_VIEW_FILMS_SETTING_PAGE));
         } catch (ServiceException | IOException e) {
             ErrorServiceImpl.handleException(request, response, CLASS_NAME, e);

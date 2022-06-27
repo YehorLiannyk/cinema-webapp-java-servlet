@@ -5,8 +5,6 @@ import yehor.epam.actions.BaseCommand;
 import yehor.epam.actions.CommandFactory;
 import yehor.epam.actions.commands.*;
 import yehor.epam.actions.commands.films.*;
-import yehor.epam.actions.commands.mail.SendMailCommand;
-import yehor.epam.actions.commands.mail.SendTicketViaMailCommand;
 import yehor.epam.actions.commands.sessions.*;
 import yehor.epam.actions.commands.signing.*;
 import yehor.epam.actions.commands.tickets.BuyTicketCommand;
@@ -44,8 +42,6 @@ public class CommandsTests {
         when(factory.defineCommand(request)).thenReturn(mock(SessionPageCommand.class));
         when(factory.defineCommand(request)).thenReturn(mock(DeleteSessionCommand.class));
         when(factory.defineCommand(request)).thenReturn(mock(AddSessionPageCommand.class));
-        when(factory.defineCommand(request)).thenReturn(mock(SendMailCommand.class));
-        when(factory.defineCommand(request)).thenReturn(mock(SendTicketViaMailCommand.class));
         when(factory.defineCommand(request)).thenReturn(mock(FilmsSettingPageCommand.class));
         when(factory.defineCommand(request)).thenReturn(mock(FilmInfoPageCommand.class));
         when(factory.defineCommand(request)).thenReturn(mock(DeleteFilmCommand.class));
@@ -132,14 +128,6 @@ public class CommandsTests {
         verify(command, times(1)).execute(request, response);
 
         command = spy(AddSessionPageCommand.class);
-        command.execute(request, response);
-        verify(command, times(1)).execute(request, response);
-
-        command = spy(SendMailCommand.class);
-        command.execute(request, response);
-        verify(command, times(1)).execute(request, response);
-
-        command = spy(SendTicketViaMailCommand.class);
         command.execute(request, response);
         verify(command, times(1)).execute(request, response);
 

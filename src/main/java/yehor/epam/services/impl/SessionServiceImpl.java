@@ -11,6 +11,7 @@ import yehor.epam.utilities.LoggerManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Class service of Session
@@ -18,12 +19,6 @@ import java.util.List;
 public class SessionServiceImpl implements SessionService {
     private static final Logger logger = LoggerManager.getLogger(SessionServiceImpl.class);
     private static final String CLASS_NAME = FilmServiceImpl.class.getName();
-
-    private final SessionService sessionService;
-
-    public SessionServiceImpl() {
-        sessionService = new SessionServiceImpl();
-    }
 
     @Override
     public Session getById(int id) throws ServiceException {
@@ -67,6 +62,19 @@ public class SessionServiceImpl implements SessionService {
             logCreatingDaoFactory();
             final SessionDAO sessionDAO = factory.getSessionDao();
             sessionList = sessionDAO.findAll();
+        } catch (Exception e) {
+            throwServiceException("Couldn't get session list", e);
+        }
+        return sessionList;
+    }
+
+    @Override
+    public List<Session> getFilteredAndSortedSessionList(Map<String, String> filterSortMap) throws ServiceException {
+        List<Session> sessionList = new ArrayList<>();
+        try (DAOFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
+            logCreatingDaoFactory();
+            final SessionDAO sessionDAO = factory.getSessionDao();
+            sessionList = sessionDAO.findFilteredAndSortedSessionList(filterSortMap);
         } catch (Exception e) {
             throwServiceException("Couldn't get session list", e);
         }

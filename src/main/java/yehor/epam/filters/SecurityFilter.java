@@ -7,6 +7,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 import yehor.epam.entities.User;
+import yehor.epam.services.CookieService;
+import yehor.epam.services.GeneralService;
 import yehor.epam.services.impl.CookieServiceImpl;
 import yehor.epam.services.impl.GeneralServiceImpl;
 import yehor.epam.utilities.LoggerManager;
@@ -50,7 +52,8 @@ public class SecurityFilter implements Filter {
         //
         getCookies(req, session);
         //
-        GeneralServiceImpl.initParams(req);
+        GeneralService generalService = new GeneralServiceImpl();
+        generalService.initParams(req);
 
         String command = req.getParameter("command");
         logger.debug("Command from " + CLASS_NAME + " = " + req.getParameter("command"));
@@ -91,7 +94,7 @@ public class SecurityFilter implements Filter {
      */
     private void getCookies(HttpServletRequest req, HttpSession session) {
         if (session == null || session.getAttribute(USER_ROLE) == null || session.getAttribute(USER_ID).equals(0) || session.getAttribute(LANG) == null) {
-            CookieServiceImpl cookieService = new CookieServiceImpl();
+            CookieService cookieService = new CookieServiceImpl();
             cookieService.initCookies(req);
             logger.debug("Entry to getCookies block in " + CLASS_NAME);
         } else

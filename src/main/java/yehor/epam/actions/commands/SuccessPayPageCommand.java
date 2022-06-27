@@ -18,8 +18,8 @@ public class SuccessPayPageCommand implements BaseCommand {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
+        logger.debug("Called execute() in " + CLASS_NAME);
         try {
-            logger.info("Entry to" + CLASS_NAME);
             logger.debug("Forward to page of successful payment");
             request.getRequestDispatcher(SUCCESS_PAID_PAGE_PATH).forward(request, response);
         } catch (Exception e) {

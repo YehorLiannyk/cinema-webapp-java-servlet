@@ -32,7 +32,7 @@ public class MySQLSeatDAO extends BaseDAO implements SeatDAO {
     }
 
     @Override
-    public Seat findById(int id) {
+    public Seat findById(int id) throws DAOException {
         Seat seat = null;
         try (PreparedStatement statement = getConnection().prepareStatement(SELECT_BY_ID)) {
             statement.setInt(1, id);
@@ -48,7 +48,7 @@ public class MySQLSeatDAO extends BaseDAO implements SeatDAO {
     }
 
     @Override
-    public List<Seat> findAll() {
+    public List<Seat> findAll() throws DAOException {
         List<Seat> seats = new ArrayList<>();
         try (PreparedStatement statement = getConnection().prepareStatement(SELECT_ALL)) {
             ResultSet resultSet = statement.executeQuery();
@@ -73,7 +73,7 @@ public class MySQLSeatDAO extends BaseDAO implements SeatDAO {
         return false;
     }
 
-    private Seat getSeatFromResultSet(ResultSet rs) {
+    private Seat getSeatFromResultSet(ResultSet rs) throws DAOException {
         Seat seat = null;
         try {
             seat = new Seat(
@@ -89,7 +89,7 @@ public class MySQLSeatDAO extends BaseDAO implements SeatDAO {
     }
 
     @Override
-    public List<Seat> findAllFreeSeatBySessionId(int sessionId) {
+    public List<Seat> findAllFreeSeatBySessionId(int sessionId) throws DAOException {
         List<Seat> freeSeatList = new ArrayList<>();
         try (PreparedStatement statement = getConnection().prepareStatement(SELECT_FREE_SEATS_BY_SESSION_ID)) {
             statement.setInt(1, sessionId);
@@ -106,7 +106,7 @@ public class MySQLSeatDAO extends BaseDAO implements SeatDAO {
     }
 
     @Override
-    public boolean reserveSeatBySession(final Seat seat, final Session session) {
+    public boolean reserveSeatBySession(final Seat seat, final Session session) throws DAOException {
         boolean isReserved = false;
         try (PreparedStatement statement = getConnection().prepareStatement(REMOVE_FREE_SEAT)) {
             if (seat == null || session == null) {
@@ -125,7 +125,7 @@ public class MySQLSeatDAO extends BaseDAO implements SeatDAO {
     }
 
     @Override
-    public boolean isSeatFree(int seatId, int sessionId) {
+    public boolean isSeatFree(int seatId, int sessionId) throws DAOException {
         boolean isFree = false;
         try (PreparedStatement statement = getConnection().prepareStatement(SELECT_FREE_SEAT_BY_ID_AND_SESSION)) {
             statement.setInt(1, seatId);
@@ -140,7 +140,7 @@ public class MySQLSeatDAO extends BaseDAO implements SeatDAO {
     }
 
     @Override
-    public int getFreeSeatsAmountBySessionId(int sessionId) {
+    public int getFreeSeatsAmountBySessionId(int sessionId) throws DAOException {
         int freeAmount = 0;
         try (PreparedStatement statement = getConnection().prepareStatement(SELECT_FREE_SEATS_BY_SESSION_ID)) {
             statement.setInt(1, sessionId);
@@ -156,7 +156,7 @@ public class MySQLSeatDAO extends BaseDAO implements SeatDAO {
     }
 
     @Override
-    public void insertFreeSeatsForSession(Session session) {
+    public void insertFreeSeatsForSession(Session session) throws DAOException {
         try (PreparedStatement statement = getConnection().prepareStatement(INSERT_FREE_SEAT, Statement.RETURN_GENERATED_KEYS)) {
             final List<Seat> seatList = findAll();
             final int sessionId = session.getId();
@@ -174,7 +174,7 @@ public class MySQLSeatDAO extends BaseDAO implements SeatDAO {
     }
 
     @Override
-    public int getAllSeatsAmount() {
+    public int getAllSeatsAmount() throws DAOException {
         int amount = 0;
         try (PreparedStatement statement = getConnection().prepareStatement(SELECT_ALL)) {
             ResultSet resultSet = statement.executeQuery();

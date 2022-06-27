@@ -1,146 +1,127 @@
 package yehor.epam.services.impl;
 
-import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.BaseFont;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;
 import org.apache.log4j.Logger;
-import yehor.epam.entities.Film;
-import yehor.epam.entities.Seat;
-import yehor.epam.entities.Session;
-import yehor.epam.entities.Ticket;
+import yehor.epam.dao.TicketDao;
+import yehor.epam.dao.factories.DAOFactory;
+import yehor.epam.dao.factories.DaoFactoryDeliver;
+import yehor.epam.entities.*;
+import yehor.epam.exceptions.EmptyListException;
+import yehor.epam.exceptions.ServiceException;
+import yehor.epam.exceptions.TicketException;
+import yehor.epam.services.SeatService;
 import yehor.epam.services.TicketService;
 import yehor.epam.utilities.LoggerManager;
-import yehor.epam.utilities.exception.PDFException;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.text.DecimalFormat;
-
-import static yehor.epam.utilities.constants.OtherConstants.DEFAULT_CURRENCY;
-import static yehor.epam.utilities.constants.OtherConstants.FONTS_BAHNSCHRIFT_TTF_PATH;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Class service for ticket in particular for PDF formation purpose
+ * Service class for Film
  */
 public class TicketServiceImpl implements TicketService {
     private static final Logger logger = LoggerManager.getLogger(TicketServiceImpl.class);
-    private final Font headFont;
+    private static final String CLASS_NAME = TicketServiceImpl.class.getName();
+    private final SeatService seatService;
 
-    /**
-     * Create TicketService object and set main Font for pdf file
-     */
     public TicketServiceImpl() {
-        BaseFont unicode = null;
-        try {
-            unicode = BaseFont.createFont(FONTS_BAHNSCHRIFT_TTF_PATH, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-        } catch (DocumentException | IOException e) {
-            logger.error("Couldn't set front for PDF", e);
-            throw new PDFException("Couldn't set front for PDF", e);
+        seatService = new SeatServiceImpl();
+    }
+
+    @Override
+    public void saveTicketList(List<Ticket> ticketList) throws ServiceException {
+        if (ticketList == null || ticketList.isEmpty()) {
+            logger.warn("Received ticket list is null or empty");
+            throw new EmptyListException("Received ticket list is null or empty");
         }
-        headFont = new Font(unicode, 12);
-    }
-
-    /**
-     * create ByteArrayOutputStream from ticket object and form it to PDF table
-     *
-     * @param ticket Ticket object
-     * @return ByteArrayOutputStream
-     */
-    public ByteArrayOutputStream formPDFTicket(Ticket ticket) {
-        Document document = new Document();
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-
         try {
-            PdfPTable table = new PdfPTable(2);
-            table.setWidthPercentage(100);
-            table.setTotalWidth(PageSize.A4.getWidth() - 25);
-
-
-            final Session session = ticket.getSession();
-            final Film film = session.getFilm();
-            final Seat seat = ticket.getSeat();
-
-            PdfPCell lCell = null;
-            PdfPCell rCell = null;
-
-            addRowToTable("Ticket id: ", table, String.valueOf(ticket.getId()));
-            //
-            addRowToTable("Film name: ", table, film.getName());
-            //
-            addRowToTable("Date: ", table, session.getDate().toString());
-            //
-            addRowToTable("Time: ", table, session.getTime().toString());
-            //
-            addRowToTable("Row: ", table, String.valueOf(seat.getRowNumber()));
-            //
-            addRowToTable("Place: ", table, String.valueOf(seat.getPlaceNumber()));
-
-            lCell = new PdfPCell(new Phrase("Ticket price: ", headFont));
-            setLeftCell(lCell);
-            table.addCell(lCell);
-
-            final String ticketPriceInFormat = getTicketPriceInFormat(ticket);
-
-            rCell = new PdfPCell(new Phrase(ticketPriceInFormat + " " + DEFAULT_CURRENCY));
-            setRightCell(rCell);
-            table.addCell(rCell);
-            //
-
-            PdfWriter.getInstance(document, outputStream);
-            document.open();
-            document.add(table);
-
-            document.close();
-
-        } catch (DocumentException e) {
-            logger.error("Exception in " + TicketServiceImpl.class.getName(), e);
+            for (Ticket ticket : ticketList) {
+                saveTicket(ticket);
+            }
+        } catch (Exception e) {
+            throwServiceException("Couldn't save ticket List", e);
         }
-
-        return outputStream;
     }
 
-    /**
-     * Add appropriate row to PDF table
-     *
-     * @param string text
-     * @param table  the PDF table
-     * @param ticket Ticket
-     */
-    private void addRowToTable(String string, PdfPTable table, String ticket) {
-        PdfPCell lCell;
-        PdfPCell rCell;
-        lCell = new PdfPCell(new Phrase(string, headFont));
-        setLeftCell(lCell);
-        table.addCell(lCell);
-
-        rCell = new PdfPCell(new Phrase(ticket, headFont));
-        setRightCell(rCell);
-        table.addCell(rCell);
+    @Override
+    public void saveTicket(Ticket ticket) throws ServiceException {
+        try (DAOFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
+            logCreatingDaoFactory();
+            final int seatId = ticket.getSeat().getId();
+            final int sessionId = ticket.getSession().getId();
+            TicketDao ticketDao = factory.getTicketDao();
+            if (seatService.isSeatFreeBySessionId(seatId, sessionId)) {
+                logger.debug("Seat is free, id: " + seatId + " and sessionId: " + sessionId);
+                ticketDao.insert(ticket);
+            } else {
+                logger.warn("Seat is already reserved");
+                throw new TicketException("Seat is already reserved, choose another one");
+            }
+        } catch (Exception e) {
+            throwServiceException("Couldn't save ticket", e);
+        }
     }
 
-    private void setLeftCell(PdfPCell lCell) {
-        lCell.setHorizontalAlignment(Element.ALIGN_LEFT);
+    @Override
+    public List<Ticket> formTicketList(Session session, List<Seat> seatList, User user) {
+        final List<Ticket> ticketList = new ArrayList<>();
+        for (Seat seat : seatList) {
+            final Ticket ticket = new Ticket(session, user, seat, session.getTicketPrice());
+            ticketList.add(ticket);
+        }
+        if (ticketList.isEmpty()) {
+            logger.error("Couldn't form TicketList, it is Empty");
+            throw new EmptyListException("Couldn't form TicketList, it is Empty");
+        }
+        return ticketList;
     }
 
-    private void setRightCell(PdfPCell cell) {
-        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        cell.setHorizontalAlignment(Element.ALIGN_MIDDLE);
-        cell.setPaddingRight(5);
+
+    @Override
+    public BigDecimal countTotalCostOfTicketList(final List<Ticket> ticketList) {
+        if (ticketList == null || ticketList.isEmpty()) {
+            logger.error("seatList is null or empty, can't count total cost");
+            throw new EmptyListException("seatList is null or empty, can't count total cost");
+        }
+        BigDecimal totalCost = new BigDecimal(0);
+        for (Ticket ticket : ticketList) {
+            totalCost = totalCost.add(ticket.getTicketPrice());
+        }
+        return totalCost;
     }
 
-    /**
-     * get ticket price from BigDecimal in two digits after comma format
-     *
-     * @param ticket ticket
-     * @return formatted value in String
-     */
-    private String getTicketPriceInFormat(Ticket ticket) {
-        DecimalFormat df = new DecimalFormat();
-        df.setMaximumFractionDigits(2);
-        df.setMinimumFractionDigits(0);
-        df.setGroupingUsed(false);
-        return df.format(ticket.getTicketPrice());
+    @Override
+    public List<Ticket> findAllByUserId(int userId) throws ServiceException {
+        List<Ticket> ticketList = new ArrayList<>();
+        try (DAOFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
+            logCreatingDaoFactory();
+            final TicketDao ticketDao = factory.getTicketDao();
+            ticketList = ticketDao.findAllByUserId(userId);
+        } catch (Exception e) {
+            throwServiceException("Couldn't get ticket list by user id", e);
+        }
+        return ticketList;
+    }
+
+    @Override
+    public Ticket getById(int id) throws ServiceException {
+        Ticket ticket = null;
+        try (DAOFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
+            logCreatingDaoFactory();
+            final TicketDao ticketDao = factory.getTicketDao();
+            ticket = ticketDao.findById(id);
+        } catch (Exception e) {
+            throwServiceException("Couldn't find ticket", e);
+        }
+        return ticket;
+    }
+
+    private void logCreatingDaoFactory() {
+        logger.debug("Created DAOFactory in " + CLASS_NAME);
+    }
+
+    private void throwServiceException(String message, Exception e) throws ServiceException {
+        logger.error(message, e);
+        throw new ServiceException(message, e);
     }
 }

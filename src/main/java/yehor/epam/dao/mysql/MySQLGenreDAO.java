@@ -27,7 +27,7 @@ public class MySQLGenreDAO extends BaseDAO implements GenreDAO {
     }
 
     @Override
-    public Genre findById(int id) {
+    public Genre findById(int id) throws DAOException {
         Genre genre = null;
         try (PreparedStatement statement = getConnection().prepareStatement(SELECT_BY_ID)) {
             statement.setInt(1, id);
@@ -44,7 +44,7 @@ public class MySQLGenreDAO extends BaseDAO implements GenreDAO {
     }
 
     @Override
-    public List<Genre> findAll() {
+    public List<Genre> findAll() throws DAOException {
         List<Genre> genreList = new ArrayList<>();
         try (Statement statement = getConnection().createStatement()) {
             ResultSet resultSet = statement.executeQuery(SELECT_ALL);
@@ -81,7 +81,7 @@ public class MySQLGenreDAO extends BaseDAO implements GenreDAO {
     }
 
     @Override
-    public boolean insertFilmGenres(final int filmId, List<Genre> genreList) throws SQLException {
+    public boolean insertFilmGenres(final int filmId, List<Genre> genreList) throws SQLException, DAOException {
         boolean inserted = false;
         if (genreList.isEmpty()) throw new DAOException("Received genreList is empty");
         try (PreparedStatement statement = getConnection().prepareStatement(INSERT_GENRES_OF_FILM)) {
@@ -102,7 +102,7 @@ public class MySQLGenreDAO extends BaseDAO implements GenreDAO {
     }
 
     @Override
-    public List<Genre> getGenreListOfFilm(int filmId) {
+    public List<Genre> getGenreListOfFilm(int filmId) throws DAOException {
         List<Genre> genreList = new ArrayList<>();
         try (PreparedStatement statement = getConnection().prepareStatement(SELECT_ALL_BY_FILM_ID)) {
             statement.setInt(1, filmId);

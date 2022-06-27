@@ -5,6 +5,7 @@ import yehor.epam.dao.SeatDAO;
 import yehor.epam.dao.factories.DAOFactory;
 import yehor.epam.dao.factories.DaoFactoryDeliver;
 import yehor.epam.entities.Seat;
+import yehor.epam.exceptions.EmptyArrayException;
 import yehor.epam.exceptions.ServiceException;
 import yehor.epam.services.GenreService;
 import yehor.epam.services.SeatService;
@@ -20,10 +21,25 @@ public class SeatServiceImpl implements SeatService {
     private static final Logger logger = LoggerManager.getLogger(SeatServiceImpl.class);
     private static final String CLASS_NAME = SeatServiceImpl.class.getName();
 
-    private final GenreService genreService;
-
-    public SeatServiceImpl() {
-        genreService = new GenreServiceImpl();
+    @Override
+    public List<Seat> getSeatListByIdArray(String[] seatIds) throws ServiceException {
+        if (seatIds == null || seatIds.length == 0) {
+            logger.error("Seat Array is null or empty");
+            throw new EmptyArrayException("Seat Array is null or empty");
+        }
+        List<Seat> seatList = new ArrayList<>();
+        try (DAOFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
+            logCreatingDaoFactory();
+            final SeatDAO seatDao = factory.getSeatDao();
+            for (String genreId : seatIds) {
+                final int id = Integer.parseInt(genreId);
+                final Seat seat = seatDao.findById(id);
+                seatList.add(seat);
+            }
+        } catch (Exception e) {
+            throwServiceException("Couldn't get seat list", e);
+        }
+        return seatList;
     }
 
     @Override
@@ -50,6 +66,19 @@ public class SeatServiceImpl implements SeatService {
             throwServiceException("Couldn't get seat list", e);
         }
         return seatList;
+    }
+
+    @Override
+    public boolean isSeatFreeBySessionId(int seatId, int sessionId) throws ServiceException {
+        boolean isFree = false;
+        try (DAOFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
+            logCreatingDaoFactory();
+            final SeatDAO seatDAO = factory.getSeatDao();
+            isFree = seatDAO.isSeatFree(seatId, sessionId);
+        } catch (Exception e) {
+            throwServiceException("Couldn't get seat list", e);
+        }
+        return isFree;
     }
 
     private void logCreatingDaoFactory() {

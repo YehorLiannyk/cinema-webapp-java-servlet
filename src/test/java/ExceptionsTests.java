@@ -5,7 +5,7 @@ import yehor.epam.exceptions.AuthException;
 import yehor.epam.exceptions.DAOException;
 import yehor.epam.exceptions.RegisterException;
 import yehor.epam.exceptions.VerifyException;
-import yehor.epam.utilities.exception.PDFException;
+import yehor.epam.exceptions.PdfException;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -85,11 +85,11 @@ public class ExceptionsTests {
     @Test
     public void pdfExceptionTest() {
         final String msg = "msg";
-        PDFException pdfException = new PDFException(msg);
+        PdfException pdfException = new PdfException(msg);
         assertEquals(msg, pdfException.getMessage());
 
         final Throwable cause = mock(Throwable.class);
-        pdfException = new PDFException(msg, cause);
+        pdfException = new PdfException(msg, cause);
         assertEquals(msg, pdfException.getMessage());
         assertEquals(cause, pdfException.getCause());
     }

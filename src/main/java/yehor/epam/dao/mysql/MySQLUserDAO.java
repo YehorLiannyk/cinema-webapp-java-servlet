@@ -59,7 +59,7 @@ public class MySQLUserDAO extends BaseDAO implements UserDAO {
     }
 
     @Override
-    public User findById(int id) {
+    public User findById(int id) throws DAOException {
         User user = null;
         try (PreparedStatement statement = getConnection().prepareStatement(SELECT_BY_ID)) {
             statement.setInt(1, id);
@@ -90,7 +90,7 @@ public class MySQLUserDAO extends BaseDAO implements UserDAO {
     }
 
     @Override
-    public User getUserByLogin(String login) throws AuthException {
+    public User getUserByLogin(String login) throws AuthException, DAOException {
         User user = null;
         try (PreparedStatement statement = getConnection().prepareStatement(SELECT)) {
             statement.setString(1, login);
@@ -107,7 +107,7 @@ public class MySQLUserDAO extends BaseDAO implements UserDAO {
     }
 
     @Override
-    public int getMaxId() {
+    public int getMaxId() throws DAOException {
         int maxId = 0;
         try (Statement statement = getConnection().createStatement()) {
             final ResultSet resultSet = statement.executeQuery(GET_MAX_ID);
@@ -122,7 +122,7 @@ public class MySQLUserDAO extends BaseDAO implements UserDAO {
     }
 
     @Override
-    public Map<String, String> getSaltAndPassByLogin(String login) throws AuthException {
+    public Map<String, String> getSaltAndPassByLogin(String login) throws AuthException, DAOException {
         Map<String, String> map = new HashMap<>();
         try (PreparedStatement statement = getConnection().prepareStatement(SELECT_PASS_AND_SALT)) {
             statement.setString(1, login);
@@ -141,7 +141,7 @@ public class MySQLUserDAO extends BaseDAO implements UserDAO {
         return map;
     }
 
-    private User getUserFromResultSet(ResultSet rs) {
+    private User getUserFromResultSet(ResultSet rs) throws DAOException {
         User user = null;
         try {
             user = new User(

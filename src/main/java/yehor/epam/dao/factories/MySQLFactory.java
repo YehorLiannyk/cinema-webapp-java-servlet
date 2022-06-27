@@ -35,8 +35,8 @@ public class MySQLFactory implements DAOFactory {
     }
 
     @Override
-    public FilmDAO getFilmDAO() {
-        final MySQLFilmDAO mySQLFilmDAO = new MySQLFilmDAO();
+    public FilmDao getFilmDAO() {
+        final MySQLFilmDao mySQLFilmDAO = new MySQLFilmDao();
         mySQLFilmDAO.setConnection(connection);
         return mySQLFilmDAO;
     }
@@ -63,8 +63,8 @@ public class MySQLFactory implements DAOFactory {
     }
 
     @Override
-    public TicketDAO getTicketDao() {
-        final MySQLTicketDAO mySQLTicketDAO = new MySQLTicketDAO();
+    public TicketDao getTicketDao() {
+        final MySQLTicketDao mySQLTicketDAO = new MySQLTicketDao();
         mySQLTicketDAO.setConnection(connection);
         return mySQLTicketDAO;
     }

@@ -45,5 +45,5 @@ public interface DAO<T extends BaseEntity> {
      * @return <code>true</code> if removed successfully;
      * <code>false</code> if element wasn't removed: couldn't find the element in Database or got error.
      */
-    boolean delete(T element);
+    boolean delete(T element) throws DAOException;
 }

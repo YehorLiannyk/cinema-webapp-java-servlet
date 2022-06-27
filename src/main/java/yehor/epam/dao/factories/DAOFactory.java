@@ -8,7 +8,7 @@ public interface DAOFactory extends AutoCloseable {
      *
      * @return Film DAO
      */
-    FilmDAO getFilmDAO();
+    FilmDao getFilmDAO();
 
     /**
      * Get Genre DAO
@@ -36,7 +36,7 @@ public interface DAOFactory extends AutoCloseable {
      *
      * @return Ticket DAO
      */
-    TicketDAO getTicketDao();
+    TicketDao getTicketDao();
 
     /**
      * Get User DAO

@@ -3,8 +3,8 @@ import org.junit.Test;
 import yehor.epam.entities.Ticket;
 import yehor.epam.services.impl.MailService;
 import yehor.epam.utilities.PassEncryptionManager;
-import yehor.epam.services.impl.TicketServiceImpl;
-import yehor.epam.utilities.exception.PDFException;
+import yehor.epam.services.impl.TicketPdfServiceImpl;
+import yehor.epam.exceptions.PdfException;
 
 import java.io.ByteArrayOutputStream;
 
@@ -37,11 +37,11 @@ public class ServicesTests {
 
     @Test
     public void ticketServiceTest() {
-        TicketServiceImpl ticketService = mock(TicketServiceImpl.class);
+        TicketPdfServiceImpl ticketService = mock(TicketPdfServiceImpl.class);
         final Ticket ticket = mock(Ticket.class);
         when(ticketService.formPDFTicket(ticket)).thenReturn(new ByteArrayOutputStream());
-        when(ticketService.formPDFTicket(ticket)).thenThrow(PDFException.class);
-        doThrow(PDFException.class).when(ticketService).formPDFTicket(ticket);
+        when(ticketService.formPDFTicket(ticket)).thenThrow(PdfException.class);
+        doThrow(PdfException.class).when(ticketService).formPDFTicket(ticket);
     }
 
     @Test

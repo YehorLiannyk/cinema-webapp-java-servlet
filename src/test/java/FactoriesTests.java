@@ -29,10 +29,10 @@ public class FactoriesTests {
     public void mySQLFactoryTest() {
         MySQLFactory factory = mock(MySQLFactory.class);
         when(factory.getUserDao()).thenReturn(mock(UserDAO.class));
-        when(factory.getTicketDao()).thenReturn(mock(TicketDAO.class));
+        when(factory.getTicketDao()).thenReturn(mock(TicketDao.class));
         when(factory.getSessionDao()).thenReturn(mock(SessionDAO.class));
         when(factory.getSeatDao()).thenReturn(mock(SeatDAO.class));
-        when(factory.getFilmDAO()).thenReturn(mock(FilmDAO.class));
+        when(factory.getFilmDAO()).thenReturn(mock(FilmDao.class));
 
         factory = spy(MySQLFactory.class);
         factory.getFilmDAO();
@@ -51,7 +51,7 @@ public class FactoriesTests {
 
 
     @Test
-    public void mySQLUserDAOTest() throws AuthException {
+    public void mySQLUserDAOTest() throws AuthException, DAOException {
         MySQLUserDAO userDAO = mock(MySQLUserDAO.class);
         User user = mock(User.class);
         when(userDAO.getUserByLogin("login")).thenReturn(mock(User.class));
@@ -82,8 +82,8 @@ public class FactoriesTests {
     }
 
     @Test
-    public void mySQLTicketDAOTest() {
-        MySQLTicketDAO ticketDAO = mock(MySQLTicketDAO.class);
+    public void mySQLTicketDAOTest() throws DAOException {
+        MySQLTicketDao ticketDAO = mock(MySQLTicketDao.class);
         Ticket ticket = mock(Ticket.class);
         when(ticketDAO.findAll()).thenReturn(mock(List.class));
         when(ticketDAO.findAll()).thenThrow(DAOException.class);
@@ -99,7 +99,7 @@ public class FactoriesTests {
         when(ticketDAO.delete(ticket)).thenThrow(DAOException.class);
         when(ticketDAO.findById(1)).thenReturn(ticket);
         when(ticketDAO.findById(1)).thenThrow(DAOException.class);
-        ticketDAO = spy(MySQLTicketDAO.class);
+        ticketDAO = spy(MySQLTicketDao.class);
         ticketDAO.findAll();
         verify(ticketDAO,times(1)).findAll();
         ticketDAO.delete(ticket);
@@ -110,7 +110,7 @@ public class FactoriesTests {
     }
 
     @Test
-    public void mySQLSessionDAOTest() {
+    public void mySQLSessionDAOTest() throws DAOException {
         MySQLSessionDAO sessionDAO = mock(MySQLSessionDAO.class);
         Session session = mock(Session.class);
         when(sessionDAO.insert(session)).thenReturn(true);
@@ -126,7 +126,7 @@ public class FactoriesTests {
         when(sessionDAO.decrementFreeSeatsAmount(1)).thenReturn(true);
         when(sessionDAO.decrementFreeSeatsAmount(1)).thenReturn(false);
         when(sessionDAO.decrementFreeSeatsAmount(1)).thenThrow(DAOException.class);
-        when(sessionDAO.getFilteredAndSortedSessionList(mock(Map.class))).thenReturn(mock(List.class));
+        when(sessionDAO.findFilteredAndSortedSessionList(mock(Map.class))).thenReturn(mock(List.class));
         when(sessionDAO.getFreeSeatAmount(session)).thenReturn(1);
         when(sessionDAO.getFreeSeatAmount(session)).thenReturn(0);
         when(sessionDAO.getFreeSeatAmount(session)).thenThrow(DAOException.class);
@@ -139,7 +139,7 @@ public class FactoriesTests {
     }
 
     @Test
-    public void mySQLSeatDAOTest() {
+    public void mySQLSeatDAOTest() throws DAOException {
         MySQLSeatDAO seatDAO = mock(MySQLSeatDAO.class);
         Seat seat = mock(Seat.class);
         Session session = mock(Session.class);
@@ -170,7 +170,7 @@ public class FactoriesTests {
     }
 
     @Test
-    public void mySQLGenreDAOTest() throws SQLException {
+    public void mySQLGenreDAOTest() throws SQLException, DAOException {
         MySQLGenreDAO genreDAO = mock(MySQLGenreDAO.class);
         Genre genre = mock(Genre.class);
         when(genreDAO.findAll()).thenReturn(mock(List.class));
@@ -196,8 +196,8 @@ public class FactoriesTests {
     }
 
     @Test
-    public void mySQLFilmDAOTest() {
-        MySQLFilmDAO filmDAO = mock(MySQLFilmDAO.class);
+    public void mySQLFilmDAOTest() throws DAOException {
+        MySQLFilmDao filmDAO = mock(MySQLFilmDao.class);
         Film film = mock(Film.class);
         when(filmDAO.insert(film)).thenReturn(true);
         when(filmDAO.insert(film)).thenReturn(false);
@@ -209,13 +209,13 @@ public class FactoriesTests {
         when(filmDAO.delete(film)).thenReturn(false);
         when(filmDAO.delete(1)).thenReturn(true);
         when(filmDAO.delete(1)).thenReturn(false);
-        filmDAO = spy(MySQLFilmDAO.class);
+        filmDAO = spy(MySQLFilmDao.class);
         filmDAO.update(film);
         verify(filmDAO,times(1)).update(film);
     }
 
     @Test
-    public void daoTest() {
+    public void daoTest() throws DAOException {
         BaseEntity entity = mock(BaseEntity.class);
         DAO dao = mock(DAO.class);
         when(dao.findAll()).thenReturn(mock(List.class));

@@ -5,8 +5,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import yehor.epam.actions.BaseCommand;
 import yehor.epam.entities.Film;
-import yehor.epam.services.impl.ErrorServiceImpl;
 import yehor.epam.services.FilmService;
+import yehor.epam.services.impl.ErrorServiceImpl;
 import yehor.epam.services.impl.FilmServiceImpl;
 import yehor.epam.utilities.LoggerManager;
 
@@ -25,6 +25,7 @@ public class FilmsSettingPageCommand implements BaseCommand {
     public FilmsSettingPageCommand() {
         filmService = new FilmServiceImpl();
     }
+
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         logger.debug("Called execute() in " + CLASS_NAME);

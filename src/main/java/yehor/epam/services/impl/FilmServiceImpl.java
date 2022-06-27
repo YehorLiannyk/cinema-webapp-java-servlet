@@ -1,15 +1,12 @@
 package yehor.epam.services.impl;
 
-import jakarta.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
-import yehor.epam.dao.FilmDAO;
+import yehor.epam.dao.FilmDao;
 import yehor.epam.dao.factories.DAOFactory;
 import yehor.epam.dao.factories.DaoFactoryDeliver;
 import yehor.epam.entities.Film;
-import yehor.epam.entities.Genre;
 import yehor.epam.exceptions.ServiceException;
 import yehor.epam.services.FilmService;
-import yehor.epam.services.GenreService;
 import yehor.epam.utilities.LoggerManager;
 
 import java.util.ArrayList;
@@ -22,34 +19,28 @@ public class FilmServiceImpl implements FilmService {
     private static final Logger logger = LoggerManager.getLogger(FilmServiceImpl.class);
     private static final String CLASS_NAME = FilmServiceImpl.class.getName();
 
-    private final GenreService genreService;
-
-    public FilmServiceImpl() {
-        genreService = new GenreServiceImpl();
-    }
-
     @Override
     public List<Film> getAll() throws ServiceException {
         List<Film> filmList = new ArrayList<>();
         try (DAOFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
             logCreatingDaoFactory();
-            final FilmDAO filmDAO = factory.getFilmDAO();
+            final FilmDao filmDAO = factory.getFilmDAO();
             filmList = filmDAO.findAll();
         } catch (Exception e) {
-            throwServiceException("Couldn't get genre list", e);
+            throwServiceException("Couldn't get film list", e);
         }
         return filmList;
     }
 
 
     @Override
-    public void addFilm(Film film) throws ServiceException {
+    public void saveFilm(Film film) throws ServiceException {
         try (DAOFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
             logCreatingDaoFactory();
-            final FilmDAO filmDAO = factory.getFilmDAO();
+            final FilmDao filmDAO = factory.getFilmDAO();
             filmDAO.insert(film);
         } catch (Exception e) {
-            throwServiceException("Couldn't add film", e);
+            throwServiceException("Couldn't save film", e);
         }
     }
 
@@ -57,7 +48,7 @@ public class FilmServiceImpl implements FilmService {
     public void deleteFilm(int id) throws ServiceException {
         try (DAOFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
             logCreatingDaoFactory();
-            final FilmDAO filmDAO = factory.getFilmDAO();
+            final FilmDao filmDAO = factory.getFilmDAO();
             filmDAO.delete(id);
         } catch (Exception e) {
             throwServiceException("Couldn't delete film", e);
@@ -69,7 +60,7 @@ public class FilmServiceImpl implements FilmService {
         Film film = null;
         try (DAOFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
             logCreatingDaoFactory();
-            final FilmDAO filmDAO = factory.getFilmDAO();
+            final FilmDao filmDAO = factory.getFilmDAO();
             film = filmDAO.findById(id);
         } catch (Exception e) {
             throwServiceException("Couldn't find film", e);

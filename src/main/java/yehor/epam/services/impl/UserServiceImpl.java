@@ -22,13 +22,6 @@ public class UserServiceImpl implements UserService {
     private static final Logger logger = LoggerManager.getLogger(UserServiceImpl.class);
     private static final String CLASS_NAME = UserServiceImpl.class.getName();
 
-    private final GenreService genreService;
-
-    public UserServiceImpl() {
-        genreService = new GenreServiceImpl();
-    }
-
-
     private Map<String, String> getSaltAndPassByLogin(String login) throws ServiceException {
         Map<String, String> saltAndPassByLogin = new LinkedHashMap<>();
         try (DAOFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
@@ -60,6 +53,19 @@ public class UserServiceImpl implements UserService {
             user = userDAO.getUserByLogin(login);
         } catch (Exception e) {
             throwServiceException("Couldn't get user by login", e);
+        }
+        return user;
+    }
+
+    @Override
+    public User getById(int id) throws ServiceException {
+        User user = null;
+        try (DAOFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
+            logCreatingDaoFactory();
+            final UserDAO userDAO = factory.getUserDao();
+            user = userDAO.findById(id);
+        } catch (Exception e) {
+            throwServiceException("Couldn't find user with id: " + id, e);
         }
         return user;
     }

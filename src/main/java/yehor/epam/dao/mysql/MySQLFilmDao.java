@@ -2,7 +2,7 @@ package yehor.epam.dao.mysql;
 
 import org.apache.log4j.Logger;
 import yehor.epam.dao.BaseDAO;
-import yehor.epam.dao.FilmDAO;
+import yehor.epam.dao.FilmDao;
 import yehor.epam.exceptions.DAOException;
 import yehor.epam.entities.Film;
 import yehor.epam.entities.Genre;
@@ -16,8 +16,8 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MySQLFilmDAO extends BaseDAO implements FilmDAO {
-    private static final Logger logger = LoggerManager.getLogger(MySQLFilmDAO.class);
+public class MySQLFilmDao extends BaseDAO implements FilmDao {
+    private static final Logger logger = LoggerManager.getLogger(MySQLFilmDao.class);
     private static final String SELECT_ALL = "SELECT * FROM films ORDER BY film_id DESC";
     private static final String SELECT_BY_ID = "SELECT * FROM films WHERE film_id=?";
     private static final String INSERT_FILM = "INSERT INTO films VALUES(film_id, ?,?,?,?)";
@@ -25,7 +25,7 @@ public class MySQLFilmDAO extends BaseDAO implements FilmDAO {
 
 
     @Override
-    public boolean insert(Film film) {
+    public boolean insert(Film film) throws DAOException {
         boolean inserted = false;
         try (PreparedStatement statement = getConnection().prepareStatement(INSERT_FILM, Statement.RETURN_GENERATED_KEYS)) {
             setFilmToStatement(film, statement);
@@ -44,7 +44,7 @@ public class MySQLFilmDAO extends BaseDAO implements FilmDAO {
      * @param film      Film item
      * @param statement PreparedStatement
      */
-    private void filmInsertTransaction(Film film, PreparedStatement statement) throws SQLException {
+    private void filmInsertTransaction(Film film, PreparedStatement statement) throws SQLException, DAOException {
         getConnection().setAutoCommit(false);
         statement.executeUpdate();
         int filmId = getLastGeneratedKey(statement);
@@ -84,7 +84,7 @@ public class MySQLFilmDAO extends BaseDAO implements FilmDAO {
     }
 
     @Override
-    public Film findById(int id) {
+    public Film findById(int id) throws DAOException {
         Film film = null;
         try (PreparedStatement statement = getConnection().prepareStatement(SELECT_BY_ID)) {
             statement.setInt(1, id);
@@ -100,7 +100,7 @@ public class MySQLFilmDAO extends BaseDAO implements FilmDAO {
     }
 
     @Override
-    public List<Film> findAll() {
+    public List<Film> findAll() throws DAOException {
         List<Film> films = new ArrayList<>();
         try (Statement statement = getConnection().createStatement()) {
             ResultSet resultSet = statement.executeQuery(SELECT_ALL);
@@ -121,11 +121,11 @@ public class MySQLFilmDAO extends BaseDAO implements FilmDAO {
     }
 
     @Override
-    public boolean delete(Film element) {
+    public boolean delete(Film element) throws DAOException {
         return delete(element.getId());
     }
 
-    private Film getFilmFromResultSet(ResultSet rs) {
+    private Film getFilmFromResultSet(ResultSet rs) throws DAOException {
         Film film = null;
         try {
             film = new Film(
@@ -151,7 +151,7 @@ public class MySQLFilmDAO extends BaseDAO implements FilmDAO {
     }
 
     @Override
-    public boolean delete(int filmId) {
+    public boolean delete(int filmId) throws DAOException {
         boolean isDeleted = false;
         try (PreparedStatement statement = getConnection().prepareStatement(DELETE_BY_FILM_ID)) {
             statement.setInt(1, filmId);

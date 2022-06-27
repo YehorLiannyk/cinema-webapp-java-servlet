@@ -8,7 +8,7 @@ import java.util.List;
 public interface FilmService {
     List<Film> getAll() throws ServiceException;
 
-    void addFilm(Film film) throws ServiceException;
+    void saveFilm(Film film) throws ServiceException;
 
 
     void deleteFilm(int id) throws ServiceException;

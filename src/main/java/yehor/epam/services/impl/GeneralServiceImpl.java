@@ -16,15 +16,8 @@ import static yehor.epam.utilities.constants.OtherConstants.MIN_SESSION_TIME;
 public class GeneralServiceImpl implements GeneralService {
     private static final Logger logger = LoggerManager.getLogger(GeneralServiceImpl.class);
 
-    private GeneralServiceImpl() {
-    }
-
-    /**
-     * Initialization commonly used params
-     *
-     * @param request HttpServletRequest
-     */
-    public static void initParams(HttpServletRequest request) {
+    @Override
+    public void initParams(HttpServletRequest request) {
         request.getServletContext().setAttribute("minSessionTime", MIN_SESSION_TIME);
         request.getServletContext().setAttribute("maxSessionTime", MAX_SESSION_TIME);
         request.getSession(true).setAttribute("nowDate", LocalDate.now());
