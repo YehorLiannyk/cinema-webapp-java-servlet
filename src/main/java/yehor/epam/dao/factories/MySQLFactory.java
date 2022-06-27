@@ -1,6 +1,6 @@
 package yehor.epam.dao.factories;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 import yehor.epam.exceptions.ConnectionException;
 import yehor.epam.connection.ConnectionPool;
 import yehor.epam.dao.*;

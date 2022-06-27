@@ -2,13 +2,12 @@ package yehor.epam.actions.commands;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 import yehor.epam.actions.BaseCommand;
 import yehor.epam.entities.Session;
 import yehor.epam.exceptions.ServiceException;
 import yehor.epam.services.SessionService;
 import yehor.epam.services.impl.ErrorServiceImpl;
-import yehor.epam.services.impl.ScheduleService;
 import yehor.epam.services.impl.SessionServiceImpl;
 import yehor.epam.utilities.LoggerManager;
 
@@ -31,10 +30,10 @@ public class ScheduleCommand implements BaseCommand {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
-        logger.debug("Called execute() in " + CLASS_NAME);
+        logger.debug("Called execute() in {}", CLASS_NAME);
         try {
             final Map<String, String[]> parameterMap = request.getParameterMap();
-            final Map<String, String> filterSortMap = ScheduleService.getFilterSortMapFromParams(parameterMap);
+            final Map<String, String> filterSortMap = sessionService.getFilterSortMapFromParams(parameterMap);
             List<Session> sessionList = getAppropriateSessionList(filterSortMap);
             request.setAttribute("sessionList", sessionList);
             request.getRequestDispatcher(SCHEDULE_PAGE_PATH).forward(request, response);

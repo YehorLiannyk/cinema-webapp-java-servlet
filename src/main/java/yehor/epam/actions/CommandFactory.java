@@ -1,7 +1,8 @@
 package yehor.epam.actions;
 
 import jakarta.servlet.http.HttpServletRequest;
-import org.apache.log4j.Logger;
+
+import org.slf4j.Logger;
 import yehor.epam.actions.commands.*;
 import yehor.epam.actions.commands.films.*;
 import yehor.epam.actions.commands.sessions.*;

@@ -7,7 +7,7 @@ import jakarta.mail.Session;
 import jakarta.mail.Transport;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 import yehor.epam.utilities.LoggerManager;
 
 import javax.naming.Context;

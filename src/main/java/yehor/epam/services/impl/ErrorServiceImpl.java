@@ -2,7 +2,7 @@ package yehor.epam.services.impl;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 import yehor.epam.actions.commands.ErrorPageCommand;
 import yehor.epam.services.ErrorService;
 import yehor.epam.utilities.LoggerManager;

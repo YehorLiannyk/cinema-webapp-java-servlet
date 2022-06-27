@@ -1,6 +1,6 @@
 package yehor.epam.dao.mysql;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 import yehor.epam.dao.BaseDAO;
 import yehor.epam.dao.TicketDao;
 import yehor.epam.exceptions.DAOException;

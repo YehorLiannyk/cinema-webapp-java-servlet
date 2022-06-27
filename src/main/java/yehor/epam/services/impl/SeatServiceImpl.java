@@ -1,6 +1,6 @@
 package yehor.epam.services.impl;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 import yehor.epam.dao.SeatDAO;
 import yehor.epam.dao.factories.DAOFactory;
 import yehor.epam.dao.factories.DaoFactoryDeliver;

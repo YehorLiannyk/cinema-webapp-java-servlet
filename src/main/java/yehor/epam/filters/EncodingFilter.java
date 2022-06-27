@@ -3,7 +3,7 @@ package yehor.epam.filters;
 
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 import yehor.epam.utilities.LoggerManager;
 
 import java.io.IOException;

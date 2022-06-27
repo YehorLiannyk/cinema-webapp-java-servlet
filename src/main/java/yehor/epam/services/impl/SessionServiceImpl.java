@@ -1,6 +1,6 @@
 package yehor.epam.services.impl;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 import yehor.epam.dao.SessionDAO;
 import yehor.epam.dao.factories.DAOFactory;
 import yehor.epam.dao.factories.DaoFactoryDeliver;
@@ -10,15 +10,19 @@ import yehor.epam.services.SessionService;
 import yehor.epam.utilities.LoggerManager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static yehor.epam.utilities.constants.OtherConstants.*;
+import static yehor.epam.utilities.constants.OtherConstants.SESSION_FILTER_SHOW_PARAM_NAME;
 
 /**
  * Class service of Session
  */
 public class SessionServiceImpl implements SessionService {
     private static final Logger logger = LoggerManager.getLogger(SessionServiceImpl.class);
-    private static final String CLASS_NAME = FilmServiceImpl.class.getName();
+    private static final String CLASS_NAME = SessionServiceImpl.class.getName();
 
     @Override
     public Session getById(int id) throws ServiceException {
@@ -79,6 +83,23 @@ public class SessionServiceImpl implements SessionService {
             throwServiceException("Couldn't get session list", e);
         }
         return sessionList;
+    }
+
+   @Override
+    public Map<String, String> getFilterSortMapFromParams(Map<String, String[]> parameterMap) {
+        final Map<String, String> filterSortMap = new HashMap<>();
+
+        final boolean hasSortBy = parameterMap.containsKey(SESSION_SORT_BY_PARAM_NAME);
+        final boolean hasSortMethod = parameterMap.containsKey(SESSION_SORT_METHOD_PARAM_NAME);
+        final boolean hasFilterShow = parameterMap.containsKey(SESSION_FILTER_SHOW_PARAM_NAME);
+
+        if (hasSortBy && hasSortMethod && hasFilterShow) {
+            filterSortMap.put(SESSION_SORT_BY_PARAM_NAME, parameterMap.get(SESSION_SORT_BY_PARAM_NAME)[0]);
+            filterSortMap.put(SESSION_SORT_METHOD_PARAM_NAME, parameterMap.get(SESSION_SORT_METHOD_PARAM_NAME)[0]);
+            filterSortMap.put(SESSION_FILTER_SHOW_PARAM_NAME, parameterMap.get(SESSION_FILTER_SHOW_PARAM_NAME)[0]);
+        }
+        logger.info("Finished to form filterSort parameter map");
+        return filterSortMap;
     }
 
     private void logCreatingDaoFactory() {

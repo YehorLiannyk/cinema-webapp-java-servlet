@@ -5,7 +5,7 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 import yehor.epam.entities.Film;
 import yehor.epam.entities.Seat;
 import yehor.epam.entities.Session;

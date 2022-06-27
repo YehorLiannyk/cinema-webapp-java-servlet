@@ -42,3 +42,4 @@ build/
 
 ### Sonarlint ###
 **/sonarline/
+/.idea/sonarlint/**

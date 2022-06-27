@@ -3,7 +3,7 @@ package yehor.epam.actions.commands.signing;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 import yehor.epam.actions.BaseCommand;
 import yehor.epam.entities.User;
 import yehor.epam.exceptions.AuthException;

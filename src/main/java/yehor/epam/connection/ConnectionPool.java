@@ -1,7 +1,7 @@
 package yehor.epam.connection;
 
 import org.apache.commons.dbcp2.BasicDataSource;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 import yehor.epam.exceptions.ConnectionException;
 import yehor.epam.utilities.LoggerManager;
 

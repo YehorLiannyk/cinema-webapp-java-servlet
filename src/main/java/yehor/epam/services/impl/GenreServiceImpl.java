@@ -1,7 +1,7 @@
 package yehor.epam.services.impl;
 
 import jakarta.servlet.http.HttpServletRequest;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 import yehor.epam.dao.GenreDAO;
 import yehor.epam.dao.factories.DAOFactory;
 import yehor.epam.dao.factories.DaoFactoryDeliver;

@@ -6,7 +6,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.jsp.jstl.core.Config;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 import yehor.epam.services.impl.CookieServiceImpl;
 import yehor.epam.utilities.LoggerManager;
 
