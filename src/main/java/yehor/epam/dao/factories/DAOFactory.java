@@ -29,7 +29,7 @@ public interface DAOFactory extends AutoCloseable {
      *
      * @return Session DAO
      */
-    SessionDAO getSessionDao();
+    SessionDao getSessionDao();
 
     /**
      * Get Ticket DAO

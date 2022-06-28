@@ -7,6 +7,10 @@ import java.time.LocalTime;
  * Class containing different constants
  */
 public final class OtherConstants {
+    public static final int DEF_PAGING_SIZE = 4;
+    public static final String PAGE_NO_PARAM = "page";
+    public static final String PAGE_SIZE_PARAM = "size";
+    public static final String PAGE_AMOUNT_PARAM = "pageAmount";
     /**
      * Param name of user's id in session/cookies
      */
@@ -69,7 +73,11 @@ public final class OtherConstants {
     /**
      * Schedule page filter "show only available" param value
      */
-    public static final String SESSION_FILTER_SHOW_ONLY_AVAILABLE = "showOnlyAvailable";
+    public static final String SESSION_FILTER_SHOW_ONLY_AVAILABLE = "onlyAvailable";
+    /**
+     * Schedule page filter "show all" param value
+     */
+    public static final String SESSION_FILTER_SHOW_ALL = "all";
 
     /**
      * Schedule page sorter param name
@@ -78,15 +86,15 @@ public final class OtherConstants {
     /**
      * Schedule page sorter by datetime param value
      */
-    public static final String SESSION_SORT_BY_DATETIME = "dateTimeSortBy";
+    public static final String SESSION_SORT_BY_DATETIME = "dateTime";
     /**
      * Schedule page sorter by film name param value
      */
-    public static final String SESSION_SORT_BY_FILM_NAME = "filmNameSortBy";
+    public static final String SESSION_SORT_BY_FILM_NAME = "filmName";
     /**
      * Schedule page sorter by remaining seats param value
      */
-    public static final String SESSION_SORT_BY_SEATS_REMAIN = "seatsRemainSortBy";
+    public static final String SESSION_SORT_BY_SEATS_REMAIN = "seatsRemain";
 
     /**
      * Schedule page sort method param name
@@ -95,8 +103,11 @@ public final class OtherConstants {
     /**
      * Schedule page descending sort method
      */
-    public static final String SESSION_SORT_METHOD_DESC = "descendingSortMethod";
-
+    public static final String SESSION_SORT_METHOD_DESC = "desc";
+    /**
+     * Schedule page ascending sort method
+     */
+    public static final String SESSION_SORT_METHOD_ASC = "asc";
     /**
      * Salt length for password encrypt
      */

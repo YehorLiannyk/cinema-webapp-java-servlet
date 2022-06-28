@@ -12,9 +12,13 @@ public interface SessionService {
 
     void deleteSession(int id) throws ServiceException;
 
+    int countTotalPages(int size) throws ServiceException;
+
     void addSession(Session session) throws ServiceException;
 
     List<Session> getAll() throws ServiceException;
+
+    List<Session> getAll(int page, int size) throws ServiceException;
 
     List<Session> getFilteredAndSortedSessionList(Map<String, String> filterSortMap) throws ServiceException;
 

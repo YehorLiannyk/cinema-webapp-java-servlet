@@ -13,10 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class MySQLUserDAO extends BaseDAO implements UserDAO {
     private static final Logger logger = LoggerManager.getLogger(MySQLUserDAO.class);

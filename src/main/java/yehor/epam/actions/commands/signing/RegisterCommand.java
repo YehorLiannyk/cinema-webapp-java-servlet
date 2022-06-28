@@ -62,7 +62,6 @@ public class RegisterCommand implements BaseCommand {
      * @param request HttpServletRequest
      * @param response HttpServletResponse
      * @throws ServiceException
-     * @throws IOException
      */
     private void saveUser(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
         final User user = getUserFromRequest(request);

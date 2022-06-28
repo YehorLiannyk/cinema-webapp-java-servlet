@@ -2,7 +2,7 @@ package yehor.epam.dao.mysql;
 
 import org.slf4j.Logger;
 import yehor.epam.dao.BaseDAO;
-import yehor.epam.dao.SessionDAO;
+import yehor.epam.dao.SessionDao;
 import yehor.epam.entities.Film;
 import yehor.epam.entities.Session;
 import yehor.epam.exceptions.DAOException;
@@ -17,8 +17,8 @@ import java.util.Map;
 
 import static yehor.epam.utilities.constants.OtherConstants.*;
 
-public class MySQLSessionDAO extends BaseDAO implements SessionDAO {
-    private static final Logger logger = LoggerManager.getLogger(MySQLSessionDAO.class);
+public class MySQLSessionDao extends BaseDAO implements SessionDao {
+    private static final Logger logger = LoggerManager.getLogger(MySQLSessionDao.class);
     private static final String INSERT = "INSERT INTO sessions VALUES (session_id, ?,?,?,?,?)";
     private static final String DECREMENT_FREE_SEATS = "UPDATE sessions SET free_seats = free_seats - 1 WHERE session_id=? AND free_seats > 0";
     private static final String SELECT_ALL = "SELECT * FROM sessions s JOIN films f on s.film_id = f.film_id";
@@ -29,10 +29,12 @@ public class MySQLSessionDAO extends BaseDAO implements SessionDAO {
     private static final String WHERE_DEFAULT = " WHERE s.date>=? AND IF (s.date=?, s.time>=?, s.time>=?)";
     private static final String ORDER_BY_DATETIME_ASC = " ORDER BY s.date ASC, s.time ASC";
     private static final String ORDER_BY_DATETIME_DESC = " ORDER BY s.date DESC, s.time DESC";
+    private static final String ORDER_BY_ID_DESC = " ORDER BY s.session_id DESC";
     private static final String ORDER_BY_FILM_NAME = " ORDER BY f.film_name ";
     private static final String ORDER_BY_FREE_SEATS = " ORDER BY s.free_seats";
     private static final String DESCENDING = " DESC";
-
+    private static final String COUNT_TOTAL_ROWS = "SELECT COUNT(*) FROM sessions";
+    private static final String LIMIT = " LIMIT ?, ?";
 
     @Override
     public boolean insert(Session session) throws DAOException {
@@ -60,7 +62,7 @@ public class MySQLSessionDAO extends BaseDAO implements SessionDAO {
         return key;
     }
 
-    private void setSessionToInsertStatement(Session session, PreparedStatement statement) throws SQLException, DAOException {
+    private void setSessionToInsertStatement(Session session, PreparedStatement statement) throws DAOException {
         final MySQLSeatDAO seatDAO = getSeatDAO();
         final int allSeatsAmount = seatDAO.getAllSeatsAmount();
         try {
@@ -74,7 +76,7 @@ public class MySQLSessionDAO extends BaseDAO implements SessionDAO {
 
         } catch (SQLException e) {
             logger.error("Couldn't set session to Statement", e);
-            throw new SQLException("Couldn't set session to Statement", e);
+            throw new DAOException("Couldn't set session to Statement", e);
         }
     }
 
@@ -99,6 +101,42 @@ public class MySQLSessionDAO extends BaseDAO implements SessionDAO {
         final String request = SELECT_ALL + WHERE_DEFAULT + ORDER_BY_DATETIME_ASC;
         return getPreparedSessionListByRequest(request);
     }
+
+    @Override
+    public List<Session> findAll(int start, int size) throws DAOException {
+        List<Session> sessionList = new ArrayList<>();
+        try (PreparedStatement statement = getConnection().prepareStatement(SELECT_ALL + ORDER_BY_ID_DESC + LIMIT)) {
+            statement.setInt(1, start - 1);
+            statement.setInt(2, size);
+            logger.debug("Statement: " + statement);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                final Session session = getSessionFromResultSet(resultSet);
+                sessionList.add(session);
+            }
+        } catch (SQLException e) {
+            logger.error("Couldn't get paginated list of sessions from Database", e);
+            throw new DAOException("Couldn't get paginated list of sessions from Database");
+        }
+        return sessionList;
+    }
+
+
+    @Override
+    public int countTotalRow() throws DAOException {
+        int amount = 0;
+        try (PreparedStatement statement = getConnection().prepareStatement(COUNT_TOTAL_ROWS)) {
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                amount = resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            logger.error("Couldn't count total row amount of sessions from Database", e);
+            throw new DAOException("Couldn't count total row amount of sessions from Database");
+        }
+        return amount;
+    }
+
 
     private List<Session> getPreparedSessionListByRequest(String request) throws DAOException {
         List<Session> sessionList = new ArrayList<>();

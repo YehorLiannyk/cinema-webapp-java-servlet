@@ -6,7 +6,7 @@ import yehor.epam.exceptions.DAOException;
 import java.util.List;
 import java.util.Map;
 
-public interface SessionDAO extends DAO<Session> {
+public interface SessionDao extends DAO<Session>, PaginatableDao<Session> {
     /**
      * Get SessionList after filtration and sorting on schedule page
      *

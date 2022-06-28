@@ -3,7 +3,7 @@ package yehor.epam.dao;
 import yehor.epam.entities.Film;
 import yehor.epam.exceptions.DAOException;
 
-public interface FilmDao extends DAO<Film> {
+public interface FilmDao extends DAO<Film>, PaginatableDao<Film> {
     /**
      * Delete film from DB
      *

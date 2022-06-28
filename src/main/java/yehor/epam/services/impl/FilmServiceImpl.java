@@ -32,6 +32,38 @@ public class FilmServiceImpl implements FilmService {
         return filmList;
     }
 
+    @Override
+    public List<Film> getAll(int page, int size) throws ServiceException {
+        List<Film> filmList = new ArrayList<>();
+        try (DAOFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
+            logCreatingDaoFactory();
+            final FilmDao filmDAO = factory.getFilmDAO();
+            int start = page;
+            if (page > 1) {
+                start--;
+                start = start * size + 1;
+            }
+            filmList = filmDAO.findAll(start, size);
+        } catch (Exception e) {
+            throwServiceException("Couldn't get paginated film list", e);
+        }
+        return filmList;
+    }
+
+    @Override
+    public int countTotalPages(int size) throws ServiceException {
+        int amount = 0;
+        try (DAOFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
+            logCreatingDaoFactory();
+            final FilmDao filmDAO = factory.getFilmDAO();
+            amount = filmDAO.countTotalRow() / size + 1;
+        } catch (Exception e) {
+            throwServiceException("Couldn't get paginated film list", e);
+        }
+        return amount;
+    }
+
+
 
     @Override
     public void saveFilm(Film film) throws ServiceException {

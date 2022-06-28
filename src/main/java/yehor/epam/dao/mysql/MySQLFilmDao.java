@@ -22,6 +22,8 @@ public class MySQLFilmDao extends BaseDAO implements FilmDao {
     private static final String SELECT_BY_ID = "SELECT * FROM films WHERE film_id=?";
     private static final String INSERT_FILM = "INSERT INTO films VALUES(film_id, ?,?,?,?)";
     private static final String DELETE_BY_FILM_ID = "DELETE  FROM films WHERE film_id=?";
+    private static final String LIMIT = " LIMIT ?, ?";
+    private static final String COUNT_TOTAL_ROWS = "SELECT COUNT(*) FROM films";
 
 
     @Override
@@ -113,6 +115,40 @@ public class MySQLFilmDao extends BaseDAO implements FilmDao {
             throw new DAOException("Couldn't get list of all films from Database");
         }
         return films;
+    }
+
+    @Override
+    public List<Film> findAll(int start, int size) throws DAOException {
+        List<Film> films = new ArrayList<>();
+        try (PreparedStatement statement = getConnection().prepareStatement(SELECT_ALL + LIMIT)) {
+            statement.setInt(1, start - 1);
+            statement.setInt(2, size);
+            logger.debug("Statement: " + statement);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                final Film film = getFilmFromResultSet(resultSet);
+                films.add(film);
+            }
+        } catch (SQLException e) {
+            logger.error("Couldn't get paginated list of films from Database", e);
+            throw new DAOException("Couldn't get paginated list of films from Database");
+        }
+        return films;
+    }
+
+    @Override
+    public int countTotalRow() throws DAOException {
+        int amount = 0;
+        try (PreparedStatement statement = getConnection().prepareStatement(COUNT_TOTAL_ROWS)) {
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                amount = resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            logger.error("Couldn't count total row amount of films from Database", e);
+            throw new DAOException("Couldn't count total row amount of films from Database");
+        }
+        return amount;
     }
 
     @Override

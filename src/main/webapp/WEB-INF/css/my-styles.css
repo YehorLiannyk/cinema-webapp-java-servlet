@@ -97,6 +97,10 @@ span.menu-item {
     color: #527eff;
 }
 
+.blog-pagination {
+    max-width: max-content;
+}
+
 /*.dropdown {
     position: relative;
     display: inline-block;
@@ -240,6 +244,17 @@ article.card-filter {
 .btn-sorter {
     margin: 0 auto;
     display: block;
+    min-width: fit-content;
+}
+
+.filter-helper {
+    margin: auto;
+    text-align: center;
+}
+
+#amountSelector {
+    max-width: fit-content;
+    float: right;
 }
 
 #elementsOnPage {

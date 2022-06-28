@@ -26,6 +26,8 @@
     <fmt:message key="admin.sessionsSetting.sureWantDelete" var="sureWantDelete"/>
     <fmt:message key="admin.sessionsSetting.sessionInfo" var="sessionInfo"/>
     <fmt:message key="admin.sessionsSetting.filmDeleting" var="sessionDeleting"/>
+    <fmt:message key="pagination.prev" var="prev"/>
+    <fmt:message key="pagination.next" var="next"/>
 </fmt:bundle>
 
 <ftg:header pageTitle="${pageTitle}"/>
@@ -39,11 +41,8 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="film-posts py-4">
-                            <table id="pagination_table" class="table table-striped">
+                            <table>
                                 <thead>
-                                <tr>
-                                    <th>${sessionsTitle}</th>
-                                </tr>
                                 </thead>
                                 <tbody>
                                 <c:forEach var="session" items="${requestScope.sessionList}">
@@ -83,13 +82,14 @@
                                                                        value="${session.id}">
                                                                 <button type="submit"
                                                                         class="btn btn-lg btn-block btn-primary my-2">
-                                                                    ${sessionInfo}
+                                                                        ${sessionInfo}
                                                                 </button>
                                                             </form>
                                                             <button type="button"
                                                                     class="btn btn-lg btn-block btn-danger"
-                                                                    data-toggle="modal" data-target="#modal${session.id}">
-                                                                ${delete}
+                                                                    data-toggle="modal"
+                                                                    data-target="#modal${session.id}">
+                                                                    ${delete}
                                                             </button>
                                                         </div>
                                                     </div>
@@ -127,6 +127,9 @@
                                 </c:forEach>
                                 </tbody>
                             </table>
+
+                            <mtg:pagination request="${pageContext.request}" totalPages="${requestScope.totalPages}"
+                                            prev="${prev}" next="${next}"/>
 
                         </div>
                     </div>

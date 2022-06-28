@@ -19,6 +19,8 @@
     <fmt:message key="admin.filmsSetting.delete" var="delete"/>
     <fmt:message key="admin.filmsSetting.sureWantDelete" var="sureWantDelete"/>
     <fmt:message key="admin.filmsSetting.filmDeleting" var="filmDeleting"/>
+    <fmt:message key="pagination.prev" var="prev"/>
+    <fmt:message key="pagination.next" var="next"/>
 </fmt:bundle>
 
 <ftg:header pageTitle="${pageTitle}"/>
@@ -32,7 +34,7 @@
             </h1>
             <div class="film-posts py-4">
                 <div class="row">
-                    <table id="pagination_table" class="table table-striped">
+                    <table>
                         <thead>
                         </thead>
                         <tbody>
@@ -110,6 +112,10 @@
                         </c:forEach>
                         </tbody>
                     </table>
+
+                    <mtg:pagination request="${pageContext.request}" totalPages="${requestScope.totalPages}"
+                                    prev="${prev}" next="${next}"/>
+
                 </div>
             </div>
         </div>

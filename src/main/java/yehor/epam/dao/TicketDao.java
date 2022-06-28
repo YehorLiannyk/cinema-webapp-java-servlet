@@ -1,11 +1,12 @@
 package yehor.epam.dao;
 
+import yehor.epam.entities.Film;
 import yehor.epam.entities.Ticket;
 import yehor.epam.exceptions.DAOException;
 
 import java.util.List;
 
-public interface TicketDao extends DAO<Ticket> {
+public interface TicketDao extends DAO<Ticket>, PaginatableDao<Ticket> {
     /**
      * Get List of all User's tickets
      * @param userId id of User

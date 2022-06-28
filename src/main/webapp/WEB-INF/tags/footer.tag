@@ -8,8 +8,8 @@
         </div>
     </div>
 </footer>
-<script>
+<%--<script>
     <jsp:directive.include file="/WEB-INF/js/pagination.js"/>
-</script>
+</script>--%>
 </body>
 </html>

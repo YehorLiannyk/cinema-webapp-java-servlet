@@ -8,6 +8,11 @@ import java.util.List;
 public interface FilmService {
     List<Film> getAll() throws ServiceException;
 
+    List<Film> getAll(int page, int size) throws ServiceException;
+
+
+    int countTotalPages(int size) throws ServiceException;
+
     void saveFilm(Film film) throws ServiceException;
 
 

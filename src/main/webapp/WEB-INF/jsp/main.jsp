@@ -19,6 +19,8 @@
     <fmt:message key="film.goToFilmPage" var="filmPage"/>
     <fmt:message key="mainpage.carousel.title" var="carouselTitle"/>
     <fmt:message key="mainpage.carousel.text" var="carouselText"/>
+    <fmt:message key="pagination.next" var="next"/>
+    <fmt:message key="pagination.prev" var="prev"/>
 </fmt:bundle>
 
 <c:url value="/main?command=filmPage" var="filmPage_url"/>
@@ -43,12 +45,12 @@
             </h1>
             <div class="film-posts py-4">
 
-                <table id="pagination_table">
+                <table>
                     <thead>
                     </thead>
                     <tbody>
                     <c:forEach var="film" items="${sessionScope.filmList}" varStatus="counter">
-                        <c:if test="${counter.index %2 == 0}">
+                        <c:if test="${counter.index % 2 == 0}">
                             <tr>
                             <td>
                             <div class="row">
@@ -91,6 +93,9 @@
                     </c:forEach>
                     </tbody>
                 </table>
+
+                <mtg:pagination request="${pageContext.request}" totalPages="${requestScope.totalPages}" prev="${prev}"
+                                next="${next}"/>
 
             </div>
         </div>

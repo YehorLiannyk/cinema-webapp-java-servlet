@@ -22,6 +22,7 @@ public class MySQLTicketDao extends BaseDAO implements TicketDao {
     private static final String INSERT = "INSERT INTO tickets VALUES (ticket_id, ?,?,?,?)";
     private static final String SELECT_BY_USER_ID = "SELECT * FROM tickets WHERE user_id=?";
     private static final String SELECT_BY_ID = "SELECT * FROM tickets t WHERE ticket_id=?";
+    private static final String COUNT_TOTAL_ROWS = "SELECT COUNT(*) FROM tickets";
 
     @Override
     public boolean insert(Ticket ticket) throws DAOException {
@@ -99,6 +100,27 @@ public class MySQLTicketDao extends BaseDAO implements TicketDao {
     }
 
     @Override
+    public List<Ticket> findAll(int start, int size) throws DAOException {
+        return new ArrayList<>();
+    }
+
+
+    @Override
+    public int countTotalRow() throws DAOException {
+        int amount = 0;
+        try (PreparedStatement statement = getConnection().prepareStatement(COUNT_TOTAL_ROWS)) {
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                amount = resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            logger.error("Couldn't count total row amount of tickets from Database", e);
+            throw new DAOException("Couldn't count total row amount of tickets from Database");
+        }
+        return amount;
+    }
+
+    @Override
     public Ticket update(Ticket element) {
         return null;
     }
@@ -132,8 +154,8 @@ public class MySQLTicketDao extends BaseDAO implements TicketDao {
         return mySQLSeatDAO;
     }
 
-    private MySQLSessionDAO getSessionDAO() {
-        final MySQLSessionDAO mySQLSessionDAO = new MySQLSessionDAO();
+    private MySQLSessionDao getSessionDAO() {
+        final MySQLSessionDao mySQLSessionDAO = new MySQLSessionDao();
         mySQLSessionDAO.setConnection(getConnection());
         return mySQLSessionDAO;
     }

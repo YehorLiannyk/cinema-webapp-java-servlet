@@ -20,4 +20,33 @@
             <type>yehor.epam.entities.Film</type>
         </attribute>
     </tag>
+    <tag>
+        <name>pagination</name>
+        <tag-class>yehor.epam.tags.PaginationTag</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <name>request</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>jakarta.servlet.http.HttpServletRequest</type>
+        </attribute>
+        <attribute>
+            <name>totalPages</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.Integer</type>
+        </attribute>
+        <attribute>
+            <name>prev</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <name>next</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
 </taglib>
