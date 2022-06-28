@@ -16,11 +16,9 @@ public interface SessionService {
 
     void addSession(Session session) throws ServiceException;
 
-    List<Session> getAll() throws ServiceException;
-
     List<Session> getAll(int page, int size) throws ServiceException;
 
-    List<Session> getFilteredAndSortedSessionList(Map<String, String> filterSortMap) throws ServiceException;
+    List<Session> getFilteredAndSortedSessionList(Map<String, String> filterSortMap, int page, int size) throws ServiceException;
 
     /**
      * Clean off received parameterMap of non filter/sort parameters

@@ -60,7 +60,7 @@
                                             </div>
 
                                             <div class="col-md-3">
-                                                <div class="vertical-buttons">
+                                                <div class="vertical-buttons-4">
                                                     <form name="film" method="post" action="main">
                                                         <input type="hidden" name="command"
                                                                value="filmPage">

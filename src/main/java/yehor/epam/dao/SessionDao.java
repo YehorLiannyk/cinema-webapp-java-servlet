@@ -13,7 +13,7 @@ public interface SessionDao extends DAO<Session>, PaginatableDao<Session> {
      * @param map request's parameterMap contains only filter and sorter params
      * @return sessionList
      */
-    List<Session> findFilteredAndSortedSessionList(Map<String, String> map) throws DAOException;
+    List<Session> findFilteredAndSortedSessionList(Map<String, String> map, int start, int size) throws DAOException;
 
     /**
      * Get free seats amount of Session

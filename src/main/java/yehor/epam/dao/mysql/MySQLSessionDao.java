@@ -27,9 +27,9 @@ public class MySQLSessionDao extends BaseDAO implements SessionDao {
     private static final String DELETE_BY_SESSION_ID = "DELETE FROM sessions WHERE session_id=?";
 
     private static final String WHERE_DEFAULT = " WHERE s.date>=? AND IF (s.date=?, s.time>=?, s.time>=?)";
-    private static final String ORDER_BY_DATETIME_ASC = " ORDER BY s.date ASC, s.time ASC";
+    private static final String AND_FREE_SEATS = " AND s.free_seats>0";
+    private static final String ORDER_BY_DATETIME_ASC = " ORDER BY s.date, s.time";
     private static final String ORDER_BY_DATETIME_DESC = " ORDER BY s.date DESC, s.time DESC";
-    private static final String ORDER_BY_ID_DESC = " ORDER BY s.session_id DESC";
     private static final String ORDER_BY_FILM_NAME = " ORDER BY f.film_name ";
     private static final String ORDER_BY_FREE_SEATS = " ORDER BY s.free_seats";
     private static final String DESCENDING = " DESC";
@@ -98,14 +98,13 @@ public class MySQLSessionDao extends BaseDAO implements SessionDao {
 
     @Override
     public List<Session> findAll() throws DAOException {
-        final String request = SELECT_ALL + WHERE_DEFAULT + ORDER_BY_DATETIME_ASC;
-        return getPreparedSessionListByRequest(request);
+        return new ArrayList<>();
     }
 
     @Override
     public List<Session> findAll(int start, int size) throws DAOException {
         List<Session> sessionList = new ArrayList<>();
-        try (PreparedStatement statement = getConnection().prepareStatement(SELECT_ALL + ORDER_BY_ID_DESC + LIMIT)) {
+        try (PreparedStatement statement = getConnection().prepareStatement(SELECT_ALL + ORDER_BY_DATETIME_ASC + LIMIT)) {
             statement.setInt(1, start - 1);
             statement.setInt(2, size);
             logger.debug("Statement: " + statement);
@@ -138,7 +137,7 @@ public class MySQLSessionDao extends BaseDAO implements SessionDao {
     }
 
 
-    private List<Session> getPreparedSessionListByRequest(String request) throws DAOException {
+    private List<Session> getFilteredAndSortedSessionList(String request, int start, int size) throws DAOException {
         List<Session> sessionList = new ArrayList<>();
         try (PreparedStatement statement = getConnection().prepareStatement(request)) {
             final LocalDate nowDate = LocalDate.now();
@@ -147,6 +146,9 @@ public class MySQLSessionDao extends BaseDAO implements SessionDao {
             statement.setDate(2, Date.valueOf(nowDate));
             statement.setTime(3, Time.valueOf(nowTime));
             statement.setTime(4, Time.valueOf(MIN_SESSION_TIME));
+            statement.setInt(5, start - 1);
+            statement.setInt(6, size);
+            logger.debug("Statement: {}", statement);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 final Session session = getSessionFromResultSet(resultSet);
@@ -196,11 +198,10 @@ public class MySQLSessionDao extends BaseDAO implements SessionDao {
     }
 
     @Override
-    public List<Session> findFilteredAndSortedSessionList(Map<String, String> map) throws DAOException {
-        final String request = sortByFormRequest(map, SELECT_ALL + WHERE_DEFAULT);
-        List<Session> sessionList = getPreparedSessionListByRequest(request);
-        sessionList = removeFromListUnavailableSessions(map, sessionList);
-        return sessionList;
+    public List<Session> findFilteredAndSortedSessionList(Map<String, String> map, int start, int size) throws DAOException {
+        final String defaultRequest = SELECT_ALL + WHERE_DEFAULT;
+        final String request = getRequestForFilterAndSort(map, defaultRequest);
+        return getFilteredAndSortedSessionList(request, start, size);
     }
 
     @Override
@@ -263,15 +264,14 @@ public class MySQLSessionDao extends BaseDAO implements SessionDao {
      * @param defaultRequest default SELECT_ALL sql request
      * @return formed sql request
      */
-    private String sortByFormRequest(Map<String, String> map, String defaultRequest) {
+    private String getRequestForFilterAndSort(Map<String, String> map, String defaultRequest) {
         StringBuilder orderedRequest = new StringBuilder(defaultRequest);
-        if (map.containsValue(SESSION_SORT_BY_DATETIME)) {
-            if (map.containsValue(SESSION_SORT_METHOD_DESC)) {
-                orderedRequest.append(ORDER_BY_DATETIME_DESC);
-            } else {
-                orderedRequest.append(ORDER_BY_DATETIME_ASC);
-            }
-        } else if (map.containsValue(SESSION_SORT_BY_FILM_NAME)) {
+        //filter only available session
+        if (map.containsValue(SESSION_FILTER_SHOW_ONLY_AVAILABLE)) {
+            orderedRequest.append(AND_FREE_SEATS);
+        }
+        //sort by appropriate parameter
+        if (map.containsValue(SESSION_SORT_BY_FILM_NAME)) {
             orderedRequest.append(ORDER_BY_FILM_NAME);
             if (map.containsValue(SESSION_SORT_METHOD_DESC)) {
                 orderedRequest.append(DESCENDING);
@@ -281,32 +281,16 @@ public class MySQLSessionDao extends BaseDAO implements SessionDao {
             if (map.containsValue(SESSION_SORT_METHOD_DESC)) {
                 orderedRequest.append(DESCENDING);
             }
-        }
-        return orderedRequest.toString();
-    }
-
-    /**
-     * Remove from SessionList unavailable session (where no free ticket left)
-     *
-     * @param map         map containing filter and sort params only
-     * @param sessionList sorted already sessionList
-     * @return filtered SessionList
-     */
-    private List<Session> removeFromListUnavailableSessions(Map<String, String> map, List<Session> sessionList) throws DAOException {
-        if (map.containsValue(SESSION_FILTER_SHOW_ONLY_AVAILABLE)) {
-            List<Session> list = new ArrayList<>(sessionList.size());
-            logger.debug("Map contains: " + SESSION_FILTER_SHOW_ONLY_AVAILABLE);
-            final MySQLSeatDAO seatDAO = getSeatDAO();
-            for (Session session : sessionList) {
-                logger.debug("getFreeSeatsAmountBySessionId: " + session.getId() + " = " + seatDAO.getFreeSeatsAmountBySessionId(session.getId()));
-                if (seatDAO.getFreeSeatsAmountBySessionId(session.getId()) != 0) {
-                    list.add(session);
-                }
+        } else { // else sort by DATETIME
+            if (map.containsValue(SESSION_SORT_METHOD_DESC)) {
+                orderedRequest.append(ORDER_BY_DATETIME_DESC);
+            } else {
+                orderedRequest.append(ORDER_BY_DATETIME_ASC);
             }
-            logger.debug("list.tostring() " + list.toString());
-            return list;
         }
-        return sessionList;
+        // add limit
+        orderedRequest.append(LIMIT);
+        return orderedRequest.toString();
     }
 
     private MySQLSeatDAO getSeatDAO() {

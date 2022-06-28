@@ -1,9 +1,6 @@
 package yehor.epam.services;
 
-import yehor.epam.entities.Seat;
-import yehor.epam.entities.Session;
-import yehor.epam.entities.Ticket;
-import yehor.epam.entities.User;
+import yehor.epam.entities.*;
 import yehor.epam.exceptions.ServiceException;
 
 import java.math.BigDecimal;
@@ -32,7 +29,10 @@ public interface TicketService {
      */
     BigDecimal countTotalCostOfTicketList(List<Ticket> ticketList);
 
-    List<Ticket> findAllByUserId(int userId) throws ServiceException;
+    List<Ticket> getAllByUserId(int userId, int page, int size) throws ServiceException;
+
+
+    int countTotalPagesByUserId(int userId, int size) throws ServiceException;
 
     Ticket getById(int id) throws ServiceException;
 }

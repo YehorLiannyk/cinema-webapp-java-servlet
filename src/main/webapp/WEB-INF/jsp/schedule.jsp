@@ -25,6 +25,8 @@
     <fmt:message key="admin.sessionsSetting.sessionInfo" var="sessionInfo"/>
     <fmt:message key="pagination.selectPageSize.label" var="selectSizeLabel"/>
     <fmt:message key="pagination.selectPageSize.option" var="selectSizeOption"/>
+    <fmt:message key="pagination.prev" var="prev"/>
+    <fmt:message key="pagination.next" var="next"/>
 </fmt:bundle>
 
 <fmt:bundle basename="i18n" prefix="schedule.">
@@ -200,7 +202,7 @@
                                                 </div>
 
                                                 <div class="col-md-3">
-                                                    <div class="vertical-buttons">
+                                                    <div class="vertical-buttons-4">
                                                         <form name="film" method="post" action="main">
                                                             <input type="hidden" name="command"
                                                                    value="filmPage">
@@ -247,6 +249,9 @@
                             </c:forEach>
                             </tbody>
                         </table>
+
+                        <mtg:pagination request="${pageContext.request}" totalPages="${requestScope.totalPages}"
+                                        prev="${prev}" next="${next}"/>
 
                     </div>
                 </div>

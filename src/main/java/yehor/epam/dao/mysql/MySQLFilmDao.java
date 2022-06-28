@@ -3,9 +3,9 @@ package yehor.epam.dao.mysql;
 import org.slf4j.Logger;
 import yehor.epam.dao.BaseDAO;
 import yehor.epam.dao.FilmDao;
-import yehor.epam.exceptions.DAOException;
 import yehor.epam.entities.Film;
 import yehor.epam.entities.Genre;
+import yehor.epam.exceptions.DAOException;
 import yehor.epam.utilities.LoggerManager;
 
 import java.sql.PreparedStatement;

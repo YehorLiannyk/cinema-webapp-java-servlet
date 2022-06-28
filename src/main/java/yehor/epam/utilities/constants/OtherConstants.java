@@ -7,10 +7,9 @@ import java.time.LocalTime;
  * Class containing different constants
  */
 public final class OtherConstants {
-    public static final int DEF_PAGING_SIZE = 4;
+    public static final int DEF_PAGING_SIZE = 6;
     public static final String PAGE_NO_PARAM = "page";
     public static final String PAGE_SIZE_PARAM = "size";
-    public static final String PAGE_AMOUNT_PARAM = "pageAmount";
     /**
      * Param name of user's id in session/cookies
      */

@@ -3,11 +3,11 @@ package yehor.epam.dao.mysql;
 import org.slf4j.Logger;
 import yehor.epam.dao.BaseDAO;
 import yehor.epam.dao.TicketDao;
-import yehor.epam.exceptions.DAOException;
 import yehor.epam.entities.Seat;
 import yehor.epam.entities.Session;
 import yehor.epam.entities.Ticket;
 import yehor.epam.entities.User;
+import yehor.epam.exceptions.DAOException;
 import yehor.epam.utilities.LoggerManager;
 
 import java.sql.PreparedStatement;
@@ -22,7 +22,8 @@ public class MySQLTicketDao extends BaseDAO implements TicketDao {
     private static final String INSERT = "INSERT INTO tickets VALUES (ticket_id, ?,?,?,?)";
     private static final String SELECT_BY_USER_ID = "SELECT * FROM tickets WHERE user_id=?";
     private static final String SELECT_BY_ID = "SELECT * FROM tickets t WHERE ticket_id=?";
-    private static final String COUNT_TOTAL_ROWS = "SELECT COUNT(*) FROM tickets";
+    private static final String COUNT_TOTAL_ROWS = "SELECT COUNT(*) FROM tickets WHERE user_id=?";
+    private static final String LIMIT = " LIMIT ?, ?";
 
     @Override
     public boolean insert(Ticket ticket) throws DAOException {
@@ -95,30 +96,10 @@ public class MySQLTicketDao extends BaseDAO implements TicketDao {
     }
 
     @Override
-    public List<Ticket> findAll() {
-        return null;
-    }
-
-    @Override
-    public List<Ticket> findAll(int start, int size) throws DAOException {
+    public List<Ticket> findAll() throws DAOException {
         return new ArrayList<>();
     }
 
-
-    @Override
-    public int countTotalRow() throws DAOException {
-        int amount = 0;
-        try (PreparedStatement statement = getConnection().prepareStatement(COUNT_TOTAL_ROWS)) {
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                amount = resultSet.getInt(1);
-            }
-        } catch (SQLException e) {
-            logger.error("Couldn't count total row amount of tickets from Database", e);
-            throw new DAOException("Couldn't count total row amount of tickets from Database");
-        }
-        return amount;
-    }
 
     @Override
     public Ticket update(Ticket element) {
@@ -167,19 +148,39 @@ public class MySQLTicketDao extends BaseDAO implements TicketDao {
     }
 
     @Override
-    public List<Ticket> findAllByUserId(int userId) throws DAOException {
+    public List<Ticket> findAllByUserId(int userId, int start, int size) throws DAOException {
         List<Ticket> ticketList = new ArrayList<>();
-        try (PreparedStatement statement = getConnection().prepareStatement(SELECT_BY_USER_ID)) {
+        try (PreparedStatement statement = getConnection().prepareStatement(SELECT_BY_USER_ID + LIMIT)) {
             statement.setInt(1, userId);
+            statement.setInt(2, start - 1);
+            statement.setInt(3, size);
             ResultSet resultSet = statement.executeQuery();
+            logger.debug("userId = {}, start={}, size = {}", userId, start, size);
+            logger.debug("Statement: {}", statement);
             while (resultSet.next()) {
                 final Ticket ticket = getTicketFromResultSet(resultSet);
                 ticketList.add(ticket);
             }
         } catch (SQLException e) {
-            logger.error("Couldn't get list of all films from Database", e);
-            throw new DAOException("Couldn't get list of all films from Database");
+            logger.error("Couldn't get paginated user ticket list from Database", e);
+            throw new DAOException("Couldn't get paginated user ticket list from Database");
         }
         return ticketList;
+    }
+
+    @Override
+    public int countTotalRowByUserId(int userId) throws DAOException {
+        int amount = 0;
+        try (PreparedStatement statement = getConnection().prepareStatement(COUNT_TOTAL_ROWS)) {
+            statement.setInt(1, userId);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                amount = resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            logger.error("Couldn't count total row amount of tickets from Database", e);
+            throw new DAOException("Couldn't count total row amount of tickets from Database");
+        }
+        return amount;
     }
 }

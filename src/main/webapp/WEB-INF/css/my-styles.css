@@ -198,8 +198,12 @@ main.container {
     min-height: 595px;
 }
 
-.vertical-buttons {
+.vertical-buttons-4 {
     margin: 4rem 0;
+}
+
+.vertical-buttons-2 {
+    margin: 2rem 0;
 }
 
 i.fa.fa-key.fa-lg.me-3.fa-fw,

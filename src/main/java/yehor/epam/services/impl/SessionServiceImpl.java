@@ -55,7 +55,9 @@ public class SessionServiceImpl implements SessionService {
         try (DAOFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
             logCreatingDaoFactory();
             final SessionDao sessionDao = factory.getSessionDao();
-            amount = sessionDao.countTotalRow() / size + 1;
+            final int count = sessionDao.countTotalRow();
+            amount = count / size;
+            amount = count % size == 0 ? amount : amount + 1;
         } catch (Exception e) {
             throwServiceException("Couldn't get paginated session list", e);
         }
@@ -71,19 +73,6 @@ public class SessionServiceImpl implements SessionService {
         } catch (Exception e) {
             throwServiceException("Couldn't add session", e);
         }
-    }
-
-    @Override
-    public List<Session> getAll() throws ServiceException {
-        List<Session> sessionList = new ArrayList<>();
-        try (DAOFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
-            logCreatingDaoFactory();
-            final SessionDao sessionDAO = factory.getSessionDao();
-            sessionList = sessionDAO.findAll();
-        } catch (Exception e) {
-            throwServiceException("Couldn't get session list", e);
-        }
-        return sessionList;
     }
 
     @Override
@@ -105,12 +94,17 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
-    public List<Session> getFilteredAndSortedSessionList(Map<String, String> filterSortMap) throws ServiceException {
+    public List<Session> getFilteredAndSortedSessionList(Map<String, String> filterSortMap, int page, int size) throws ServiceException {
         List<Session> sessionList = new ArrayList<>();
         try (DAOFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
             logCreatingDaoFactory();
+            int start = page;
+            if (page > 1) {
+                start--;
+                start = start * size + 1;
+            }
             final SessionDao sessionDAO = factory.getSessionDao();
-            sessionList = sessionDAO.findFilteredAndSortedSessionList(filterSortMap);
+            sessionList = sessionDAO.findFilteredAndSortedSessionList(filterSortMap, start, size);
         } catch (Exception e) {
             throwServiceException("Couldn't get session list", e);
         }

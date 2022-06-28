@@ -1,6 +1,7 @@
 package yehor.epam.services.impl;
 
 import org.slf4j.Logger;
+import yehor.epam.dao.FilmDao;
 import yehor.epam.dao.TicketDao;
 import yehor.epam.dao.factories.DAOFactory;
 import yehor.epam.dao.factories.DaoFactoryDeliver;
@@ -91,16 +92,36 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public List<Ticket> findAllByUserId(int userId) throws ServiceException {
+    public List<Ticket> getAllByUserId(int userId, int page, int size) throws ServiceException {
         List<Ticket> ticketList = new ArrayList<>();
         try (DAOFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
             logCreatingDaoFactory();
             final TicketDao ticketDao = factory.getTicketDao();
-            ticketList = ticketDao.findAllByUserId(userId);
+            int start = page;
+            if (page > 1) {
+                start--;
+                start = start * size + 1;
+            }
+            ticketList = ticketDao.findAllByUserId(userId, start, size);
         } catch (Exception e) {
             throwServiceException("Couldn't get ticket list by user id", e);
         }
         return ticketList;
+    }
+
+    @Override
+    public int countTotalPagesByUserId(int userId, int size) throws ServiceException {
+        int amount = 0;
+        try (DAOFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
+            logCreatingDaoFactory();
+            final TicketDao ticketDao = factory.getTicketDao();
+            final int count = ticketDao.countTotalRowByUserId(userId);
+            amount = count / size;
+            amount = count % size == 0 ? amount : amount + 1;
+        } catch (Exception e) {
+            throwServiceException("Couldn't get paginated user's ticket list", e);
+        }
+        return amount;
     }
 
     @Override

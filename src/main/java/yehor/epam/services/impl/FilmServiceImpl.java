@@ -56,7 +56,9 @@ public class FilmServiceImpl implements FilmService {
         try (DAOFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
             logCreatingDaoFactory();
             final FilmDao filmDAO = factory.getFilmDAO();
-            amount = filmDAO.countTotalRow() / size + 1;
+            final int count = filmDAO.countTotalRow();
+            amount = count / size;
+            amount = count % size == 0 ? amount : amount + 1;
         } catch (Exception e) {
             throwServiceException("Couldn't get paginated film list", e);
         }
