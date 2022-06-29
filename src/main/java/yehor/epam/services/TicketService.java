@@ -7,6 +7,8 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public interface TicketService {
+    void setSeatService(SeatService seatService);
+
     void saveTicketList(List<Ticket> ticketList) throws ServiceException;
 
     void saveTicket(Ticket ticket) throws ServiceException;

@@ -20,7 +20,7 @@ import static yehor.epam.utilities.constants.OtherConstants.PAGE_SIZE_PARAM;
  * Class of implementing film's genreList tag, which print Film's Genres and commas
  */
 public class PaginationTag extends TagSupport {
-    private static final Logger logger = LoggerManager.getLogger(SessionServiceImpl.class);
+    private static final Logger logger = LoggerManager.getLogger(PaginationTag.class);
     private HttpServletRequest request;
     private Integer totalPages;
     private String prev;
@@ -59,32 +59,34 @@ public class PaginationTag extends TagSupport {
             if (queryString != null && !queryString.isBlank()) {
                 query = getCleanQuery(queryString);
             }
+
             logger.debug("requestURI: " + requestURI);
             logger.debug("Ready query: " + query);
 
             query = query.lastIndexOf('&') == query.length() - 1 ? query : query + '&';
-
-            String prevUrl = requestURI + '?' + query + PAGE_NO_PARAM + '=' + (page - 1) + '&' + PAGE_SIZE_PARAM + '=' + size;
-
-            out.write("<div class='p-2 w-100'><nav class='blog-pagination mx-auto'>");
-            if (page > 1 && page <= totalPages) {
-                out.write("<a class='btn btn-outline-primary mx-1' href='" + prevUrl + "'>" + prev + "</a>");
-            } else {
-                out.write("<a class='btn btn-outline-secondary mx-1 disabled' href='" + prevUrl + "'>" + prev + "</a>");
-            }
-
-            String nextUrl = requestURI + '?' + query + PAGE_NO_PARAM + '=' + (page + 1) + '&' + PAGE_SIZE_PARAM + '=' + size;
-
-            if (page > 0 && page < totalPages) {
-                out.write("<a class='btn btn-outline-primary mx-1' href='" + nextUrl + "'>" + next + "</a>");
-            } else {
-                out.write("<a class='btn btn-outline-secondary mx-1 disabled' href='" + nextUrl + "'>" + next + "</a>");
-            }
-            out.write("</nav></div>");
+            printPaginationBlock(out, page, size, requestURI, query);
         } catch (IOException e) {
             throw new JspTagException(e.getMessage());
         }
         return SKIP_BODY;
+    }
+
+    private void printPaginationBlock(JspWriter out, int page, int size, String requestURI, String query) throws IOException {
+        String prevUrl = requestURI + '?' + query + PAGE_NO_PARAM + '=' + (page - 1) + '&' + PAGE_SIZE_PARAM + '=' + size;
+        String nextUrl = requestURI + '?' + query + PAGE_NO_PARAM + '=' + (page + 1) + '&' + PAGE_SIZE_PARAM + '=' + size;
+
+        out.write("<div class='p-2 w-100'><nav class='blog-pagination mx-auto'>");
+        if (page > 1 && page <= totalPages) {
+            out.write("<a class='btn btn-outline-primary mx-1' href='" + prevUrl + "'>" + prev + "</a>");
+        } else {
+            out.write("<a class='btn btn-outline-secondary mx-1 disabled' href='" + prevUrl + "'>" + prev + "</a>");
+        }
+        if (page > 0 && page < totalPages) {
+            out.write("<a class='btn btn-outline-primary mx-1' href='" + nextUrl + "'>" + next + "</a>");
+        } else {
+            out.write("<a class='btn btn-outline-secondary mx-1 disabled' href='" + nextUrl + "'>" + next + "</a>");
+        }
+        out.write("</nav></div>");
     }
 
     private String getCleanQuery(String queryString) {

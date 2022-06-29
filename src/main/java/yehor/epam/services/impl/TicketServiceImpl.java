@@ -1,11 +1,13 @@
 package yehor.epam.services.impl;
 
 import org.slf4j.Logger;
-import yehor.epam.dao.FilmDao;
 import yehor.epam.dao.TicketDao;
-import yehor.epam.dao.factories.DAOFactory;
+import yehor.epam.dao.factories.DaoFactory;
 import yehor.epam.dao.factories.DaoFactoryDeliver;
-import yehor.epam.entities.*;
+import yehor.epam.entities.Seat;
+import yehor.epam.entities.Session;
+import yehor.epam.entities.Ticket;
+import yehor.epam.entities.User;
 import yehor.epam.exceptions.EmptyListException;
 import yehor.epam.exceptions.ServiceException;
 import yehor.epam.exceptions.TicketException;
@@ -23,10 +25,15 @@ import java.util.List;
 public class TicketServiceImpl implements TicketService {
     private static final Logger logger = LoggerManager.getLogger(TicketServiceImpl.class);
     private static final String CLASS_NAME = TicketServiceImpl.class.getName();
-    private final SeatService seatService;
+    private SeatService seatService;
 
     public TicketServiceImpl() {
         seatService = new SeatServiceImpl();
+    }
+
+    @Override
+    public void setSeatService(SeatService seatService) {
+        this.seatService = seatService;
     }
 
     @Override
@@ -46,7 +53,7 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public void saveTicket(Ticket ticket) throws ServiceException {
-        try (DAOFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
+        try (DaoFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
             logCreatingDaoFactory();
             final int seatId = ticket.getSeat().getId();
             final int sessionId = ticket.getSession().getId();
@@ -94,7 +101,7 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public List<Ticket> getAllByUserId(int userId, int page, int size) throws ServiceException {
         List<Ticket> ticketList = new ArrayList<>();
-        try (DAOFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
+        try (DaoFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
             logCreatingDaoFactory();
             final TicketDao ticketDao = factory.getTicketDao();
             int start = page;
@@ -112,7 +119,7 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public int countTotalPagesByUserId(int userId, int size) throws ServiceException {
         int amount = 0;
-        try (DAOFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
+        try (DaoFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
             logCreatingDaoFactory();
             final TicketDao ticketDao = factory.getTicketDao();
             final int count = ticketDao.countTotalRowByUserId(userId);
@@ -127,7 +134,7 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public Ticket getById(int id) throws ServiceException {
         Ticket ticket = null;
-        try (DAOFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
+        try (DaoFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
             logCreatingDaoFactory();
             final TicketDao ticketDao = factory.getTicketDao();
             ticket = ticketDao.findById(id);

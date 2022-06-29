@@ -5,6 +5,8 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import yehor.epam.entities.Film;
 import yehor.epam.entities.Seat;
@@ -16,8 +18,6 @@ import yehor.epam.services.TicketPdfService;
 import yehor.epam.utilities.LoggerManager;
 import yehor.epam.utilities.constants.OtherConstants;
 
-import jakarta.servlet.ServletOutputStream;
-import jakarta.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -102,8 +102,10 @@ public class TicketPdfServiceImpl implements TicketPdfService {
             logger.error("Handled error when trying to write PDF to output", e);
             throw new PdfException("Handled error when trying to write PDF to output", e);
         } finally {
-            byteArrayOutputStream.flush();
-            byteArrayOutputStream.close();
+            if (byteArrayOutputStream != null) {
+                byteArrayOutputStream.flush();
+                byteArrayOutputStream.close();
+            }
         }
     }
 

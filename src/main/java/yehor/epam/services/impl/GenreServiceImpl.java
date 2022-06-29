@@ -1,12 +1,10 @@
 package yehor.epam.services.impl;
 
-import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import yehor.epam.dao.GenreDAO;
-import yehor.epam.dao.factories.DAOFactory;
+import yehor.epam.dao.factories.DaoFactory;
 import yehor.epam.dao.factories.DaoFactoryDeliver;
 import yehor.epam.entities.Genre;
-import yehor.epam.exceptions.DAOException;
 import yehor.epam.exceptions.EmptyArrayException;
 import yehor.epam.exceptions.ServiceException;
 import yehor.epam.services.GenreService;
@@ -14,7 +12,6 @@ import yehor.epam.utilities.LoggerManager;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Service class for Genre
@@ -30,7 +27,7 @@ public class GenreServiceImpl implements GenreService {
             throw new EmptyArrayException("Genre Array is null or empty");
         }
         List<Genre> genreList = new ArrayList<>();
-        try (DAOFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
+        try (DaoFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
             logCreatingDaoFactory();
             final GenreDAO genreDAO = factory.getGenreDAO();
             for (String genreId : genresId) {
@@ -47,7 +44,7 @@ public class GenreServiceImpl implements GenreService {
     @Override
     public List<Genre> getGenreList() throws ServiceException {
         List<Genre> genreList = new ArrayList<>();
-        try (DAOFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
+        try (DaoFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
             logCreatingDaoFactory();
             final GenreDAO genreDAO = factory.getGenreDAO();
             genreList = genreDAO.findAll();

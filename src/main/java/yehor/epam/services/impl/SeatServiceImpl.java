@@ -1,13 +1,12 @@
 package yehor.epam.services.impl;
 
 import org.slf4j.Logger;
-import yehor.epam.dao.SeatDAO;
-import yehor.epam.dao.factories.DAOFactory;
+import yehor.epam.dao.SeatDao;
+import yehor.epam.dao.factories.DaoFactory;
 import yehor.epam.dao.factories.DaoFactoryDeliver;
 import yehor.epam.entities.Seat;
 import yehor.epam.exceptions.EmptyArrayException;
 import yehor.epam.exceptions.ServiceException;
-import yehor.epam.services.GenreService;
 import yehor.epam.services.SeatService;
 import yehor.epam.utilities.LoggerManager;
 
@@ -28,9 +27,9 @@ public class SeatServiceImpl implements SeatService {
             throw new EmptyArrayException("Seat Array is null or empty");
         }
         List<Seat> seatList = new ArrayList<>();
-        try (DAOFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
+        try (DaoFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
             logCreatingDaoFactory();
-            final SeatDAO seatDao = factory.getSeatDao();
+            final SeatDao seatDao = factory.getSeatDao();
             for (String genreId : seatIds) {
                 final int id = Integer.parseInt(genreId);
                 final Seat seat = seatDao.findById(id);
@@ -45,9 +44,9 @@ public class SeatServiceImpl implements SeatService {
     @Override
     public List<Seat> getFreeSeatsBySessionId(int id) throws ServiceException {
         List<Seat> seatList = new ArrayList<>();
-        try (DAOFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
+        try (DaoFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
             logCreatingDaoFactory();
-            final SeatDAO seatDAO = factory.getSeatDao();
+            final SeatDao seatDAO = factory.getSeatDao();
             seatList = seatDAO.findAllFreeSeatBySessionId(id);
         } catch (Exception e) {
             throwServiceException("Couldn't get seat list", e);
@@ -58,9 +57,9 @@ public class SeatServiceImpl implements SeatService {
     @Override
     public List<Seat> getAll() throws ServiceException {
         List<Seat> seatList = new ArrayList<>();
-        try (DAOFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
+        try (DaoFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
             logCreatingDaoFactory();
-            final SeatDAO seatDAO = factory.getSeatDao();
+            final SeatDao seatDAO = factory.getSeatDao();
             seatList = seatDAO.findAll();
         } catch (Exception e) {
             throwServiceException("Couldn't get seat list", e);
@@ -71,9 +70,9 @@ public class SeatServiceImpl implements SeatService {
     @Override
     public boolean isSeatFreeBySessionId(int seatId, int sessionId) throws ServiceException {
         boolean isFree = false;
-        try (DAOFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
+        try (DaoFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
             logCreatingDaoFactory();
-            final SeatDAO seatDAO = factory.getSeatDao();
+            final SeatDao seatDAO = factory.getSeatDao();
             isFree = seatDAO.isSeatFree(seatId, sessionId);
         } catch (Exception e) {
             throwServiceException("Couldn't get seat list", e);

@@ -2,7 +2,7 @@ package yehor.epam.dao.factories;
 
 import yehor.epam.dao.*;
 
-public interface DAOFactory extends AutoCloseable {
+public interface DaoFactory extends AutoCloseable {
     /**
      * Get Film DAO
      *
@@ -22,7 +22,7 @@ public interface DAOFactory extends AutoCloseable {
      *
      * @return Seat DAO
      */
-    SeatDAO getSeatDao();
+    SeatDao getSeatDao();
 
     /**
      * Get Session DAO
@@ -43,7 +43,7 @@ public interface DAOFactory extends AutoCloseable {
      *
      * @return User DAO
      */
-    UserDAO getUserDao();
+    UserDao getUserDao();
 
 
 }

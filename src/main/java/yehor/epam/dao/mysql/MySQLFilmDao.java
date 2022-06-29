@@ -5,7 +5,7 @@ import yehor.epam.dao.BaseDAO;
 import yehor.epam.dao.FilmDao;
 import yehor.epam.entities.Film;
 import yehor.epam.entities.Genre;
-import yehor.epam.exceptions.DAOException;
+import yehor.epam.exceptions.DaoException;
 import yehor.epam.utilities.LoggerManager;
 
 import java.sql.PreparedStatement;
@@ -27,7 +27,7 @@ public class MySQLFilmDao extends BaseDAO implements FilmDao {
 
 
     @Override
-    public boolean insert(Film film) throws DAOException {
+    public boolean insert(Film film) throws DaoException {
         boolean inserted = false;
         try (PreparedStatement statement = getConnection().prepareStatement(INSERT_FILM, Statement.RETURN_GENERATED_KEYS)) {
             setFilmToStatement(film, statement);
@@ -35,7 +35,7 @@ public class MySQLFilmDao extends BaseDAO implements FilmDao {
             inserted = true;
         } catch (SQLException e) {
             logger.error("Couldn't insert Film to DataBase");
-            throw new DAOException("Couldn't insert Film to DataBase");
+            throw new DaoException("Couldn't insert Film to DataBase");
         }
         return inserted;
     }
@@ -46,7 +46,7 @@ public class MySQLFilmDao extends BaseDAO implements FilmDao {
      * @param film      Film item
      * @param statement PreparedStatement
      */
-    private void filmInsertTransaction(Film film, PreparedStatement statement) throws SQLException, DAOException {
+    private void filmInsertTransaction(Film film, PreparedStatement statement) throws SQLException, DaoException {
         getConnection().setAutoCommit(false);
         statement.executeUpdate();
         int filmId = getLastGeneratedKey(statement);
@@ -58,7 +58,7 @@ public class MySQLFilmDao extends BaseDAO implements FilmDao {
             getConnection().setAutoCommit(true);
             logger.debug("rollback and setAutoCommit(true)");
 
-            throw new DAOException("Film and genres were not inserted");
+            throw new DaoException("Film and genres were not inserted");
         }
         getConnection().setAutoCommit(true);
         logger.debug("getConnection().setAutoCommit(true)");
@@ -86,7 +86,7 @@ public class MySQLFilmDao extends BaseDAO implements FilmDao {
     }
 
     @Override
-    public Film findById(int id) throws DAOException {
+    public Film findById(int id) throws DaoException {
         Film film = null;
         try (PreparedStatement statement = getConnection().prepareStatement(SELECT_BY_ID)) {
             statement.setInt(1, id);
@@ -96,13 +96,13 @@ public class MySQLFilmDao extends BaseDAO implements FilmDao {
             }
         } catch (SQLException e) {
             logger.error("Couldn't find film by id in Database", e);
-            throw new DAOException("Couldn't find film by id in Database");
+            throw new DaoException("Couldn't find film by id in Database");
         }
         return film;
     }
 
     @Override
-    public List<Film> findAll() throws DAOException {
+    public List<Film> findAll() throws DaoException {
         List<Film> films = new ArrayList<>();
         try (Statement statement = getConnection().createStatement()) {
             ResultSet resultSet = statement.executeQuery(SELECT_ALL);
@@ -112,13 +112,13 @@ public class MySQLFilmDao extends BaseDAO implements FilmDao {
             }
         } catch (SQLException e) {
             logger.error("Couldn't get list of all films from Database", e);
-            throw new DAOException("Couldn't get list of all films from Database");
+            throw new DaoException("Couldn't get list of all films from Database");
         }
         return films;
     }
 
     @Override
-    public List<Film> findAll(int start, int size) throws DAOException {
+    public List<Film> findAll(int start, int size) throws DaoException {
         List<Film> films = new ArrayList<>();
         try (PreparedStatement statement = getConnection().prepareStatement(SELECT_ALL + LIMIT)) {
             statement.setInt(1, start - 1);
@@ -131,13 +131,13 @@ public class MySQLFilmDao extends BaseDAO implements FilmDao {
             }
         } catch (SQLException e) {
             logger.error("Couldn't get paginated list of films from Database", e);
-            throw new DAOException("Couldn't get paginated list of films from Database");
+            throw new DaoException("Couldn't get paginated list of films from Database");
         }
         return films;
     }
 
     @Override
-    public int countTotalRow() throws DAOException {
+    public int countTotalRow() throws DaoException {
         int amount = 0;
         try (PreparedStatement statement = getConnection().prepareStatement(COUNT_TOTAL_ROWS)) {
             ResultSet resultSet = statement.executeQuery();
@@ -146,7 +146,7 @@ public class MySQLFilmDao extends BaseDAO implements FilmDao {
             }
         } catch (SQLException e) {
             logger.error("Couldn't count total row amount of films from Database", e);
-            throw new DAOException("Couldn't count total row amount of films from Database");
+            throw new DaoException("Couldn't count total row amount of films from Database");
         }
         return amount;
     }
@@ -157,11 +157,11 @@ public class MySQLFilmDao extends BaseDAO implements FilmDao {
     }
 
     @Override
-    public boolean delete(Film element) throws DAOException {
+    public boolean delete(Film element) throws DaoException {
         return delete(element.getId());
     }
 
-    private Film getFilmFromResultSet(ResultSet rs) throws DAOException {
+    private Film getFilmFromResultSet(ResultSet rs) throws DaoException {
         Film film = null;
         try {
             film = new Film(
@@ -175,7 +175,7 @@ public class MySQLFilmDao extends BaseDAO implements FilmDao {
             film.setGenreList(genreList);
         } catch (SQLException e) {
             logger.error("Couldn't get film from ResultSet", e);
-            throw new DAOException("Couldn't get film from ResultSet");
+            throw new DaoException("Couldn't get film from ResultSet");
         }
         return film;
     }
@@ -187,16 +187,16 @@ public class MySQLFilmDao extends BaseDAO implements FilmDao {
     }
 
     @Override
-    public boolean delete(int filmId) throws DAOException {
+    public boolean delete(int filmId) throws DaoException {
         boolean isDeleted = false;
         try (PreparedStatement statement = getConnection().prepareStatement(DELETE_BY_FILM_ID)) {
             statement.setInt(1, filmId);
             final int row = statement.executeUpdate();
-            if (row > 1) throw new DAOException("Statement removed more than one row");
+            if (row > 1) throw new DaoException("Statement removed more than one row");
             isDeleted = true;
         } catch (SQLException e) {
             logger.error("Couldn't delete film", e);
-            throw new DAOException("Couldn't delete film");
+            throw new DaoException("Couldn't delete film");
         }
         return isDeleted;
     }

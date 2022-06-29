@@ -2,9 +2,9 @@ package yehor.epam.dao.mysql;
 
 import org.slf4j.Logger;
 import yehor.epam.dao.BaseDAO;
-import yehor.epam.dao.UserDAO;
+import yehor.epam.dao.UserDao;
 import yehor.epam.exceptions.AuthException;
-import yehor.epam.exceptions.DAOException;
+import yehor.epam.exceptions.DaoException;
 import yehor.epam.exceptions.RegisterException;
 import yehor.epam.entities.User;
 import yehor.epam.utilities.LoggerManager;
@@ -15,8 +15,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.*;
 
-public class MySQLUserDAO extends BaseDAO implements UserDAO {
-    private static final Logger logger = LoggerManager.getLogger(MySQLUserDAO.class);
+public class MySQLUserDao extends BaseDAO implements UserDao {
+    private static final Logger logger = LoggerManager.getLogger(MySQLUserDao.class);
     private static final String GET_MAX_ID = "SELECT MAX(user_id) FROM users";
     private String SELECT = "SELECT * FROM users s JOIN roles r on s.role_id = r.role_id WHERE s.email=?";
     private String SELECT_BY_ID = "SELECT * FROM users s JOIN roles r on s.role_id = r.role_id WHERE s.user_id=?";
@@ -24,7 +24,7 @@ public class MySQLUserDAO extends BaseDAO implements UserDAO {
     private String SELECT_PASS_AND_SALT = "SELECT password, salt FROM users WHERE email=?";
 
     @Override
-    public boolean insert(User user) throws DAOException {
+    public boolean insert(User user) throws DaoException {
         boolean inserted = false;
         try (PreparedStatement statement = getConnection().prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS)) {
             setUserToStatement(user, statement);
@@ -35,7 +35,7 @@ public class MySQLUserDAO extends BaseDAO implements UserDAO {
             if (e.getMessage().contains("Duplicate entry '" + user.getEmail() + "'"))
                 throw new RegisterException("There is a user with such an email already");
             else
-                throw new DAOException("Couldn't add user");
+                throw new DaoException("Couldn't add user");
         }
         return inserted;
     }
@@ -56,7 +56,7 @@ public class MySQLUserDAO extends BaseDAO implements UserDAO {
     }
 
     @Override
-    public User findById(int id) throws DAOException {
+    public User findById(int id) throws DaoException {
         User user = null;
         try (PreparedStatement statement = getConnection().prepareStatement(SELECT_BY_ID)) {
             statement.setInt(1, id);
@@ -66,7 +66,7 @@ public class MySQLUserDAO extends BaseDAO implements UserDAO {
             }
         } catch (SQLException e) {
             logger.error("Couldn't find user by id: " + id, e);
-            throw new DAOException("Couldn't find user by id", e);
+            throw new DaoException("Couldn't find user by id", e);
         }
         return user;
     }
@@ -77,17 +77,17 @@ public class MySQLUserDAO extends BaseDAO implements UserDAO {
     }
 
     @Override
-    public User update(User element) {
+    public User update(User element) throws DaoException {
         return null;
     }
 
     @Override
-    public boolean delete(User element) {
+    public boolean delete(User element) throws DaoException {
         return false;
     }
 
     @Override
-    public User getUserByLogin(String login) throws AuthException, DAOException {
+    public User getUserByLogin(String login) throws AuthException, DaoException {
         User user = null;
         try (PreparedStatement statement = getConnection().prepareStatement(SELECT)) {
             statement.setString(1, login);
@@ -98,28 +98,28 @@ public class MySQLUserDAO extends BaseDAO implements UserDAO {
             if (user == null) throw new AuthException("Couldn't find user with these login and password");
         } catch (SQLException e) {
             logger.error("Couldn't get user from Database", e);
-            throw new DAOException("Couldn't get user from Database", e);
+            throw new DaoException("Couldn't get user from Database", e);
         }
         return user;
     }
 
     @Override
-    public int getMaxId() throws DAOException {
+    public int getMaxId() throws DaoException {
         int maxId = 0;
         try (Statement statement = getConnection().createStatement()) {
             final ResultSet resultSet = statement.executeQuery(GET_MAX_ID);
             while (resultSet.next())
                 maxId = resultSet.getInt(1);
-            if (maxId == 0) throw new DAOException("Received maxId = 0");
+            if (maxId == 0) throw new DaoException("Received maxId = 0");
         } catch (SQLException e) {
             logger.error("Couldn't get max id from Database", e);
-            throw new DAOException("Couldn't get id from Database", e);
+            throw new DaoException("Couldn't get id from Database", e);
         }
         return maxId;
     }
 
     @Override
-    public Map<String, String> getSaltAndPassByLogin(String login) throws AuthException, DAOException {
+    public Map<String, String> getSaltAndPassByLogin(String login) throws AuthException, DaoException {
         Map<String, String> map = new HashMap<>();
         try (PreparedStatement statement = getConnection().prepareStatement(SELECT_PASS_AND_SALT)) {
             statement.setString(1, login);
@@ -133,12 +133,12 @@ public class MySQLUserDAO extends BaseDAO implements UserDAO {
             if (map.isEmpty()) throw new AuthException("Couldn't find user with this login");
         } catch (SQLException e) {
             logger.error("Couldn't get salt and password from Database", e);
-            throw new DAOException("Couldn't get salt and password from Database", e);
+            throw new DaoException("Couldn't get salt and password from Database", e);
         }
         return map;
     }
 
-    private User getUserFromResultSet(ResultSet rs) throws DAOException {
+    private User getUserFromResultSet(ResultSet rs) throws DaoException {
         User user = null;
         try {
             user = new User(
@@ -158,7 +158,7 @@ public class MySQLUserDAO extends BaseDAO implements UserDAO {
             user.setUserRole(role);
         } catch (SQLException e) {
             logger.error("Couldn't get user from ResultSet", e);
-            throw new DAOException("Couldn't get user from ResultSet", e);
+            throw new DaoException("Couldn't get user from ResultSet", e);
         }
         return user;
     }

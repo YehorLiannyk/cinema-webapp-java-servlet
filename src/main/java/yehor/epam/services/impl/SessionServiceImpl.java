@@ -1,9 +1,8 @@
 package yehor.epam.services.impl;
 
 import org.slf4j.Logger;
-import yehor.epam.dao.FilmDao;
 import yehor.epam.dao.SessionDao;
-import yehor.epam.dao.factories.DAOFactory;
+import yehor.epam.dao.factories.DaoFactory;
 import yehor.epam.dao.factories.DaoFactoryDeliver;
 import yehor.epam.entities.Session;
 import yehor.epam.exceptions.ServiceException;
@@ -28,7 +27,7 @@ public class SessionServiceImpl implements SessionService {
     @Override
     public Session getById(int id) throws ServiceException {
         Session session = null;
-        try (DAOFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
+        try (DaoFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
             logCreatingDaoFactory();
             final SessionDao sessionDao = factory.getSessionDao();
             session = sessionDao.findById(id);
@@ -40,7 +39,7 @@ public class SessionServiceImpl implements SessionService {
 
     @Override
     public void deleteSession(int id) throws ServiceException {
-        try (DAOFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
+        try (DaoFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
             logCreatingDaoFactory();
             final SessionDao sessionDAO = factory.getSessionDao();
             sessionDAO.delete(id);
@@ -52,7 +51,7 @@ public class SessionServiceImpl implements SessionService {
     @Override
     public int countTotalPages(int size) throws ServiceException {
         int amount = 0;
-        try (DAOFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
+        try (DaoFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
             logCreatingDaoFactory();
             final SessionDao sessionDao = factory.getSessionDao();
             final int count = sessionDao.countTotalRow();
@@ -65,8 +64,8 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
-    public void addSession(Session session) throws ServiceException {
-        try (DAOFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
+    public void saveSession(Session session) throws ServiceException {
+        try (DaoFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
             logCreatingDaoFactory();
             final SessionDao sessionDAO = factory.getSessionDao();
             sessionDAO.insert(session);
@@ -78,7 +77,7 @@ public class SessionServiceImpl implements SessionService {
     @Override
     public List<Session> getAll(int page, int size) throws ServiceException {
         List<Session> sessionList = new ArrayList<>();
-        try (DAOFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
+        try (DaoFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
             logCreatingDaoFactory();
             final SessionDao sessionDao = factory.getSessionDao();
             int start = page;
@@ -96,7 +95,7 @@ public class SessionServiceImpl implements SessionService {
     @Override
     public List<Session> getFilteredAndSortedSessionList(Map<String, String> filterSortMap, int page, int size) throws ServiceException {
         List<Session> sessionList = new ArrayList<>();
-        try (DAOFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
+        try (DaoFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
             logCreatingDaoFactory();
             int start = page;
             if (page > 1) {

@@ -5,9 +5,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import yehor.epam.actions.BaseCommand;
-import yehor.epam.dao.UserDAO;
-import yehor.epam.dao.factories.DAOFactory;
-import yehor.epam.dao.factories.MySQLFactory;
 import yehor.epam.entities.User;
 import yehor.epam.exceptions.RegisterException;
 import yehor.epam.exceptions.ServiceException;
@@ -22,8 +19,6 @@ import yehor.epam.utilities.LoggerManager;
 import yehor.epam.utilities.PassEncryptionManager;
 import yehor.epam.utilities.RedirectManager;
 import yehor.epam.utilities.constants.OtherConstants;
-
-import java.io.IOException;
 
 import static yehor.epam.utilities.constants.CommandConstants.COMMAND_VIEW_PROFILE_PAGE;
 import static yehor.epam.utilities.constants.OtherConstants.USER_ID;

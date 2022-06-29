@@ -7,7 +7,7 @@ import yehor.epam.entities.Seat;
 import yehor.epam.entities.Session;
 import yehor.epam.entities.Ticket;
 import yehor.epam.entities.User;
-import yehor.epam.exceptions.DAOException;
+import yehor.epam.exceptions.DaoException;
 import yehor.epam.utilities.LoggerManager;
 
 import java.sql.PreparedStatement;
@@ -26,7 +26,7 @@ public class MySQLTicketDao extends BaseDAO implements TicketDao {
     private static final String LIMIT = " LIMIT ?, ?";
 
     @Override
-    public boolean insert(Ticket ticket) throws DAOException {
+    public boolean insert(Ticket ticket) throws DaoException {
         boolean inserted = false;
         try (PreparedStatement statement = getConnection().prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS)) {
             setTicketToStatement(ticket, statement);
@@ -34,7 +34,7 @@ public class MySQLTicketDao extends BaseDAO implements TicketDao {
             inserted = true;
         } catch (SQLException e) {
             logger.error("Couldn't insert Ticket to DataBase");
-            throw new DAOException("Couldn't insert Ticket to DataBase");
+            throw new DaoException("Couldn't insert Ticket to DataBase");
         }
         return inserted;
     }
@@ -45,7 +45,7 @@ public class MySQLTicketDao extends BaseDAO implements TicketDao {
      * @param ticket    Ticket item
      * @param statement PreparedStatement
      */
-    private void ticketInsertTransaction(Ticket ticket, PreparedStatement statement) throws SQLException, DAOException {
+    private void ticketInsertTransaction(Ticket ticket, PreparedStatement statement) throws SQLException, DaoException {
         getConnection().setAutoCommit(false);
         statement.executeUpdate();
         final boolean freeSeatsAmount = getSessionDAO().decrementFreeSeatsAmount(ticket.getSession().getId());
@@ -53,7 +53,7 @@ public class MySQLTicketDao extends BaseDAO implements TicketDao {
             getConnection().rollback();
             getConnection().setAutoCommit(true);
             logger.debug("rollback and setAutoCommit(true)");
-            throw new DAOException("Ticket and reserved seat were not inserted, cause there is no free seats");
+            throw new DaoException("Ticket and reserved seat were not inserted, cause there is no free seats");
         }
         final boolean insertReservedSeats = getSeatDAO().reserveSeatBySession(ticket.getSeat(), ticket.getSession());
         if (insertReservedSeats) {
@@ -62,7 +62,7 @@ public class MySQLTicketDao extends BaseDAO implements TicketDao {
             getConnection().rollback();
             getConnection().setAutoCommit(true);
             logger.debug("rollback and setAutoCommit(true), Ticket and reserved seat were not inserted");
-            throw new DAOException("Ticket and reserved seat were not inserted");
+            throw new DaoException("Ticket and reserved seat were not inserted");
         }
         getConnection().setAutoCommit(true);
     }
@@ -80,7 +80,7 @@ public class MySQLTicketDao extends BaseDAO implements TicketDao {
     }
 
     @Override
-    public Ticket findById(int id) throws DAOException {
+    public Ticket findById(int id) throws DaoException {
         Ticket ticket = null;
         try (PreparedStatement statement = getConnection().prepareStatement(SELECT_BY_ID)) {
             statement.setInt(1, id);
@@ -90,28 +90,28 @@ public class MySQLTicketDao extends BaseDAO implements TicketDao {
             }
         } catch (SQLException e) {
             logger.error("Couldn't find ticket by id in Database", e);
-            throw new DAOException("Couldn't find ticket by id in Database");
+            throw new DaoException("Couldn't find ticket by id in Database");
         }
         return ticket;
     }
 
     @Override
-    public List<Ticket> findAll() throws DAOException {
+    public List<Ticket> findAll() throws DaoException {
         return new ArrayList<>();
     }
 
 
     @Override
-    public Ticket update(Ticket element) {
+    public Ticket update(Ticket element) throws DaoException {
         return null;
     }
 
     @Override
-    public boolean delete(Ticket element) {
+    public boolean delete(Ticket element) throws DaoException {
         return false;
     }
 
-    private Ticket getTicketFromResultSet(ResultSet rs) throws DAOException {
+    private Ticket getTicketFromResultSet(ResultSet rs) throws DaoException {
         Ticket ticket = null;
         try {
             User user = getUserDAO().findById(rs.getInt("user_id"));
@@ -124,13 +124,13 @@ public class MySQLTicketDao extends BaseDAO implements TicketDao {
             );
         } catch (SQLException e) {
             logger.error("Couldn't get ticket from ResultSet", e);
-            throw new DAOException("Couldn't get ticket from ResultSet");
+            throw new DaoException("Couldn't get ticket from ResultSet");
         }
         return ticket;
     }
 
-    private MySQLSeatDAO getSeatDAO() {
-        final MySQLSeatDAO mySQLSeatDAO = new MySQLSeatDAO();
+    private MySQLSeatDao getSeatDAO() {
+        final MySQLSeatDao mySQLSeatDAO = new MySQLSeatDao();
         mySQLSeatDAO.setConnection(getConnection());
         return mySQLSeatDAO;
     }
@@ -141,14 +141,14 @@ public class MySQLTicketDao extends BaseDAO implements TicketDao {
         return mySQLSessionDAO;
     }
 
-    private MySQLUserDAO getUserDAO() {
-        final MySQLUserDAO mySQLUserDAO = new MySQLUserDAO();
+    private MySQLUserDao getUserDAO() {
+        final MySQLUserDao mySQLUserDAO = new MySQLUserDao();
         mySQLUserDAO.setConnection(getConnection());
         return mySQLUserDAO;
     }
 
     @Override
-    public List<Ticket> findAllByUserId(int userId, int start, int size) throws DAOException {
+    public List<Ticket> findAllByUserId(int userId, int start, int size) throws DaoException {
         List<Ticket> ticketList = new ArrayList<>();
         try (PreparedStatement statement = getConnection().prepareStatement(SELECT_BY_USER_ID + LIMIT)) {
             statement.setInt(1, userId);
@@ -163,13 +163,13 @@ public class MySQLTicketDao extends BaseDAO implements TicketDao {
             }
         } catch (SQLException e) {
             logger.error("Couldn't get paginated user ticket list from Database", e);
-            throw new DAOException("Couldn't get paginated user ticket list from Database");
+            throw new DaoException("Couldn't get paginated user ticket list from Database");
         }
         return ticketList;
     }
 
     @Override
-    public int countTotalRowByUserId(int userId) throws DAOException {
+    public int countTotalRowByUserId(int userId) throws DaoException {
         int amount = 0;
         try (PreparedStatement statement = getConnection().prepareStatement(COUNT_TOTAL_ROWS)) {
             statement.setInt(1, userId);
@@ -179,7 +179,7 @@ public class MySQLTicketDao extends BaseDAO implements TicketDao {
             }
         } catch (SQLException e) {
             logger.error("Couldn't count total row amount of tickets from Database", e);
-            throw new DAOException("Couldn't count total row amount of tickets from Database");
+            throw new DaoException("Couldn't count total row amount of tickets from Database");
         }
         return amount;
     }

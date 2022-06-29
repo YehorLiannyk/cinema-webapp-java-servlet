@@ -2,7 +2,7 @@ package yehor.epam.services.impl;
 
 import org.slf4j.Logger;
 import yehor.epam.dao.FilmDao;
-import yehor.epam.dao.factories.DAOFactory;
+import yehor.epam.dao.factories.DaoFactory;
 import yehor.epam.dao.factories.DaoFactoryDeliver;
 import yehor.epam.entities.Film;
 import yehor.epam.exceptions.ServiceException;
@@ -22,7 +22,7 @@ public class FilmServiceImpl implements FilmService {
     @Override
     public List<Film> getAll() throws ServiceException {
         List<Film> filmList = new ArrayList<>();
-        try (DAOFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
+        try (DaoFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
             logCreatingDaoFactory();
             final FilmDao filmDAO = factory.getFilmDAO();
             filmList = filmDAO.findAll();
@@ -35,7 +35,7 @@ public class FilmServiceImpl implements FilmService {
     @Override
     public List<Film> getAll(int page, int size) throws ServiceException {
         List<Film> filmList = new ArrayList<>();
-        try (DAOFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
+        try (DaoFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
             logCreatingDaoFactory();
             final FilmDao filmDAO = factory.getFilmDAO();
             int start = page;
@@ -53,7 +53,7 @@ public class FilmServiceImpl implements FilmService {
     @Override
     public int countTotalPages(int size) throws ServiceException {
         int amount = 0;
-        try (DAOFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
+        try (DaoFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
             logCreatingDaoFactory();
             final FilmDao filmDAO = factory.getFilmDAO();
             final int count = filmDAO.countTotalRow();
@@ -65,11 +65,9 @@ public class FilmServiceImpl implements FilmService {
         return amount;
     }
 
-
-
     @Override
     public void saveFilm(Film film) throws ServiceException {
-        try (DAOFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
+        try (DaoFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
             logCreatingDaoFactory();
             final FilmDao filmDAO = factory.getFilmDAO();
             filmDAO.insert(film);
@@ -80,7 +78,7 @@ public class FilmServiceImpl implements FilmService {
 
     @Override
     public void deleteFilm(int id) throws ServiceException {
-        try (DAOFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
+        try (DaoFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
             logCreatingDaoFactory();
             final FilmDao filmDAO = factory.getFilmDAO();
             filmDAO.delete(id);
@@ -92,7 +90,7 @@ public class FilmServiceImpl implements FilmService {
     @Override
     public Film getFilmById(int id) throws ServiceException {
         Film film = null;
-        try (DAOFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
+        try (DaoFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
             logCreatingDaoFactory();
             final FilmDao filmDAO = factory.getFilmDAO();
             film = filmDAO.findById(id);

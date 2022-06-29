@@ -13,7 +13,7 @@ import java.sql.Connection;
  * MySQL Factory from AbstractFactory pattern.
  * Create DAOs
  */
-public class MySQLFactory implements DAOFactory {
+public class MySQLFactory implements DaoFactory {
     private static final Logger logger = LoggerManager.getLogger(MySQLFactory.class);
     private Connection connection;
 
@@ -28,8 +28,8 @@ public class MySQLFactory implements DAOFactory {
 
 
     @Override
-    public UserDAO getUserDao() {
-        final MySQLUserDAO mySQLUserDAO = new MySQLUserDAO();
+    public UserDao getUserDao() {
+        final MySQLUserDao mySQLUserDAO = new MySQLUserDao();
         mySQLUserDAO.setConnection(connection);
         return mySQLUserDAO;
     }
@@ -49,8 +49,8 @@ public class MySQLFactory implements DAOFactory {
     }
 
     @Override
-    public SeatDAO getSeatDao() {
-        final MySQLSeatDAO mySQLSeatDAO = new MySQLSeatDAO();
+    public SeatDao getSeatDao() {
+        final MySQLSeatDao mySQLSeatDAO = new MySQLSeatDao();
         mySQLSeatDAO.setConnection(connection);
         return mySQLSeatDAO;
     }

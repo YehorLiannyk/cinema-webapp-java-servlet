@@ -2,18 +2,18 @@ package yehor.epam.dao;
 
 import yehor.epam.entities.Seat;
 import yehor.epam.entities.Session;
-import yehor.epam.exceptions.DAOException;
+import yehor.epam.exceptions.DaoException;
 
 import java.util.List;
 
-public interface SeatDAO extends DAO<Seat> {
+public interface SeatDao extends DAO<Seat> {
     /**
      * Find free seats amount of session
      *
      * @param sessionId session id
      * @return free seatList
      */
-    List<Seat> findAllFreeSeatBySessionId(int sessionId) throws DAOException;
+    List<Seat> findAllFreeSeatBySessionId(int sessionId) throws DaoException;
 
     /**
      * Reserve seat for session
@@ -22,7 +22,7 @@ public interface SeatDAO extends DAO<Seat> {
      * @param session session
      * @return true if seat was reserved
      */
-    boolean reserveSeatBySession(final Seat seat, final Session session) throws DAOException;
+    boolean reserveSeatBySession(final Seat seat, final Session session) throws DaoException;
 
     /**
      * Check if seat is unreserved
@@ -31,7 +31,7 @@ public interface SeatDAO extends DAO<Seat> {
      * @param sessionId session id
      * @return true if seat is free and false if not
      */
-    boolean isSeatFree(int seatId, int sessionId) throws DAOException;
+    boolean isSeatFree(int seatId, int sessionId) throws DaoException;
 
     /**
      * Get amount of free seats by session
@@ -39,20 +39,20 @@ public interface SeatDAO extends DAO<Seat> {
      * @param sessionId session id
      * @return free seats amount
      */
-    int getFreeSeatsAmountBySessionId(int sessionId) throws DAOException;
+    int getFreeSeatsAmountBySessionId(int sessionId) throws DaoException;
 
     /**
      * Insert free seats to DB when session is creating
      *
      * @param session session
      */
-    void insertFreeSeatsForSession(Session session) throws DAOException;
+    void insertFreeSeatsForSession(Session session) throws DaoException;
 
     /**
      * Get common seat amount
      *
      * @return seat amount
      */
-    int getAllSeatsAmount() throws DAOException;
+    int getAllSeatsAmount() throws DaoException;
 
 }

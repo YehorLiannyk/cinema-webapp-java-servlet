@@ -1,13 +1,12 @@
 package yehor.epam.services.impl;
 
 import org.slf4j.Logger;
-import yehor.epam.dao.UserDAO;
-import yehor.epam.dao.factories.DAOFactory;
+import yehor.epam.dao.UserDao;
+import yehor.epam.dao.factories.DaoFactory;
 import yehor.epam.dao.factories.DaoFactoryDeliver;
 import yehor.epam.entities.User;
 import yehor.epam.exceptions.AuthException;
 import yehor.epam.exceptions.ServiceException;
-import yehor.epam.services.GenreService;
 import yehor.epam.services.UserService;
 import yehor.epam.utilities.LoggerManager;
 import yehor.epam.utilities.PassEncryptionManager;
@@ -24,9 +23,9 @@ public class UserServiceImpl implements UserService {
 
     private Map<String, String> getSaltAndPassByLogin(String login) throws ServiceException {
         Map<String, String> saltAndPassByLogin = new LinkedHashMap<>();
-        try (DAOFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
+        try (DaoFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
             logCreatingDaoFactory();
-            final UserDAO userDAO = factory.getUserDao();
+            final UserDao userDAO = factory.getUserDao();
             saltAndPassByLogin = userDAO.getSaltAndPassByLogin(login);
         } catch (Exception e) {
             throwServiceException("Couldn't add film", e);
@@ -47,9 +46,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserByLogin(String login) throws ServiceException {
         User user = null;
-        try (DAOFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
+        try (DaoFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
             logCreatingDaoFactory();
-            final UserDAO userDAO = factory.getUserDao();
+            final UserDao userDAO = factory.getUserDao();
             user = userDAO.getUserByLogin(login);
         } catch (Exception e) {
             throwServiceException("Couldn't get user by login", e);
@@ -60,9 +59,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getById(int id) throws ServiceException {
         User user = null;
-        try (DAOFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
+        try (DaoFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
             logCreatingDaoFactory();
-            final UserDAO userDAO = factory.getUserDao();
+            final UserDao userDAO = factory.getUserDao();
             user = userDAO.findById(id);
         } catch (Exception e) {
             throwServiceException("Couldn't find user with id: " + id, e);
@@ -72,9 +71,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int getMaxId() throws ServiceException {
-        try (DAOFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
+        try (DaoFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
             logCreatingDaoFactory();
-            final UserDAO userDAO = factory.getUserDao();
+            final UserDao userDAO = factory.getUserDao();
             return userDAO.getMaxId();
         } catch (Exception e) {
             throwServiceException("Couldn't get max id", e);
@@ -84,9 +83,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean save(User user) throws ServiceException {
-        try (DAOFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
+        try (DaoFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
             logCreatingDaoFactory();
-            final UserDAO userDAO = factory.getUserDao();
+            final UserDao userDAO = factory.getUserDao();
             return userDAO.insert(user);
         } catch (Exception e) {
             throwServiceException("Couldn't save user", e);

@@ -5,7 +5,7 @@ import yehor.epam.dao.BaseDAO;
 import yehor.epam.dao.SessionDao;
 import yehor.epam.entities.Film;
 import yehor.epam.entities.Session;
-import yehor.epam.exceptions.DAOException;
+import yehor.epam.exceptions.DaoException;
 import yehor.epam.utilities.LoggerManager;
 
 import java.sql.*;
@@ -37,19 +37,19 @@ public class MySQLSessionDao extends BaseDAO implements SessionDao {
     private static final String LIMIT = " LIMIT ?, ?";
 
     @Override
-    public boolean insert(Session session) throws DAOException {
+    public boolean insert(Session session) throws DaoException {
         boolean inserted = false;
         try (PreparedStatement statement = getConnection().prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS)) {
             setSessionToInsertStatement(session, statement);
             statement.executeUpdate();
-            final MySQLSeatDAO seatDAO = getSeatDAO();
+            final MySQLSeatDao seatDAO = getSeatDAO();
             final int sessionId = getLastGeneratedKey(statement);
             session.setId(sessionId);
             seatDAO.insertFreeSeatsForSession(session);
             inserted = true;
         } catch (SQLException e) {
             logger.error("Couldn't insert Session to Database", e);
-            throw new DAOException("Couldn't insert Session to Database");
+            throw new DaoException("Couldn't insert Session to Database");
         }
         return inserted;
     }
@@ -62,8 +62,8 @@ public class MySQLSessionDao extends BaseDAO implements SessionDao {
         return key;
     }
 
-    private void setSessionToInsertStatement(Session session, PreparedStatement statement) throws DAOException {
-        final MySQLSeatDAO seatDAO = getSeatDAO();
+    private void setSessionToInsertStatement(Session session, PreparedStatement statement) throws DaoException {
+        final MySQLSeatDao seatDAO = getSeatDAO();
         final int allSeatsAmount = seatDAO.getAllSeatsAmount();
         try {
             statement.setInt(1, session.getFilm().getId());
@@ -76,12 +76,12 @@ public class MySQLSessionDao extends BaseDAO implements SessionDao {
 
         } catch (SQLException e) {
             logger.error("Couldn't set session to Statement", e);
-            throw new DAOException("Couldn't set session to Statement", e);
+            throw new DaoException("Couldn't set session to Statement", e);
         }
     }
 
     @Override
-    public Session findById(int id) throws DAOException {
+    public Session findById(int id) throws DaoException {
         Session session = null;
         try (PreparedStatement statement = getConnection().prepareStatement(SELECT_BY_ID)) {
             statement.setInt(1, id);
@@ -91,18 +91,18 @@ public class MySQLSessionDao extends BaseDAO implements SessionDao {
             }
         } catch (SQLException e) {
             logger.error("Couldn't find session by id in Database", e);
-            throw new DAOException("Couldn't find session by id in Database");
+            throw new DaoException("Couldn't find session by id in Database");
         }
         return session;
     }
 
     @Override
-    public List<Session> findAll() throws DAOException {
+    public List<Session> findAll() throws DaoException {
         return new ArrayList<>();
     }
 
     @Override
-    public List<Session> findAll(int start, int size) throws DAOException {
+    public List<Session> findAll(int start, int size) throws DaoException {
         List<Session> sessionList = new ArrayList<>();
         try (PreparedStatement statement = getConnection().prepareStatement(SELECT_ALL + ORDER_BY_DATETIME_ASC + LIMIT)) {
             statement.setInt(1, start - 1);
@@ -115,14 +115,14 @@ public class MySQLSessionDao extends BaseDAO implements SessionDao {
             }
         } catch (SQLException e) {
             logger.error("Couldn't get paginated list of sessions from Database", e);
-            throw new DAOException("Couldn't get paginated list of sessions from Database");
+            throw new DaoException("Couldn't get paginated list of sessions from Database");
         }
         return sessionList;
     }
 
 
     @Override
-    public int countTotalRow() throws DAOException {
+    public int countTotalRow() throws DaoException {
         int amount = 0;
         try (PreparedStatement statement = getConnection().prepareStatement(COUNT_TOTAL_ROWS)) {
             ResultSet resultSet = statement.executeQuery();
@@ -131,13 +131,13 @@ public class MySQLSessionDao extends BaseDAO implements SessionDao {
             }
         } catch (SQLException e) {
             logger.error("Couldn't count total row amount of sessions from Database", e);
-            throw new DAOException("Couldn't count total row amount of sessions from Database");
+            throw new DaoException("Couldn't count total row amount of sessions from Database");
         }
         return amount;
     }
 
 
-    private List<Session> getFilteredAndSortedSessionList(String request, int start, int size) throws DAOException {
+    private List<Session> getFilteredAndSortedSessionList(String request, int start, int size) throws DaoException {
         List<Session> sessionList = new ArrayList<>();
         try (PreparedStatement statement = getConnection().prepareStatement(request)) {
             final LocalDate nowDate = LocalDate.now();
@@ -156,7 +156,7 @@ public class MySQLSessionDao extends BaseDAO implements SessionDao {
             }
         } catch (SQLException e) {
             logger.error("Couldn't get list of all sessionList from Database", e);
-            throw new DAOException("Couldn't get list of all sessionList from Database");
+            throw new DaoException("Couldn't get list of all sessionList from Database");
         }
         return sessionList;
     }
@@ -167,11 +167,11 @@ public class MySQLSessionDao extends BaseDAO implements SessionDao {
     }
 
     @Override
-    public boolean delete(Session element) throws DAOException {
+    public boolean delete(Session element) throws DaoException {
         return delete(element.getId());
     }
 
-    private Session getSessionFromResultSet(ResultSet rs) throws DAOException {
+    private Session getSessionFromResultSet(ResultSet rs) throws DaoException {
         Session session = null;
         try {
             session = new Session(
@@ -186,7 +186,7 @@ public class MySQLSessionDao extends BaseDAO implements SessionDao {
             session.setFilm(film);
         } catch (SQLException e) {
             logger.error("Couldn't get session from ResultSet", e);
-            throw new DAOException("Couldn't get session from ResultSet");
+            throw new DaoException("Couldn't get session from ResultSet");
         }
         return session;
     }
@@ -198,19 +198,19 @@ public class MySQLSessionDao extends BaseDAO implements SessionDao {
     }
 
     @Override
-    public List<Session> findFilteredAndSortedSessionList(Map<String, String> map, int start, int size) throws DAOException {
+    public List<Session> findFilteredAndSortedSessionList(Map<String, String> map, int start, int size) throws DaoException {
         final String defaultRequest = SELECT_ALL + WHERE_DEFAULT;
         final String request = getRequestForFilterAndSort(map, defaultRequest);
         return getFilteredAndSortedSessionList(request, start, size);
     }
 
     @Override
-    public int getFreeSeatAmount(Session session) throws DAOException {
+    public int getFreeSeatAmount(Session session) throws DaoException {
         return getFreeSeatAmount(session.getId());
     }
 
     @Override
-    public int getFreeSeatAmount(int sessionId) throws DAOException {
+    public int getFreeSeatAmount(int sessionId) throws DaoException {
         int amount = 0;
         try (PreparedStatement statement = getConnection().prepareStatement(SELECT_FREE_SEATS_BY_ID)) {
             statement.setInt(1, sessionId);
@@ -220,28 +220,28 @@ public class MySQLSessionDao extends BaseDAO implements SessionDao {
             }
         } catch (SQLException e) {
             logger.error("Couldn't get free seats", e);
-            throw new DAOException("Couldn't get free seats");
+            throw new DaoException("Couldn't get free seats");
         }
         return amount;
     }
 
     @Override
-    public boolean delete(int sessionId) throws DAOException {
+    public boolean delete(int sessionId) throws DaoException {
         boolean isDeleted = false;
         try (PreparedStatement statement = getConnection().prepareStatement(DELETE_BY_SESSION_ID)) {
             statement.setInt(1, sessionId);
             final int row = statement.executeUpdate();
-            if (row > 1) throw new DAOException("Statement removed more than one row");
+            if (row > 1) throw new DaoException("Statement removed more than one row");
             isDeleted = true;
         } catch (SQLException e) {
             logger.error("Couldn't delete session", e);
-            throw new DAOException("Couldn't delete session", e);
+            throw new DaoException("Couldn't delete session", e);
         }
         return isDeleted;
     }
 
     @Override
-    public boolean decrementFreeSeatsAmount(int sessionId) throws DAOException {
+    public boolean decrementFreeSeatsAmount(int sessionId) throws DaoException {
         boolean isDecremented = true;
         try (PreparedStatement statement = getConnection().prepareStatement(DECREMENT_FREE_SEATS)) {
             statement.setInt(1, sessionId);
@@ -252,7 +252,7 @@ public class MySQLSessionDao extends BaseDAO implements SessionDao {
             }
         } catch (SQLException e) {
             logger.error("Couldn't decrement free seats amount of Session", e);
-            throw new DAOException("Couldn't decrement free seats amount of Session");
+            throw new DaoException("Couldn't decrement free seats amount of Session");
         }
         return isDecremented;
     }
@@ -293,8 +293,8 @@ public class MySQLSessionDao extends BaseDAO implements SessionDao {
         return orderedRequest.toString();
     }
 
-    private MySQLSeatDAO getSeatDAO() {
-        final MySQLSeatDAO mySQLSeatDAO = new MySQLSeatDAO();
+    private MySQLSeatDao getSeatDAO() {
+        final MySQLSeatDao mySQLSeatDAO = new MySQLSeatDao();
         mySQLSeatDAO.setConnection(getConnection());
         return mySQLSeatDAO;
     }

@@ -1,7 +1,7 @@
 package yehor.epam.dao;
 
 import yehor.epam.entities.BaseEntity;
-import yehor.epam.exceptions.DAOException;
+import yehor.epam.exceptions.DaoException;
 
 import java.util.List;
 
@@ -11,11 +11,11 @@ public interface PaginatableDao<T extends BaseEntity> {
      *
      * @return List of received elements
      */
-    List<T> findAll(int start, int size) throws DAOException;
+    List<T> findAll(int start, int size) throws DaoException;
 
     /**
      * Get total amount of rows
      * @return total amount of rows
      */
-    int countTotalRow() throws DAOException;
+    int countTotalRow() throws DaoException;
 }

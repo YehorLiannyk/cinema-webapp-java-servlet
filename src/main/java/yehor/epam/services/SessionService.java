@@ -14,7 +14,7 @@ public interface SessionService {
 
     int countTotalPages(int size) throws ServiceException;
 
-    void addSession(Session session) throws ServiceException;
+    void saveSession(Session session) throws ServiceException;
 
     List<Session> getAll(int page, int size) throws ServiceException;
 

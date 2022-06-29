@@ -1,12 +1,9 @@
 package yehor.epam.actions.commands.tickets;
 
-import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import yehor.epam.actions.BaseCommand;
-import yehor.epam.dao.factories.DAOFactory;
-import yehor.epam.dao.factories.MySQLFactory;
 import yehor.epam.entities.Ticket;
 import yehor.epam.services.TicketPdfService;
 import yehor.epam.services.TicketService;
@@ -16,7 +13,6 @@ import yehor.epam.services.impl.TicketServiceImpl;
 import yehor.epam.utilities.LoggerManager;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 
 /**
  * Command to download Ticket in PDF format

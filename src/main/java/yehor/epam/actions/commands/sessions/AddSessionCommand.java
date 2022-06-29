@@ -42,7 +42,7 @@ public class AddSessionCommand implements BaseCommand {
             final Session session = getSessionFromRequest(request);
             final Film film = getFilmFromRequest(request);
             session.setFilm(film);
-            sessionService.addSession(session);
+            sessionService.saveSession(session);
             response.sendRedirect(RedirectManager.getRedirectLocation(COMMAND_VIEW_SESSIONS_SETTING_PAGE));
         } catch (Exception e) {
             ErrorServiceImpl.handleException(request, response, CLASS_NAME, e);

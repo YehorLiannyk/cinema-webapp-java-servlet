@@ -1,8 +1,7 @@
 package yehor.epam.dao;
 
-import yehor.epam.entities.Film;
 import yehor.epam.entities.Ticket;
-import yehor.epam.exceptions.DAOException;
+import yehor.epam.exceptions.DaoException;
 
 import java.util.List;
 
@@ -12,7 +11,7 @@ public interface TicketDao extends DAO<Ticket> {
      * @param userId id of User
      * @return list of tickets
      */
-    List<Ticket> findAllByUserId(int userId, int start, int size) throws DAOException;
+    List<Ticket> findAllByUserId(int userId, int start, int size) throws DaoException;
 
-    int countTotalRowByUserId(int userId) throws DAOException;
+    int countTotalRowByUserId(int userId) throws DaoException;
 }

@@ -1,3 +1,5 @@
+package yehor.epam.entities;
+
 import org.junit.Test;
 import yehor.epam.entities.*;
 

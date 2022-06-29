@@ -13,7 +13,7 @@ public class DaoFactoryDeliver {
         return FactoryDeliverHolder.factoryDeliver;
     }
 
-    public DAOFactory getFactory() {
+    public DaoFactory getFactory() {
         return createMySQLFactory();
     }
 

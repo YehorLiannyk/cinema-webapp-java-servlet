@@ -39,7 +39,7 @@ public class PassEncryptionManager {
      * @param salt     salt value
      * @return return the key in its primary encoding format, or null if this key does not support encoding.
      */
-    public byte[] hash(char[] password, byte[] salt) {
+    private byte[] hash(char[] password, byte[] salt) {
         PBEKeySpec spec = new PBEKeySpec(password, salt, ITERATIONS, KEY_LENGTH);
         Arrays.fill(password, Character.MIN_VALUE);
         try {

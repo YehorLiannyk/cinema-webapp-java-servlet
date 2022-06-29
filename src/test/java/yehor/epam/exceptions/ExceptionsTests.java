@@ -1,8 +1,10 @@
+package yehor.epam.exceptions;
+
 import org.junit.Test;
 import yehor.epam.exceptions.TicketException;
 import yehor.epam.exceptions.ConnectionException;
 import yehor.epam.exceptions.AuthException;
-import yehor.epam.exceptions.DAOException;
+import yehor.epam.exceptions.DaoException;
 import yehor.epam.exceptions.RegisterException;
 import yehor.epam.exceptions.VerifyException;
 import yehor.epam.exceptions.PdfException;
@@ -49,11 +51,11 @@ public class ExceptionsTests {
     @Test
     public void daoExceptionTest() {
         final String msg = "msg";
-        DAOException daoException = new DAOException(msg);
+        DaoException daoException = new DaoException(msg);
         assertEquals(msg, daoException.getMessage());
 
         final Throwable cause = mock(Throwable.class);
-        daoException = new DAOException(msg, cause);
+        daoException = new DaoException(msg, cause);
         assertEquals(msg, daoException.getMessage());
         assertEquals(cause, daoException.getCause());
     }

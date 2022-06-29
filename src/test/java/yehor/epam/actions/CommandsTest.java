@@ -1,68 +1,34 @@
+package yehor.epam.actions;
+
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import yehor.epam.actions.BaseCommand;
 import yehor.epam.actions.CommandFactory;
 import yehor.epam.actions.commands.*;
 import yehor.epam.actions.commands.films.*;
-import yehor.epam.actions.commands.sessions.*;
+import yehor.epam.actions.commands.tickets.*;
 import yehor.epam.actions.commands.signing.*;
-import yehor.epam.actions.commands.tickets.BuyTicketCommand;
-import yehor.epam.actions.commands.tickets.BuyTicketPageCommand;
-import yehor.epam.actions.commands.tickets.DownloadPDFTicketCommand;
-import yehor.epam.exceptions.DAOException;
+import yehor.epam.actions.commands.sessions.*;
+import yehor.epam.servletController.Controller;
+
+import java.io.IOException;
+import java.util.Map;
 
 import static org.mockito.Mockito.*;
+import static org.powermock.api.mockito.PowerMockito.when;
+import static yehor.epam.utilities.constants.JspPagePathConstants.ADD_FILM_PAGE_PATH;
 
-public class CommandsTests {
-    private HttpServletRequest request = mock(HttpServletRequest.class);
-    private HttpServletResponse response = mock(HttpServletResponse.class);
-    private BaseCommand baseCommand = mock(BaseCommand.class);
-    private CommandFactory factory = mock(CommandFactory.class);
+class CommandsTest {
 
-    @Test
-    public void CommandFactoryTest() {
-        when(factory.defineCommand(request)).thenReturn(baseCommand);
-        when(factory.defineCommand(request)).thenReturn(mock(SuccessPayPageCommand.class));
-        when(factory.defineCommand(request)).thenReturn(mock(ScheduleCommand.class));
-        when(factory.defineCommand(request)).thenReturn(mock(ProfilePageCommand.class));
-        when(factory.defineCommand(request)).thenReturn(mock(MainPageCommand.class));
-        when(factory.defineCommand(request)).thenReturn(mock(ErrorPageCommand.class));
-        when(factory.defineCommand(request)).thenReturn(mock(DownloadPDFTicketCommand.class));
-        when(factory.defineCommand(request)).thenReturn(mock(BuyTicketCommand.class));
-        when(factory.defineCommand(request)).thenReturn(mock(BuyTicketPageCommand.class));
-        when(factory.defineCommand(request)).thenReturn(mock(RegisterPageCommand.class));
-        when(factory.defineCommand(request)).thenReturn(mock(RegisterCommand.class));
-        when(factory.defineCommand(request)).thenReturn(mock(LogoutCommand.class));
-        when(factory.defineCommand(request)).thenReturn(mock(LoginPageCommand.class));
-        when(factory.defineCommand(request)).thenReturn(mock(LoginCommand.class));
-        when(factory.defineCommand(request)).thenReturn(mock(AddSessionCommand.class));
-        when(factory.defineCommand(request)).thenReturn(mock(SessionsSettingPageCommand.class));
-        when(factory.defineCommand(request)).thenReturn(mock(SessionInfoPageCommand.class));
-        when(factory.defineCommand(request)).thenReturn(mock(SessionPageCommand.class));
-        when(factory.defineCommand(request)).thenReturn(mock(DeleteSessionCommand.class));
-        when(factory.defineCommand(request)).thenReturn(mock(AddSessionPageCommand.class));
-        when(factory.defineCommand(request)).thenReturn(mock(FilmsSettingPageCommand.class));
-        when(factory.defineCommand(request)).thenReturn(mock(FilmInfoPageCommand.class));
-        when(factory.defineCommand(request)).thenReturn(mock(DeleteFilmCommand.class));
-        when(factory.defineCommand(request)).thenReturn(mock(AddFilmCommand.class));
-        when(factory.defineCommand(request)).thenReturn(mock(AddFilmPageCommand.class));
-        when(factory.defineCommand(request)).thenThrow(DAOException.class);
-        try {
-            when(factory.defineCommand(request)).thenThrow(Exception.class);
-        } catch (Exception ignored) {
-        }
-    }
+    private final HttpServletRequest request = mock(HttpServletRequest.class);
+    private final HttpServletResponse response = mock(HttpServletResponse.class);
 
     @Test
-    public void defineCommandTest() {
-        CommandFactory commandFactory = spy(CommandFactory.class);
-        commandFactory.defineCommand(request);
-        verify(commandFactory, times(1)).defineCommand(request);
-    }
-
-    @Test
-    public void commandsTest() {
+    void commandsTest() {
         BaseCommand command = spy(SuccessPayPageCommand.class);
         command.execute(request, response);
         verify(command, times(1)).execute(request, response);
@@ -131,23 +97,31 @@ public class CommandsTests {
         command.execute(request, response);
         verify(command, times(1)).execute(request, response);
 
-        command = spy(FilmsSettingPageCommand.class);
+        command = Mockito.spy(FilmsSettingPageCommand.class);
         command.execute(request, response);
         verify(command, times(1)).execute(request, response);
 
-        command = spy(FilmInfoPageCommand.class);
+        command = Mockito.spy(FilmInfoPageCommand.class);
         command.execute(request, response);
         verify(command, times(1)).execute(request, response);
 
-        command = spy(DeleteFilmCommand.class);
+        command = Mockito.spy(DeleteFilmCommand.class);
+        when(request.getParameter("filmId")).thenReturn("1");
         command.execute(request, response);
         verify(command, times(1)).execute(request, response);
 
-        command = spy(AddFilmCommand.class);
+        command = Mockito.spy(AddFilmCommand.class);
+        Map<String, String[]> map = mock(Map.class);
+        when(request.getParameter("genresID")).thenReturn("1");
+        when(request.getParameter("filmDuration")).thenReturn("10");
+        when(request.getParameterMap()).thenReturn(map);
+        when(map.get("genresId")).thenReturn(new String[]{"1"});
         command.execute(request, response);
         verify(command, times(1)).execute(request, response);
 
-        command = spy(AddFilmPageCommand.class);
+        command = Mockito.spy(AddFilmPageCommand.class);
+        RequestDispatcher requestDispatcher = mock(RequestDispatcher.class);
+        when(request.getRequestDispatcher(ADD_FILM_PAGE_PATH)).thenReturn(requestDispatcher);
         command.execute(request, response);
         verify(command, times(1)).execute(request, response);
 

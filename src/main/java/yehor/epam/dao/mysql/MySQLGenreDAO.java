@@ -3,7 +3,7 @@ package yehor.epam.dao.mysql;
 import org.slf4j.Logger;
 import yehor.epam.dao.BaseDAO;
 import yehor.epam.dao.GenreDAO;
-import yehor.epam.exceptions.DAOException;
+import yehor.epam.exceptions.DaoException;
 import yehor.epam.entities.Genre;
 import yehor.epam.utilities.LoggerManager;
 
@@ -27,7 +27,7 @@ public class MySQLGenreDAO extends BaseDAO implements GenreDAO {
     }
 
     @Override
-    public Genre findById(int id) throws DAOException {
+    public Genre findById(int id) throws DaoException {
         Genre genre = null;
         try (PreparedStatement statement = getConnection().prepareStatement(SELECT_BY_ID)) {
             statement.setInt(1, id);
@@ -35,16 +35,16 @@ public class MySQLGenreDAO extends BaseDAO implements GenreDAO {
             while (resultSet.next()) {
                 genre = getGenreFromResultSet(resultSet);
             }
-            if (genre == null) throw new DAOException("Couldn't find Genre with id: " + id);
+            if (genre == null) throw new DaoException("Couldn't find Genre with id: " + id);
         } catch (SQLException e) {
             logger.error("Couldn't get genre with id: " + id, e);
-            throw new DAOException("Couldn't get genre with id: " + id);
+            throw new DaoException("Couldn't get genre with id: " + id);
         }
         return genre;
     }
 
     @Override
-    public List<Genre> findAll() throws DAOException {
+    public List<Genre> findAll() throws DaoException {
         List<Genre> genreList = new ArrayList<>();
         try (Statement statement = getConnection().createStatement()) {
             ResultSet resultSet = statement.executeQuery(SELECT_ALL);
@@ -54,7 +54,7 @@ public class MySQLGenreDAO extends BaseDAO implements GenreDAO {
             }
         } catch (SQLException e) {
             logger.error("Couldn't get list of genres from ResultSet", e);
-            throw new DAOException("Couldn't get list of genres from ResultSet");
+            throw new DaoException("Couldn't get list of genres from ResultSet");
         }
         return genreList;
     }
@@ -81,18 +81,18 @@ public class MySQLGenreDAO extends BaseDAO implements GenreDAO {
     }
 
     @Override
-    public boolean insertFilmGenres(final int filmId, List<Genre> genreList) throws SQLException, DAOException {
+    public boolean insertFilmGenres(final int filmId, List<Genre> genreList) throws SQLException, DaoException {
         boolean inserted = false;
-        if (genreList.isEmpty()) throw new DAOException("Received genreList is empty");
+        if (genreList.isEmpty()) throw new DaoException("Received genreList is empty");
         try (PreparedStatement statement = getConnection().prepareStatement(INSERT_GENRES_OF_FILM)) {
             for (Genre genre : genreList) {
-                if (genre == null) throw new DAOException("Received Genre from genreList is null");
+                if (genre == null) throw new DaoException("Received Genre from genreList is null");
                 statement.setInt(1, filmId);
                 statement.setInt(2, genre.getId());
                 statement.addBatch();
             }
             final int[] rows = statement.executeBatch();
-            if (rows.length < 1) throw new DAOException("Statement inserted nothing");
+            if (rows.length < 1) throw new DaoException("Statement inserted nothing");
             inserted = true;
         } catch (SQLException e) {
             logger.error("Couldn't insert Film Genres to DataBase", e);
@@ -102,7 +102,7 @@ public class MySQLGenreDAO extends BaseDAO implements GenreDAO {
     }
 
     @Override
-    public List<Genre> getGenreListOfFilm(int filmId) throws DAOException {
+    public List<Genre> getGenreListOfFilm(int filmId) throws DaoException {
         List<Genre> genreList = new ArrayList<>();
         try (PreparedStatement statement = getConnection().prepareStatement(SELECT_ALL_BY_FILM_ID)) {
             statement.setInt(1, filmId);
@@ -113,7 +113,7 @@ public class MySQLGenreDAO extends BaseDAO implements GenreDAO {
             }
         } catch (SQLException e) {
             logger.error("Couldn't get list of genres from Database", e);
-            throw new DAOException("Couldn't get list of genres from Database");
+            throw new DaoException("Couldn't get list of genres from Database");
         }
         return genreList;
     }
