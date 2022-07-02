@@ -6,7 +6,7 @@ import yehor.epam.exceptions.ServiceException;
 import java.util.List;
 
 public interface GenreService {
-    List<Genre> getGenreListByIdArray(String[] genresId) throws ServiceException;
+    List<Genre> getGenreListByIdArray(String[] genreIds) throws ServiceException;
 
     List<Genre> getGenreList() throws ServiceException;
 

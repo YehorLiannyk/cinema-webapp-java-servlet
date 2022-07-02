@@ -8,11 +8,16 @@ import yehor.epam.entities.User;
 import yehor.epam.exceptions.AuthException;
 import yehor.epam.exceptions.ServiceException;
 import yehor.epam.services.UserService;
+import yehor.epam.services.ValidService;
 import yehor.epam.utilities.LoggerManager;
 import yehor.epam.utilities.PassEncryptionManager;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+
+import static yehor.epam.utilities.constants.OtherConstants.*;
 
 /**
  * Service class for User
@@ -20,6 +25,15 @@ import java.util.Map;
 public class UserServiceImpl implements UserService {
     private static final Logger logger = LoggerManager.getLogger(UserServiceImpl.class);
     private static final String CLASS_NAME = UserServiceImpl.class.getName();
+    private final ValidService validService;
+
+    public UserServiceImpl() {
+        this.validService = new ValidServiceImpl();
+    }
+
+    public UserServiceImpl(ValidService validService) {
+        this.validService = validService;
+    }
 
     private Map<String, String> getSaltAndPassByLogin(String login) throws ServiceException {
         Map<String, String> saltAndPassByLogin = new LinkedHashMap<>();
@@ -40,7 +54,7 @@ public class UserServiceImpl implements UserService {
         final String encryptedPass = saltAndPass.get("password");
         PassEncryptionManager passManager = new PassEncryptionManager();
         final boolean isVerified = passManager.verifyUserPassword(password, encryptedPass, saltValue);
-        if (!isVerified) throw new AuthException("Wrong password");
+        if (!isVerified) throw new AuthException("Wrong email or password");
     }
 
     @Override
@@ -55,6 +69,43 @@ public class UserServiceImpl implements UserService {
         }
         return user;
     }
+
+
+    @Override
+    public List<String> getUserValidErrorList(Map<String, String> userParamMap) {
+        List<String> errorList = new ArrayList<>();
+        //first name
+        String param = userParamMap.get(F_NAME_PARAM);
+        validService.validLettersField(errorList, param, MIN_F_NAME_LENGTH, MAX_F_NAME_LENGTH, VALID_F_NAME_EMPTY,
+                VALID_F_NAME_INVALID, VALID_F_NAME_LENGTH);
+        //last name
+        param = userParamMap.get(L_NAME_PARAM);
+        validService.validLettersField(errorList, param, MIN_L_NAME_LENGTH, MAX_L_NAME_LENGTH, VALID_L_NAME_EMPTY,
+                VALID_L_NAME_INVALID, VALID_L_NAME_LENGTH);
+        // email
+        param = userParamMap.get(EMAIL_PARAM);
+        validService.validEmailField(errorList, param);
+        // password
+        param = userParamMap.get(PASS_PARAM);
+        validService.validPassField(errorList, param);
+        // password confirmation
+        param = userParamMap.get(PASS_CONFIRM_PARAM);
+        validService.validPassConfirmField(errorList, userParamMap.get(PASS_PARAM), param);
+        //phone number
+        param = userParamMap.get(PHONE_PARAM);
+        validService.validPhoneNumberField(errorList, param);
+        return errorList;
+    }
+
+    @Override
+    public String validateUserEmail(String email) {
+        List<String> errorList = new ArrayList<>();
+        validService.validEmailField(errorList, email);
+        if (!errorList.isEmpty())
+            return errorList.get(0);
+        return "";
+    }
+
 
     @Override
     public User getById(int id) throws ServiceException {

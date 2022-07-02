@@ -4,12 +4,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import yehor.epam.actions.BaseCommand;
+import yehor.epam.actions.commands.films.AddFilmPageCommand;
 import yehor.epam.entities.Film;
 import yehor.epam.entities.Session;
 import yehor.epam.exceptions.ServiceException;
-import yehor.epam.services.impl.ErrorServiceImpl;
 import yehor.epam.services.FilmService;
 import yehor.epam.services.SessionService;
+import yehor.epam.services.impl.ErrorServiceImpl;
 import yehor.epam.services.impl.FilmServiceImpl;
 import yehor.epam.services.impl.SessionServiceImpl;
 import yehor.epam.utilities.LoggerManager;
@@ -18,8 +19,12 @@ import yehor.epam.utilities.RedirectManager;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static yehor.epam.utilities.constants.CommandConstants.COMMAND_VIEW_SESSIONS_SETTING_PAGE;
+import static yehor.epam.utilities.constants.OtherConstants.*;
 
 /**
  * Admin add Session Command
@@ -39,27 +44,46 @@ public class AddSessionCommand implements BaseCommand {
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         logger.debug("Called execute() in " + CLASS_NAME);
         try {
-            final Session session = getSessionFromRequest(request);
-            final Film film = getFilmFromRequest(request);
-            session.setFilm(film);
-            sessionService.saveSession(session);
-            response.sendRedirect(RedirectManager.getRedirectLocation(COMMAND_VIEW_SESSIONS_SETTING_PAGE));
+            final Map<String, String> sessionParamMap = getSessionParamMap(request);
+            final List<String> errorList = sessionService.getSessionValidErrorList(sessionParamMap);
+            if (errorList.isEmpty()) {
+                final Session session = getSession(sessionParamMap);
+                sessionService.saveSession(session);
+                response.sendRedirect(RedirectManager.getRedirectLocation(COMMAND_VIEW_SESSIONS_SETTING_PAGE));
+            } else {
+                forwardWithErrors(request, response, errorList);
+            }
         } catch (Exception e) {
             ErrorServiceImpl.handleException(request, response, CLASS_NAME, e);
         }
     }
 
-    private Session getSessionFromRequest(HttpServletRequest request) {
-        return new Session(
-                new BigDecimal(request.getParameter("ticketPrice")),
-                LocalDate.parse(request.getParameter("date")),
-                LocalTime.parse(request.getParameter("time"))
-        );
+    private void forwardWithErrors(HttpServletRequest request, HttpServletResponse response, List<String> errorList) {
+        VALID_ERROR_SESSION_PARAM_LIST.stream()
+                .filter(error -> request.getAttribute(error) != null)
+                .forEach(error -> request.setAttribute(error, false));
+        errorList.forEach(error -> request.setAttribute(error, true));
+        new AddSessionPageCommand().execute(request, response);
     }
 
-    private Film getFilmFromRequest(HttpServletRequest request) throws ServiceException {
-        final int filmId = Integer.parseInt(request.getParameter("filmId"));
-        return filmService.getFilmById(filmId);
+    private Session getSession(Map<String, String> sessionParamMap) throws ServiceException {
+        final int filmId = Integer.parseInt(sessionParamMap.get(FILM_ID_PARAM));
+        final Film film = filmService.getFilmById(filmId);
+        final Session session = new Session();
+        session.setTime(LocalTime.parse(sessionParamMap.get(SESSION_TIME_PARAM)));
+        session.setDate(LocalDate.parse(sessionParamMap.get(SESSION_DATE_PARAM)));
+        session.setTicketPrice(new BigDecimal(sessionParamMap.get(SESSION_PRICE_PARAM)));
+        session.setFilm(film);
+        return session;
+    }
+
+    private Map<String, String> getSessionParamMap(HttpServletRequest request) {
+        Map<String, String> sessionParamMap = new HashMap<>();
+        sessionParamMap.put(FILM_ID_PARAM, request.getParameter(FILM_ID_PARAM));
+        sessionParamMap.put(SESSION_TIME_PARAM, request.getParameter(SESSION_TIME_PARAM));
+        sessionParamMap.put(SESSION_DATE_PARAM, request.getParameter(SESSION_DATE_PARAM));
+        sessionParamMap.put(SESSION_PRICE_PARAM, request.getParameter(SESSION_PRICE_PARAM));
+        return sessionParamMap;
     }
 
 }

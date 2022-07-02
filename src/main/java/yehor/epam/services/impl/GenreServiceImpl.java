@@ -21,8 +21,8 @@ public class GenreServiceImpl implements GenreService {
     private static final String CLASS_NAME = GenreServiceImpl.class.getName();
 
     @Override
-    public List<Genre> getGenreListByIdArray(String[] genresId) throws ServiceException {
-        if (genresId == null || genresId.length == 0) {
+    public List<Genre> getGenreListByIdArray(String[] genreIds) throws ServiceException {
+        if (genreIds == null || genreIds.length == 0) {
             logger.error("Genre Array is null or empty");
             throw new EmptyArrayException("Genre Array is null or empty");
         }
@@ -30,7 +30,7 @@ public class GenreServiceImpl implements GenreService {
         try (DaoFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
             logCreatingDaoFactory();
             final GenreDAO genreDAO = factory.getGenreDAO();
-            for (String genreId : genresId) {
+            for (String genreId : genreIds) {
                 final int id = Integer.parseInt(genreId);
                 final Genre genre = genreDAO.findById(id);
                 genreList.add(genre);

@@ -4,6 +4,7 @@ import yehor.epam.entities.Film;
 import yehor.epam.exceptions.ServiceException;
 
 import java.util.List;
+import java.util.Map;
 
 public interface FilmService {
     List<Film> getAll() throws ServiceException;
@@ -19,4 +20,6 @@ public interface FilmService {
     void deleteFilm(int id) throws ServiceException;
 
     Film getFilmById(int id) throws ServiceException;
+
+    List<String> getFilmValidErrorList(Map<String, String> filmParamMap, String[] genreIds);
 }

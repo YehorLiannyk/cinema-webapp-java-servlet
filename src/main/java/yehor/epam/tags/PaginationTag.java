@@ -7,7 +7,6 @@ import jakarta.servlet.jsp.tagext.TagSupport;
 import org.slf4j.Logger;
 import yehor.epam.services.PaginationService;
 import yehor.epam.services.impl.PaginationServiceImpl;
-import yehor.epam.services.impl.SessionServiceImpl;
 import yehor.epam.utilities.LoggerManager;
 
 import java.io.IOException;
@@ -64,7 +63,9 @@ public class PaginationTag extends TagSupport {
             logger.debug("Ready query: " + query);
 
             query = query.lastIndexOf('&') == query.length() - 1 ? query : query + '&';
-            printPaginationBlock(out, page, size, requestURI, query);
+            if (totalPages > 0) {
+                printPaginationBlock(out, page, size, requestURI, query);
+            }
         } catch (IOException e) {
             throw new JspTagException(e.getMessage());
         }

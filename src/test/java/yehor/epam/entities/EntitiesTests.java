@@ -1,7 +1,6 @@
 package yehor.epam.entities;
 
 import org.junit.Test;
-import yehor.epam.entities.*;
 
 import java.math.BigDecimal;
 import java.time.Duration;
@@ -127,9 +126,9 @@ public class EntitiesTests {
         assertEquals(fName, user.getFirstName());
 
         final String sName = "sName";
-        user.setSecondName(sName);
-        verify(user, times(1)).setSecondName(sName);
-        assertEquals(sName, user.getSecondName());
+        user.setLastName(sName);
+        verify(user, times(1)).setLastName(sName);
+        assertEquals(sName, user.getLastName());
 
         final String salt = "salt";
         user.setSalt(salt);

@@ -16,10 +16,9 @@ import yehor.epam.services.impl.UserServiceImpl;
 import yehor.epam.utilities.LoggerManager;
 import yehor.epam.utilities.RedirectManager;
 
-import java.io.IOException;
-
 import static yehor.epam.utilities.constants.CommandConstants.COMMAND_VIEW_MAIN_PAGE;
 import static yehor.epam.utilities.constants.CommandConstants.COMMAND_VIEW_PROFILE_PAGE;
+import static yehor.epam.utilities.constants.JspPagePathConstants.LOGIN_PAGE_PATH;
 import static yehor.epam.utilities.constants.OtherConstants.USER_ID;
 import static yehor.epam.utilities.constants.OtherConstants.USER_ROLE;
 
@@ -42,14 +41,20 @@ public class LoginCommand implements BaseCommand {
         logger.debug("Called execute() in " + CLASS_NAME);
         try {
             final String login = request.getParameter("login");
-            final String password = request.getParameter("password");
-            final String rememberMe = request.getParameter("rememberMe");
-            authUser(request, response, login, password);
-            final User user = userService.getUserByLogin(login);
-            prepareUser(user, request, response, rememberMe);
+            final String emailError = userService.validateUserEmail(login);
+            if (emailError.isBlank()) {
+                final String password = request.getParameter("password");
+                final String rememberMe = request.getParameter("rememberMe");
+                authUser(request, response, login, password);
+                final User user = userService.getUserByLogin(login);
+                prepareUser(user, request, response, rememberMe);
 
-            final String redirectPage = getRedirectPage(user.getUserRole());
-            response.sendRedirect(RedirectManager.getRedirectLocation(redirectPage));
+                final String redirectPage = getRedirectPage(user.getUserRole());
+                response.sendRedirect(RedirectManager.getRedirectLocation(redirectPage));
+            } else {
+                request.setAttribute(emailError, true);
+                request.getRequestDispatcher(LOGIN_PAGE_PATH).forward(request, response);
+            }
         } catch (Exception e) {
             ErrorServiceImpl.handleException(request, response, CLASS_NAME, e);
         }
@@ -88,6 +93,7 @@ public class LoginCommand implements BaseCommand {
 
     /**
      * If user is USER get profile page, if ADMIN - get main page
+     *
      * @param userRole User role
      * @return page to redirect
      */

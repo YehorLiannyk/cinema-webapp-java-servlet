@@ -25,6 +25,18 @@
 
 <fmt:bundle basename="i18n">
     <fmt:message key="general.selector.multipleSelectTips" var="selectorTips"/>
+    <fmt:message key="valid.url.empty" var="urlEmpty"/>
+    <fmt:message key="valid.url.length" var="urlLength"/>
+</fmt:bundle>
+
+<fmt:bundle basename="i18n" prefix="valid.">
+    <fmt:message key="onlyDigits" var="onlyDigits"/>
+    <fmt:message key="film.name.empty" var="filmNameEmpty"/>
+    <fmt:message key="film.name.length" var="filmNameLength"/>
+    <fmt:message key="film.desc.length" var="filmDescLength"/>
+    <fmt:message key="film.duration.empty" var="filmDurationEmpty"/>
+    <fmt:message key="film.duration.range" var="filmDurationRange"/>
+    <fmt:message key="film.genreList.empty" var="genreListEmpty"/>
 </fmt:bundle>
 
 <ftg:header pageTitle="${pageTitle}"/>
@@ -43,11 +55,25 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <input type="text" class="form-control" name="filmName"
-                                               placeholder="${filmName}" maxlength="120" required/>
+                                               placeholder="${filmName}" required
+                                                <c:if test="${pageContext.request.getParameter('filmName') != null}">
+                                                    value="${pageContext.request.getParameter('filmName')}"
+                                                </c:if>/>
+
+                                        <c:if test="${requestScope.filmName_length}">
+                                            <p class="form-error">${filmNameLength}</p>
+                                        </c:if>
+                                        <c:if test="${requestScope.filmName_empty}">
+                                            <p class="form-error">${filmNameEmpty}</p>
+                                        </c:if>
+
                                     </div>
                                     <div class="form-group">
-                                        <textarea class="form-control" name="filmDescription" maxlength="800"
-                                                  placeholder="${filmDescription}" rows="5"></textarea>
+                                        <textarea class="form-control" name="filmDescription"
+                                                  placeholder="${filmDescription}" rows="5"><c:if test="${pageContext.request.getParameter('filmDescription') != null}">${pageContext.request.getParameter('filmDescription')}</c:if></textarea>
+                                        <c:if test="${requestScope.filmDesc_length}">
+                                            <p class="form-error">${filmDescLength}</p>
+                                        </c:if>
                                     </div>
                                 </div>
                             </div>
@@ -56,28 +82,49 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="genres">${genres}</label>
-                                        <select name="genresId" id="genres" class="form-control" multiple required>
-                                            <c:forEach var="film" items="${requestScope.genreList}">
-                                                <option value="${film.id}">${film.name}</option>
+                                        <select name="genreIds" id="genres" class="form-control" multiple required>
+                                            <c:forEach var="genre" items="${requestScope.genreList}">
+                                                <option value="${genre.id}">${genre.name}</option>
                                             </c:forEach>
                                         </select>
                                         <small id="selectTips" class="form-text text-muted">${selectorTips}</small>
+                                        <c:if test="${requestScope.genreList_empty}">
+                                            <p class="form-error">${genreListEmpty}</p>
+                                        </c:if>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="poster-url">${poster}</label>
                                         <input type="text" class="form-control" id="poster-url"
-                                               name="postUrl" placeholder="${posterPlaceholder}" required/>
+                                                <c:if test="${pageContext.request.getParameter('posterUrl') != null}">
+                                                    value="${pageContext.request.getParameter('posterUrl')}"
+                                                </c:if>
+                                               name="posterUrl" placeholder="${posterPlaceholder}" required/>
+                                        <c:if test="${requestScope.url_length}">
+                                            <p class="form-error">${urlLength}</p>
+                                        </c:if>
+                                        <c:if test="${requestScope.url_empty}">
+                                            <p class="form-error">${urlEmpty}</p>
+                                        </c:if>
                                     </div>
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col-md-8">
                                                 <div class="form-group">
                                                     <label for="duration">${duration}</label>
-                                                    <input type="number" min="0" class="form-control" id="duration"
+                                                    <input type="text" class="form-control" id="duration"
+                                                            <c:if test="${pageContext.request.getParameter('filmDuration') != null}">
+                                                                value="${pageContext.request.getParameter('filmDuration')}"
+                                                            </c:if>
                                                            name="filmDuration" placeholder="${durationPlaceholder}"
                                                            required/>
+                                                    <c:if test="${requestScope.duration_range}">
+                                                        <p class="form-error">${filmDurationRange}</p>
+                                                    </c:if>
+                                                    <c:if test="${requestScope.duration_empty}">
+                                                        <p class="form-error">${filmDurationEmpty}</p>
+                                                    </c:if>
                                                 </div>
                                             </div>
                                             <div class="col-md-4">

@@ -112,10 +112,10 @@ class CommandsTest {
 
         command = Mockito.spy(AddFilmCommand.class);
         Map<String, String[]> map = mock(Map.class);
-        when(request.getParameter("genresID")).thenReturn("1");
+        when(request.getParameter("genreIds")).thenReturn("1");
         when(request.getParameter("filmDuration")).thenReturn("10");
         when(request.getParameterMap()).thenReturn(map);
-        when(map.get("genresId")).thenReturn(new String[]{"1"});
+        when(map.get("genreIds")).thenReturn(new String[]{"1"});
         command.execute(request, response);
         verify(command, times(1)).execute(request, response);
 

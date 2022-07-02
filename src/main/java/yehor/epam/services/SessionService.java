@@ -27,4 +27,6 @@ public interface SessionService {
      * @return map containing only filter/sort parameters
      */
     Map<String, String> getFilterSortMapFromParams(Map<String, String[]> parameterMap);
+
+    List<String> getSessionValidErrorList(Map<String, String> sessionParamMap);
 }

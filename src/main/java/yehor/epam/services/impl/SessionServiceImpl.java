@@ -7,15 +7,16 @@ import yehor.epam.dao.factories.DaoFactoryDeliver;
 import yehor.epam.entities.Session;
 import yehor.epam.exceptions.ServiceException;
 import yehor.epam.services.SessionService;
+import yehor.epam.services.ValidService;
 import yehor.epam.utilities.LoggerManager;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static yehor.epam.utilities.constants.OtherConstants.*;
-import static yehor.epam.utilities.constants.OtherConstants.SESSION_FILTER_SHOW_PARAM_NAME;
 
 /**
  * Class service of Session
@@ -23,6 +24,15 @@ import static yehor.epam.utilities.constants.OtherConstants.SESSION_FILTER_SHOW_
 public class SessionServiceImpl implements SessionService {
     private static final Logger logger = LoggerManager.getLogger(SessionServiceImpl.class);
     private static final String CLASS_NAME = SessionServiceImpl.class.getName();
+    private final ValidService validService;
+
+    public SessionServiceImpl() {
+        this.validService = new ValidServiceImpl();
+    }
+
+    public SessionServiceImpl(ValidService validService) {
+        this.validService = validService;
+    }
 
     @Override
     public Session getById(int id) throws ServiceException {
@@ -110,7 +120,7 @@ public class SessionServiceImpl implements SessionService {
         return sessionList;
     }
 
-   @Override
+    @Override
     public Map<String, String> getFilterSortMapFromParams(Map<String, String[]> parameterMap) {
         final Map<String, String> filterSortMap = new HashMap<>();
 
@@ -125,6 +135,27 @@ public class SessionServiceImpl implements SessionService {
         }
         logger.info("Finished to form filterSort parameter map");
         return filterSortMap;
+    }
+
+    @Override
+    public List<String> getSessionValidErrorList(Map<String, String> sessionParamMap) {
+        List<String> errorList = new ArrayList<>();
+        //time
+        String time = sessionParamMap.get(SESSION_TIME_PARAM);
+        validService.validTimeField(errorList, time, MIN_SESSION_TIME, MAX_SESSION_TIME, VALID_TIME_EMPTY, VALID_TIME_INVALID,
+                VALID_TIME_RANGE);
+        //date
+        String date = sessionParamMap.get(SESSION_DATE_PARAM);
+        validService.validDateField(errorList, date, LocalDate.now(), LocalDate.now().plusYears(1), VALID_DATE_EMPTY,
+                VALID_DATE_INVALID, VALID_DATE_RANGE);
+        //ticket price
+        String price = sessionParamMap.get(SESSION_PRICE_PARAM);
+        validService.validDigitsField(errorList, price, MIN_TICKET_COST, MAX_TICKET_COST,
+                VALID_PRICE_EMPTY, VALID_PRICE_INVALID, VALID_PRICE_RANGE);
+        // film
+        if (sessionParamMap.get(FILM_ID_PARAM) == null)
+            errorList.add(VALID_FILM_EMPTY);
+        return errorList;
     }
 
     private void logCreatingDaoFactory() {

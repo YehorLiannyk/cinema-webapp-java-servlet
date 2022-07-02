@@ -43,7 +43,7 @@ public class MySQLUserDao extends BaseDAO implements UserDao {
     private void setUserToStatement(User user, PreparedStatement statement) throws SQLException {
         try {
             statement.setString(1, user.getFirstName());
-            statement.setString(2, user.getSecondName());
+            statement.setString(2, user.getLastName());
             statement.setString(3, user.getEmail());
             statement.setString(4, user.getPassword());
             statement.setString(5, user.getPhoneNumber());

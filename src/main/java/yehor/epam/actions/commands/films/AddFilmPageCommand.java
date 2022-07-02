@@ -37,7 +37,7 @@ public class AddFilmPageCommand implements BaseCommand {
             request.setAttribute("genreList", genreList);
             logger.debug("Forwarded to admin add film page");
             request.getRequestDispatcher(ADD_FILM_PAGE_PATH).forward(request, response);
-        } catch (ServiceException | ServletException | IOException e) {
+        } catch (Exception e) {
             ErrorServiceImpl.handleException(request, response, CLASS_NAME, e);
         }
     }
