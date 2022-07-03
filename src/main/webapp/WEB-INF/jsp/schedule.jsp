@@ -128,7 +128,7 @@
                         <div class="w-100"></div>
                         <article class="card card-sorter" style="border-top: 0;">
                             <div class="row">
-                                <div class="col-5 py-2 filter-helper">
+                                <div class="col-6 py-2 filter-helper">
                                     <label for="amountSelector" class="py-1">${selectSizeLabel}: </label>
                                     <select id="amountSelector" class="form-control form-select" name="size">
                                         <option value>${selectSizeLabel}</option>
@@ -151,7 +151,7 @@
                                     <button type="submit" class="btn btn-primary w-25 btn-sorter">${submitBtn}
                                     </button>
                                 </div>
-                                <div class="col-4 py-2 filter-helper">
+                                <div class="col-3 py-2 filter-helper">
                                     <a type="button" href="${pageContext.request.contextPath}/main?command=schedulePage"
                                        class="btn btn-outline-secondary w-25 btn-sorter">${clearBtn}
                                     </a>

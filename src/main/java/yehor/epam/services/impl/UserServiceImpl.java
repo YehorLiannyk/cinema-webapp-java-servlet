@@ -6,6 +6,7 @@ import yehor.epam.dao.factories.DaoFactory;
 import yehor.epam.dao.factories.DaoFactoryDeliver;
 import yehor.epam.entities.User;
 import yehor.epam.exceptions.AuthException;
+import yehor.epam.exceptions.RegisterException;
 import yehor.epam.exceptions.ServiceException;
 import yehor.epam.services.UserService;
 import yehor.epam.services.ValidService;
@@ -41,8 +42,10 @@ public class UserServiceImpl implements UserService {
             logCreatingDaoFactory();
             final UserDao userDAO = factory.getUserDao();
             saltAndPassByLogin = userDAO.getSaltAndPassByLogin(login);
+        } catch (AuthException e) {
+            throwServiceException("Couldn't find such user", e);
         } catch (Exception e) {
-            throwServiceException("Couldn't add film", e);
+            throwServiceException("Couldn't get salt by login", e);
         }
         return saltAndPassByLogin;
     }
@@ -138,6 +141,8 @@ public class UserServiceImpl implements UserService {
             logCreatingDaoFactory();
             final UserDao userDAO = factory.getUserDao();
             return userDAO.insert(user);
+        } catch (RegisterException e) {
+            throwServiceException("There is already such user", e);
         } catch (Exception e) {
             throwServiceException("Couldn't save user", e);
         }
