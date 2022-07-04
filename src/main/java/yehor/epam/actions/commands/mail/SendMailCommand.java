@@ -1,23 +1,9 @@
 package yehor.epam.actions.commands.mail;
 
-import jakarta.servlet.ServletContext;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import org.apache.log4j.Logger;
-import yehor.epam.actions.BaseCommand;
-import yehor.epam.entities.Ticket;
-import yehor.epam.entities.User;
-import yehor.epam.services.ErrorService;
-import yehor.epam.services.MailService;
-import yehor.epam.utilities.LoggerManager;
-import yehor.epam.utilities.RedirectManager;
-
-import static yehor.epam.utilities.CommandConstants.COMMAND_VIEW_PROFILE_PAGE;
-
 /**
  * Send mail command
  */
-public class SendMailCommand implements BaseCommand {
+/*public class SendMailCommand implements BaseCommand {
     private static final Logger logger = LoggerManager.getLogger(SendMailCommand.class);
     private static final String CLASS_NAME = SendMailCommand.class.getName();
 
@@ -47,7 +33,7 @@ public class SendMailCommand implements BaseCommand {
         }
     }
 
-    /**
+    *//**
      * send mail command
      *
      * @param host      host
@@ -58,7 +44,7 @@ public class SendMailCommand implements BaseCommand {
      * @param subject   mail subject
      * @param content   mail content
      * @throws Exception
-     */
+     *//*
     private void sendEmail(String host, String port, String user, String pass, String recipient, String subject, String content) throws Exception {
         try {
             MailService mailService = new MailService();
@@ -68,4 +54,4 @@ public class SendMailCommand implements BaseCommand {
             throw new Exception("Couldn't send mail", e);
         }
     }
-}
+}*/

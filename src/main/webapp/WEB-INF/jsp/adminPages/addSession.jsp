@@ -23,6 +23,20 @@
     <fmt:message key="uploadBtn" var="uploadBtn"/>
 </fmt:bundle>
 
+<fmt:bundle basename="i18n" prefix="valid.">
+    <fmt:message key="onlyDigits" var="onlyDigits"/>
+    <fmt:message key="session.film.empty" var="filmEmpty"/>
+    <fmt:message key="session.date.empty" var="dateEmpty"/>
+    <fmt:message key="session.date.invalid" var="dateInvalid"/>
+    <fmt:message key="session.date.range" var="dateRange"/>
+    <fmt:message key="session.time.range" var="timeRange"/>
+    <fmt:message key="session.time.invalid" var="timeInvalid"/>
+    <fmt:message key="session.time.empty" var="timeEmpty"/>
+    <fmt:message key="session.price.empty" var="priceEmpty"/>
+    <fmt:message key="session.price.range" var="priceRange"/>
+</fmt:bundle>
+
+
 <c:set var="minTime" value="${applicationScope.minSessionTime}"/>
 <c:set var="maxTime" value="${applicationScope.maxSessionTime}"/>
 <c:set var="nowDate" value="${sessionScope.nowDate}"/>
@@ -50,12 +64,31 @@
                                             </c:forEach>
                                         </select>
                                         <small id="selectTips" class="form-text text-muted">${filmTips}</small>
+
+                                        <c:if test="${requestScope.film_empty}">
+                                            <p class="form-error">${filmEmpty}</p>
+                                        </c:if>
+
                                     </div>
 
                                     <div class="form-group">
                                         <label for="date">${date}</label>
                                         <input type="date" class="form-control" id="date" name="date" min="${nowDate}"
+                                                <c:if test="${pageContext.request.getParameter('date') != null}">
+                                                    value="${pageContext.request.getParameter('date')}"
+                                                </c:if>
                                                required/>
+
+                                        <c:if test="${requestScope.date_range}">
+                                            <p class="form-error">${dateRange}</p>
+                                        </c:if>
+                                        <c:if test="${requestScope.date_empty}">
+                                            <p class="form-error">${dateEmpty}</p>
+                                        </c:if>
+                                        <c:if test="${requestScope.date_invalid}">
+                                            <p class="form-error">${dateInvalid}</p>
+                                        </c:if>
+
                                     </div>
                                 </div>
 
@@ -63,10 +96,24 @@
                                     <div class="form-group">
                                         <label for="time">${time}</label>
                                         <input type="time" class="form-control" id="time" name="time" min="${minTime}"
-                                               max="${maxTime}" required/>
+                                               max="${maxTime}" required
+                                                <c:if test="${pageContext.request.getParameter('time') != null}">
+                                                    value="${pageContext.request.getParameter('time')}"
+                                                </c:if>/>
                                         <small id="timeTips" class="form-text text-muted">
                                             ${timeMinTips} ${minTime} ${timeMaxTips} ${maxTime}
                                         </small>
+
+                                        <c:if test="${requestScope.time_empty}">
+                                            <p class="form-error">${timeEmpty}</p>
+                                        </c:if>
+                                        <c:if test="${requestScope.time_range}">
+                                            <p class="form-error">${timeRange}</p>
+                                        </c:if>
+                                        <c:if test="${requestScope.time_invalid}">
+                                            <p class="form-error">${timeInvalid}</p>
+                                        </c:if>
+
                                     </div>
 
                                     <div class="form-group">
@@ -74,9 +121,23 @@
                                             <div class="col-md-8">
                                                 <div class="form-group">
                                                     <label for="ticket">${ticketPrice}</label>
-                                                    <input type="number" min="0" class="form-control" id="ticket"
+                                                    <input type="text" class="form-control" id="ticket"
                                                            name="ticketPrice" placeholder="${ticketPricePlaceholder}"
+                                                            <c:if test="${pageContext.request.getParameter('ticketPrice') != null}">
+                                                                value="${pageContext.request.getParameter('ticketPrice')}"
+                                                            </c:if>
                                                            required/>
+
+                                                    <c:if test="${requestScope.price_empty}">
+                                                        <p class="form-error">${priceEmpty}</p>
+                                                    </c:if>
+                                                    <c:if test="${requestScope.price_range}">
+                                                        <p class="form-error">${priceRange}</p>
+                                                    </c:if>
+                                                    <c:if test="${requestScope.price_invalid}">
+                                                        <p class="form-error">${onlyDigits}</p>
+                                                    </c:if>
+
                                                 </div>
                                             </div>
                                             <div class="col-md-4">

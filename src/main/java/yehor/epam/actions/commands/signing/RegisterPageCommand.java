@@ -2,15 +2,15 @@ package yehor.epam.actions.commands.signing;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 import yehor.epam.actions.BaseCommand;
-import yehor.epam.services.ErrorService;
+import yehor.epam.services.impl.ErrorService;
 import yehor.epam.utilities.LoggerManager;
 
-import static yehor.epam.utilities.JspPagePathConstants.REGISTER_PAGE_PATH;
+import static yehor.epam.utilities.constants.JspPagePathConstants.REGISTER_PAGE_PATH;
 
 /**
- * Command for forwarding to registration page
+ * Command for getting registration page
  */
 public class RegisterPageCommand implements BaseCommand {
     private static final Logger logger = LoggerManager.getLogger(RegisterPageCommand.class);
@@ -18,6 +18,7 @@ public class RegisterPageCommand implements BaseCommand {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
+        logger.debug("Called execute() in " + CLASS_NAME);
         try {
             logger.debug("Forward to register page");
             request.getRequestDispatcher(REGISTER_PAGE_PATH).forward(request, response);

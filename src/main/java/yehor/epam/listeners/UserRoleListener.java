@@ -3,10 +3,10 @@ package yehor.epam.listeners;
 import jakarta.servlet.annotation.WebListener;
 import jakarta.servlet.http.HttpSessionAttributeListener;
 import jakarta.servlet.http.HttpSessionBindingEvent;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 import yehor.epam.utilities.LoggerManager;
 
-import static yehor.epam.utilities.OtherConstants.USER_ROLE;
+import static yehor.epam.utilities.constants.OtherConstants.USER_ROLE;
 
 /**
  * Listener that log changing users' roles

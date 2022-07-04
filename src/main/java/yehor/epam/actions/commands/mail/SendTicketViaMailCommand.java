@@ -1,20 +1,9 @@
 package yehor.epam.actions.commands.mail;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import org.apache.log4j.Logger;
-import yehor.epam.actions.BaseCommand;
-import yehor.epam.dao.factories.DAOFactory;
-import yehor.epam.dao.factories.MySQLFactory;
-import yehor.epam.entities.Ticket;
-import yehor.epam.entities.User;
-import yehor.epam.services.ErrorService;
-import yehor.epam.utilities.LoggerManager;
-
 /**
  * Send ticket via email command
  */
-public class SendTicketViaMailCommand implements BaseCommand {
+/*public class SendTicketViaMailCommand implements BaseCommand {
     private static final Logger logger = LoggerManager.getLogger(SendTicketViaMailCommand.class);
     private static final String CLASS_NAME = SendTicketViaMailCommand.class.getName();
 
@@ -39,4 +28,4 @@ public class SendTicketViaMailCommand implements BaseCommand {
             ErrorService.handleException(request, response, CLASS_NAME, e);
         }
     }
-}
+}*/

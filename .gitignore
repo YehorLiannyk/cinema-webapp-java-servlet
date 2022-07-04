@@ -36,3 +36,10 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+### Logs ###
+*.log
+
+### Sonarlint ###
+*.pb
+/.idea/sonarlint/**

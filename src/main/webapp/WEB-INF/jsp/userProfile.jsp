@@ -8,11 +8,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="ftg" %>
+<%@ taglib prefix="mtg" uri="mytags" %>
 
 <fmt:bundle basename="i18n">
     <fmt:message key="user.pageTitle" var="pageTitle"/>
     <fmt:message key="user.activeTickets" var="activeTickets"/>
     <fmt:message key="user.noActiveTickets" var="noActiveTickets"/>
+    <fmt:message key="pagination.prev" var="prev"/>
+    <fmt:message key="pagination.next" var="next"/>
 </fmt:bundle>
 
 <fmt:bundle basename="i18n">
@@ -61,28 +64,28 @@
                                             <c:set var="film" value="${session.film}"/>
                                             <c:set var="seat" value="${ticket.seat}"/>
 
-                                            <div class="card w-100">
-                                                <div class="row p-3">
+                                            <div class="card w-75 mx-auto my-1">
+                                                <div class="row px-4 py-2">
                                                     <div class="col-md-6">
                                                         <h3>${ticketTitle}: </h3>
-                                                        <p>${dateTitle}: ${session.date}</p>
-                                                        <p>${time}: ${session.time}</p>
-                                                        <p>${seatRowTitle}: ${seat.rowNumber}</p>
-                                                        <p>${seatPlaceTitle}: ${seat.placeNumber}</p>
-                                                        <p>${filmTitle}: ${film.name}</p>
-                                                        <p>${duration}: ${film.getDurationInMinutes()} ${durationPostfix}</p>
-                                                        <p>${costTitle}: ${session.ticketPrice} ${currency}</p>
+                                                        <h6>${dateTitle}: ${session.date}</h6>
+                                                        <h6>${time}: ${session.time}</h6>
+                                                        <h6>${seatRowTitle}: ${seat.rowNumber}</h6>
+                                                        <h6>${seatPlaceTitle}: ${seat.placeNumber}</h6>
+                                                        <h6>${filmTitle}: ${film.name}</h6>
+                                                        <h6>${duration}: ${film.getDurationInMinutes()} ${durationPostfix}</h6>
+                                                        <h5>${costTitle}: ${session.ticketPrice} ${currency}</h5>
                                                     </div>
 
-                                                    <div class="col-md-3">
-                                                        <div class="vertical-buttons">
+                                                    <div class="col-md-6">
+                                                        <div class="vertical-buttons-2 w-75">
                                                             <form name="ticketMail" method="post" action="main">
                                                                 <input type="hidden" name="command"
                                                                        value="sendTicketViaMail">
                                                                 <input type="hidden" name="ticketId"
                                                                        value="${ticket.id}">
                                                                 <button type="submit"
-                                                                        class="btn btn-lg btn-block btn-primary my-2">
+                                                                        class="btn btn-lg btn-block btn-outline-secondary my-2">
                                                                         ${sendMail}
                                                                 </button>
                                                             </form>
@@ -112,6 +115,10 @@
 
                             </div>
                         </div>
+
+                        <mtg:pagination request="${pageContext.request}" totalPages="${requestScope.totalPages}"
+                                        prev="${prev}" next="${next}"/>
+
                     </div>
                 </div>
             </div>

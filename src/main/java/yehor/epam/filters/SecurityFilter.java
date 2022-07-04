@@ -5,10 +5,12 @@ import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 import yehor.epam.entities.User;
 import yehor.epam.services.CookieService;
 import yehor.epam.services.GeneralService;
+import yehor.epam.services.impl.CookieServiceImpl;
+import yehor.epam.services.impl.GeneralServiceImpl;
 import yehor.epam.utilities.LoggerManager;
 import yehor.epam.utilities.RedirectManager;
 
@@ -16,9 +18,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static yehor.epam.utilities.CommandConstants.*;
-import static yehor.epam.utilities.JspPagePathConstants.ERROR_PAGE_PATH;
-import static yehor.epam.utilities.OtherConstants.*;
+import static yehor.epam.utilities.constants.CommandConstants.*;
+import static yehor.epam.utilities.constants.JspPagePathConstants.ERROR_PAGE_PATH;
+import static yehor.epam.utilities.constants.OtherConstants.*;
 
 /**
  * Security filter for delimitation of user accessible command
@@ -27,6 +29,7 @@ import static yehor.epam.utilities.OtherConstants.*;
 public class SecurityFilter implements Filter {
     private static final Logger logger = LoggerManager.getLogger(SecurityFilter.class);
     private static final String CLASS_NAME = SecurityFilter.class.getName();
+
     private final List<String> guestAccessPath = new ArrayList<>();
     private final List<String> userAccessPath = new ArrayList<>();
     private final List<String> adminAccessPath = new ArrayList<>();
@@ -34,7 +37,6 @@ public class SecurityFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         logger.info("Entry to filter: " + CLASS_NAME);
-
         initGuestAccess();
         initUserAccess();
         initAdminAccess();
@@ -44,13 +46,11 @@ public class SecurityFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
-
         final HttpSession session = req.getSession();
 
-        //
         getCookies(req, session);
-        //
-        GeneralService.initParams(req);
+        GeneralService generalService = new GeneralServiceImpl();
+        generalService.initParams(req);
 
         String command = req.getParameter("command");
         logger.debug("Command from " + CLASS_NAME + " = " + req.getParameter("command"));
@@ -91,7 +91,7 @@ public class SecurityFilter implements Filter {
      */
     private void getCookies(HttpServletRequest req, HttpSession session) {
         if (session == null || session.getAttribute(USER_ROLE) == null || session.getAttribute(USER_ID).equals(0) || session.getAttribute(LANG) == null) {
-            CookieService cookieService = new CookieService();
+            CookieService cookieService = new CookieServiceImpl();
             cookieService.initCookies(req);
             logger.debug("Entry to getCookies block in " + CLASS_NAME);
         } else

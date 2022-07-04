@@ -45,6 +45,12 @@ h1, h2, h3, h4, h5, h6 {
     max-width: 100%
 }
 
+.form-error {
+    color: red;
+    font-size: 0.9em;
+    font-style: italic;
+}
+
 .row.card-body {
     padding: 0;
 }
@@ -95,6 +101,10 @@ span.menu-item {
     background: 0;
     border: 0;
     color: #527eff;
+}
+
+.blog-pagination {
+    max-width: max-content;
 }
 
 /*.dropdown {
@@ -194,8 +204,12 @@ main.container {
     min-height: 595px;
 }
 
-.vertical-buttons {
+.vertical-buttons-4 {
     margin: 4rem 0;
+}
+
+.vertical-buttons-2 {
+    margin: 2rem 0;
 }
 
 i.fa.fa-key.fa-lg.me-3.fa-fw,
@@ -240,6 +254,17 @@ article.card-filter {
 .btn-sorter {
     margin: 0 auto;
     display: block;
+    min-width: fit-content;
+}
+
+.filter-helper {
+    margin: auto;
+    text-align: center;
+}
+
+#amountSelector {
+    max-width: fit-content;
+    float: right;
 }
 
 #elementsOnPage {
@@ -259,7 +284,7 @@ article.card-filter {
 .main-carousel-text {
     background-color: black;
     opacity: 80%;
-    border-radius: 2rem;
+    border-radius: 0.3rem;
 }
 
 /**/

@@ -1,11 +1,10 @@
 package yehor.epam.actions;
 
 import jakarta.servlet.http.HttpServletRequest;
-import org.apache.log4j.Logger;
+
+import org.slf4j.Logger;
 import yehor.epam.actions.commands.*;
 import yehor.epam.actions.commands.films.*;
-import yehor.epam.actions.commands.mail.SendMailCommand;
-import yehor.epam.actions.commands.mail.SendTicketViaMailCommand;
 import yehor.epam.actions.commands.sessions.*;
 import yehor.epam.actions.commands.signing.*;
 import yehor.epam.actions.commands.tickets.BuyTicketCommand;
@@ -16,7 +15,7 @@ import yehor.epam.utilities.LoggerManager;
 import java.util.HashMap;
 import java.util.Map;
 
-import static yehor.epam.utilities.CommandConstants.*;
+import static yehor.epam.utilities.constants.CommandConstants.*;
 
 /**
  * Factory class from Factory method pattern
@@ -67,8 +66,8 @@ public class CommandFactory {
         commandMap.put(COMMAND_BUY_TICKET, new BuyTicketCommand());
         commandMap.put(COMMAND_VIEW_SUCCESS_PAY_PAGE, new SuccessPayPageCommand());
         commandMap.put(COMMAND_DELETE_SESSION, new DeleteSessionCommand());
-        commandMap.put(COMMAND_SEND_MAIL, new SendMailCommand());
-        commandMap.put(COMMAND_SEND_TICKET_VIA_MAIL, new SendTicketViaMailCommand());
+        //commandMap.put(COMMAND_SEND_MAIL, new SendMailCommand());
+        //commandMap.put(COMMAND_SEND_TICKET_VIA_MAIL, new SendTicketViaMailCommand());
         commandMap.put(COMMAND_DOWNLOAD_PDF_TICKET, new DownloadPDFTicketCommand());
     }
 

@@ -1,7 +1,7 @@
 package yehor.epam.dao.factories;
 
-import org.apache.log4j.Logger;
-import yehor.epam.connection.ConnectionException;
+import org.slf4j.Logger;
+import yehor.epam.exceptions.ConnectionException;
 import yehor.epam.connection.ConnectionPool;
 import yehor.epam.dao.*;
 import yehor.epam.dao.mysql.*;
@@ -13,7 +13,7 @@ import java.sql.Connection;
  * MySQL Factory from AbstractFactory pattern.
  * Create DAOs
  */
-public class MySQLFactory implements DAOFactory {
+public class MySQLFactory implements DaoFactory {
     private static final Logger logger = LoggerManager.getLogger(MySQLFactory.class);
     private Connection connection;
 
@@ -28,15 +28,15 @@ public class MySQLFactory implements DAOFactory {
 
 
     @Override
-    public UserDAO getUserDao() {
-        final MySQLUserDAO mySQLUserDAO = new MySQLUserDAO();
+    public UserDao getUserDao() {
+        final MySQLUserDao mySQLUserDAO = new MySQLUserDao();
         mySQLUserDAO.setConnection(connection);
         return mySQLUserDAO;
     }
 
     @Override
-    public FilmDAO getFilmDAO() {
-        final MySQLFilmDAO mySQLFilmDAO = new MySQLFilmDAO();
+    public FilmDao getFilmDAO() {
+        final MySQLFilmDao mySQLFilmDAO = new MySQLFilmDao();
         mySQLFilmDAO.setConnection(connection);
         return mySQLFilmDAO;
     }
@@ -49,22 +49,22 @@ public class MySQLFactory implements DAOFactory {
     }
 
     @Override
-    public SeatDAO getSeatDao() {
-        final MySQLSeatDAO mySQLSeatDAO = new MySQLSeatDAO();
+    public SeatDao getSeatDao() {
+        final MySQLSeatDao mySQLSeatDAO = new MySQLSeatDao();
         mySQLSeatDAO.setConnection(connection);
         return mySQLSeatDAO;
     }
 
     @Override
-    public SessionDAO getSessionDao() {
-        final MySQLSessionDAO mySQLSessionDAO = new MySQLSessionDAO();
+    public SessionDao getSessionDao() {
+        MySQLSessionDao mySQLSessionDAO = new MySQLSessionDao();
         mySQLSessionDAO.setConnection(connection);
         return mySQLSessionDAO;
     }
 
     @Override
-    public TicketDAO getTicketDao() {
-        final MySQLTicketDAO mySQLTicketDAO = new MySQLTicketDAO();
+    public TicketDao getTicketDao() {
+        final MySQLTicketDao mySQLTicketDAO = new MySQLTicketDao();
         mySQLTicketDAO.setConnection(connection);
         return mySQLTicketDAO;
     }

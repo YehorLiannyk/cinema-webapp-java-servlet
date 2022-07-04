@@ -1,7 +1,8 @@
 package yehor.epam.connection;
 
 import org.apache.commons.dbcp2.BasicDataSource;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import yehor.epam.exceptions.ConnectionException;
 import yehor.epam.utilities.LoggerManager;
 
 import java.io.IOException;
@@ -17,8 +18,6 @@ public class ConnectionPool {
 
     private static final String PROPERTIES_FILE = "/db.properties";
     private static final BasicDataSource ds = new BasicDataSource();
-
-    private static ConnectionPool connectionPool;
 
     /**
      * Driver class name
@@ -54,6 +53,10 @@ public class ConnectionPool {
         logger.info("Connection pool was created");
     }
 
+    private static final class ConnectionPoolHolder {
+        private static final ConnectionPool connectionPool = new ConnectionPool();
+    }
+
     /**
      * Get Connection poll
      *
@@ -61,14 +64,7 @@ public class ConnectionPool {
      */
     public static ConnectionPool getInstance() {
         logger.debug("ConnectionPool.getInstance() was called");
-        if (connectionPool == null) {
-            synchronized (ConnectionPool.class) {
-                if (connectionPool == null) {
-                    connectionPool = new ConnectionPool();
-                }
-            }
-        }
-        return connectionPool;
+        return ConnectionPoolHolder.connectionPool;
     }
 
     /**

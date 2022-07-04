@@ -9,9 +9,9 @@ public class User extends BaseEntity {
      */
     private String firstName;
     /**
-     * User's second name
+     * User's last name
      */
-    private String secondName;
+    private String lastName;
     /**
      * User's  email
      */
@@ -40,10 +40,10 @@ public class User extends BaseEntity {
     public User() {
     }
 
-    public User(int id, String firstName, String secondName, String email, String password, String phoneNumber, User.Role role, boolean notification, String salt) {
+    public User(int id, String firstName, String lastName, String email, String password, String phoneNumber, User.Role role, boolean notification, String salt) {
         super(id);
         this.firstName = firstName;
-        this.secondName = secondName;
+        this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.phoneNumber = phoneNumber;
@@ -52,22 +52,22 @@ public class User extends BaseEntity {
         this.salt = salt;
     }
 
-    public User(int id, String firstName, String secondName, String email, String password, boolean notification, String salt) {
-        this(id, firstName, secondName, email, password, null, Role.GUEST, notification, salt);
+    public User(int id, String firstName, String lastName, String email, String password, boolean notification, String salt) {
+        this(id, firstName, lastName, email, password, null, Role.GUEST, notification, salt);
     }
 
     /**
      * Not recommended to use this constructor as might be forgotten to set the ID for user
      *
      * @param firstName   User's firstName
-     * @param secondName  User's secondName
+     * @param lastName    User's lastName
      * @param email       User's email
      * @param password    User's password
      * @param phoneNumber User's phoneNumber (not important)
      */
-    public User(String firstName, String secondName, String email, String password, String phoneNumber, boolean notification, String salt) {
+    public User(String firstName, String lastName, String email, String password, String phoneNumber, boolean notification, String salt) {
         this.firstName = firstName;
-        this.secondName = secondName;
+        this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.phoneNumber = phoneNumber;
@@ -83,12 +83,12 @@ public class User extends BaseEntity {
         this.firstName = firstName;
     }
 
-    public String getSecondName() {
-        return secondName;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setSecondName(String secondName) {
-        this.secondName = secondName;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getEmail() {

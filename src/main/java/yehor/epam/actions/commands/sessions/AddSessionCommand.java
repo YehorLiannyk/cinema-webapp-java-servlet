@@ -2,23 +2,28 @@ package yehor.epam.actions.commands.sessions;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 import yehor.epam.actions.BaseCommand;
-import yehor.epam.dao.FilmDAO;
-import yehor.epam.dao.SessionDAO;
-import yehor.epam.dao.factories.DAOFactory;
-import yehor.epam.dao.factories.MySQLFactory;
 import yehor.epam.entities.Film;
 import yehor.epam.entities.Session;
-import yehor.epam.services.ErrorService;
+import yehor.epam.exceptions.ServiceException;
+import yehor.epam.services.FilmService;
+import yehor.epam.services.SessionService;
+import yehor.epam.services.impl.ErrorService;
+import yehor.epam.services.impl.FilmServiceImpl;
+import yehor.epam.services.impl.SessionServiceImpl;
 import yehor.epam.utilities.LoggerManager;
 import yehor.epam.utilities.RedirectManager;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import static yehor.epam.utilities.CommandConstants.COMMAND_VIEW_SESSIONS_SETTING_PAGE;
+import static yehor.epam.utilities.constants.CommandConstants.COMMAND_VIEW_SESSIONS_SETTING_PAGE;
+import static yehor.epam.utilities.constants.OtherConstants.*;
 
 /**
  * Admin add Session Command
@@ -26,34 +31,58 @@ import static yehor.epam.utilities.CommandConstants.COMMAND_VIEW_SESSIONS_SETTIN
 public class AddSessionCommand implements BaseCommand {
     private static final Logger logger = LoggerManager.getLogger(AddSessionCommand.class);
     private static final String CLASS_NAME = AddSessionCommand.class.getName();
+    private final SessionService sessionService;
+    private final FilmService filmService;
+
+    public AddSessionCommand() {
+        sessionService = new SessionServiceImpl();
+        filmService = new FilmServiceImpl();
+    }
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
-        try (DAOFactory factory = new MySQLFactory()) {
-            logger.debug("Created DAOFactory in " + CLASS_NAME + " execute command");
-            final Session session = getSessionFromRequest(request);
-            final Film film = getFilmFromRequest(request, factory);
-            session.setFilm(film);
-            final SessionDAO sessionDAO = factory.getSessionDao();
-            sessionDAO.insert(session);
-            response.sendRedirect(RedirectManager.getRedirectLocation(COMMAND_VIEW_SESSIONS_SETTING_PAGE));
+        logger.debug("Called execute() in " + CLASS_NAME);
+        try {
+            final Map<String, String> sessionParamMap = getSessionParamMap(request);
+            final List<String> errorList = sessionService.getSessionValidErrorList(sessionParamMap);
+            if (errorList.isEmpty()) {
+                final Session session = getSession(sessionParamMap);
+                sessionService.saveSession(session);
+                response.sendRedirect(RedirectManager.getRedirectLocation(COMMAND_VIEW_SESSIONS_SETTING_PAGE));
+            } else {
+                forwardWithErrors(request, response, errorList);
+            }
         } catch (Exception e) {
             ErrorService.handleException(request, response, CLASS_NAME, e);
         }
     }
 
-    private Session getSessionFromRequest(HttpServletRequest request) {
-        return new Session(
-                new BigDecimal(request.getParameter("ticketPrice")),
-                LocalDate.parse(request.getParameter("date")),
-                LocalTime.parse(request.getParameter("time"))
-        );
+    private void forwardWithErrors(HttpServletRequest request, HttpServletResponse response, List<String> errorList) {
+        VALID_ERROR_SESSION_PARAM_LIST.stream()
+                .filter(error -> request.getAttribute(error) != null)
+                .forEach(error -> request.setAttribute(error, false));
+        errorList.forEach(error -> request.setAttribute(error, true));
+        new AddSessionPageCommand().execute(request, response);
     }
 
-    private Film getFilmFromRequest(HttpServletRequest request, DAOFactory factory) {
-        final int filmId = Integer.parseInt(request.getParameter("filmId"));
-        final FilmDAO filmDAO = factory.getFilmDAO();
-        return filmDAO.findById(filmId);
+    private Session getSession(Map<String, String> sessionParamMap) throws ServiceException {
+        final int filmId = Integer.parseInt(sessionParamMap.get(FILM_ID_PARAM));
+        final Film film = filmService.getFilmById(filmId);
+        final Session session = new Session();
+        session.setTime(LocalTime.parse(sessionParamMap.get(SESSION_TIME_PARAM)));
+        session.setDate(LocalDate.parse(sessionParamMap.get(SESSION_DATE_PARAM)));
+        session.setTicketPrice(new BigDecimal(sessionParamMap.get(SESSION_PRICE_PARAM)));
+        session.setFilm(film);
+        return session;
+    }
+
+    private Map<String, String> getSessionParamMap(HttpServletRequest request) {
+        Map<String, String> sessionParamMap = new HashMap<>();
+        sessionParamMap.put(FILM_ID_PARAM, request.getParameter(FILM_ID_PARAM));
+        sessionParamMap.put(SESSION_TIME_PARAM, request.getParameter(SESSION_TIME_PARAM));
+        sessionParamMap.put(SESSION_DATE_PARAM, request.getParameter(SESSION_DATE_PARAM));
+        sessionParamMap.put(SESSION_PRICE_PARAM, request.getParameter(SESSION_PRICE_PARAM));
+        return sessionParamMap;
     }
 
 }

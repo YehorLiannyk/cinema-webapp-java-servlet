@@ -23,6 +23,10 @@
     <fmt:message key="general.selector.multipleSelectTips" var="selectorTips"/>
     <fmt:message key="film.goToFilmPage" var="filmPage"/>
     <fmt:message key="admin.sessionsSetting.sessionInfo" var="sessionInfo"/>
+    <fmt:message key="pagination.selectPageSize.label" var="selectSizeLabel"/>
+    <fmt:message key="pagination.selectPageSize.option" var="selectSizeOption"/>
+    <fmt:message key="pagination.prev" var="prev"/>
+    <fmt:message key="pagination.next" var="next"/>
 </fmt:bundle>
 
 <fmt:bundle basename="i18n" prefix="schedule.">
@@ -41,6 +45,7 @@
     <fmt:message key="sortMethod.asc" var="asc"/>
     <fmt:message key="sortMethod.desc" var="desc"/>
     <fmt:message key="submitBtn" var="submitBtn"/>
+    <fmt:message key="clearBtn" var="clearBtn"/>
 </fmt:bundle>
 
 <ftg:header pageTitle="${pageTitle}"/>
@@ -57,7 +62,7 @@
                 <header class="card-header-custom">
                     <h5 class="card-custom-title">${sortAndFilter}</h5>
                 </header>
-                <form name="filtration" method="post" action="main">
+                <form name="filtration" method="get" action="main">
                     <input type="hidden" name="command" value="schedulePage">
                     <div class="card-group">
                         <article class="card card-filter">
@@ -65,13 +70,15 @@
                                 <div class="card-body">
                                     <h5 class="card-title">${showSorter}</h5>
                                     <label class="form-check">
-                                        <input class="form-check-input" type="radio" checked="checked"
-                                               name="show" value="showAll">
+                                        <input class="form-check-input" type="radio"
+                                               name="show" value="all"
+                                               <c:if test="${param.show == null || param.show == 'all'}">checked</c:if>>
                                         <span class="form-check-label">${showSorterAll}</span>
                                     </label>
                                     <label class="form-check">
                                         <input class="form-check-input" type="radio" name="show"
-                                               value="showOnlyAvailable">
+                                               value="onlyAvailable"
+                                               <c:if test="${param.show == 'onlyAvailable'}">checked</c:if>>
                                         <span class="form-check-label">${showSorterOnlyAv}</span>
                                     </label>
                                 </div> <!-- card-body.// -->
@@ -87,9 +94,15 @@
                                             <div class="form-group">
                                                 <select name="sortBy" id="sortBy" class="form-control"
                                                         style="min-width: 150px;" required>
-                                                    <option value="dateTimeSortBy" selected>${sortDatetime}</option>
-                                                    <option value="filmNameSortBy">${sortFilmName}</option>
-                                                    <option value="seatsRemainSortBy">${sortSeatsRemain}</option>
+                                                    <option value="dateTime"
+                                                            <c:if test="${param.sortBy == 'dateTime'}">selected</c:if>>
+                                                        ${sortDatetime}</option>
+                                                    <option value="filmName"
+                                                            <c:if test="${param.sortBy == 'filmName'}">selected</c:if>>
+                                                        ${sortFilmName}</option>
+                                                    <option value="seatsRemain"
+                                                            <c:if test="${param.sortBy == 'seatsRemain'}">selected</c:if>>
+                                                        ${sortSeatsRemain}</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -99,8 +112,10 @@
                                                 <select name="sortMethod" id="sortMethod" class="form-control"
                                                         style="min-width: 150px;"
                                                         required>
-                                                    <option value="ascendingSortMethod" selected>${asc}</option>
-                                                    <option value="descendingSortMethod">${desc}</option>
+                                                    <option value="asc"
+                                                            <c:if test="${param.sortMethod == 'asc'}">selected</c:if>>${asc}</option>
+                                                    <option value="desc"
+                                                            <c:if test="${param.sortMethod == 'desc'}">selected</c:if>>${desc}</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -112,9 +127,35 @@
                         </article>
                         <div class="w-100"></div>
                         <article class="card card-sorter" style="border-top: 0;">
-                            <div class="col-12 py-2">
-                                <button type="submit" class="btn btn-primary w-25 btn-sorter">${submitBtn}
-                                </button>
+                            <div class="row">
+                                <div class="col-6 py-2 filter-helper">
+                                    <label for="amountSelector" class="py-1">${selectSizeLabel}: </label>
+                                    <select id="amountSelector" class="form-control form-select" name="size">
+                                        <option value>${selectSizeLabel}</option>
+                                        <option value="2" <c:if test="${param.size == '2'}">selected</c:if>>
+                                            2
+                                        </option>
+                                        <option value="4" <c:if test="${param.size == '4'}">selected</c:if>>
+                                            4
+                                        </option>
+                                        <option value="10" <c:if test="${param.size == '10'}">selected</c:if>>
+                                            10
+                                        </option>
+                                        <option value="20" <c:if test="${param.size == '20'}">selected</c:if>>
+                                            20
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div class="col-3 py-2 filter-helper">
+                                    <button type="submit" class="btn btn-primary w-25 btn-sorter">${submitBtn}
+                                    </button>
+                                </div>
+                                <div class="col-3 py-2 filter-helper">
+                                    <a type="button" href="${pageContext.request.contextPath}/main?command=schedulePage"
+                                       class="btn btn-outline-secondary w-25 btn-sorter">${clearBtn}
+                                    </a>
+                                </div>
                             </div>
                         </article>
 
@@ -128,13 +169,9 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="film-posts py-4">
-                        <table class="table table-striped" id="pagination_table">
+                        <table>
                             <thead>
-                            <tr>
-                                <th>${listTitle}</th>
-                            </tr>
                             </thead>
-
                             <tbody>
                             <c:forEach var="session" items="${requestScope.sessionList}">
                                 <c:set var="film" value="${session.getFilm()}"/>
@@ -165,7 +202,7 @@
                                                 </div>
 
                                                 <div class="col-md-3">
-                                                    <div class="vertical-buttons">
+                                                    <div class="vertical-buttons-4">
                                                         <form name="film" method="post" action="main">
                                                             <input type="hidden" name="command"
                                                                    value="filmPage">
@@ -192,7 +229,8 @@
 
                                                             <c:otherwise>
                                                                 <form name="session" method="post" action="main">
-                                                                    <input type="hidden" name="command" value="sessionPage">
+                                                                    <input type="hidden" name="command"
+                                                                           value="sessionPage">
                                                                     <input type="hidden" name="sessionId"
                                                                            value="${session.id}">
                                                                     <button type="submit"
@@ -212,12 +250,12 @@
                             </tbody>
                         </table>
 
+                        <mtg:pagination request="${pageContext.request}" totalPages="${requestScope.totalPages}"
+                                        prev="${prev}" next="${next}"/>
+
                     </div>
                 </div>
             </div>
         </div>
 </main>
 <ftg:footer/>
-
-
-

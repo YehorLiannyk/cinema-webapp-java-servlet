@@ -18,7 +18,11 @@
     <fmt:message key="form.rememberMe" var="rememberMe"/>
     <fmt:message key="form.signin" var="signIn"/>
     <fmt:message key="form.requiredField" var="requiredField"/>
+    <fmt:message key="valid.user.email.empty" var="emailEmpty"/>
+    <fmt:message key="valid.user.email.length" var="emailLength"/>
+    <fmt:message key="valid.user.email.invalid" var="emailInvalid"/>
 </fmt:bundle>
+
 
 <ftg:header pageTitle="${pageTitle}"/>
 <ftg:menu userRole="${sessionScope.userRole}"/>
@@ -40,9 +44,23 @@
                                     <i class="fa fa-envelope fa-lg me-3 fa-fw"></i>
                                     <div class="form-outline flex-fill mb-0">
                                         <input type="email" name="login" id="form3Example3c" class="form-control"
-                                               placeholder="${requiredField}" maxlength="320"
-                                               value="${requestScope.email}" required/>
+                                               placeholder="${requiredField}"
+                                                <c:if test="${pageContext.request.getParameter('email') != null}">
+                                                    value="${pageContext.request.getParameter('email')}"
+                                                </c:if>
+                                               required/>
                                         <label class="form-label" for="form3Example3c">${email}</label>
+
+                                        <c:if test="${requestScope.email_length}">
+                                            <p class="form-error">${emailLength}</p>
+                                        </c:if>
+                                        <c:if test="${requestScope.email_empty}">
+                                            <p class="form-error">${emailEmpty}</p>
+                                        </c:if>
+                                        <c:if test="${requestScope.email_invalid}">
+                                            <p class="form-error">${emailInvalid}</p>
+                                        </c:if>
+
                                     </div>
                                 </div>
 
@@ -50,7 +68,7 @@
                                     <i class="fa fa-lock fa-lg me-3 fa-fw"></i>
                                     <div class="form-outline flex-fill mb-0">
                                         <input type="password" name="password" id="form3Example4c" class="form-control"
-                                               placeholder="${requiredField}" maxlength="200"
+                                               placeholder="${requiredField}"
                                                value="${requestScope.password}" required/>
                                         <label class="form-label" for="form3Example4c">${password}</label>
                                     </div>

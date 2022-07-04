@@ -2,20 +2,22 @@ package yehor.epam.actions.commands;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 import yehor.epam.actions.BaseCommand;
-import yehor.epam.dao.SessionDAO;
-import yehor.epam.dao.factories.DAOFactory;
-import yehor.epam.dao.factories.MySQLFactory;
 import yehor.epam.entities.Session;
-import yehor.epam.services.ErrorService;
-import yehor.epam.services.ScheduleService;
+import yehor.epam.exceptions.ServiceException;
+import yehor.epam.services.PaginationService;
+import yehor.epam.services.SessionService;
+import yehor.epam.services.impl.ErrorService;
+import yehor.epam.services.impl.PaginationServiceImpl;
+import yehor.epam.services.impl.SessionServiceImpl;
 import yehor.epam.utilities.LoggerManager;
 
 import java.util.List;
 import java.util.Map;
 
-import static yehor.epam.utilities.JspPagePathConstants.SCHEDULE_PAGE_PATH;
+import static yehor.epam.utilities.constants.JspPagePathConstants.SCHEDULE_PAGE_PATH;
+import static yehor.epam.utilities.constants.OtherConstants.*;
 
 /**
  * Command to set Schedule page
@@ -23,19 +25,29 @@ import static yehor.epam.utilities.JspPagePathConstants.SCHEDULE_PAGE_PATH;
 public class ScheduleCommand implements BaseCommand {
     private static final Logger logger = LoggerManager.getLogger(ScheduleCommand.class);
     private static final String CLASS_NAME = ScheduleCommand.class.getName();
+    private final SessionService sessionService;
+    private final PaginationService paginationService;
+
+    public ScheduleCommand() {
+        sessionService = new SessionServiceImpl();
+        paginationService = new PaginationServiceImpl();
+    }
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
-        try (DAOFactory factory = new MySQLFactory()) {
-            logger.info("Created DAOFactory in " + CLASS_NAME + " execute command");
-            List<Session> sessionList = null;
-
+        logger.debug("Called execute() in {}", CLASS_NAME);
+        try {
+            final Map<String, Integer> paginationMap = paginationService.getPaginationParamsFromRequest(request);
+            int page = paginationMap.get(PAGE_NO_PARAM);
+            int size = paginationMap.get(PAGE_SIZE_PARAM);
             final Map<String, String[]> parameterMap = request.getParameterMap();
-            final Map<String, String> filterSortMap = ScheduleService.getFilterSortMapFromParams(parameterMap);
+            final Map<String, String> filterSortMap = sessionService.getFilterSortMapFromParams(parameterMap);
+            final int totalPages = sessionService.countTotalPages(size);
 
-            sessionList = getAppropriateSessionList(factory, filterSortMap);
+
+            List<Session> sessionList = getAppropriateSessionList(filterSortMap, page, size);
+            request.setAttribute("totalPages", totalPages);
             request.setAttribute("sessionList", sessionList);
-
             request.getRequestDispatcher(SCHEDULE_PAGE_PATH).forward(request, response);
         } catch (Exception e) {
             ErrorService.handleException(request, response, CLASS_NAME, e);
@@ -45,15 +57,13 @@ public class ScheduleCommand implements BaseCommand {
     /**
      * Return usual SessionList if Schedule page wasn't sort or filter
      *
-     * @param factory       DAOFactory
      * @param filterSortMap Map contains only sorting and filtering params
      * @return usual SessionList or already filtered and sorted
      */
-    private List<Session> getAppropriateSessionList(DAOFactory factory, Map<String, String> filterSortMap) {
-        final SessionDAO sessionDAO = factory.getSessionDao();
+    private List<Session> getAppropriateSessionList(Map<String, String> filterSortMap, int page, int size) throws ServiceException {
         if (!filterSortMap.isEmpty())
-            return sessionDAO.getFilteredAndSortedSessionList(filterSortMap);
-        else
-            return sessionDAO.findAll();
+            return sessionService.getFilteredAndSortedSessionList(filterSortMap, page, size);
+        logger.debug("Return not sorted session list");
+        return sessionService.getAll(page, size);
     }
 }

@@ -5,7 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSessionBindingEvent;
 import org.junit.Test;
-import yehor.epam.connection.ConnectionException;
+import yehor.epam.exceptions.ConnectionException;
 import yehor.epam.connection.ConnectionPool;
 import yehor.epam.filters.EncodingFilter;
 import yehor.epam.filters.LocaleFilter;

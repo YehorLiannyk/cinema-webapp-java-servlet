@@ -46,16 +46,16 @@
                     <c:set var="film" value="${session.film}"/>
                     <c:set var="seat" value="${ticket.seat}"/>
 
-                    <div class="card w-100">
+                    <div class="px-4 py-3 film-post card w-100">
                         <div class="col-md-6">
                             <h3>${ticketTitle}: </h3>
-                            <p>${dateTitle}: ${session.date}</p>
-                            <p>${time}: ${session.time}</p>
-                            <p>${seatRowTitle}: ${seat.rowNumber}</p>
-                            <p>${seatPlaceTitle}: ${seat.placeNumber}</p>
-                            <p>${filmTitle}: ${film.name}</p>
-                            <p>${duration}: ${film.getDurationInMinutes()} ${durationPostfix}</p>
-                            <p>${costTitle}: ${session.ticketPrice} ${currency}</p>
+                            <h6>${dateTitle}: ${session.date}</h6>
+                            <h6>${time}: ${session.time}</h6>
+                            <h6>${seatRowTitle}: ${seat.rowNumber}</h6>
+                            <h6>${seatPlaceTitle}: ${seat.placeNumber}</h6>
+                            <h6>${filmTitle}: ${film.name}</h6>
+                            <h6>${duration}: ${film.getDurationInMinutes()} ${durationPostfix}</h6>
+                            <h5>${costTitle}: ${session.ticketPrice} ${currency}</h5>
                         </div>
                     </div>
                 </c:forEach>
