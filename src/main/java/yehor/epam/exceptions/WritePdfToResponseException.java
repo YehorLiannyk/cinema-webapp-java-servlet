@@ -1,7 +1,7 @@
 package yehor.epam.exceptions;
 
 /**
- * PDF exception class
+ * Exception occurred when couldn't write ByteArrayOutputStream to HttpResponse
  */
 public class WritePdfToResponseException extends RuntimeException {
     public WritePdfToResponseException(String message) {

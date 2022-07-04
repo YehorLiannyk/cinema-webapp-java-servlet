@@ -59,7 +59,7 @@ public class BuyTicketPageCommand implements BaseCommand {
 
             request.getRequestDispatcher(PAYING_PAGE_PATH).forward(request, response);
         } catch (Exception e) {
-            ErrorServiceImpl.handleException(request, response, CLASS_NAME, e);
+            ErrorService.handleException(request, response, CLASS_NAME, e);
         }
     }
 }

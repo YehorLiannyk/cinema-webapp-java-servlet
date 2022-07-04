@@ -4,7 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import yehor.epam.actions.BaseCommand;
-import yehor.epam.services.impl.ErrorServiceImpl;
+import yehor.epam.services.impl.ErrorService;
 import yehor.epam.services.SessionService;
 import yehor.epam.services.impl.SessionServiceImpl;
 import yehor.epam.utilities.LoggerManager;
@@ -32,7 +32,7 @@ public class DeleteSessionCommand implements BaseCommand {
             sessionService.deleteSession(sessionId);
             response.sendRedirect(RedirectManager.getRedirectLocation(COMMAND_VIEW_SESSIONS_SETTING_PAGE));
         } catch (Exception e) {
-            ErrorServiceImpl.handleException(request, response, CLASS_NAME, e);
+            ErrorService.handleException(request, response, CLASS_NAME, e);
         }
     }
 }

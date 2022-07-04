@@ -24,7 +24,6 @@ public class LoggerManager {
     public static Logger getLogger(Class clazz) {
         final Logger logger = LoggerFactory.getLogger(clazz);
         try {
-            //
            PropertyConfigurator.configure(LoggerManager.class.getResourceAsStream(PROPERTIES_FILE));
         } catch (Exception e) {
             e.printStackTrace();

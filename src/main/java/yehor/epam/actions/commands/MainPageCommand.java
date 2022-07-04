@@ -7,7 +7,7 @@ import yehor.epam.actions.BaseCommand;
 import yehor.epam.entities.Film;
 import yehor.epam.services.FilmService;
 import yehor.epam.services.PaginationService;
-import yehor.epam.services.impl.ErrorServiceImpl;
+import yehor.epam.services.impl.ErrorService;
 import yehor.epam.services.impl.FilmServiceImpl;
 import yehor.epam.services.impl.PaginationServiceImpl;
 import yehor.epam.utilities.LoggerManager;
@@ -47,7 +47,7 @@ public class MainPageCommand implements BaseCommand {
             request.getSession().setAttribute("filmList", all);
             request.getRequestDispatcher(MAIN_PAGE_PATH).forward(request, response);
         } catch (Exception e) {
-            ErrorServiceImpl.handleException(request, response, CLASS_NAME, e);
+            ErrorService.handleException(request, response, CLASS_NAME, e);
         }
     }
 

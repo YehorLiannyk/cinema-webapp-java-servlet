@@ -13,7 +13,7 @@ import yehor.epam.services.CookieService;
 import yehor.epam.services.UserService;
 import yehor.epam.services.VerifyService;
 import yehor.epam.services.impl.CookieServiceImpl;
-import yehor.epam.services.impl.ErrorServiceImpl;
+import yehor.epam.services.impl.ErrorService;
 import yehor.epam.services.impl.UserServiceImpl;
 import yehor.epam.services.impl.VerifyServiceImpl;
 import yehor.epam.utilities.LoggerManager;
@@ -63,7 +63,7 @@ public class RegisterCommand implements BaseCommand {
                 forwardWithErrors(request, response, errorList);
             }
         } catch (Exception e) {
-            ErrorServiceImpl.handleException(request, response, CLASS_NAME, e);
+            ErrorService.handleException(request, response, CLASS_NAME, e);
         }
     }
 

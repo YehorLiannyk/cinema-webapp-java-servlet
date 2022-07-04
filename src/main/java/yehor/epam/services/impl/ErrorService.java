@@ -4,7 +4,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import yehor.epam.actions.commands.ErrorPageCommand;
-import yehor.epam.services.ErrorService;
 import yehor.epam.utilities.LoggerManager;
 
 import static yehor.epam.utilities.constants.OtherConstants.REQUEST_PARAM_ERROR_MESSAGE;
@@ -12,10 +11,10 @@ import static yehor.epam.utilities.constants.OtherConstants.REQUEST_PARAM_ERROR_
 /**
  * Class for handling error and then forward to ErrorPage
  */
-public class ErrorServiceImpl implements ErrorService {
-    private static final Logger logger = LoggerManager.getLogger(ErrorServiceImpl.class);
+public class ErrorService {
+    private static final Logger logger = LoggerManager.getLogger(ErrorService.class);
 
-    private ErrorServiceImpl() {
+    private ErrorService() {
     }
 
     /**
@@ -31,10 +30,10 @@ public class ErrorServiceImpl implements ErrorService {
         logger.error(message + ". Class: " + className, e);
         if (!response.isCommitted()) {
             request.setAttribute(REQUEST_PARAM_ERROR_MESSAGE, e.getMessage());
-            logger.debug("Call ErrorPageCommand().execute from " + ErrorServiceImpl.class.getName());
+            logger.debug("Call ErrorPageCommand().execute from " + ErrorService.class.getName());
             new ErrorPageCommand().execute(request, response);
         } else {
-            logger.debug("Response is committed, so couldn't redirect to error page from " + ErrorServiceImpl.class.getName());
+            logger.debug("Response is committed, so couldn't redirect to error page from " + ErrorService.class.getName());
         }
     }
 

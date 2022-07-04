@@ -1,6 +1,5 @@
 package yehor.epam.actions.commands.films;
 
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
@@ -9,13 +8,12 @@ import yehor.epam.entities.Film;
 import yehor.epam.entities.Genre;
 import yehor.epam.services.FilmService;
 import yehor.epam.services.GenreService;
-import yehor.epam.services.impl.ErrorServiceImpl;
+import yehor.epam.services.impl.ErrorService;
 import yehor.epam.services.impl.FilmServiceImpl;
 import yehor.epam.services.impl.GenreServiceImpl;
 import yehor.epam.utilities.LoggerManager;
 import yehor.epam.utilities.RedirectManager;
 
-import java.io.IOException;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
@@ -55,7 +53,7 @@ public class AddFilmCommand implements BaseCommand {
                 forwardWithErrors(request, response, errorList);
             }
         } catch (Exception e) {
-            ErrorServiceImpl.handleException(request, response, CLASS_NAME, e);
+            ErrorService.handleException(request, response, CLASS_NAME, e);
         }
     }
 

@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import yehor.epam.actions.BaseCommand;
 import yehor.epam.entities.Session;
 import yehor.epam.services.PaginationService;
-import yehor.epam.services.impl.ErrorServiceImpl;
+import yehor.epam.services.impl.ErrorService;
 import yehor.epam.services.SessionService;
 import yehor.epam.services.impl.PaginationServiceImpl;
 import yehor.epam.services.impl.SessionServiceImpl;
@@ -47,7 +47,7 @@ public class SessionsSettingPageCommand implements BaseCommand {
             request.setAttribute("sessionList", sessionList);
             request.getRequestDispatcher(SESSIONS_SETTING_PAGE_PATH).forward(request, response);
         } catch (Exception e) {
-            ErrorServiceImpl.handleException(request, response, CLASS_NAME, e);
+            ErrorService.handleException(request, response, CLASS_NAME, e);
         }
     }
 }

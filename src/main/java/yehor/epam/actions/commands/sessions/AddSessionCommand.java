@@ -4,13 +4,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import yehor.epam.actions.BaseCommand;
-import yehor.epam.actions.commands.films.AddFilmPageCommand;
 import yehor.epam.entities.Film;
 import yehor.epam.entities.Session;
 import yehor.epam.exceptions.ServiceException;
 import yehor.epam.services.FilmService;
 import yehor.epam.services.SessionService;
-import yehor.epam.services.impl.ErrorServiceImpl;
+import yehor.epam.services.impl.ErrorService;
 import yehor.epam.services.impl.FilmServiceImpl;
 import yehor.epam.services.impl.SessionServiceImpl;
 import yehor.epam.utilities.LoggerManager;
@@ -54,7 +53,7 @@ public class AddSessionCommand implements BaseCommand {
                 forwardWithErrors(request, response, errorList);
             }
         } catch (Exception e) {
-            ErrorServiceImpl.handleException(request, response, CLASS_NAME, e);
+            ErrorService.handleException(request, response, CLASS_NAME, e);
         }
     }
 

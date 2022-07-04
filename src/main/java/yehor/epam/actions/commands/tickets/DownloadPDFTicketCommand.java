@@ -7,7 +7,7 @@ import yehor.epam.actions.BaseCommand;
 import yehor.epam.entities.Ticket;
 import yehor.epam.services.TicketPdfService;
 import yehor.epam.services.TicketService;
-import yehor.epam.services.impl.ErrorServiceImpl;
+import yehor.epam.services.impl.ErrorService;
 import yehor.epam.services.impl.TicketPdfServiceImpl;
 import yehor.epam.services.impl.TicketServiceImpl;
 import yehor.epam.utilities.LoggerManager;
@@ -37,7 +37,7 @@ public class DownloadPDFTicketCommand implements BaseCommand {
             final ByteArrayOutputStream stream = ticketPdfService.formPDFTicket(ticket);
             ticketPdfService.writePdfToResponse(stream, response);
         } catch (Exception e) {
-            ErrorServiceImpl.handleException(request, response, CLASS_NAME, e);
+            ErrorService.handleException(request, response, CLASS_NAME, e);
         }
     }
 }

@@ -14,5 +14,10 @@ public interface TicketPdfService {
      */
     ByteArrayOutputStream formPDFTicket(Ticket ticket);
 
+    /**
+     * Write ByteArrayOutputStream to HttpServletResponse
+     * @param byteArrayOutputStream PDF file in ByteArrayOutputStream
+     * @param response HttpServletResponse
+     */
     void writePdfToResponse(ByteArrayOutputStream byteArrayOutputStream, HttpServletResponse response);
 }

@@ -5,7 +5,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import yehor.epam.actions.BaseCommand;
 import yehor.epam.exceptions.ServiceException;
-import yehor.epam.services.impl.ErrorServiceImpl;
+import yehor.epam.services.impl.ErrorService;
 import yehor.epam.services.FilmService;
 import yehor.epam.services.impl.FilmServiceImpl;
 import yehor.epam.utilities.LoggerManager;
@@ -35,7 +35,7 @@ public class DeleteFilmCommand implements BaseCommand {
             filmService.deleteFilm(filmId);
             response.sendRedirect(RedirectManager.getRedirectLocation(COMMAND_VIEW_FILMS_SETTING_PAGE));
         } catch (ServiceException | IOException e) {
-            ErrorServiceImpl.handleException(request, response, CLASS_NAME, e);
+            ErrorService.handleException(request, response, CLASS_NAME, e);
         }
     }
 

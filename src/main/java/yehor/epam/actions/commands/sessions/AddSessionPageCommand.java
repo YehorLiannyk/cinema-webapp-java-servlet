@@ -5,7 +5,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import yehor.epam.actions.BaseCommand;
 import yehor.epam.entities.Film;
-import yehor.epam.services.impl.ErrorServiceImpl;
+import yehor.epam.services.impl.ErrorService;
 import yehor.epam.services.FilmService;
 import yehor.epam.services.impl.FilmServiceImpl;
 import yehor.epam.utilities.LoggerManager;
@@ -35,7 +35,7 @@ public class AddSessionPageCommand implements BaseCommand {
             logger.debug("Forward to add session page");
             request.getRequestDispatcher(ADD_SESSION_PAGE_PATH).forward(request, response);
         } catch (Exception e) {
-            ErrorServiceImpl.handleException(request, response, CLASS_NAME, e);
+            ErrorService.handleException(request, response, CLASS_NAME, e);
         }
     }
 }

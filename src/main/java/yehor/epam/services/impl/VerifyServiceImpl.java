@@ -33,7 +33,7 @@ public class VerifyServiceImpl implements VerifyService {
             boolean verify = verify(gRecaptchaResponse);
             if (!verify) throw new VerifyException("Couldn't verify the captcha, try again");
         } catch (Exception e) {
-            ErrorServiceImpl.handleException(request, response, CLASS_NAME, e);
+            ErrorService.handleException(request, response, CLASS_NAME, e);
         }
     }
 

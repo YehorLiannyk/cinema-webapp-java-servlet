@@ -11,7 +11,7 @@ import yehor.epam.exceptions.ServiceException;
 import yehor.epam.services.CookieService;
 import yehor.epam.services.UserService;
 import yehor.epam.services.impl.CookieServiceImpl;
-import yehor.epam.services.impl.ErrorServiceImpl;
+import yehor.epam.services.impl.ErrorService;
 import yehor.epam.services.impl.UserServiceImpl;
 import yehor.epam.utilities.LoggerManager;
 import yehor.epam.utilities.RedirectManager;
@@ -56,7 +56,7 @@ public class LoginCommand implements BaseCommand {
                 request.getRequestDispatcher(LOGIN_PAGE_PATH).forward(request, response);
             }
         } catch (Exception e) {
-            ErrorServiceImpl.handleException(request, response, CLASS_NAME, e);
+            ErrorService.handleException(request, response, CLASS_NAME, e);
         }
     }
 
@@ -73,7 +73,7 @@ public class LoginCommand implements BaseCommand {
             userService.authenticateUser(login, password);
         } catch (AuthException e) {
             logger.error("Couldn't auth user with user login: " + login, e);
-            ErrorServiceImpl.handleException(request, response, CLASS_NAME, e);
+            ErrorService.handleException(request, response, CLASS_NAME, e);
         }
     }
 

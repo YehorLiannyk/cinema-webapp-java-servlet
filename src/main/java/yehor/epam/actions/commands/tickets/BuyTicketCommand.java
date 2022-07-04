@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import yehor.epam.actions.BaseCommand;
 import yehor.epam.entities.Ticket;
 import yehor.epam.services.TicketService;
-import yehor.epam.services.impl.ErrorServiceImpl;
+import yehor.epam.services.impl.ErrorService;
 import yehor.epam.services.impl.TicketServiceImpl;
 import yehor.epam.utilities.RedirectManager;
 import yehor.epam.utilities.LoggerManager;
@@ -33,7 +33,7 @@ public class BuyTicketCommand implements BaseCommand {
             ticketService.saveTicketList(ticketList);
             response.sendRedirect(RedirectManager.getRedirectLocation(COMMAND_VIEW_SUCCESS_PAY_PAGE));
         } catch (Exception e) {
-            ErrorServiceImpl.handleException(request, response, CLASS_NAME, e);
+            ErrorService.handleException(request, response, CLASS_NAME, e);
         }
     }
 }

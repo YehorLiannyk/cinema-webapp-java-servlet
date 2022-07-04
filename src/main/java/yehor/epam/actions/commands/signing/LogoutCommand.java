@@ -8,7 +8,7 @@ import yehor.epam.actions.BaseCommand;
 import yehor.epam.entities.User;
 import yehor.epam.services.CookieService;
 import yehor.epam.services.impl.CookieServiceImpl;
-import yehor.epam.services.impl.ErrorServiceImpl;
+import yehor.epam.services.impl.ErrorService;
 import yehor.epam.utilities.LoggerManager;
 
 import java.io.IOException;
@@ -39,7 +39,7 @@ public class LogoutCommand implements BaseCommand {
             cookieService.logoutCookie(request, response);
             response.sendRedirect(COMMAND_MAIN_SERVLET);
         } catch (IOException e) {
-            ErrorServiceImpl.handleException(request, response, CLASS_NAME, e);
+            ErrorService.handleException(request, response, CLASS_NAME, e);
         }
     }
 

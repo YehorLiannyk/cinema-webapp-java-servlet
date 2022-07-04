@@ -16,7 +16,7 @@ import static yehor.epam.utilities.constants.OtherConstants.PAGE_NO_PARAM;
 import static yehor.epam.utilities.constants.OtherConstants.PAGE_SIZE_PARAM;
 
 /**
- * Class of implementing film's genreList tag, which print Film's Genres and commas
+ * Class of implementing pagination tag
  */
 public class PaginationTag extends TagSupport {
     private static final Logger logger = LoggerManager.getLogger(PaginationTag.class);
@@ -63,7 +63,7 @@ public class PaginationTag extends TagSupport {
             logger.debug("Ready query: " + query);
 
             query = query.lastIndexOf('&') == query.length() - 1 ? query : query + '&';
-            if (totalPages > 0) {
+            if (totalPages > 1) {
                 printPaginationBlock(out, page, size, requestURI, query);
             }
         } catch (IOException e) {

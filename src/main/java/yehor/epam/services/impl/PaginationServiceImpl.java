@@ -10,7 +10,6 @@ import java.util.Map;
 
 import static yehor.epam.utilities.constants.OtherConstants.*;
 
-
 public class PaginationServiceImpl implements PaginationService {
     private static final Logger logger = LoggerManager.getLogger(PaginationServiceImpl.class);
     private static final String CLASS_NAME = PaginationServiceImpl.class.getName();

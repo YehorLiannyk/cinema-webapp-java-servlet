@@ -29,6 +29,7 @@ import static yehor.epam.utilities.constants.OtherConstants.*;
 public class SecurityFilter implements Filter {
     private static final Logger logger = LoggerManager.getLogger(SecurityFilter.class);
     private static final String CLASS_NAME = SecurityFilter.class.getName();
+
     private final List<String> guestAccessPath = new ArrayList<>();
     private final List<String> userAccessPath = new ArrayList<>();
     private final List<String> adminAccessPath = new ArrayList<>();
@@ -36,7 +37,6 @@ public class SecurityFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         logger.info("Entry to filter: " + CLASS_NAME);
-
         initGuestAccess();
         initUserAccess();
         initAdminAccess();
@@ -46,12 +46,9 @@ public class SecurityFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
-
         final HttpSession session = req.getSession();
 
-        //
         getCookies(req, session);
-        //
         GeneralService generalService = new GeneralServiceImpl();
         generalService.initParams(req);
 

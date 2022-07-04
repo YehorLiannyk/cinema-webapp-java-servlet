@@ -1,18 +1,15 @@
 package yehor.epam.actions.commands.films;
 
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import yehor.epam.actions.BaseCommand;
 import yehor.epam.entities.Genre;
-import yehor.epam.exceptions.ServiceException;
-import yehor.epam.services.impl.ErrorServiceImpl;
+import yehor.epam.services.impl.ErrorService;
 import yehor.epam.services.GenreService;
 import yehor.epam.services.impl.GenreServiceImpl;
 import yehor.epam.utilities.LoggerManager;
 
-import java.io.IOException;
 import java.util.List;
 
 import static yehor.epam.utilities.constants.JspPagePathConstants.ADD_FILM_PAGE_PATH;
@@ -38,7 +35,7 @@ public class AddFilmPageCommand implements BaseCommand {
             logger.debug("Forwarded to admin add film page");
             request.getRequestDispatcher(ADD_FILM_PAGE_PATH).forward(request, response);
         } catch (Exception e) {
-            ErrorServiceImpl.handleException(request, response, CLASS_NAME, e);
+            ErrorService.handleException(request, response, CLASS_NAME, e);
         }
     }
 }
