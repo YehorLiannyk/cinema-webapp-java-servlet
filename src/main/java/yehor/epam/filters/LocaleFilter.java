@@ -2,19 +2,21 @@ package yehor.epam.filters;
 
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.jsp.jstl.core.Config;
 import org.slf4j.Logger;
+import yehor.epam.services.CookieService;
+import yehor.epam.services.GeneralService;
 import yehor.epam.services.impl.CookieServiceImpl;
+import yehor.epam.services.impl.GeneralServiceImpl;
 import yehor.epam.utilities.LoggerManager;
 
 import java.io.IOException;
 import java.util.Locale;
 
-import static yehor.epam.utilities.constants.OtherConstants.DEFAULT_LANG;
-import static yehor.epam.utilities.constants.OtherConstants.LANG;
+import static yehor.epam.utilities.constants.OtherConstants.*;
 
 /**
  * Filter for localization
@@ -24,8 +26,9 @@ public class LocaleFilter implements Filter {
     private static final Logger logger = LoggerManager.getLogger(LocaleFilter.class);
     private static final String CLASS_NAME = LocaleFilter.class.getName();
 
+    @Override
     public void init(FilterConfig arg0) throws ServletException {
-        logger.info("Init " + CLASS_NAME);
+        logger.info("Init {}", CLASS_NAME);
     }
 
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -33,42 +36,46 @@ public class LocaleFilter implements Filter {
 
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
+        HttpSession session = req.getSession(true);
 
-        String locale = null;
+        setSessionWithCookies(req, session);
+        GeneralService generalService = new GeneralServiceImpl();
+        generalService.initParams(req);
 
-        //get locale from cookie
-        logger.debug("Under set locale ");
-        final Cookie[] cookies = req.getCookies();
-        logger.debug("cookie[] is null: " + (cookies == null));
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals(LANG)) {
-                    logger.debug("Entry to cookie.getName().equals(LANG)");
-                    locale = cookie.getValue();
-                    logger.info("Set locale = " + locale + " from cookie");
-                }
-            }
-        }
+        String locale = session.getAttribute(LANG) != null ? (String) session.getAttribute(LANG) : DEFAULT_LANG;
 
         //get locale from request if it has
-        if (req.getParameter(LANG) != null) {
+        if (req.getParameter(LANG) != null && !req.getParameter(LANG).isBlank()) {
             final String langParameter = req.getParameter(LANG);
             CookieServiceImpl cookieService = new CookieServiceImpl();
             cookieService.setLocaleCookie(res, langParameter);
             locale = langParameter;
-            logger.info("Set locale = " + langParameter + " from request");
+            logger.info("Set locale = {} from request", langParameter);
         }
 
         //set locale
-        if (locale == null) locale = DEFAULT_LANG;
         Locale localeObj = new Locale(locale);
         Config.set(req.getSession(), Config.FMT_LOCALE, localeObj);
 
         chain.doFilter(request, response);
     }
 
+    /**
+     * Get info from Cookies and set to Session
+     *
+     * @param req     HttpServletRequest
+     * @param session current HttpSession
+     */
+    private void setSessionWithCookies(HttpServletRequest req, HttpSession session) {
+        if (session == null || session.getAttribute(USER_ROLE) == null || session.getAttribute(USER_ID).equals(0) || session.getAttribute(LANG) == null) {
+            CookieService cookieService = new CookieServiceImpl();
+            cookieService.initSessionWithCookie(req);
+        } else logger.debug("Skip getCookies block in {}", CLASS_NAME);
+    }
+
+    @Override
     public void destroy() {
-        logger.info("Destroy " + CLASS_NAME);
+        logger.info("Destroy {}", CLASS_NAME);
     }
 
 

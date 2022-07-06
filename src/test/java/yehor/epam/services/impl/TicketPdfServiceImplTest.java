@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.*;
@@ -29,6 +30,7 @@ class TicketPdfServiceImplTest {
         Session session = mock(Session.class);
         Film film = mock(Film.class);
         Seat seat = mock(Seat.class);
+        Locale locale = Locale.getDefault();
         BigDecimal price = BigDecimal.TEN;
 
         when(ticket.getSession()).thenReturn(session);
@@ -37,7 +39,7 @@ class TicketPdfServiceImplTest {
         when(ticket.getTicketPrice()).thenReturn(price);
         when(session.getDate()).thenReturn(LocalDate.now());
         when(session.getTime()).thenReturn(LocalTime.now());
-        final ByteArrayOutputStream stream = ticketPdfService.formPDFTicket(ticket);
+        final ByteArrayOutputStream stream = ticketPdfService.formPDFTicket(ticket, locale);
         Assertions.assertNotNull(stream);
     }
 

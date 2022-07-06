@@ -3,7 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@attribute name="pageTitle" required="true" rtexprvalue="true" type="java.lang.String" %>
 
-<html lang=ua>
+<html lang=uk>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
@@ -29,11 +29,6 @@
     <style>
         <jsp:directive.include file="/WEB-INF/css/bootstrap.min.css" />
         <jsp:directive.include file="/WEB-INF/css/my-styles.css" />
-
-        body {
-            background-image: url(<c:url value="/images/site_pattern.png"/>);
-            background-repeat: repeat;
-        }
     </style>
 
     <title>${pageTitle}</title>

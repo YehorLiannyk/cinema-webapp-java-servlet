@@ -64,52 +64,39 @@
                         </div>
                         <div>
                             <h4>${sessionSeat}:</h4>
-                            <form name="seatIds" method="post" action="main">
-                                <input type="hidden" name="command" value="buyTicketPage">
-                                <input type="hidden" name="sessionId" value="${session.id}">
-                                <div class="row under-filter">
-                                    <div class="col-md-8 under-filter-block px-3">
+                            <div class="row under-filter">
+                                <div class="col-md-8 under-filter-block px-3">
 
-                                        <c:forEach var="seat" items="${allSeatList}" varStatus="upSeatCounter">
-                                            <c:set var="isFree" value="false"/>
-                                            <c:forEach var="freeSeat" items="${freeSeatList}">
-                                                <c:if test="${freeSeat.id == seat.id}">
-                                                    <c:set var="isFree" value="true"/>
-                                                </c:if>
-                                            </c:forEach>
-
-
-                                            <c:if test="${seat.placeNumber == 1 && upSeatCounter.index > 0}">
-                                                <div class="w-100"></div>
+                                    <c:forEach var="seat" items="${allSeatList}" varStatus="upSeatCounter">
+                                        <c:set var="isFree" value="false"/>
+                                        <c:forEach var="freeSeat" items="${freeSeatList}">
+                                            <c:if test="${freeSeat.id == seat.id}">
+                                                <c:set var="isFree" value="true"/>
                                             </c:if>
-
-                                            <c:choose>
-                                                <c:when test="${isFree == false}">
-                                                    <label>
-                                                        <input type="checkbox" name="seatIds"
-                                                               class="seatsElement-admin seatsElement"
-                                                               value="${seat.id}" disabled>
-                                                            <%--don't know why url with this svg here doesn't work so use absolute path--%>
-                                                        <img class="seatsImg-admin seatsImg"
-                                                             src="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkAgMAAAANjH3HAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAADFBMVEUAAABJTFZJTFYAAAAi3Td3AAAAAnRSTlMAAHaTzTgAAAABYktHRACIBR1IAAAACXBIWXMAAC4jAAAuIwF4pT92AAAAB3RJTUUH5gUaFzYGgpvrAQAAAGpJREFUSMft0bsNgDAMRVHDZCxhiozgKbIEI6SIpwSnyQcZpYECvVtZOpKbR2SxaC0z1XZtOxoJnaQpkU7ylGgf5B25RkvbIEuwyW2am5SR7IqDrOUlBAKB/FW+Sr0gkCLiQH6Q4EgidoRPEPyF6GFUhe4AAAAASUVORK5CYII=">
-                                                    </label>
-                                                </c:when>
-
-                                                <c:otherwise>
-                                                    <label>
-                                                        <input type="checkbox" name="seatIds"
-                                                               class="seatsElement-admin seatsElement"
-                                                               value="${seat.id}" disabled>
-                                                        <img class="seatsImg-admin seatsImg"
-                                                             src="<c:url value="/images/svg/seat_blue.svg"/>">
-                                                    </label>
-                                                </c:otherwise>
-                                            </c:choose>
-
                                         </c:forEach>
-                                    </div>
+
+
+                                        <c:if test="${seat.placeNumber == 1 && upSeatCounter.index > 0}">
+                                            <div class="w-100"></div>
+                                        </c:if>
+
+                                        <c:choose>
+                                            <c:when test="${isFree == false}">
+                                                    <img class="seatsImg-admin seatsImg"
+                                                         src="<c:url value="/images/seat_gray.png"/>">
+
+                                            </c:when>
+
+                                            <c:otherwise>
+                                                    <img class="seatsImg-admin seatsImg"
+                                                         src="<c:url value="/images/seat_blue.png"/>">
+
+                                            </c:otherwise>
+                                        </c:choose>
+
+                                    </c:forEach>
                                 </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>

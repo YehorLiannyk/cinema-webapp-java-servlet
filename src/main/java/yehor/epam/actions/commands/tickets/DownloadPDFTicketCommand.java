@@ -2,6 +2,7 @@ package yehor.epam.actions.commands.tickets;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.jsp.jstl.core.Config;
 import org.slf4j.Logger;
 import yehor.epam.actions.BaseCommand;
 import yehor.epam.entities.Ticket;
@@ -13,6 +14,7 @@ import yehor.epam.services.impl.TicketServiceImpl;
 import yehor.epam.utilities.LoggerManager;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Locale;
 
 /**
  * Command to download Ticket in PDF format
@@ -34,7 +36,8 @@ public class DownloadPDFTicketCommand implements BaseCommand {
         try {
             int ticketId = Integer.parseInt(request.getParameter("ticketId"));
             final Ticket ticket = ticketService.getById(ticketId);
-            final ByteArrayOutputStream stream = ticketPdfService.formPDFTicket(ticket);
+            final Locale locale = (Locale) Config.get(request.getSession(), Config.FMT_LOCALE);
+            final ByteArrayOutputStream stream = ticketPdfService.formPDFTicket(ticket, locale);
             ticketPdfService.writePdfToResponse(stream, response);
         } catch (Exception e) {
             ErrorService.handleException(request, response, CLASS_NAME, e);

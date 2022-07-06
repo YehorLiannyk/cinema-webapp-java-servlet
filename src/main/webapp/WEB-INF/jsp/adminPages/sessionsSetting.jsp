@@ -75,7 +75,7 @@
 
                                                     <div class="col-md-3">
                                                         <div class="vertical-buttons-4">
-                                                            <form name="session" method="post" action="main">
+                                                            <form name="session" method="get" action="main">
                                                                 <input type="hidden" name="command"
                                                                        value="sessionInfoPage">
                                                                 <input type="hidden" name="sessionId"

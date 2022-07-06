@@ -48,10 +48,6 @@ public class SecurityFilter implements Filter {
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
         final HttpSession session = req.getSession();
 
-        getCookies(req, session);
-        GeneralService generalService = new GeneralServiceImpl();
-        generalService.initParams(req);
-
         String command = req.getParameter("command");
         logger.debug("Command from " + CLASS_NAME + " = " + req.getParameter("command"));
         logger.debug("Session role attribute from " + CLASS_NAME + " = " + session.getAttribute(USER_ROLE));
@@ -83,20 +79,6 @@ public class SecurityFilter implements Filter {
         filterChain.doFilter(req, resp);
     }
 
-    /**
-     * Get info from Cookies and set to Session
-     *
-     * @param req     HttpServletRequest
-     * @param session current sesion
-     */
-    private void getCookies(HttpServletRequest req, HttpSession session) {
-        if (session == null || session.getAttribute(USER_ROLE) == null || session.getAttribute(USER_ID).equals(0) || session.getAttribute(LANG) == null) {
-            CookieService cookieService = new CookieServiceImpl();
-            cookieService.initCookies(req);
-            logger.debug("Entry to getCookies block in " + CLASS_NAME);
-        } else
-            logger.debug("Skip getCookies block in " + CLASS_NAME);
-    }
 
     /**
      * Forward to error page if have no enough permits

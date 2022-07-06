@@ -70,7 +70,7 @@
                                             <mtg:filmGenresList film="${film}"/>
                                         </li>
                                     </ul>
-                                    <form name="film" method="post" action="main">
+                                    <form name="film" method="get" action="main">
                                         <input type="hidden" name="command"
                                                value="filmPage">
                                         <input type="hidden" name="filmId"

@@ -79,7 +79,7 @@
 
                                                     <div class="col-md-6">
                                                         <div class="vertical-buttons-2 w-75">
-                                                            <form name="ticketMail" method="post" action="main">
+                                                            <form name="ticketMail" method="get" action="main">
                                                                 <input type="hidden" name="command"
                                                                        value="sendTicketViaMail">
                                                                 <input type="hidden" name="ticketId"
@@ -89,7 +89,7 @@
                                                                         ${sendMail}
                                                                 </button>
                                                             </form>
-                                                            <form name="ticketPDF" method="post" action="main" target="_blank">
+                                                            <form name="ticketPDF" method="get" action="main" target="_blank">
                                                                 <input type="hidden" name="command"
                                                                        value="downloadTicket">
                                                                 <input type="hidden" name="ticketId"

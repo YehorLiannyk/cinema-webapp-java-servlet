@@ -46,7 +46,7 @@ public final class OtherConstants {
     /**
      * Default Language param value
      */
-    public static final String DEFAULT_LANG = "ua";
+    public static final String DEFAULT_LANG = "uk";
     /**
      * Default currency param value
      */
