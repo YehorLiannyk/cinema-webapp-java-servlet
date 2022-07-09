@@ -47,7 +47,7 @@ public class AddFilmCommand implements BaseCommand {
                 Film film = getFilm(filmParamMap);
                 final List<Genre> genreList = genreService.getGenreListByIdArray(genreIds);
                 film.setGenreList(genreList);
-                filmService.saveFilm(film);
+                filmService.save(film);
                 response.sendRedirect(RedirectManager.getRedirectLocation(COMMAND_VIEW_FILMS_SETTING_PAGE));
             } else {
                 forwardWithErrors(request, response, errorList);
@@ -57,6 +57,13 @@ public class AddFilmCommand implements BaseCommand {
         }
     }
 
+    /**
+     * Forward to add film page with error list
+     *
+     * @param request   {@link HttpServletRequest}
+     * @param response  {@link HttpServletResponse}
+     * @param errorList received error List from validation service
+     */
     private void forwardWithErrors(HttpServletRequest request, HttpServletResponse response, List<String> errorList) {
         VALID_ERROR_FILM_PARAM_LIST.stream()
                 .filter(error -> request.getAttribute(error) != null)
@@ -65,6 +72,12 @@ public class AddFilmCommand implements BaseCommand {
         new AddFilmPageCommand().execute(request, response);
     }
 
+    /**
+     * Get film from params Map
+     *
+     * @param filmParamMap film parameters map
+     * @return formed Film object
+     */
     private Film getFilm(Map<String, String> filmParamMap) {
         final long filmDuration = Long.parseLong(filmParamMap.get(FILM_DURATION_PARAM));
         return new Film(
@@ -75,6 +88,12 @@ public class AddFilmCommand implements BaseCommand {
         );
     }
 
+    /**
+     * Get Map of needed parameters for film creation
+     *
+     * @param request {@link HttpServletRequest}
+     * @return map of needed parameters for film creation
+     */
     private Map<String, String> getFilmParamMap(HttpServletRequest request) {
         Map<String, String> filmParamMap = new HashMap<>();
         filmParamMap.put(FILM_NAME_PARAM, request.getParameter(FILM_NAME_PARAM));
@@ -83,6 +102,4 @@ public class AddFilmCommand implements BaseCommand {
         filmParamMap.put(FILM_DURATION_PARAM, request.getParameter(FILM_DURATION_PARAM));
         return filmParamMap;
     }
-
-
 }

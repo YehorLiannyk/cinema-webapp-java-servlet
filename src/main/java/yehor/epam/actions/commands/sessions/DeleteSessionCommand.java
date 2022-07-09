@@ -29,7 +29,7 @@ public class DeleteSessionCommand implements BaseCommand {
         logger.debug("Called execute() in " + CLASS_NAME);
         try {
             final int sessionId = Integer.parseInt(request.getParameter("sessionId"));
-            sessionService.deleteSession(sessionId);
+            sessionService.delete(sessionId);
             response.sendRedirect(RedirectManager.getRedirectLocation(COMMAND_VIEW_SESSIONS_SETTING_PAGE));
         } catch (Exception e) {
             ErrorService.handleException(request, response, CLASS_NAME, e);

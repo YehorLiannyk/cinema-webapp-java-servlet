@@ -42,7 +42,7 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
-    public List<Genre> getGenreList() throws ServiceException {
+    public List<Genre> getAll() throws ServiceException {
         List<Genre> genreList = new ArrayList<>();
         try (DaoFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
             logCreatingDaoFactory();

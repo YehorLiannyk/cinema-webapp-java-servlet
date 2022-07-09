@@ -18,7 +18,7 @@ import static yehor.epam.utilities.constants.OtherConstants.USER_ID;
 import static yehor.epam.utilities.constants.OtherConstants.USER_ROLE;
 
 /**
- * Command to logout User, end sessions and clean cookie
+ * Command to log out User, end sessions and clean cookie
  */
 public class LogoutCommand implements BaseCommand {
     private static final Logger logger = LoggerManager.getLogger(LogoutCommand.class);

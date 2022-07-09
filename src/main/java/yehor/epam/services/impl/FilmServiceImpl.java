@@ -79,7 +79,7 @@ public class FilmServiceImpl implements FilmService {
     }
 
     @Override
-    public void saveFilm(Film film) throws ServiceException {
+    public void save(Film film) throws ServiceException {
         try (DaoFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
             logCreatingDaoFactory();
             final FilmDao filmDAO = factory.getFilmDAO();
@@ -90,7 +90,7 @@ public class FilmServiceImpl implements FilmService {
     }
 
     @Override
-    public void deleteFilm(int id) throws ServiceException {
+    public void delete(int id) throws ServiceException {
         try (DaoFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
             logCreatingDaoFactory();
             final FilmDao filmDAO = factory.getFilmDAO();
@@ -101,7 +101,7 @@ public class FilmServiceImpl implements FilmService {
     }
 
     @Override
-    public Film getFilmById(int id) throws ServiceException {
+    public Film getById(int id) throws ServiceException {
         Film film = null;
         try (DaoFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
             logCreatingDaoFactory();

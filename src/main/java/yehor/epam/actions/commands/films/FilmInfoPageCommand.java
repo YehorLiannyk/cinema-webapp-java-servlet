@@ -28,7 +28,7 @@ public class FilmInfoPageCommand implements BaseCommand {
         logger.debug("Called execute() in " + CLASS_NAME);
         try {
             final int filmId = Integer.parseInt(request.getParameter("filmId"));
-            final Film film = filmService.getFilmById(filmId);
+            final Film film = filmService.getById(filmId);
             request.setAttribute("film", film);
             request.getRequestDispatcher(FILM_INFO_PAGE_PATH).forward(request, response);
         } catch (Exception e) {

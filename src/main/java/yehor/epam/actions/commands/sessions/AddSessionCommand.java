@@ -47,7 +47,7 @@ public class AddSessionCommand implements BaseCommand {
             final List<String> errorList = sessionService.getSessionValidErrorList(sessionParamMap);
             if (errorList.isEmpty()) {
                 final Session session = getSession(sessionParamMap);
-                sessionService.saveSession(session);
+                sessionService.save(session);
                 response.sendRedirect(RedirectManager.getRedirectLocation(COMMAND_VIEW_SESSIONS_SETTING_PAGE));
             } else {
                 forwardWithErrors(request, response, errorList);
@@ -57,6 +57,13 @@ public class AddSessionCommand implements BaseCommand {
         }
     }
 
+    /**
+     * Forward to add session page with error list
+     *
+     * @param request   {@link HttpServletRequest}
+     * @param response  {@link HttpServletResponse}
+     * @param errorList received error List from validation service
+     */
     private void forwardWithErrors(HttpServletRequest request, HttpServletResponse response, List<String> errorList) {
         VALID_ERROR_SESSION_PARAM_LIST.stream()
                 .filter(error -> request.getAttribute(error) != null)
@@ -65,9 +72,15 @@ public class AddSessionCommand implements BaseCommand {
         new AddSessionPageCommand().execute(request, response);
     }
 
+    /**
+     * Get session from params Map
+     *
+     * @param sessionParamMap session parameters map
+     * @return formed Session object
+     */
     private Session getSession(Map<String, String> sessionParamMap) throws ServiceException {
         final int filmId = Integer.parseInt(sessionParamMap.get(FILM_ID_PARAM));
-        final Film film = filmService.getFilmById(filmId);
+        final Film film = filmService.getById(filmId);
         final Session session = new Session();
         session.setTime(LocalTime.parse(sessionParamMap.get(SESSION_TIME_PARAM)));
         session.setDate(LocalDate.parse(sessionParamMap.get(SESSION_DATE_PARAM)));
@@ -76,6 +89,12 @@ public class AddSessionCommand implements BaseCommand {
         return session;
     }
 
+    /**
+     * Get Map of needed parameters for session creation
+     *
+     * @param request {@link HttpServletRequest}
+     * @return map of needed parameters for session creation
+     */
     private Map<String, String> getSessionParamMap(HttpServletRequest request) {
         Map<String, String> sessionParamMap = new HashMap<>();
         sessionParamMap.put(FILM_ID_PARAM, request.getParameter(FILM_ID_PARAM));

@@ -37,14 +37,14 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public void saveTicketList(List<Ticket> ticketList) throws ServiceException {
+    public void saveAll(List<Ticket> ticketList) throws ServiceException {
         if (ticketList == null || ticketList.isEmpty()) {
             logger.warn("Received ticket list is null or empty");
             throw new EmptyListException("Received ticket list is null or empty");
         }
         try {
             for (Ticket ticket : ticketList) {
-                saveTicket(ticket);
+                save(ticket);
             }
         } catch (Exception e) {
             throwServiceException("Couldn't save ticket List", e);
@@ -52,7 +52,7 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public void saveTicket(Ticket ticket) throws ServiceException {
+    public void save(Ticket ticket) throws ServiceException {
         try (DaoFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
             logCreatingDaoFactory();
             final int seatId = ticket.getSeat().getId();

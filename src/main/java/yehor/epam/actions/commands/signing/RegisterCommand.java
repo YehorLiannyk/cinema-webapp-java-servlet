@@ -67,6 +67,13 @@ public class RegisterCommand implements BaseCommand {
         }
     }
 
+    /**
+     * Forward to add film page with error list
+     *
+     * @param request   {@link HttpServletRequest}
+     * @param response  {@link HttpServletResponse}
+     * @param errorList received error List from validation service
+     */
     private void forwardWithErrors(HttpServletRequest request, HttpServletResponse response, List<String> errorList) throws ServletException, IOException {
         VALID_ERROR_USER_PARAM_LIST.stream()
                 .filter(error -> request.getAttribute(error) != null)
@@ -110,6 +117,12 @@ public class RegisterCommand implements BaseCommand {
         cookieService.loginCookie(response, user, rememberMe);
     }
 
+    /**
+     * Get Map of needed parameters for user creation
+     *
+     * @param request {@link HttpServletRequest}
+     * @return map of needed parameters for user creation
+     */
     private Map<String, String> getUserParamMap(HttpServletRequest request) {
         Map<String, String> userParamMap = new HashMap<>();
         userParamMap.put(F_NAME_PARAM, request.getParameter(F_NAME_PARAM));
@@ -122,7 +135,12 @@ public class RegisterCommand implements BaseCommand {
         return userParamMap;
     }
 
-
+    /**
+     * Get User object from params Map with encrypted password
+     *
+     * @param userParamMap parameter map
+     * @return User object
+     */
     private User getEncryptedUser(Map<String, String> userParamMap) {
         PassEncryptionManager passManager = new PassEncryptionManager();
         String saltValue = passManager.getSaltValue(OtherConstants.SALT_LENGTH);
