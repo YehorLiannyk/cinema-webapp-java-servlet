@@ -70,7 +70,7 @@ class GenreServiceImplTest {
     void getGenreList() throws DaoException, ServiceException {
         List<Genre> genreList = mock(List.class);
         when(genreDao.findAll()).thenReturn(genreList);
-        final List<Genre> all = genreService.getGenreList();
+        final List<Genre> all = genreService.getAll();
         Assertions.assertNotNull(all);
         Assertions.assertFalse(all.isEmpty());
     }

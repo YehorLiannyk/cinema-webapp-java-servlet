@@ -8,9 +8,14 @@ import java.util.List;
  * Class containing different constants
  */
 public final class OtherConstants {
+    /**
+     * Default pagination size
+     */
     public static final int DEF_PAGING_SIZE = 6;
+
     public static final String PAGE_NO_PARAM = "page";
     public static final String PAGE_SIZE_PARAM = "size";
+
     /**
      * Param name of user's id in session/cookies
      */
@@ -46,7 +51,7 @@ public final class OtherConstants {
     /**
      * Default Language param value
      */
-    public static final String DEFAULT_LANG = "ua";
+    public static final String DEFAULT_LANG = "uk";
     /**
      * Default currency param value
      */
@@ -117,7 +122,7 @@ public final class OtherConstants {
      */
     public static final String DEF_TICKET_FILENAME = "ticket";
 
-    // SOME PARAM NAMES
+    /*  SOME PARAM NAMES  */
     //user
     public static final String F_NAME_PARAM = "firstName";
     public static final String L_NAME_PARAM = "lastName";
@@ -138,7 +143,7 @@ public final class OtherConstants {
     public static final String SESSION_TIME_PARAM = "time";
     public static final String SESSION_PRICE_PARAM = "ticketPrice";
 
-    // VALIDATION
+    /*  VALIDATION  */
     // patterns
     public static final String PHONE_NUMBER_PATTERN = "^(380[0-9]{9})|(^$)|(^\\s*$)$"; // empty/has a gap/is a number
     public static final String ONLY_LETTERS_PATTERN = "^[a-zA-Z]+$";
@@ -146,7 +151,7 @@ public final class OtherConstants {
     public static final String DATE_PATTERN = "^((19|2[0-9])[0-9]{2})-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$";
     public static final String TIME_PATTERN = "^(\\d\\d:\\d\\d)$";
     public static final String EMAIL_PATTERN = "^(([^<>()[\\]\\\\.,;:\\s@\\\"]]+(\\.[^<>()[\\]\\\\.,;:\\s@\\\"]]+)*)|(\\\".+\\\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,10}))$";
-    // ranges
+    // user
     public static final int MAX_F_NAME_LENGTH = 45;
     public static final int MIN_F_NAME_LENGTH = 1;
     public static final int MAX_L_NAME_LENGTH = 45;
@@ -155,15 +160,17 @@ public final class OtherConstants {
     public static final int MIN_PASS_LENGTH = 3;
     public static final int MAX_EMAIL_LENGTH = 320;
     public static final int MIN_EMAIL_LENGTH = 6;
+    // session
     public static final int MIN_TICKET_COST = 1;
     public static final int MAX_TICKET_COST = 5000;
+    // film
     public static final int MAX_FILM_NAME_LENGTH = 100;
     public static final int MAX_FILM_DESC_LENGTH = 800;
     public static final int MIN_FILM_DURATION_IN_MINUTE = 10;
     public static final int MAX_FILM_DURATION_IN_MINUTE = 300;
     public static final int MAX_URL_LENGTH = 2000;
 
-    // VALIDATION ERROR PARAM
+    /*  VALIDATION ERROR PARAM    */
     // user param
     public static final String VALID_F_NAME_LENGTH = "fName_length";
     public static final String VALID_F_NAME_EMPTY = "fName_empty";

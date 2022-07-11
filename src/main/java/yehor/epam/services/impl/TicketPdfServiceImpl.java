@@ -7,6 +7,7 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.jsp.jstl.core.Config;
 import org.slf4j.Logger;
 import yehor.epam.entities.Film;
 import yehor.epam.entities.Seat;
@@ -21,6 +22,8 @@ import yehor.epam.utilities.constants.OtherConstants;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import static yehor.epam.utilities.constants.OtherConstants.FONTS_BAHNSCHRIFT_TTF_PATH;
 
@@ -46,7 +49,7 @@ public class TicketPdfServiceImpl implements TicketPdfService {
     }
 
     @Override
-    public ByteArrayOutputStream formPDFTicket(Ticket ticket) {
+    public ByteArrayOutputStream formPDFTicket(Ticket ticket, Locale locale) {
         Document document = new Document();
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
@@ -61,13 +64,16 @@ public class TicketPdfServiceImpl implements TicketPdfService {
             final Seat seat = ticket.getSeat();
             final String ticketPriceInFormat = getTicketPriceInFormat(ticket);
 
-            addRowToTable("Ticket id: ", table, String.valueOf(ticket.getId()));
-            addRowToTable("Film name: ", table, film.getName());
-            addRowToTable("Date: ", table, session.getDate().toString());
-            addRowToTable("Time: ", table, session.getTime().toString());
-            addRowToTable("Row: ", table, String.valueOf(seat.getRowNumber()));
-            addRowToTable("Place: ", table, String.valueOf(seat.getPlaceNumber()));
-            addRowToTable("Ticket price: ", table, ticketPriceInFormat);
+            logger.debug("Locale in PDF service. Lang = {}, country = {}", locale.getLanguage(), locale.getCountry());
+            final ResourceBundle bundle = ResourceBundle.getBundle("i18n", locale);
+
+            addRowToTable(bundle.getString("ticket.pdf.number") + ": ", table, String.valueOf(ticket.getId()));
+            addRowToTable(bundle.getString("ticket.pdf.film") + ": ", table, film.getName());
+            addRowToTable(bundle.getString("ticket.pdf.date") + ": ", table, session.getDate().toString());
+            addRowToTable(bundle.getString("ticket.pdf.time") + ": ", table, session.getTime().toString());
+            addRowToTable(bundle.getString("ticket.pdf.rowNo") + ": ", table, String.valueOf(seat.getRowNumber()));
+            addRowToTable(bundle.getString("ticket.pdf.placeNo") + ": ", table, String.valueOf(seat.getPlaceNumber()));
+            addRowToTable(bundle.getString("ticket.pdf.ticketPrice") + ": ", table, ticketPriceInFormat);
 
             PdfWriter.getInstance(document, outputStream);
             document.open();

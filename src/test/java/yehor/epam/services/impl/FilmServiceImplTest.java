@@ -80,14 +80,14 @@ class FilmServiceImplTest {
     @Test
     void saveFilm() throws DaoException, ServiceException {
         Film film = mock(Film.class);
-        filmService.saveFilm(film);
+        filmService.save(film);
         verify(filmDao).insert(film);
     }
 
     @Test
     void deleteFilmById() throws DaoException, ServiceException {
         Film film = mock(Film.class);
-        filmService.deleteFilm(film.getId());
+        filmService.delete(film.getId());
         verify(filmDao).delete(film.getId());
     }
 
@@ -95,7 +95,7 @@ class FilmServiceImplTest {
     void getFilmById() throws ServiceException, DaoException {
         Film film = mock(Film.class);
         when(filmDao.findById(1)).thenReturn(film);
-        final Film filmById = filmService.getFilmById(1);
+        final Film filmById = filmService.getById(1);
         assertEquals(film, filmById);
     }
 }

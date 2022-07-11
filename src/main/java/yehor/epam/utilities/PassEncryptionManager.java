@@ -17,12 +17,13 @@ public class PassEncryptionManager {
     private static final String CHARACTERS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     private static final int ITERATIONS = 10000;
     private static final int KEY_LENGTH = 256;
+    private static final String ALGORITHM = "PBKDF2WithHmacSHA1";
 
     /**
      * Method to generate the password salt value
      *
      * @param length length of salt
-     * @return
+     * @return salt value
      */
     public String getSaltValue(int length) {
         StringBuilder finalValue = new StringBuilder(length);
@@ -40,15 +41,15 @@ public class PassEncryptionManager {
      * @return return the key in its primary encoding format, or null if this key does not support encoding.
      */
     private byte[] hash(char[] password, byte[] salt) {
-        PBEKeySpec spec = new PBEKeySpec(password, salt, ITERATIONS, KEY_LENGTH);
+        PBEKeySpec keySpec = new PBEKeySpec(password, salt, ITERATIONS, KEY_LENGTH);
         Arrays.fill(password, Character.MIN_VALUE);
         try {
-            SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-            return skf.generateSecret(spec).getEncoded();
+            SecretKeyFactory skf = SecretKeyFactory.getInstance(ALGORITHM);
+            return skf.generateSecret(keySpec).getEncoded();
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             throw new AssertionError("Error while hashing a password: " + e.getMessage(), e);
         } finally {
-            spec.clearPassword();
+            keySpec.clearPassword();
         }
     }
 
@@ -73,10 +74,7 @@ public class PassEncryptionManager {
      * @return true if passwords are equal and false if not
      */
     public boolean verifyUserPassword(String providedPassword, String securedPassword, String salt) {
-        boolean finalValue = false;
         String newSecurePassword = generateSecurePassword(providedPassword, salt);
-        /* Check if two passwords are equal */
-        finalValue = newSecurePassword.equalsIgnoreCase(securedPassword);
-        return finalValue;
+        return newSecurePassword.equalsIgnoreCase(securedPassword);
     }
 }

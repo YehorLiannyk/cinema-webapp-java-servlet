@@ -35,5 +35,5 @@ public interface CookieService {
      *
      * @param request HttpServletRequest
      */
-    void initCookies(HttpServletRequest request);
+    void initSessionWithCookie(HttpServletRequest request);
 }

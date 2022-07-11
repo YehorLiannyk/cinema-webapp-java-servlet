@@ -48,7 +48,7 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
-    public void deleteSession(int id) throws ServiceException {
+    public void delete(int id) throws ServiceException {
         try (DaoFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
             logCreatingDaoFactory();
             final SessionDao sessionDAO = factory.getSessionDao();
@@ -74,7 +74,7 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
-    public void saveSession(Session session) throws ServiceException {
+    public void save(Session session) throws ServiceException {
         try (DaoFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
             logCreatingDaoFactory();
             final SessionDao sessionDAO = factory.getSessionDao();
@@ -103,7 +103,7 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
-    public List<Session> getFilteredAndSortedSessionList(Map<String, String> filterSortMap, int page, int size) throws ServiceException {
+    public List<Session> getFilteredAndSorted(Map<String, String> filterSortMap, int page, int size) throws ServiceException {
         List<Session> sessionList = new ArrayList<>();
         try (DaoFactory factory = DaoFactoryDeliver.getInstance().getFactory()) {
             logCreatingDaoFactory();

@@ -1,4 +1,9 @@
 
+body {
+    background-image: url(./images/site_pattern.png);
+    background-repeat: repeat;
+}
+
 .blog-header {
     line-height: 1;
     border-bottom: 1px solid #e5e5e5;
@@ -107,99 +112,6 @@ span.menu-item {
     max-width: max-content;
 }
 
-/*.dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-.dropdown > input[type="checkbox"] {
-    position: absolute;
-    left: -100vw;
-}
-
-.dropdown > label,
-.dropdown > a[role="button"] {
-    display: inline-block;
-    !*color: #333;*!
-    line-height: 1.5em;
-    text-decoration: none;
-    cursor: pointer;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-}
-
-.dropdown > label:hover,
-.dropdown > a[role="button"]:hover,
-.dropdown > a[role="button"]:focus {
-    !*border-color: #333;*!
-}
-
-.dropdown > label:after,
-.dropdown > a[role="button"]:after {
-    content: "\f0d7";
-    font-family: FontAwesome;
-    display: inline-block;
-    margin-left: 6px;
-}
-
-.dropdown > ul {
-    position: absolute;
-    z-index: 999;
-    display: block;
-    left: -100vw;
-    top: calc(1.5em + 14px);
-    border: 1px solid #8c8c8c;
-    background: #fff;
-    padding: 6px 0;
-    margin: 0;
-    list-style: none;
-    width: 100%;
-    min-width: max-content;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
-    -webkit-box-shadow: 0 3px 8px rgba(0, 0, 0, .15);
-    -moz-box-shadow: 0 3px 8px rgba(0, 0, 0, .15);
-    box-shadow: 0 3px 8px rgba(0, 0, 0, .15);
-}
-
-.dropdown > ul a {
-    display: block;
-    padding: 6px 15px;
-    text-decoration: none;
-    !*color: #333;*!
-}
-
-.dropdown > ul a:hover,
-.dropdown > ul a:focus {
-    background: #ececec;
-}
-
-.dropdown > input[type="checkbox"]:checked ~ ul,
-.dropdown > ul:target {
-    left: 0;
-}
-
-.dropdown > [type="checkbox"]:checked + label:after,
-.dropdown > ul:target ~ a:after {
-    content: "\f0d8";
-}
-
-.dropdown a.close {
-    display: none;
-}
-
-.dropdown > ul:target ~ a.close {
-    display: block;
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 100%;
-    width: 100%;
-    text-indent: -100vw;
-    z-index: 1000;
-}*/
-
 main.container {
     min-height: 595px;
 }
@@ -277,7 +189,7 @@ article.card-filter {
 }
 
 .main-carousel {
-    background-image: url(https://images.hdqwalls.com/wallpapers/deadpool-2-movie-cinema-01.jpg);
+    background-image: url(./images/carousel.jpg);
     background-size: cover;
 }
 
@@ -308,7 +220,7 @@ article.card-filter {
 }
 
 .seatsImg {
-    max-width: 1.5rem;
+    max-width: 1.8rem;
 }
 
 .seatsElement-admin {
@@ -316,9 +228,9 @@ article.card-filter {
 }
 
 .seatsImg-admin {
-    width: 2.5rem;
-    max-width: 2.5rem !important;
-    cursor: default !important;
+    width: 2.3rem;
+    max-width: 2.3rem !important;
+    margin: 0.1em;
 }
 
 /**/

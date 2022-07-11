@@ -90,7 +90,7 @@
             <div class="dropdown-menu" aria-labelledby="dropdownLangButton" style="min-width: 8rem;">
                 <ul style="list-style-type: none;" class="px-3">
                     <li class="menu-li py-1"><a href="?lang=en">${langENG}</a></li>
-                    <li class="menu-li py-1"><a href="?lang=ua">${langUA}</a></li>
+                    <li class="menu-li py-1"><a href="?lang=uk">${langUA}</a></li>
                 </ul>
             </div>
         </div>

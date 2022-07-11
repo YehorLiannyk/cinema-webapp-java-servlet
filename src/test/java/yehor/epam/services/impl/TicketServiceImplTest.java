@@ -63,8 +63,8 @@ class TicketServiceImplTest {
         when(ticket.getSeat()).thenReturn(seat);
         when(ticket.getSession()).thenReturn(session);
         when(seatService.isSeatFreeBySessionId(seat.getId(), session.getId())).thenReturn(true);
-        ticketService.saveTicketList(ticketList);
-        verify(ticketService, times(ticketList.size())).saveTicket(ticket);
+        ticketService.saveAll(ticketList);
+        verify(ticketService, times(ticketList.size())).save(ticket);
 
     }
 
@@ -72,7 +72,7 @@ class TicketServiceImplTest {
     void saveTicketListThrowEmptyListException() throws ServiceException, DaoException {
         List<Ticket> ticketList = null;
         try {
-            ticketService.saveTicketList(ticketList);
+            ticketService.saveAll(ticketList);
             fail("EmptyListException should be thrown");
         } catch (EmptyListException e) {
         }
@@ -88,7 +88,7 @@ class TicketServiceImplTest {
         when(ticket.getSession()).thenReturn(session);
         when(seatService.isSeatFreeBySessionId(seat.getId(), session.getId())).thenReturn(true);
 
-        ticketService.saveTicket(ticket);
+        ticketService.save(ticket);
         verify(ticketDao).insert(ticket);
     }
 
@@ -102,7 +102,7 @@ class TicketServiceImplTest {
         when(ticket.getSession()).thenReturn(session);
         when(seatService.isSeatFreeBySessionId(seat.getId(), session.getId())).thenReturn(false);
         try {
-            ticketService.saveTicket(ticket);
+            ticketService.save(ticket);
             fail("ServiceException should be thrown");
         } catch (ServiceException e) {
         }

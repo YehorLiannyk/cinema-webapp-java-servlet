@@ -70,7 +70,7 @@ public class CookieServiceImpl implements CookieService {
 
 
     @Override
-    public void initCookies(HttpServletRequest request) {
+    public void initSessionWithCookie(HttpServletRequest request) {
         final HttpSession session = request.getSession(true);
         final Cookie[] cookies = request.getCookies();
         if (cookies != null && cookies.length != 0) {

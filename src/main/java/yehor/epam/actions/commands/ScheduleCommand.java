@@ -62,7 +62,7 @@ public class ScheduleCommand implements BaseCommand {
      */
     private List<Session> getAppropriateSessionList(Map<String, String> filterSortMap, int page, int size) throws ServiceException {
         if (!filterSortMap.isEmpty())
-            return sessionService.getFilteredAndSortedSessionList(filterSortMap, page, size);
+            return sessionService.getFilteredAndSorted(filterSortMap, page, size);
         logger.debug("Return not sorted session list");
         return sessionService.getAll(page, size);
     }

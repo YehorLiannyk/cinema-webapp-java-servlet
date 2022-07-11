@@ -32,7 +32,7 @@ public class DeleteFilmCommand implements BaseCommand {
         logger.debug("Called execute() in " + CLASS_NAME);
         try{
             final int filmId = Integer.parseInt(request.getParameter("filmId"));
-            filmService.deleteFilm(filmId);
+            filmService.delete(filmId);
             response.sendRedirect(RedirectManager.getRedirectLocation(COMMAND_VIEW_FILMS_SETTING_PAGE));
         } catch (ServiceException | IOException e) {
             ErrorService.handleException(request, response, CLASS_NAME, e);

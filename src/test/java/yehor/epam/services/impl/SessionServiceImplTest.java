@@ -56,7 +56,7 @@ class SessionServiceImplTest {
     @Test
     void deleteSession() throws ServiceException, DaoException {
         Session session = mock(Session.class);
-        sessionService.deleteSession(session.getId());
+        sessionService.delete(session.getId());
         verify(sessionDao).delete(session.getId());
     }
 
@@ -70,7 +70,7 @@ class SessionServiceImplTest {
     @Test
     void addSession() throws DaoException, ServiceException {
         Session session = mock(Session.class);
-        sessionService.saveSession(session);
+        sessionService.save(session);
         verify(sessionDao).insert(session);
     }
 
@@ -88,7 +88,7 @@ class SessionServiceImplTest {
         List<Session> sessionList = mock(List.class);
         Map<String, String> filterSortMap = mock(Map.class);
         when(sessionDao.findFilteredAndSortedSessionList(filterSortMap, 1, 1)).thenReturn(sessionList);
-        final List<Session> list = sessionService.getFilteredAndSortedSessionList(filterSortMap, 1, 1);
+        final List<Session> list = sessionService.getFilteredAndSorted(filterSortMap, 1, 1);
         Assertions.assertFalse(list.isEmpty());
     }
 
@@ -97,7 +97,7 @@ class SessionServiceImplTest {
         List<Session> sessionList = mock(List.class);
         Map<String, String> filterSortMap = mock(Map.class);
         when(sessionDao.findFilteredAndSortedSessionList(filterSortMap, 2, 1)).thenReturn(sessionList);
-        final List<Session> list = sessionService.getFilteredAndSortedSessionList(filterSortMap, 2, 1);
+        final List<Session> list = sessionService.getFilteredAndSorted(filterSortMap, 2, 1);
         Assertions.assertFalse(list.isEmpty());
     }
 

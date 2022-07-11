@@ -45,7 +45,7 @@ public class LoginCommand implements BaseCommand {
             if (emailError.isBlank()) {
                 final String password = request.getParameter("password");
                 final String rememberMe = request.getParameter("rememberMe");
-                authUser(request, response, login, password);
+                userService.authenticateUser(login, password);
                 final User user = userService.getUserByLogin(login);
                 prepareUser(user, request, response, rememberMe);
 
@@ -56,23 +56,6 @@ public class LoginCommand implements BaseCommand {
                 request.getRequestDispatcher(LOGIN_PAGE_PATH).forward(request, response);
             }
         } catch (Exception e) {
-            ErrorService.handleException(request, response, CLASS_NAME, e);
-        }
-    }
-
-    /**
-     * User authentication
-     *
-     * @param request  HttpServletRequest
-     * @param response HttpServletResponse
-     * @param login    User's login
-     * @param password User's non encrypted password
-     */
-    private void authUser(HttpServletRequest request, HttpServletResponse response, String login, String password) throws ServiceException {
-        try {
-            userService.authenticateUser(login, password);
-        } catch (AuthException e) {
-            logger.error("Couldn't auth user with user login: " + login, e);
             ErrorService.handleException(request, response, CLASS_NAME, e);
         }
     }

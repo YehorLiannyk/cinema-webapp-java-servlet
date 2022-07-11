@@ -86,9 +86,9 @@
                                                     <label>
                                                         <input type="checkbox" name="seatIds" class="seatsElement"
                                                                value="${seat.id}" disabled>
-                                                            <%--don't know why url with this svg here doesn't work so use absolute path--%>
+
                                                         <img class="seatsImg"
-                                                             src="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkAgMAAAANjH3HAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAADFBMVEUAAABJTFZJTFYAAAAi3Td3AAAAAnRSTlMAAHaTzTgAAAABYktHRACIBR1IAAAACXBIWXMAAC4jAAAuIwF4pT92AAAAB3RJTUUH5gUaFzYGgpvrAQAAAGpJREFUSMft0bsNgDAMRVHDZCxhiozgKbIEI6SIpwSnyQcZpYECvVtZOpKbR2SxaC0z1XZtOxoJnaQpkU7ylGgf5B25RkvbIEuwyW2am5SR7IqDrOUlBAKB/FW+Sr0gkCLiQH6Q4EgidoRPEPyF6GFUhe4AAAAASUVORK5CYII=">
+                                                             src="<c:url value="/images/seat_gray.png"/>">
                                                     </label>
                                                 </c:when>
 
@@ -97,7 +97,7 @@
                                                         <input type="checkbox" name="seatIds" class="seatsElement"
                                                                value="${seat.id}">
                                                         <img class="seatsImg"
-                                                             src="<c:url value="/images/svg/seat_blue.svg"/>">
+                                                             src="<c:url value="/images/seat_blue.png"/>">
                                                     </label>
                                                 </c:otherwise>
                                             </c:choose>

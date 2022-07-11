@@ -4,6 +4,7 @@ import yehor.epam.entities.Ticket;
 
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
+import java.util.Locale;
 
 public interface TicketPdfService {
     /**
@@ -12,7 +13,7 @@ public interface TicketPdfService {
      * @param ticket Ticket object
      * @return ByteArrayOutputStream
      */
-    ByteArrayOutputStream formPDFTicket(Ticket ticket);
+    ByteArrayOutputStream formPDFTicket(Ticket ticket, Locale locale);
 
     /**
      * Write ByteArrayOutputStream to HttpServletResponse

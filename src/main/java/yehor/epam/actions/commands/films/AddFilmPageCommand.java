@@ -30,7 +30,7 @@ public class AddFilmPageCommand implements BaseCommand {
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         logger.debug("Called execute() in " + CLASS_NAME);
         try {
-            final List<Genre> genreList = genreService.getGenreList();
+            final List<Genre> genreList = genreService.getAll();
             request.setAttribute("genreList", genreList);
             logger.debug("Forwarded to admin add film page");
             request.getRequestDispatcher(ADD_FILM_PAGE_PATH).forward(request, response);
