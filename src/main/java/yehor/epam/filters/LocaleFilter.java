@@ -45,10 +45,11 @@ public class LocaleFilter implements Filter {
         String locale = session.getAttribute(LANG) != null ? (String) session.getAttribute(LANG) : DEFAULT_LANG;
 
         //get locale from request if it has
-        if (req.getParameter(LANG) != null && !req.getParameter(LANG).isBlank()) {
+        if (req.getParameter(LANG) != null) {
             final String langParameter = req.getParameter(LANG);
             CookieServiceImpl cookieService = new CookieServiceImpl();
             cookieService.setLocaleCookie(res, langParameter);
+            session.setAttribute(LANG, langParameter);
             locale = langParameter;
             logger.info("Set locale = {} from request", langParameter);
         }
@@ -70,7 +71,7 @@ public class LocaleFilter implements Filter {
         if (session == null || session.getAttribute(USER_ROLE) == null || session.getAttribute(USER_ID).equals(0) || session.getAttribute(LANG) == null) {
             CookieService cookieService = new CookieServiceImpl();
             cookieService.initSessionWithCookie(req);
-        } else logger.debug("Skip getCookies block in {}", CLASS_NAME);
+        } else logger.debug("Skip getCookies block in {}, session lang = {}", CLASS_NAME, session.getAttribute(LANG));
     }
 
     @Override
