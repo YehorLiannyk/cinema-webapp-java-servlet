@@ -65,3 +65,6 @@ NODE_ENV=production node app
 + Covered the application with tests using **JUnit4** and **Mockito**
 + Created **custom JSP tag files** for header, menu, and footer
 + Created **custom JSP tags** for movie genres enumeration and pagination block
+
+### Entity–relationship model of the database:
+![View of the database schema](https://user-images.githubusercontent.com/67739980/177182931-d4df9038-435c-445c-b52c-86a86eb7b736.png)
