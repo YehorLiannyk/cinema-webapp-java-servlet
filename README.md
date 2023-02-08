@@ -13,7 +13,7 @@ The system is an online showcase of a single-screen cinema.
 + Authorized user
 + Administrator!
 
-[configure-and-project](https://user-images.githubusercontent.com/67739980/217591027-94fbdcb5-4eef-490b-85d0-55db405832ce.gif)
+![configure-and-project](https://user-images.githubusercontent.com/67739980/217591027-94fbdcb5-4eef-490b-85d0-55db405832ce.gif)
 
 
 ##### The system includes:
