@@ -11,7 +11,10 @@ The system is an online showcase of a single-screen cinema.
 ##### There are 3 roles:
 + Unauthorized user (guest)
 + Authorized user
-+ Administrator
++ Administrator!
+
+[configure-and-project](https://user-images.githubusercontent.com/67739980/217591027-94fbdcb5-4eef-490b-85d0-55db405832ce.gif)
+
 
 ##### The system includes:
 + Schedule current films for a week from 9:00 a.m. to 10:00 p.m. (beginning of the last film).
