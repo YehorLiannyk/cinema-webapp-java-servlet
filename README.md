@@ -1,6 +1,6 @@
 # Cinema Web Application with Java Servlet API
 > The Final task of the EPAM external course
-
+	:grinning:
 This project is a web application implementation of a cinema WebApp using Java Servlet API.
 In a nutshell, there are movies and their sessions, which you can search for using filters, then select needed one, choose seats and buy tickets. But first, you should sign up/in. After purchase, you can find your tickets on the user ticket page and download them in PDF format. Admin can add/remove new movies and movie sessions as well.
 
