@@ -1,6 +1,6 @@
-# Cinema Web Application with Java Servlet API
+# Cinema Web Application with Java Servlet API :movie_camera:
 > The Final task of the EPAM external course
-	:grinning:
+
 This project is a web application implementation of a cinema WebApp using Java Servlet API.
 In a nutshell, there are movies and their sessions, which you can search for using filters, then select needed one, choose seats and buy tickets. But first, you should sign up/in. After purchase, you can find your tickets on the user ticket page and download them in PDF format. Admin can add/remove new movies and movie sessions as well.
 
@@ -13,7 +13,7 @@ In a nutshell, there are movies and their sessions, which you can search for usi
 - [Demonstration](#demonstration)
 - [Additional info](#additional-info)
 
-## Introduction
+## Introduction :wave:
 The system is an online showcase of a single-screen cinema.
 ##### There are 3 roles:
 + Unauthorized user (guest)
@@ -29,12 +29,12 @@ The system is an online showcase of a single-screen cinema.
 + A signed-up user has to be able to purchase a ticket for the selected movie session.
 + The administrator can add a new movie to the schedule, cancel the movie, and review the attendance of the hall.
 
-## Technologies
+## Technologies :computer:
 + **Back end:** Java, Java 8, Jakarta EE, Jakarta Servlet, Servlet Filters; JDBC, SQL; JUnit, Mockito; Log4j2 SLF4J; Google reCaptcha; iText PDF.
 + **Front end:** JSP, JSTL; HTML; CSS, Bootstrap 4.
 + **Database Management System:** MySQL
 
-## How to install/run
+## How to install/run :gear:
 
 1. [Fork](https://github.com/YehorLiannyk/cinema-webapp-java/fork) this repository.
 2. Clone the repository on your machine
@@ -46,7 +46,7 @@ The system is an online showcase of a single-screen cinema.
 ![](https://user-images.githubusercontent.com/67739980/217591027-94fbdcb5-4eef-490b-85d0-55db405832ce.gif)
 6. After running, point your browser to [http://localhost:8090/cinema-webapp-java-servlet/](http://localhost:8090/cinema-webapp-java-servlet/).
 
-## What was implemented
+## What was implemented :wrench:
 
 + Designed and built the application and database scheme
 + Used patterns such as **MVC, Front Controller, Factory Method, Singleton, Abstract Factory, DAO, PRG** (Post/Redirect/Get)
@@ -67,12 +67,12 @@ The system is an online showcase of a single-screen cinema.
 + Created **custom JSP tag files** for header, menu, and footer
 + Created **custom JSP tags** for movie genres enumeration and pagination block
 
-## Entity–relationship model of the database
+## Entity–relationship model of the database :triangular_flag_on_post:
 There are entities: **Film, Genre, Session, Seat, Ticket, User, and its Role.**
 
 ![View of the database schema](https://github.com/YehorLiannyk/cinema-webapp-java-servlet/blob/master/.github/docs/pics/erm.png?raw=true)
 
-## Demonstration
+## Demonstration :tv:
 
 Firstly, the site is **multilingual**: Ukrainian and English versions. Everything has been translated, except errors and database data. The user lang option is stored in a **cookie file**.
 
@@ -105,12 +105,12 @@ You also may **download the ticket in PDF** format. (Sending via email wasn't im
 ![Download PDF ticket demo](https://github.com/YehorLiannyk/cinema-webapp-java-servlet/blob/master/.github/docs/pics/download-ticket.gif?raw=true)
 
 
-## Tests
+## Tests :hammer:
 Tests were written using the Mockito and JUnit frameworks. More than 50% of code lines are covered.
 
 ![test coverage](https://github.com/YehorLiannyk/cinema-webapp-java-servlet/blob/master/.github/docs/pics/test-coverage.png?raw=true)
 
-## Author
+## Author :raising_hand_man:
 You can get in touch with me on my LinkedIn Profile: [![LinkedIn Link](https://img.shields.io/badge/Connect-YehorLiannyk-blue.svg?logo=linkedin&longCache=true&style=social&label=Follow)](https://www.linkedin.com/in/yehor-liannyk/)
 
 You can also follow my GitHub Profile to stay updated about my latest projects: [![GitHub Follow](https://img.shields.io/badge/Connect-YehorLiannyk-blue.svg?logo=Github&longCache=true&style=social&label=Follow)](https://github.com/YehorLiannyk)
