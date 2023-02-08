@@ -4,14 +4,15 @@
 This project is a web application implementation of a cinema WebApp using Java Servlet API.
 In a nutshell, there are movies and their sessions, which you can search for using filters, then select needed one, choose seats and buy tickets. But first, you should sign up/in. After purchase, you can find your tickets on the user ticket page and download them in PDF format. Admin can add/remove new movies and movie sessions as well.
 
-### Content
-- [Introduction](#introduction)
-- [Technologies](#technologies)
-- [How to install/run](#how-to-installrun)
-- [What was implemented](#what-was-implemented)
-- [Entity–relationship model of the database](#entity–relationship-model-of-the-database)
-- [Demonstration](#demonstration)
-- [Additional info](#additional-info)
+## Content :bookmark_tabs:
+- [Introduction](#introduction-wave)
+- [Technologies](#technologies-computer)
+- [How to install/run](#how-to-installrun-gear)
+- [What was implemented](#what-was-implemented-wrench)
+- [Entity–relationship model of the database](#entityrelationship-model-of-the-database-triangular_flag_on_post)
+- [Demonstration](#demonstration-tv)
+- [Tests](#tests-hammer)
+- [Author](#author-raising_hand_man)
 
 ## Introduction :wave:
 The system is an online showcase of a single-screen cinema.
