@@ -32,7 +32,7 @@ The system is an online showcase of a single-screen cinema.
 
 ## Technologies :computer:
 + **Back end:** Java, Java 8, Jakarta EE, Jakarta Servlet, Servlet Filters; JDBC, SQL; JUnit, Mockito; Log4j2 SLF4J; Google reCaptcha; iText PDF.
-+ **Front end:** JSP, JSTL; HTML; CSS, Bootstrap 4.
++ **Front end:** JSP, JSTL; CSS, Bootstrap 4.
 + **Database Management System:** MySQL
 
 ## How to install/run :gear:
