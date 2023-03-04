@@ -91,6 +91,8 @@ But only authorized users can buy a ticket, so you have to sign up first. There 
 
 ![Sign up demo](https://github.com/YehorLiannyk/cinema-webapp-java-servlet/blob/master/.github/docs/pics/signup.gif?raw=true)
 
+If Google reCaptcha wasn't checked - the server return error.
+
 ![Google reCaptcha demo](https://github.com/YehorLiannyk/cinema-webapp-java-servlet/blob/master/.github/docs/pics/recaptcha.gif?raw=true)
 
 Let's try to log out and sign in again. Cookie files save the user role and user id what lets the user stay signed in.
